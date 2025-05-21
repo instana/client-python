@@ -158,9 +158,13 @@ For more information, please visit [http://instana.com](http://instana.com)
 Python 3.8+
 
 ## Installation & Usage
-### pip install
 
-If the python package is hosted on a repository, you can install directly using:
+Installation from release package (from PyPI):
+```sh
+pip install instana-client
+```
+
+If you want to install from the repository to apply latest changes for development purpose:
 
 ```sh
 pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
