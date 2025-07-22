@@ -28,7 +28,7 @@ class ExtendedService(BaseModel):
     """
     List of services in the topology.
     """ # noqa: E501
-    applications: List[StrictStr]
+    applications: Optional[List[StrictStr]] = Field(default_factory=list)
     entity_type: Optional[StrictStr] = Field(default=None, description="Since, this is a Service, it will be of type `SERVICE`.", alias="entityType")
     id: StrictStr = Field(description="Unique ID of the Service. Eg: `3feb3dcd206c166ef2b41c707e0cd38d7cd325aa`.")
     label: StrictStr = Field(description="Name of the Service. Eg: `payment`.")
