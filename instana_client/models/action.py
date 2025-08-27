@@ -39,14 +39,16 @@ class Action(BaseModel):
     input_parameters: Optional[List[Parameter]] = Field(default=None, description="List of inputs to the action.", alias="inputParameters")
     metadata: Optional[MetaData] = None
     modified_at: datetime = Field(description="Action modified time.", alias="modifiedAt")
-    name: Annotated[str, Field(min_length=1, strict=True, max_length=128)] = Field(description="Action name.")
+    name: Optional[Annotated[str, Field(min_length=1, strict=True, max_length=128)]] = Field(default=None, description="Action name.")
     tags: Optional[List[StrictStr]] = Field(default=None, description="List of tags added to the action.")
-    type: Annotated[str, Field(min_length=0, strict=True, max_length=128)] = Field(description="Action type can be one of the following values:  SCRIPT, HTTP, ANSIBLE, EXTERNAL, GITHUB, GITLAB, JIRA, MANUAL, DOC_LINK")
+    type: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, description="Action type can be one of the following values:  SCRIPT, HTTP, ANSIBLE, EXTERNAL, GITHUB, GITLAB, JIRA, MANUAL, DOC_LINK")
     __properties: ClassVar[List[str]] = ["createdAt", "description", "fields", "id", "inputParameters", "metadata", "modifiedAt", "name", "tags", "type"]
 
     @field_validator('type')
     def type_validate_enum(cls, value):
         """Validates the enum"""
+        if value is None:
+            return value
         if value not in set(['SCRIPT', 'HTTP', 'ANSIBLE', 'EXTERNAL', 'GITHUB', 'GITLAB', 'JIRA', 'MANUAL', 'DOC_LINK']):
             raise ValueError("must be one of enum values ('SCRIPT', 'HTTP', 'ANSIBLE', 'EXTERNAL', 'GITHUB', 'GITLAB', 'JIRA', 'MANUAL', 'DOC_LINK')")
         return value

@@ -29,7 +29,7 @@ class EntityVerificationRule(AbstractRule):
     """
     EntityVerificationRule
     """ # noqa: E501
-    matching_entity_label: Annotated[str, Field(min_length=0, strict=True, max_length=256)] = Field(alias="matchingEntityLabel")
+    matching_entity_label: Annotated[str, Field(min_length=0, strict=True, max_length=1024)] = Field(alias="matchingEntityLabel")
     matching_entity_type: Annotated[str, Field(min_length=0, strict=True, max_length=64)] = Field(alias="matchingEntityType")
     matching_operator: StrictStr = Field(alias="matchingOperator")
     offline_duration: Optional[StrictInt] = Field(default=None, alias="offlineDuration")
