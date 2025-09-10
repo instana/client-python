@@ -50,7 +50,7 @@ class EventResult(BaseModel):
     metrics: Optional[List[Dict[str, Any]]] = Field(default=None, description="List of metrics associated with the Event.")
     probable_cause: Optional[Dict[str, Any]] = Field(default=None, description="Metadata of the probable root cause for this event. Only present in case of specific \"Incident\" type events.", alias="probableCause")
     problem: Optional[StrictStr] = Field(default=None, description="Main problem title of the Event.")
-    recentEvents: Optional[List[Dict[str, Any]]] = Field(default=None, description="List of related recent events. Only present in case of \"Incident\" type events.", alias="recentEvents")
+    recent_events: Optional[List[Dict[str, Any]]] = Field(default=None, description="List of related recent events. Only present in case of \"Incident\" type events.", alias="recentEvents")
     severity: Optional[StrictInt] = Field(default=None, description="The severity of the Event when triggered.")
     snapshot_id: Optional[StrictStr] = Field(default=None, description="The snapshot ID of the affected entity of this event.", alias="snapshotId")
     start: Optional[StrictInt] = Field(default=None, description="A Unix timestamp representing the start time of the Event.")
