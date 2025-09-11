@@ -429,7 +429,8 @@ class ApplicationResourcesApi:
     @validate_call
     def get_application_services(
         self,
-        name_filter: Annotated[Optional[StrictStr], Field(description="Name of application/service")] = None,
+        app_id: Annotated[Optional[StrictStr], Field(description="Application ID")] = None,
+        name_filter: Annotated[Optional[StrictStr], Field(description="Name of service")] = None,
         window_size: Annotated[Optional[StrictInt], Field(description="Size of time window in milliseconds")] = None,
         to: Annotated[Optional[StrictInt], Field(description="Timestamp since Unix Epoch in milliseconds of the end of the time window")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Page number from results")] = None,
@@ -453,7 +454,8 @@ class ApplicationResourcesApi:
 
         Use this API endpoint if one wants to retrieve a list of services in an Application Perspective. A use case could be to retrieve all service ids present in an Application Perspective. 
 
-        :param name_filter: Name of application/service
+        :param app_id: Application ID
+        :param name_filter: Name of service
         :type name_filter: str
         :param window_size: Size of time window in milliseconds
         :type window_size: int
@@ -490,6 +492,7 @@ class ApplicationResourcesApi:
         """ # noqa: E501
 
         _param = self._get_application_services_serialize(
+            app_id=app_id,
             name_filter=name_filter,
             window_size=window_size,
             to=to,
@@ -520,7 +523,8 @@ class ApplicationResourcesApi:
     @validate_call
     def get_application_services_with_http_info(
         self,
-        name_filter: Annotated[Optional[StrictStr], Field(description="Name of application/service")] = None,
+        app_id: Annotated[Optional[StrictStr], Field(description="Application ID")] = None,
+        name_filter: Annotated[Optional[StrictStr], Field(description="Name of service")] = None,
         window_size: Annotated[Optional[StrictInt], Field(description="Size of time window in milliseconds")] = None,
         to: Annotated[Optional[StrictInt], Field(description="Timestamp since Unix Epoch in milliseconds of the end of the time window")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Page number from results")] = None,
@@ -543,8 +547,9 @@ class ApplicationResourcesApi:
         """Get applications/services
 
         Use this API endpoint if one wants to retrieve a list of services in an Application Perspective. A use case could be to retrieve all service ids present in an Application Perspective. 
-
-        :param name_filter: Name of application/service
+        
+        :param app_id: Application ID
+        :param name_filter: Name of service
         :type name_filter: str
         :param window_size: Size of time window in milliseconds
         :type window_size: int
@@ -581,6 +586,7 @@ class ApplicationResourcesApi:
         """ # noqa: E501
 
         _param = self._get_application_services_serialize(
+            app_id=app_id,
             name_filter=name_filter,
             window_size=window_size,
             to=to,
@@ -611,7 +617,8 @@ class ApplicationResourcesApi:
     @validate_call
     def get_application_services_without_preload_content(
         self,
-        name_filter: Annotated[Optional[StrictStr], Field(description="Name of application/service")] = None,
+        app_id: Annotated[Optional[StrictStr], Field(description="Application ID")] = None,
+        name_filter: Annotated[Optional[StrictStr], Field(description="Name of service")] = None,
         window_size: Annotated[Optional[StrictInt], Field(description="Size of time window in milliseconds")] = None,
         to: Annotated[Optional[StrictInt], Field(description="Timestamp since Unix Epoch in milliseconds of the end of the time window")] = None,
         page: Annotated[Optional[StrictInt], Field(description="Page number from results")] = None,
@@ -634,8 +641,9 @@ class ApplicationResourcesApi:
         """Get applications/services
 
         Use this API endpoint if one wants to retrieve a list of services in an Application Perspective. A use case could be to retrieve all service ids present in an Application Perspective. 
-
-        :param name_filter: Name of application/service
+        
+        :param app_id: Application ID
+        :param name_filter: Name of service
         :type name_filter: str
         :param window_size: Size of time window in milliseconds
         :type window_size: int
@@ -672,6 +680,7 @@ class ApplicationResourcesApi:
         """ # noqa: E501
 
         _param = self._get_application_services_serialize(
+            app_id=app_id,
             name_filter=name_filter,
             window_size=window_size,
             to=to,
@@ -697,6 +706,7 @@ class ApplicationResourcesApi:
 
     def _get_application_services_serialize(
         self,
+        app_id,
         name_filter,
         window_size,
         to,
@@ -726,6 +736,9 @@ class ApplicationResourcesApi:
 
         # process the path parameters
         # process the query parameters
+        if app_id is not None:
+            _path_params['app_id'] = app_id
+            
         if name_filter is not None:
             
             _query_params.append(('nameFilter', name_filter))
@@ -775,7 +788,7 @@ class ApplicationResourcesApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/api/application-monitoring/applications/services',
+            resource_path='/api/application-monitoring/applications;{app_id}/services',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
