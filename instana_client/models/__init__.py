@@ -337,6 +337,8 @@ from instana_client.models.software_version import SoftwareVersion
 from instana_client.models.source_map_file_blob import SourceMapFileBlob
 from instana_client.models.source_map_file_meta import SourceMapFileMeta
 from instana_client.models.source_map_upload_config import SourceMapUploadConfig
+from instana_client.models.source_map_upload_configs import SourceMapUploadConfigs
+from instana_client.models.team import Team
 from instana_client.models.span import Span
 from instana_client.models.span_excerpt import SpanExcerpt
 from instana_client.models.span_relation import SpanRelation
