@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.304.1059
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -24,6 +24,9 @@ from instana_client.models.synthetic_credential import SyntheticCredential
 from instana_client.models.synthetic_datacenter import SyntheticDatacenter
 from instana_client.models.synthetic_location import SyntheticLocation
 from instana_client.models.synthetic_test import SyntheticTest
+from instana_client.models.synthetic_test_cicd import SyntheticTestCICD
+from instana_client.models.synthetic_test_cicd_item import SyntheticTestCICDItem
+from instana_client.models.synthetic_test_cicd_response import SyntheticTestCICDResponse
 
 from instana_client.api_client import ApiClient, RequestSerialized
 from instana_client.api_response import ApiResponse
@@ -60,9 +63,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Create a Synthetic Credential
+        """Create a Synthetic credential
 
-        API request to create Synthetic Credentials.
+        API request to create a Synthetic Credential.
 
         :param synthetic_credential: (required)
         :type synthetic_credential: SyntheticCredential
@@ -130,9 +133,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Create a Synthetic Credential
+        """Create a Synthetic credential
 
-        API request to create Synthetic Credentials.
+        API request to create a Synthetic Credential.
 
         :param synthetic_credential: (required)
         :type synthetic_credential: SyntheticCredential
@@ -200,9 +203,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create a Synthetic Credential
+        """Create a Synthetic credential
 
-        API request to create Synthetic Credentials.
+        API request to create a Synthetic Credential.
 
         :param synthetic_credential: (required)
         :type synthetic_credential: SyntheticCredential
@@ -345,7 +348,7 @@ class SyntheticSettingsApi:
     ) -> SyntheticTest:
         """Create a Synthetic test
 
-        This API endpoint creates a Synthetic Test.  **Note:** The **DNSAction** Synthetic type is not supported.  ## Optional Parameters:  - **id** Users are allowed to specify their own id for the test. A test id can contain letters, numbers, underscores, colons and hyphens. Maximum length is 128.  ## Sample script and payload:  - A sample script to create an API Simple test  ``` curl -k -v -X POST \\ https://<Host>/api/synthetics/settings/tests \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"id\":\"test_id:12134-89\",     \"label\":\"Test_SimplePing\",     \"description\":\"this is to test a simple ping API\",     \"serviceId\":\"serviceId001\",     \"applicationId\":\"applicationId001\",     \"active\":true,     \"testFrequency\":1,     \"playbackMode\":\"Simultaneous\",     \"locations\":[         \"saas_instana_test\"     ],     \"configuration\":{         \"syntheticType\":\"HTTPAction\",         \"url\":\"https://httpbin.org/post\",         \"operation\":\"POST\",         \"headers\":{             \"Content-Type\":\"text/plain\"         },         \"body\":\"Hello World!\",         \"validationString\":\"Hello World!\"     },     \"customProperties\":{         \"Team\":\"DevTeam\",         \"Purpose\":\"Demo\"     }   }' ```
+        API request to create a Synthetic Test.
 
         :param synthetic_test: (required)
         :type synthetic_test: SyntheticTest
@@ -380,7 +383,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyntheticTest",
+            '201': "SyntheticTest",
             '401': None,
             '403': None,
             '500': None,
@@ -415,7 +418,7 @@ class SyntheticSettingsApi:
     ) -> ApiResponse[SyntheticTest]:
         """Create a Synthetic test
 
-        This API endpoint creates a Synthetic Test.  **Note:** The **DNSAction** Synthetic type is not supported.  ## Optional Parameters:  - **id** Users are allowed to specify their own id for the test. A test id can contain letters, numbers, underscores, colons and hyphens. Maximum length is 128.  ## Sample script and payload:  - A sample script to create an API Simple test  ``` curl -k -v -X POST \\ https://<Host>/api/synthetics/settings/tests \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"id\":\"test_id:12134-89\",     \"label\":\"Test_SimplePing\",     \"description\":\"this is to test a simple ping API\",     \"serviceId\":\"serviceId001\",     \"applicationId\":\"applicationId001\",     \"active\":true,     \"testFrequency\":1,     \"playbackMode\":\"Simultaneous\",     \"locations\":[         \"saas_instana_test\"     ],     \"configuration\":{         \"syntheticType\":\"HTTPAction\",         \"url\":\"https://httpbin.org/post\",         \"operation\":\"POST\",         \"headers\":{             \"Content-Type\":\"text/plain\"         },         \"body\":\"Hello World!\",         \"validationString\":\"Hello World!\"     },     \"customProperties\":{         \"Team\":\"DevTeam\",         \"Purpose\":\"Demo\"     }   }' ```
+        API request to create a Synthetic Test.
 
         :param synthetic_test: (required)
         :type synthetic_test: SyntheticTest
@@ -450,7 +453,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyntheticTest",
+            '201': "SyntheticTest",
             '401': None,
             '403': None,
             '500': None,
@@ -485,7 +488,7 @@ class SyntheticSettingsApi:
     ) -> RESTResponseType:
         """Create a Synthetic test
 
-        This API endpoint creates a Synthetic Test.  **Note:** The **DNSAction** Synthetic type is not supported.  ## Optional Parameters:  - **id** Users are allowed to specify their own id for the test. A test id can contain letters, numbers, underscores, colons and hyphens. Maximum length is 128.  ## Sample script and payload:  - A sample script to create an API Simple test  ``` curl -k -v -X POST \\ https://<Host>/api/synthetics/settings/tests \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"id\":\"test_id:12134-89\",     \"label\":\"Test_SimplePing\",     \"description\":\"this is to test a simple ping API\",     \"serviceId\":\"serviceId001\",     \"applicationId\":\"applicationId001\",     \"active\":true,     \"testFrequency\":1,     \"playbackMode\":\"Simultaneous\",     \"locations\":[         \"saas_instana_test\"     ],     \"configuration\":{         \"syntheticType\":\"HTTPAction\",         \"url\":\"https://httpbin.org/post\",         \"operation\":\"POST\",         \"headers\":{             \"Content-Type\":\"text/plain\"         },         \"body\":\"Hello World!\",         \"validationString\":\"Hello World!\"     },     \"customProperties\":{         \"Team\":\"DevTeam\",         \"Purpose\":\"Demo\"     }   }' ```
+        API request to create a Synthetic Test.
 
         :param synthetic_test: (required)
         :type synthetic_test: SyntheticTest
@@ -520,7 +523,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyntheticTest",
+            '201': "SyntheticTest",
             '401': None,
             '403': None,
             '500': None,
@@ -610,6 +613,290 @@ class SyntheticSettingsApi:
 
 
     @validate_call
+    def create_synthetic_test_cicd(
+        self,
+        synthetic_test_cicd: List[SyntheticTestCICD],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[SyntheticTestCICDResponse]:
+        """Create a Synthetic test CI/CD
+
+        API request to create a Synthetic Test CI/CD.
+
+        :param synthetic_test_cicd: (required)
+        :type synthetic_test_cicd: List[SyntheticTestCICD]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_synthetic_test_cicd_serialize(
+            synthetic_test_cicd=synthetic_test_cicd,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDResponse]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def create_synthetic_test_cicd_with_http_info(
+        self,
+        synthetic_test_cicd: List[SyntheticTestCICD],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[SyntheticTestCICDResponse]]:
+        """Create a Synthetic test CI/CD
+
+        API request to create a Synthetic Test CI/CD.
+
+        :param synthetic_test_cicd: (required)
+        :type synthetic_test_cicd: List[SyntheticTestCICD]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_synthetic_test_cicd_serialize(
+            synthetic_test_cicd=synthetic_test_cicd,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDResponse]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def create_synthetic_test_cicd_without_preload_content(
+        self,
+        synthetic_test_cicd: List[SyntheticTestCICD],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create a Synthetic test CI/CD
+
+        API request to create a Synthetic Test CI/CD.
+
+        :param synthetic_test_cicd: (required)
+        :type synthetic_test_cicd: List[SyntheticTestCICD]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._create_synthetic_test_cicd_serialize(
+            synthetic_test_cicd=synthetic_test_cicd,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDResponse]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _create_synthetic_test_cicd_serialize(
+        self,
+        synthetic_test_cicd,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'SyntheticTestCICD': '',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if synthetic_test_cicd is not None:
+            _body_params = synthetic_test_cicd
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/synthetics/settings/tests/ci-cd',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def delete_synthetic_credential(
         self,
         name: Annotated[StrictStr, Field(description="Name of the credential to be deleted")],
@@ -626,7 +913,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Delete Synthetic credential
+        """Delete a Synthetic credential
 
         API request to delete a Synthetic Credential.
 
@@ -663,7 +950,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -697,7 +983,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Delete Synthetic credential
+        """Delete a Synthetic credential
 
         API request to delete a Synthetic Credential.
 
@@ -734,7 +1020,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -768,7 +1053,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Delete Synthetic credential
+        """Delete a Synthetic credential
 
         API request to delete a Synthetic Credential.
 
@@ -805,7 +1090,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -850,13 +1134,6 @@ class SyntheticSettingsApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -899,9 +1176,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Delete Synthetic location
+        """Delete a Synthetic location
 
-        This API endpoint deletes a synthetic location.  Note: Users cannot use this API to delete managed locations. 
+        API request to delete a Synthetic Location with matching id.
 
         :param id: Identifier of the location to be deleted (required)
         :type id: str
@@ -968,9 +1245,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Delete Synthetic location
+        """Delete a Synthetic location
 
-        This API endpoint deletes a synthetic location.  Note: Users cannot use this API to delete managed locations. 
+        API request to delete a Synthetic Location with matching id.
 
         :param id: Identifier of the location to be deleted (required)
         :type id: str
@@ -1037,9 +1314,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Delete Synthetic location
+        """Delete a Synthetic location
 
-        This API endpoint deletes a synthetic location.  Note: Users cannot use this API to delete managed locations. 
+        API request to delete a Synthetic Location with matching id.
 
         :param id: Identifier of the location to be deleted (required)
         :type id: str
@@ -1196,7 +1473,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -1267,7 +1543,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -1338,7 +1613,6 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
             '204': None,
             '401': None,
             '403': None,
@@ -1383,13 +1657,6 @@ class SyntheticSettingsApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1432,7 +1699,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> SyntheticCredential:
-        """A Synthetic Credential with Name and Associations
+        """A Synthetic credential
 
         API request to retrieve a Synthetic Credential with matching name.
 
@@ -1503,7 +1770,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[SyntheticCredential]:
-        """A Synthetic Credential with Name and Associations
+        """A Synthetic credential
 
         API request to retrieve a Synthetic Credential with matching name.
 
@@ -1574,7 +1841,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """A Synthetic Credential with Name and Associations
+        """A Synthetic credential
 
         API request to retrieve a Synthetic Credential with matching name.
 
@@ -1704,7 +1971,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[SyntheticCredential]:
-        """All Synthetic Credential Names and Associations
+        """All Synthetic credentials
 
         API request to retrieve all Synthetic Credentials.
 
@@ -1771,7 +2038,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[SyntheticCredential]]:
-        """All Synthetic Credential Names and Associations
+        """All Synthetic credentials
 
         API request to retrieve all Synthetic Credentials.
 
@@ -1838,7 +2105,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """All Synthetic Credential Names and Associations
+        """All Synthetic credentials
 
         API request to retrieve all Synthetic Credentials.
 
@@ -1962,7 +2229,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[str]:
-        """All Synthetic Credential Names
+        """All Synthetic credential names
 
         API request to retrieve the names of all Synthetic Credentials.
 
@@ -2029,7 +2296,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[str]]:
-        """All Synthetic Credential Names
+        """All Synthetic credential names
 
         API request to retrieve the names of all Synthetic Credentials.
 
@@ -2096,7 +2363,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """All Synthetic Credential Names
+        """All Synthetic credential names
 
         API request to retrieve the names of all Synthetic Credentials.
 
@@ -2221,7 +2488,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> SyntheticDatacenter:
-        """Synthetic datacenter
+        """A Synthetic datacenter
 
         API request to retrieve a Synthetic Datacenter with matching id.
 
@@ -2292,7 +2559,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[SyntheticDatacenter]:
-        """Synthetic datacenter
+        """A Synthetic datacenter
 
         API request to retrieve a Synthetic Datacenter with matching id.
 
@@ -2363,7 +2630,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Synthetic datacenter
+        """A Synthetic datacenter
 
         API request to retrieve a Synthetic Datacenter with matching id.
 
@@ -2749,7 +3016,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> SyntheticLocation:
-        """Synthetic location
+        """A Synthetic location
 
         API request to retrieve a Synthetic Location with matching id.
 
@@ -2819,7 +3086,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[SyntheticLocation]:
-        """Synthetic location
+        """A Synthetic location
 
         API request to retrieve a Synthetic Location with matching id.
 
@@ -2889,7 +3156,7 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Synthetic location
+        """A Synthetic location
 
         API request to retrieve a Synthetic Location with matching id.
 
@@ -3024,7 +3291,7 @@ class SyntheticSettingsApi:
     ) -> List[SyntheticLocation]:
         """All Synthetic locations
 
-        This endpoint retrieves Synthetic Locations.  ## Optional Parameters:  - **filter** Filters the Synthetic Locations to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyPoP}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|--------------------------------------------------------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={label=MyPoP} | | displayLabel | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={displayLabel=My PoP} | | popVersion | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={popVersion=1.1.9} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=My Test PoP} | | locationType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={locationType=Private} | | playbackCapabilities.syntheticType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.syntheticType=HTTPAction} | | playbackCapabilities.browserType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.browserType=chrome} | | configuration.clusterName | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.clusterName=qa_cluster} | | configuration.namespace | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.namespace=test_pop} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/ynthetics/settings/locations?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={modifiedAt<=1715190462000} | | observerdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={observedAt>=1715190462000} |  
+        API request to retrieve Synthetic Locations.
 
         :param sort: Defines the attribute by which the returned synthetic locations will be ordered by. Order using '+' means ASC and '-' means DESC
         :type sort: str
@@ -3105,7 +3372,7 @@ class SyntheticSettingsApi:
     ) -> ApiResponse[List[SyntheticLocation]]:
         """All Synthetic locations
 
-        This endpoint retrieves Synthetic Locations.  ## Optional Parameters:  - **filter** Filters the Synthetic Locations to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyPoP}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|--------------------------------------------------------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={label=MyPoP} | | displayLabel | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={displayLabel=My PoP} | | popVersion | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={popVersion=1.1.9} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=My Test PoP} | | locationType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={locationType=Private} | | playbackCapabilities.syntheticType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.syntheticType=HTTPAction} | | playbackCapabilities.browserType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.browserType=chrome} | | configuration.clusterName | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.clusterName=qa_cluster} | | configuration.namespace | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.namespace=test_pop} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/ynthetics/settings/locations?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={modifiedAt<=1715190462000} | | observerdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={observedAt>=1715190462000} |  
+        API request to retrieve Synthetic Locations.
 
         :param sort: Defines the attribute by which the returned synthetic locations will be ordered by. Order using '+' means ASC and '-' means DESC
         :type sort: str
@@ -3186,7 +3453,7 @@ class SyntheticSettingsApi:
     ) -> RESTResponseType:
         """All Synthetic locations
 
-        This endpoint retrieves Synthetic Locations.  ## Optional Parameters:  - **filter** Filters the Synthetic Locations to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyPoP}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|--------------------------------------------------------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={label=MyPoP} | | displayLabel | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={displayLabel=My PoP} | | popVersion | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={popVersion=1.1.9} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=My Test PoP} | | locationType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={locationType=Private} | | playbackCapabilities.syntheticType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.syntheticType=HTTPAction} | | playbackCapabilities.browserType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.browserType=chrome} | | configuration.clusterName | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.clusterName=qa_cluster} | | configuration.namespace | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.namespace=test_pop} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/ynthetics/settings/locations?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={modifiedAt<=1715190462000} | | observerdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={observedAt>=1715190462000} |  
+        API request to retrieve Synthetic Locations.
 
         :param sort: Defines the attribute by which the returned synthetic locations will be ordered by. Order using '+' means ASC and '-' means DESC
         :type sort: str
@@ -3596,6 +3863,585 @@ class SyntheticSettingsApi:
 
 
     @validate_call
+    def get_synthetic_test_cicd(
+        self,
+        test_result_id: Annotated[StrictStr, Field(description="The synthetic test result id of the CI/CD to be retrieved")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SyntheticTestCICDItem:
+        """A Synthetic test CI/CD.
+
+        API request to retrieve the Synthetic Test CI/CD identified by the given test result id.
+
+        :param test_result_id: The synthetic test result id of the CI/CD to be retrieved (required)
+        :type test_result_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicd_serialize(
+            test_result_id=test_result_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SyntheticTestCICDItem",
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_synthetic_test_cicd_with_http_info(
+        self,
+        test_result_id: Annotated[StrictStr, Field(description="The synthetic test result id of the CI/CD to be retrieved")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SyntheticTestCICDItem]:
+        """A Synthetic test CI/CD.
+
+        API request to retrieve the Synthetic Test CI/CD identified by the given test result id.
+
+        :param test_result_id: The synthetic test result id of the CI/CD to be retrieved (required)
+        :type test_result_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicd_serialize(
+            test_result_id=test_result_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SyntheticTestCICDItem",
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_synthetic_test_cicd_without_preload_content(
+        self,
+        test_result_id: Annotated[StrictStr, Field(description="The synthetic test result id of the CI/CD to be retrieved")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """A Synthetic test CI/CD.
+
+        API request to retrieve the Synthetic Test CI/CD identified by the given test result id.
+
+        :param test_result_id: The synthetic test result id of the CI/CD to be retrieved (required)
+        :type test_result_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicd_serialize(
+            test_result_id=test_result_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SyntheticTestCICDItem",
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_synthetic_test_cicd_serialize(
+        self,
+        test_result_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if test_result_id is not None:
+            _path_params['testResultId'] = test_result_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/synthetics/settings/tests/ci-cd/{testResultId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_synthetic_test_cicds(
+        self,
+        filter: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[SyntheticTestCICDItem]:
+        """All Synthetic test CI/CDs
+
+        API request to retrieve the Synthetic Test CI/CDs
+
+        :param filter: Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.
+        :type filter: str
+        :param offset: Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs
+        :type offset: int
+        :param limit: Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicds_serialize(
+            filter=filter,
+            offset=offset,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDItem]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_synthetic_test_cicds_with_http_info(
+        self,
+        filter: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[SyntheticTestCICDItem]]:
+        """All Synthetic test CI/CDs
+
+        API request to retrieve the Synthetic Test CI/CDs
+
+        :param filter: Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.
+        :type filter: str
+        :param offset: Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs
+        :type offset: int
+        :param limit: Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicds_serialize(
+            filter=filter,
+            offset=offset,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDItem]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_synthetic_test_cicds_without_preload_content(
+        self,
+        filter: Annotated[Optional[Annotated[str, Field(strict=True)]], Field(description="Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """All Synthetic test CI/CDs
+
+        API request to retrieve the Synthetic Test CI/CDs
+
+        :param filter: Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators.
+        :type filter: str
+        :param offset: Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs
+        :type offset: int
+        :param limit: Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_synthetic_test_cicds_serialize(
+            filter=filter,
+            offset=offset,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[SyntheticTestCICDItem]",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_synthetic_test_cicds_serialize(
+        self,
+        filter,
+        offset,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if filter is not None:
+            
+            _query_params.append(('filter', filter))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/synthetics/settings/tests/ci-cd',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_synthetic_tests(
         self,
         application_id: Annotated[Optional[StrictStr], Field(description="Defines the application id by which the returned synthetic tests will be filtered by. ")] = None,
@@ -3619,7 +4465,7 @@ class SyntheticSettingsApi:
     ) -> List[SyntheticTest]:
         """All Synthetic tests
 
-        This endpoint retrieves Synthetic Tests.  ## Optional Parameters:  - **locationId** Filters the Synthetic Tests to retrieve only the ones that are associated to the specified PoP location ID. - **filter** Filters the Synthetic Tests to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyTest}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|---------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={label=ABC} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=MyTest} | | active | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={active=true} | | testFrequency | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={testFrequency=5} | | applicationId | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={applicationId=APP_ID} | | locations | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locations=POP_ID} | | locationLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationLabels=MyPoP} | | locationDisplayLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationDisplayLabels=My PoP} | | configuration.\\<any property of type string> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={configurtion.syntheticType=HTTPAction} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={modifiedAt<=1715190462000} |  
+        API request to retrieve Synthetic Tests.
 
         :param application_id: Defines the application id by which the returned synthetic tests will be filtered by. 
         :type application_id: str
@@ -3709,7 +4555,7 @@ class SyntheticSettingsApi:
     ) -> ApiResponse[List[SyntheticTest]]:
         """All Synthetic tests
 
-        This endpoint retrieves Synthetic Tests.  ## Optional Parameters:  - **locationId** Filters the Synthetic Tests to retrieve only the ones that are associated to the specified PoP location ID. - **filter** Filters the Synthetic Tests to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyTest}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|---------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={label=ABC} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=MyTest} | | active | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={active=true} | | testFrequency | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={testFrequency=5} | | applicationId | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={applicationId=APP_ID} | | locations | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locations=POP_ID} | | locationLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationLabels=MyPoP} | | locationDisplayLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationDisplayLabels=My PoP} | | configuration.\\<any property of type string> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={configurtion.syntheticType=HTTPAction} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={modifiedAt<=1715190462000} |  
+        API request to retrieve Synthetic Tests.
 
         :param application_id: Defines the application id by which the returned synthetic tests will be filtered by. 
         :type application_id: str
@@ -3799,7 +4645,7 @@ class SyntheticSettingsApi:
     ) -> RESTResponseType:
         """All Synthetic tests
 
-        This endpoint retrieves Synthetic Tests.  ## Optional Parameters:  - **locationId** Filters the Synthetic Tests to retrieve only the ones that are associated to the specified PoP location ID. - **filter** Filters the Synthetic Tests to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyTest}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|---------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={label=ABC} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=MyTest} | | active | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={active=true} | | testFrequency | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={testFrequency=5} | | applicationId | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={applicationId=APP_ID} | | locations | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locations=POP_ID} | | locationLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationLabels=MyPoP} | | locationDisplayLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationDisplayLabels=My PoP} | | configuration.\\<any property of type string> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={configurtion.syntheticType=HTTPAction} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={modifiedAt<=1715190462000} |  
+        API request to retrieve Synthetic Tests.
 
         :param application_id: Defines the application id by which the returned synthetic tests will be filtered by. 
         :type application_id: str
@@ -3970,8 +4816,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Patch a Synthetic Credential
+        """Patch a Synthetic credential
 
+        API request to patch attributes of a Synthetic Credential.
 
         :param name: Name of the credential to be patched (required)
         :type name: str
@@ -4043,8 +4890,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Patch a Synthetic Credential
+        """Patch a Synthetic credential
 
+        API request to patch attributes of a Synthetic Credential.
 
         :param name: Name of the credential to be patched (required)
         :type name: str
@@ -4116,8 +4964,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Patch a Synthetic Credential
+        """Patch a Synthetic credential
 
+        API request to patch attributes of a Synthetic Credential.
 
         :param name: Name of the credential to be patched (required)
         :type name: str
@@ -4267,7 +5116,7 @@ class SyntheticSettingsApi:
     ) -> None:
         """Patch a Synthetic test
 
-        This API endpoint updates selected attributes of a Synthetic Test.  - All attributes listed as in the schema, including the required ones, are optional for this call. - Synthetic Test configuration properties set to null will be removed from the configuration. - Patching an array attribute will replace the entire array with the full set of values provided. - For major updates to the Synthetic Test or to remove main attributes, see \"Update a Synthetic test\"  ## Sample script and payload:  - A sample script to patch a simple HTTP Script Test to enable it and to switch from multi-scripts to single script.  ``` curl -k -v -X PATCH \\ https://<Host>/api/synthetics/settings/tests/Ilfs9bW97KkTxuyGtxBF \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"active\" : true,     \"configuration\" : {        \"scripts\" : null,       \"script\" : \"//script goes here\"     }   }' ```
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be patched (required)
         :type id: str
@@ -4342,7 +5191,7 @@ class SyntheticSettingsApi:
     ) -> ApiResponse[None]:
         """Patch a Synthetic test
 
-        This API endpoint updates selected attributes of a Synthetic Test.  - All attributes listed as in the schema, including the required ones, are optional for this call. - Synthetic Test configuration properties set to null will be removed from the configuration. - Patching an array attribute will replace the entire array with the full set of values provided. - For major updates to the Synthetic Test or to remove main attributes, see \"Update a Synthetic test\"  ## Sample script and payload:  - A sample script to patch a simple HTTP Script Test to enable it and to switch from multi-scripts to single script.  ``` curl -k -v -X PATCH \\ https://<Host>/api/synthetics/settings/tests/Ilfs9bW97KkTxuyGtxBF \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"active\" : true,     \"configuration\" : {        \"scripts\" : null,       \"script\" : \"//script goes here\"     }   }' ```
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be patched (required)
         :type id: str
@@ -4417,7 +5266,7 @@ class SyntheticSettingsApi:
     ) -> RESTResponseType:
         """Patch a Synthetic test
 
-        This API endpoint updates selected attributes of a Synthetic Test.  - All attributes listed as in the schema, including the required ones, are optional for this call. - Synthetic Test configuration properties set to null will be removed from the configuration. - Patching an array attribute will replace the entire array with the full set of values provided. - For major updates to the Synthetic Test or to remove main attributes, see \"Update a Synthetic test\"  ## Sample script and payload:  - A sample script to patch a simple HTTP Script Test to enable it and to switch from multi-scripts to single script.  ``` curl -k -v -X PATCH \\ https://<Host>/api/synthetics/settings/tests/Ilfs9bW97KkTxuyGtxBF \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"active\" : true,     \"configuration\" : {        \"scripts\" : null,       \"script\" : \"//script goes here\"     }   }' ```
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be patched (required)
         :type id: str
@@ -4566,9 +5415,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Update a Synthetic Credential
+        """Update a Synthetic credential
 
-        API request to update Synthetic Credentials.
+        API request to update a Synthetic Credential.
 
         :param name: Name of the credential to be updated (required)
         :type name: str
@@ -4606,7 +5455,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '201': None,
             '401': None,
             '403': None,
             '500': None,
@@ -4640,9 +5489,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Update a Synthetic Credential
+        """Update a Synthetic credential
 
-        API request to update Synthetic Credentials.
+        API request to update a Synthetic Credential.
 
         :param name: Name of the credential to be updated (required)
         :type name: str
@@ -4680,7 +5529,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '201': None,
             '401': None,
             '403': None,
             '500': None,
@@ -4714,9 +5563,9 @@ class SyntheticSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Update a Synthetic Credential
+        """Update a Synthetic credential
 
-        API request to update Synthetic Credentials.
+        API request to update a Synthetic Credential.
 
         :param name: Name of the credential to be updated (required)
         :type name: str
@@ -4754,7 +5603,7 @@ class SyntheticSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
+            '201': None,
             '401': None,
             '403': None,
             '500': None,
@@ -4866,6 +5715,7 @@ class SyntheticSettingsApi:
     ) -> None:
         """Update a Synthetic test
 
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be updated (required)
         :type id: str
@@ -4940,6 +5790,7 @@ class SyntheticSettingsApi:
     ) -> ApiResponse[None]:
         """Update a Synthetic test
 
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be updated (required)
         :type id: str
@@ -5014,6 +5865,7 @@ class SyntheticSettingsApi:
     ) -> RESTResponseType:
         """Update a Synthetic test
 
+        API request to update a Synthetic Test.
 
         :param id: Id of the synthetic test to be updated (required)
         :type id: str

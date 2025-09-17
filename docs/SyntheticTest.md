@@ -25,6 +25,7 @@ Name | Type | Description | Notes
 **modified_at** | **int** |  | [optional] 
 **modified_by** | **str** |  | [optional] 
 **playback_mode** | **str** |  | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) |  | [optional] 
 **tenant_id** | **str** |  | [optional] 
 **test_frequency** | **int** |  | 
 **website_labels** | **List[str]** |  | [optional] 

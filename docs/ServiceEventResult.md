@@ -5,9 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**application_id** | **str** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
-**service_id** | **str** |  | [optional] 
+**application_id** | **str** | ID of the application this service is in scope of. | [optional] 
+**service_id** | **str** | ID of the service. | [optional] 
 
 ## Example
 

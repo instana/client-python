@@ -19,6 +19,9 @@ Name | Type | Description | Notes
 **query** | **str** |  | [optional] 
 **rule_logical_operator** | **str** | Set AND / OR | [optional] 
 **rules** | [**List[AbstractRule]**](AbstractRule.md) |  | 
+**transient_event_alert_muted** | **bool** |  | [optional] 
+**transient_event_enabled** | **bool** |  | [optional] 
+**transient_event_threshold** | **int** |  | [optional] 
 **triggering** | **bool** |  | [optional] 
 
 ## Example

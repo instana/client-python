@@ -1,5 +1,6 @@
 # KubernetesPhysicalContext
 
+Contains physical context of Kubernetes which contains information about the cluster, namespace, node and pod.
 
 ## Properties
 

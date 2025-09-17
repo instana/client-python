@@ -1,6 +1,5 @@
 # Service
 
-Returns a list of Services.
 
 ## Properties
 

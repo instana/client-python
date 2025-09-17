@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**include_unscheduled_test_results** | **bool** | Only includes the scheduled test results.  | [optional] 
 **synthetic_test_ids** | **List[str]** | List of Unique Synthetic Tests IDs  | 
 
 ## Example

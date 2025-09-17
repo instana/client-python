@@ -38,8 +38,6 @@ Method | HTTP request | Description
 
 Add application configuration
 
-Use this API endpoint if one wants to create a new Application Perspective. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.   ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
-
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -117,8 +115,6 @@ Name | Type | Description  | Notes
 > ManualServiceConfig add_manual_service_config(new_manual_service_config)
 
 Add manual service configuration
-
-Use this API endpoint if one wants to add a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
 ### Example
 
@@ -198,7 +194,21 @@ Name | Type | Description  | Notes
 
 Add service configuration
 
-Use this API endpoint if one wants to create a custom service rule. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.    ## Errata:    The following field is documented in the request schema: - The `id` field is not mandatory and one can't have a service configuration id before creating one configuration. Instana creates it automatically. 
+Use this API endpoint if one wants to create a custom service rule.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+
+
+## Errata: 
+
+
+The following field is documented in the request schema:
+- The `id` field is not mandatory and one can't have a service configuration id before creating one configuration.
+Instana creates it automatically.
+
 
 ### Example
 
@@ -277,7 +287,13 @@ Name | Type | Description  | Notes
 
 Create endpoint configuration
 
-Use this API endpoint if one wants to create an endpoint configuration of a service. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to create an endpoint configuration of a service.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -356,7 +372,13 @@ Name | Type | Description  | Notes
 
 Create HTTP endpoint configuration
 
-This is a deprecated endpoint. Use `Create endpoint configuration` instead. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+This is a deprecated endpoint. Use `Create endpoint configuration` instead.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -435,7 +457,14 @@ Name | Type | Description  | Notes
 
 Delete application configuration
 
-Use this API endpoint if one wants to delete an Application Perspective. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.  ## Deprecated Parameters **matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints. 
+Use this API endpoint if one wants to delete an Application Perspective. This endpoint requires `canConfigureApplications` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+
+## Deprecated Parameters
+**matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
+
 
 ### Example
 
@@ -496,13 +525,15 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | Successful - no content to return. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -511,7 +542,13 @@ void (empty response body)
 
 Delete endpoint configuration
 
-Use this API endpoint if one wants to delete an endpoint configuration of a service. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to delete an endpoint configuration of a service.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -572,13 +609,15 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | Successful - no content to return. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -587,7 +626,13 @@ void (empty response body)
 
 Delete HTTP endpoint configuration
 
-This is a deprecated endpoint. Use `Delete endpoint configuration` instead. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+This is a deprecated endpoint. Use `Delete endpoint configuration` instead.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -663,8 +708,6 @@ void (empty response body)
 
 Delete manual service configuration
 
-Use this API endpoint if one wants to delete a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
-
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -739,7 +782,13 @@ void (empty response body)
 
 Delete service configuration
 
-Use this API endpoint if one wants to delete a service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to delete a service configuration.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -815,8 +864,6 @@ void (empty response body)
 
 All manual service configurations
 
-Use this API Endpoint if one wants to retrieve a list of all manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
-
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -890,7 +937,16 @@ This endpoint does not need any parameter.
 
 Application configuration
 
-Use this API endpoint if one wants to retrieve an Application Perspective with its configuration setting. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints. 
+Use this API endpoint if one wants to retrieve an Application Perspective with its configuration setting.
+This endpoint requires `canConfigureApplications` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Configuration of applications` to `true`.
+
+## Deprecated Parameters
+**matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
+
 
 ### Example
 
@@ -961,6 +1017,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**403** | Insufficient permission |  -  |
+**404** | No config found for provided application id |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -969,7 +1027,16 @@ Name | Type | Description  | Notes
 
 All Application configurations
 
-Use this API endpoint if one wants to retrieve a list of all Application Perspectives with their configuration settings. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints. 
+Use this API endpoint if one wants to retrieve a list of all Application Perspectives with their configuration settings.
+This endpoint requires `canConfigureApplications` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Configuration of applications` to `true`.
+
+## Deprecated Parameters
+**matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
+
 
 ### Example
 
@@ -1044,7 +1111,13 @@ This endpoint does not need any parameter.
 
 Endpoint configuration
 
-Use this API endpoint if one wants to retrieve the endpoint configuration of a service. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to retrieve the endpoint configuration of a service.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1115,6 +1188,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**403** | Insufficient permission |  -  |
+**404** | No config found for provided service id |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1123,7 +1198,13 @@ Name | Type | Description  | Notes
 
 All Endpoint configurations
 
-Use this API endpoint if one wants to retrieve a list of all endpoint configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to retrieve a list of all endpoint configurations.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1198,7 +1279,13 @@ This endpoint does not need any parameter.
 
 HTTP Endpoint configuration
 
-This is a deprecated endpoint. Use `Endpoint configuration` instead. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+This is a deprecated endpoint. Use `Endpoint configuration` instead.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1277,7 +1364,13 @@ Name | Type | Description  | Notes
 
 All HTTP endpoint configurations
 
-This is a deprecated endpoint. Use `All Endpoint configurations` instead. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+This is a deprecated endpoint. Use `All Endpoint configurations` instead.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1352,7 +1445,13 @@ This endpoint does not need any parameter.
 
 Service configuration
 
-Use this API endpoint if one wants to retrieve a particular custom service rule. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to retrieve a particular custom service rule.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1423,6 +1522,9 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1431,7 +1533,13 @@ Name | Type | Description  | Notes
 
 All service configurations
 
-Use this API endpoint if one wants to retrive a list of all service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to retrive a list of all service configurations.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1506,7 +1614,14 @@ This endpoint does not need any parameter.
 
 Order of service configuration
 
-Use this API endpoint if one wants to change the order of service configurations aka custom service rules. Note that all service configuration IDs have to be passed in the request to re-order the configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to change the order of service configurations aka custom service rules.
+Note that all service configuration IDs have to be passed in the request to re-order the configurations.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1581,8 +1696,6 @@ void (empty response body)
 > ApplicationConfig put_application_config(id, application_config)
 
 Update application configuration
-
-Use this API endpoint if one wants to update an existing Application Perspective. This endpoint requires `canConfigureApplications` permission. One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
 ### Example
 
@@ -1663,7 +1776,13 @@ Name | Type | Description  | Notes
 
 Update service configuration
 
-Use this API endpoint if one wants to update a particular custom service rule. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to update a particular custom service rule.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1744,7 +1863,13 @@ Name | Type | Description  | Notes
 
 Replace all service configurations
 
-Use this API endpoint if one wants to modify 1 or more existing service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to modify 1 or more existing service configuration.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1822,8 +1947,6 @@ Name | Type | Description  | Notes
 > List[ManualServiceConfig] replace_all_manual_service_configs(new_manual_service_config)
 
 Replace all manual service configurations
-
-Use this API endpoint if one wants to update more than 1 manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
 ### Example
 
@@ -1903,7 +2026,13 @@ Name | Type | Description  | Notes
 
 Update endpoint configuration
 
-Use this API endpoint if one wants to update an existing endpoint configuration of a service. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+Use this API endpoint if one wants to update an existing endpoint configuration of a service.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -1984,7 +2113,13 @@ Name | Type | Description  | Notes
 
 Update HTTP endpoint configuration
 
-This is a deprecated endpoint. Use `Update endpoint configuration` instead. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+This is a deprecated endpoint. Use `Update endpoint configuration` instead.
+This endpoint requires `CanConfigureServiceMapping` permission. 
+
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
 
 ### Example
 
@@ -2064,8 +2199,6 @@ Name | Type | Description  | Notes
 > ManualServiceConfig update_manual_service_config(id, manual_service_config)
 
 Update manual service configuration
-
-Use this API endpoint if one wants to update a manual service configuration.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
 ### Example
 

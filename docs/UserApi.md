@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**get_users_including_invitations**](UserApi.md#get_users_including_invitations) | **GET** /api/settings/users/overview | All users (incl. invitations)
 [**invite_users**](UserApi.md#invite_users) | **POST** /api/settings/invitations | Send user invitations
 [**remove_user_from_tenant**](UserApi.md#remove_user_from_tenant) | **DELETE** /api/settings/users/{userId} | Remove user from tenant
+[**remove_users_from_tenant**](UserApi.md#remove_users_from_tenant) | **PUT** /api/settings/users/delete | Remove users from tenant
 [**revoke_pending_invitation**](UserApi.md#revoke_pending_invitation) | **DELETE** /api/settings/invitations | Revoke pending invitation
 [**share_and_invite_users**](UserApi.md#share_and_invite_users) | **POST** /api/settings/invitation/share | Send user invitations
 [**update_user**](UserApi.md#update_user) | **PUT** /api/settings/users/{email} | Change user name of single user
@@ -19,8 +20,6 @@ Method | HTTP request | Description
 > List[InvitationResult] get_invitations()
 
 All pending invitations
-
-This API endpoint retrieves the list of all pending invitations.   During the IdP configuration all pending invitations will be dismissed and whilst an IdP is configured invitations are prevented.  
 
 ### Example
 
@@ -166,6 +165,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -241,6 +242,8 @@ This endpoint does not need any parameter.
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -316,6 +319,8 @@ This endpoint does not need any parameter.
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -323,8 +328,6 @@ This endpoint does not need any parameter.
 > List[InvitationResponse] invite_users(invitation)
 
 Send user invitations
-
-This API endpoint allows to invite users to this tenant.   Each user requires the email address and the group to which the user will be added initially.    Inviting users whilst an IdP is configured will always result in failures, as in this case users will be provisioned during the login based on the IdP configuration.   During the IdP configurations all pending invitations are automatically revoked.  Inviting users who are already members of the tenant will also provide an error result.  
 
 ### Example
 
@@ -466,13 +469,93 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | Successful - no content to return. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **remove_users_from_tenant**
+> remove_users_from_tenant(request_body)
+
+Remove users from tenant
+
+Remove multiple users access to the tenant. Removing a user from a tenant does not delete their user account.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.UserApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Remove users from tenant
+        api_instance.remove_users_from_tenant(request_body)
+    except Exception as e:
+        print("Exception when calling UserApi->remove_users_from_tenant: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -480,8 +563,6 @@ void (empty response body)
 > revoke_pending_invitation(email)
 
 Revoke pending invitation
-
-This API endpoint allows to delete an invitation, requires the users’ email as a Query parameter. 
 
 ### Example
 
@@ -556,8 +637,6 @@ void (empty response body)
 > List[InvitationResponse] share_and_invite_users(invitation)
 
 Send user invitations
-
-This API endpoint allows to invite users to this tenant.   Each user requires the email address and the group to which the user will be added initially.    Inviting users whilst an IdP is configured will always result in failures, as in this case users will be provisioned during the login based on the IdP configuration.   During the IdP configurations all pending invitations are automatically revoked.  Inviting users who are already members of the tenant will also provide an error result.  
 
 ### Example
 
@@ -702,13 +781,16 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | Successful - no content to return. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

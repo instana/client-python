@@ -5,9 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ibm_mq_file_transfer** | **List[Dict[str, object]]** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
-**snapshot_id** | **str** |  | [optional] 
+**ibm_mq_file_transfer** | **List[Dict[str, object]]** | IBM MQ file transfer information, if relevant for this entity and event. | [optional] 
+**snapshot_id** | **str** | ID of the snapshot. | [optional] 
 
 ## Example
 

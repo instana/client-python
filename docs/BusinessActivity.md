@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **activity_start** | **int** | Unix timestamp representing the activity&#39;s start time | [optional] 
 **activity_type** | **str** | Type of the activity  | 
 **call_id** | **str** |  | [optional] 
+**endpoint_ids** | **List[str]** |  | [optional] 
 **process_definition_id** | **str** | The identifier of the process the activity is an instance of. | [optional] 
 **process_definition_name** | **str** | The name of the process that the activity is an instance of | [optional] 
 **root_process_instance_id** | **str** | The id of the root process for the activity | [optional] 

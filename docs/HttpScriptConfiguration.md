@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**file_name** | **str** |  | [optional] 
 **script** | **str** |  | [optional] 
 **script_type** | **str** |  | [optional] 
 **scripts** | [**MultipleScriptsConfiguration**](MultipleScriptsConfiguration.md) |  | [optional] 

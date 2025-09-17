@@ -4,32 +4,35 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**create_synthetic_credential**](SyntheticSettingsApi.md#create_synthetic_credential) | **POST** /api/synthetics/settings/credentials | Create a Synthetic Credential
+[**create_synthetic_credential**](SyntheticSettingsApi.md#create_synthetic_credential) | **POST** /api/synthetics/settings/credentials | Create a Synthetic credential
 [**create_synthetic_test**](SyntheticSettingsApi.md#create_synthetic_test) | **POST** /api/synthetics/settings/tests | Create a Synthetic test
-[**delete_synthetic_credential**](SyntheticSettingsApi.md#delete_synthetic_credential) | **DELETE** /api/synthetics/settings/credentials/{name} | Delete Synthetic credential
-[**delete_synthetic_location**](SyntheticSettingsApi.md#delete_synthetic_location) | **DELETE** /api/synthetics/settings/locations/{id} | Delete Synthetic location
+[**create_synthetic_test_cicd**](SyntheticSettingsApi.md#create_synthetic_test_cicd) | **POST** /api/synthetics/settings/tests/ci-cd | Create a Synthetic test CI/CD
+[**delete_synthetic_credential**](SyntheticSettingsApi.md#delete_synthetic_credential) | **DELETE** /api/synthetics/settings/credentials/{name} | Delete a Synthetic credential
+[**delete_synthetic_location**](SyntheticSettingsApi.md#delete_synthetic_location) | **DELETE** /api/synthetics/settings/locations/{id} | Delete a Synthetic location
 [**delete_synthetic_test**](SyntheticSettingsApi.md#delete_synthetic_test) | **DELETE** /api/synthetics/settings/tests/{id} | Delete a Synthetic test
-[**get_one_synthetic_credential_associations**](SyntheticSettingsApi.md#get_one_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations/{name} | A Synthetic Credential with Name and Associations
-[**get_synthetic_credential_associations**](SyntheticSettingsApi.md#get_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations | All Synthetic Credential Names and Associations
-[**get_synthetic_credential_names**](SyntheticSettingsApi.md#get_synthetic_credential_names) | **GET** /api/synthetics/settings/credentials | All Synthetic Credential Names
-[**get_synthetic_datacenter**](SyntheticSettingsApi.md#get_synthetic_datacenter) | **GET** /api/synthetics/settings/datacenters/{datacenterId} | Synthetic datacenter
+[**get_one_synthetic_credential_associations**](SyntheticSettingsApi.md#get_one_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations/{name} | A Synthetic credential
+[**get_synthetic_credential_associations**](SyntheticSettingsApi.md#get_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations | All Synthetic credentials
+[**get_synthetic_credential_names**](SyntheticSettingsApi.md#get_synthetic_credential_names) | **GET** /api/synthetics/settings/credentials | All Synthetic credential names
+[**get_synthetic_datacenter**](SyntheticSettingsApi.md#get_synthetic_datacenter) | **GET** /api/synthetics/settings/datacenters/{datacenterId} | A Synthetic datacenter
 [**get_synthetic_datacenters**](SyntheticSettingsApi.md#get_synthetic_datacenters) | **GET** /api/synthetics/settings/datacenters | All Synthetic datacenters
-[**get_synthetic_location**](SyntheticSettingsApi.md#get_synthetic_location) | **GET** /api/synthetics/settings/locations/{id} | Synthetic location
+[**get_synthetic_location**](SyntheticSettingsApi.md#get_synthetic_location) | **GET** /api/synthetics/settings/locations/{id} | A Synthetic location
 [**get_synthetic_locations**](SyntheticSettingsApi.md#get_synthetic_locations) | **GET** /api/synthetics/settings/locations | All Synthetic locations
 [**get_synthetic_test**](SyntheticSettingsApi.md#get_synthetic_test) | **GET** /api/synthetics/settings/tests/{id} | A Synthetic test
+[**get_synthetic_test_cicd**](SyntheticSettingsApi.md#get_synthetic_test_cicd) | **GET** /api/synthetics/settings/tests/ci-cd/{testResultId} | A Synthetic test CI/CD.
+[**get_synthetic_test_cicds**](SyntheticSettingsApi.md#get_synthetic_test_cicds) | **GET** /api/synthetics/settings/tests/ci-cd | All Synthetic test CI/CDs
 [**get_synthetic_tests**](SyntheticSettingsApi.md#get_synthetic_tests) | **GET** /api/synthetics/settings/tests | All Synthetic tests
-[**patch_synthetic_credential**](SyntheticSettingsApi.md#patch_synthetic_credential) | **PATCH** /api/synthetics/settings/credentials/{name} | Patch a Synthetic Credential
+[**patch_synthetic_credential**](SyntheticSettingsApi.md#patch_synthetic_credential) | **PATCH** /api/synthetics/settings/credentials/{name} | Patch a Synthetic credential
 [**patch_synthetic_test**](SyntheticSettingsApi.md#patch_synthetic_test) | **PATCH** /api/synthetics/settings/tests/{id} | Patch a Synthetic test
-[**update_synthetic_credential**](SyntheticSettingsApi.md#update_synthetic_credential) | **PUT** /api/synthetics/settings/credentials/{name} | Update a Synthetic Credential
+[**update_synthetic_credential**](SyntheticSettingsApi.md#update_synthetic_credential) | **PUT** /api/synthetics/settings/credentials/{name} | Update a Synthetic credential
 [**update_synthetic_test**](SyntheticSettingsApi.md#update_synthetic_test) | **PUT** /api/synthetics/settings/tests/{id} | Update a Synthetic test
 
 
 # **create_synthetic_credential**
 > create_synthetic_credential(synthetic_credential)
 
-Create a Synthetic Credential
+Create a Synthetic credential
 
-API request to create Synthetic Credentials.
+API request to create a Synthetic Credential.
 
 ### Example
 
@@ -62,10 +65,10 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
-    synthetic_credential = {"credentialName":"userPassword","credentialValue":"123456"} # SyntheticCredential | 
+    synthetic_credential = {"credentialName":"userPassword","credentialValue":"123456","rbacTags":[{"id":"test","displayName":"test"}]} # SyntheticCredential | 
 
     try:
-        # Create a Synthetic Credential
+        # Create a Synthetic credential
         api_instance.create_synthetic_credential(synthetic_credential)
     except Exception as e:
         print("Exception when calling SyntheticSettingsApi->create_synthetic_credential: %s\n" % e)
@@ -109,7 +112,7 @@ void (empty response body)
 
 Create a Synthetic test
 
-This API endpoint creates a Synthetic Test.  **Note:** The **DNSAction** Synthetic type is not supported.  ## Optional Parameters:  - **id** Users are allowed to specify their own id for the test. A test id can contain letters, numbers, underscores, colons and hyphens. Maximum length is 128.  ## Sample script and payload:  - A sample script to create an API Simple test  ``` curl -k -v -X POST \\ https://<Host>/api/synthetics/settings/tests \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"id\":\"test_id:12134-89\",     \"label\":\"Test_SimplePing\",     \"description\":\"this is to test a simple ping API\",     \"serviceId\":\"serviceId001\",     \"applicationId\":\"applicationId001\",     \"active\":true,     \"testFrequency\":1,     \"playbackMode\":\"Simultaneous\",     \"locations\":[         \"saas_instana_test\"     ],     \"configuration\":{         \"syntheticType\":\"HTTPAction\",         \"url\":\"https://httpbin.org/post\",         \"operation\":\"POST\",         \"headers\":{             \"Content-Type\":\"text/plain\"         },         \"body\":\"Hello World!\",         \"validationString\":\"Hello World!\"     },     \"customProperties\":{         \"Team\":\"DevTeam\",         \"Purpose\":\"Demo\"     }   }' ```
+API request to create a Synthetic Test.
 
 ### Example
 
@@ -142,7 +145,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
-    synthetic_test = {"label":"Test_SimplePing","description":"this is to test a simple ping API","serviceId":"serviceId001","applicationId":"applicationId001","active":true,"testFrequency":1,"playbackMode":"Simultaneous","locations":["saas_instana_test"],"configuration":{"syntheticType":"HTTPAction","url":"https://httpbin.org/post","operation":"POST","headers":{"Content-Type":"text/plain"},"body":"Hello World!","validationString":"Hello World!"},"customProperties":{"Team":"DevTeam","Purpose":"Demo"}} # SyntheticTest | 
+    synthetic_test = {"label":"Test_SimplePing","description":"this is to test a simple ping API","serviceId":"serviceId001","applicationId":"applicationId001","active":true,"testFrequency":1,"playbackMode":"Simultaneous","locations":["saas_instana_test"],"configuration":{"syntheticType":"HTTPAction","url":"https://httpbin.org/post","operation":"POST","headers":{"Content-Type":"text/plain"},"body":"Hello World!","validationString":"Hello World!"},"customProperties":{"Team":"DevTeam","Purpose":"Demo"},"rbacTags":[{"id":"test","displayName":"test"}]} # SyntheticTest | 
 
     try:
         # Create a Synthetic test
@@ -179,6 +182,89 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+**201** | Successful - resource created |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **create_synthetic_test_cicd**
+> List[SyntheticTestCICDResponse] create_synthetic_test_cicd(synthetic_test_cicd)
+
+Create a Synthetic test CI/CD
+
+API request to create a Synthetic Test CI/CD.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.synthetic_test_cicd import SyntheticTestCICD
+from instana_client.models.synthetic_test_cicd_response import SyntheticTestCICDResponse
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticSettingsApi(api_client)
+    synthetic_test_cicd = [{"testId":"K331gkuCbelN1HI5y1wl","customization":{"locations":["8mCxCPOI7oEmMSee4ec0","lalQTzq7MwO6hZ6c6xDd"],"configuration":{"timeout":"100ms","retries":2},"customProperties":{"Team":"DevTeam","Purpose":"Demo"}}}] # List[SyntheticTestCICD] | 
+
+    try:
+        # Create a Synthetic test CI/CD
+        api_response = api_instance.create_synthetic_test_cicd(synthetic_test_cicd)
+        print("The response of SyntheticSettingsApi->create_synthetic_test_cicd:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SyntheticSettingsApi->create_synthetic_test_cicd: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **synthetic_test_cicd** | [**List[SyntheticTestCICD]**](SyntheticTestCICD.md)|  | 
+
+### Return type
+
+[**List[SyntheticTestCICDResponse]**](SyntheticTestCICDResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions. |  -  |
@@ -189,7 +275,7 @@ Name | Type | Description  | Notes
 # **delete_synthetic_credential**
 > delete_synthetic_credential(name)
 
-Delete Synthetic credential
+Delete a Synthetic credential
 
 API request to delete a Synthetic Credential.
 
@@ -226,7 +312,7 @@ with instana_client.ApiClient(configuration) as api_client:
     name = 'password4test' # str | Name of the credential to be deleted
 
     try:
-        # Delete Synthetic credential
+        # Delete a Synthetic credential
         api_instance.delete_synthetic_credential(name)
     except Exception as e:
         print("Exception when calling SyntheticSettingsApi->delete_synthetic_credential: %s\n" % e)
@@ -252,13 +338,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions. |  -  |
@@ -269,9 +354,9 @@ void (empty response body)
 # **delete_synthetic_location**
 > delete_synthetic_location(id)
 
-Delete Synthetic location
+Delete a Synthetic location
 
-This API endpoint deletes a synthetic location.  Note: Users cannot use this API to delete managed locations. 
+API request to delete a Synthetic Location with matching id.
 
 ### Example
 
@@ -306,7 +391,7 @@ with instana_client.ApiClient(configuration) as api_client:
     id = '55bzhnXQ9uqwld4Ha3bD' # str | Identifier of the location to be deleted
 
     try:
-        # Delete Synthetic location
+        # Delete a Synthetic location
         api_instance.delete_synthetic_location(id)
     except Exception as e:
         print("Exception when calling SyntheticSettingsApi->delete_synthetic_location: %s\n" % e)
@@ -410,13 +495,12 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions. |  -  |
@@ -427,7 +511,7 @@ void (empty response body)
 # **get_one_synthetic_credential_associations**
 > SyntheticCredential get_one_synthetic_credential_associations(name)
 
-A Synthetic Credential with Name and Associations
+A Synthetic credential
 
 API request to retrieve a Synthetic Credential with matching name.
 
@@ -465,7 +549,7 @@ with instana_client.ApiClient(configuration) as api_client:
     name = 'password4test' # str | Name of the credential to be retrieved
 
     try:
-        # A Synthetic Credential with Name and Associations
+        # A Synthetic credential
         api_response = api_instance.get_one_synthetic_credential_associations(name)
         print("The response of SyntheticSettingsApi->get_one_synthetic_credential_associations:\n")
         pprint(api_response)
@@ -510,7 +594,7 @@ Name | Type | Description  | Notes
 # **get_synthetic_credential_associations**
 > List[SyntheticCredential] get_synthetic_credential_associations()
 
-All Synthetic Credential Names and Associations
+All Synthetic credentials
 
 API request to retrieve all Synthetic Credentials.
 
@@ -547,7 +631,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.SyntheticSettingsApi(api_client)
 
     try:
-        # All Synthetic Credential Names and Associations
+        # All Synthetic credentials
         api_response = api_instance.get_synthetic_credential_associations()
         print("The response of SyntheticSettingsApi->get_synthetic_credential_associations:\n")
         pprint(api_response)
@@ -589,7 +673,7 @@ This endpoint does not need any parameter.
 # **get_synthetic_credential_names**
 > List[str] get_synthetic_credential_names()
 
-All Synthetic Credential Names
+All Synthetic credential names
 
 API request to retrieve the names of all Synthetic Credentials.
 
@@ -625,7 +709,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.SyntheticSettingsApi(api_client)
 
     try:
-        # All Synthetic Credential Names
+        # All Synthetic credential names
         api_response = api_instance.get_synthetic_credential_names()
         print("The response of SyntheticSettingsApi->get_synthetic_credential_names:\n")
         pprint(api_response)
@@ -667,7 +751,7 @@ This endpoint does not need any parameter.
 # **get_synthetic_datacenter**
 > SyntheticDatacenter get_synthetic_datacenter(datacenter_id)
 
-Synthetic datacenter
+A Synthetic datacenter
 
 API request to retrieve a Synthetic Datacenter with matching id.
 
@@ -705,7 +789,7 @@ with instana_client.ApiClient(configuration) as api_client:
     datacenter_id = 'aws-us-east-1-NVirginia' # str | Id of the datacenter to be retrieved
 
     try:
-        # Synthetic datacenter
+        # A Synthetic datacenter
         api_response = api_instance.get_synthetic_datacenter(datacenter_id)
         print("The response of SyntheticSettingsApi->get_synthetic_datacenter:\n")
         pprint(api_response)
@@ -828,7 +912,7 @@ This endpoint does not need any parameter.
 # **get_synthetic_location**
 > SyntheticLocation get_synthetic_location(id)
 
-Synthetic location
+A Synthetic location
 
 API request to retrieve a Synthetic Location with matching id.
 
@@ -866,7 +950,7 @@ with instana_client.ApiClient(configuration) as api_client:
     id = 'OjJPXWHmsE9deLzanNAW' # str | Identifier of the location to be retrieved
 
     try:
-        # Synthetic location
+        # A Synthetic location
         api_response = api_instance.get_synthetic_location(id)
         print("The response of SyntheticSettingsApi->get_synthetic_location:\n")
         pprint(api_response)
@@ -912,7 +996,7 @@ Name | Type | Description  | Notes
 
 All Synthetic locations
 
-This endpoint retrieves Synthetic Locations.  ## Optional Parameters:  - **filter** Filters the Synthetic Locations to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyPoP}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|--------------------------------------------------------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={label=MyPoP} | | displayLabel | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={displayLabel=My PoP} | | popVersion | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={popVersion=1.1.9} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=My Test PoP} | | locationType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={locationType=Private} | | playbackCapabilities.syntheticType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.syntheticType=HTTPAction} | | playbackCapabilities.browserType | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={playbackCapabilities.browserType=chrome} | | configuration.clusterName | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.clusterName=qa_cluster} | | configuration.namespace | &check; | &check; | - | - | - | - | /api/synthetics/settings/locations?filter={configuration.namespace=test_pop} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/ynthetics/settings/locations?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={modifiedAt<=1715190462000} | | observerdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/locations?filter={observedAt>=1715190462000} |  
+API request to retrieve Synthetic Locations.
 
 ### Example
 
@@ -1077,12 +1161,181 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_synthetic_test_cicd**
+> SyntheticTestCICDItem get_synthetic_test_cicd(test_result_id)
+
+A Synthetic test CI/CD.
+
+API request to retrieve the Synthetic Test CI/CD identified by the given test result id.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.synthetic_test_cicd_item import SyntheticTestCICDItem
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticSettingsApi(api_client)
+    test_result_id = '0cf1324b-3022-4116-ae03-6c868daa43d4' # str | The synthetic test result id of the CI/CD to be retrieved
+
+    try:
+        # A Synthetic test CI/CD.
+        api_response = api_instance.get_synthetic_test_cicd(test_result_id)
+        print("The response of SyntheticSettingsApi->get_synthetic_test_cicd:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SyntheticSettingsApi->get_synthetic_test_cicd: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test_result_id** | **str**| The synthetic test result id of the CI/CD to be retrieved | 
+
+### Return type
+
+[**SyntheticTestCICDItem**](SyntheticTestCICDItem.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**404** | Resource not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_synthetic_test_cicds**
+> List[SyntheticTestCICDItem] get_synthetic_test_cicds(filter=filter, offset=offset, limit=limit)
+
+All Synthetic test CI/CDs
+
+API request to retrieve the Synthetic Test CI/CDs
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.synthetic_test_cicd_item import SyntheticTestCICDItem
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticSettingsApi(api_client)
+    filter = '{runType=OnDemand}' # str | Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See 'Supported filter attributes and operators' for complete list of supported attributes and operators. (optional)
+    offset = 1 # int | Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs (optional)
+    limit = 10 # int | Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query (optional)
+
+    try:
+        # All Synthetic test CI/CDs
+        api_response = api_instance.get_synthetic_test_cicds(filter=filter, offset=offset, limit=limit)
+        print("The response of SyntheticSettingsApi->get_synthetic_test_cicds:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SyntheticSettingsApi->get_synthetic_test_cicds: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **filter** | **str**| Defines the attributes by which the returned synthetic test CI/CDs will be filtered by. Multiple filter parameters are allowed. See &#39;Supported filter attributes and operators&#39; for complete list of supported attributes and operators. | [optional] 
+ **offset** | **int**| Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic test CI/CDs | [optional] 
+ **limit** | **int**| Defines the size of a page - the number of synthetic test CI/CDs that will be returned by the query | [optional] 
+
+### Return type
+
+[**List[SyntheticTestCICDItem]**](SyntheticTestCICDItem.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_synthetic_tests**
 > List[SyntheticTest] get_synthetic_tests(application_id=application_id, location_id=location_id, sort=sort, offset=offset, limit=limit, filter=filter)
 
 All Synthetic tests
 
-This endpoint retrieves Synthetic Tests.  ## Optional Parameters:  - **locationId** Filters the Synthetic Tests to retrieve only the ones that are associated to the specified PoP location ID. - **filter** Filters the Synthetic Tests to retrieve only the ones that match the specified filter condition.    Users are allowed to specify more than one filter parameter, and they will be combined in a single expression using logical operator 'AND'.   The filter parameter is formatted as '**_{\\<attribute>\\<operator>\\<value}_**'. For example, '_{label=MyTest}_'    ### Supported filter attributes and operators:  | | = | != | \\> | < | \\>= | <= | Example | |-|---|----|---|---|---|-|---------| | label | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={label=ABC} | | description | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={description=MyTest} | | active | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={active=true} | | testFrequency | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={testFrequency=5} | | applicationId | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={applicationId=APP_ID} | | locations | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locations=POP_ID} | | locationLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationLabels=MyPoP} | | locationDisplayLabels | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={locationDisplayLabels=My PoP} | | configuration.\\<any property of type string> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={configurtion.syntheticType=HTTPAction} | | customProperties.\\<all properties> | &check; | &check; | - | - | - | - | /api/synthetics/settings/tests?filter={customProperty.usage=Test} | | createdAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={createdAt>1715190462000} | | modifiedAt | &check; | &check; | &check; | &check; | &check; | &check; | /api/synthetics/settings/tests?filter={modifiedAt<=1715190462000} |  
+API request to retrieve Synthetic Tests.
 
 ### Example
 
@@ -1172,7 +1425,9 @@ Name | Type | Description  | Notes
 # **patch_synthetic_credential**
 > patch_synthetic_credential(name, synthetic_credential)
 
-Patch a Synthetic Credential
+Patch a Synthetic credential
+
+API request to patch attributes of a Synthetic Credential.
 
 ### Example
 
@@ -1206,10 +1461,10 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
     name = 'password4test' # str | Name of the credential to be patched
-    synthetic_credential = {"credentialValue":"password4test","applications":["f4KX5zd8RW2pERKKFUCZgQ"]} # SyntheticCredential | 
+    synthetic_credential = {"credentialValue":"password4test","applications":["f4KX5zd8RW2pERKKFUCZgQ"],"rbacTags":[{"id":"test","displayName":"test"}]} # SyntheticCredential | 
 
     try:
-        # Patch a Synthetic Credential
+        # Patch a Synthetic credential
         api_instance.patch_synthetic_credential(name, synthetic_credential)
     except Exception as e:
         print("Exception when calling SyntheticSettingsApi->patch_synthetic_credential: %s\n" % e)
@@ -1254,7 +1509,7 @@ void (empty response body)
 
 Patch a Synthetic test
 
-This API endpoint updates selected attributes of a Synthetic Test.  - All attributes listed as in the schema, including the required ones, are optional for this call. - Synthetic Test configuration properties set to null will be removed from the configuration. - Patching an array attribute will replace the entire array with the full set of values provided. - For major updates to the Synthetic Test or to remove main attributes, see \"Update a Synthetic test\"  ## Sample script and payload:  - A sample script to patch a simple HTTP Script Test to enable it and to switch from multi-scripts to single script.  ``` curl -k -v -X PATCH \\ https://<Host>/api/synthetics/settings/tests/Ilfs9bW97KkTxuyGtxBF \\ -H 'authorization: apiToken <Token>' \\ -H 'content-type: application/json' \\ -d '{     \"active\" : true,     \"configuration\" : {        \"scripts\" : null,       \"script\" : \"//script goes here\"     }   }' ```
+API request to update a Synthetic Test.
 
 ### Example
 
@@ -1288,7 +1543,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
     id = 'ic25Vt1T5dgKzi0K7812' # str | Id of the synthetic test to be patched
-    synthetic_test = {"active":true,"configuration":{"scripts":null,"script":"//script goes here"}} # SyntheticTest | 
+    synthetic_test = {"active":true,"configuration":{"scripts":null,"script":"//script goes here"},"rbacTags":[{"id":"test","displayName":"test"}]} # SyntheticTest | 
 
     try:
         # Patch a Synthetic test
@@ -1335,9 +1590,9 @@ void (empty response body)
 # **update_synthetic_credential**
 > update_synthetic_credential(name, synthetic_credential)
 
-Update a Synthetic Credential
+Update a Synthetic credential
 
-API request to update Synthetic Credentials.
+API request to update a Synthetic Credential.
 
 ### Example
 
@@ -1371,10 +1626,10 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
     name = 'password4db2' # str | Name of the credential to be updated
-    synthetic_credential = {"credentialName":"password4db2","credentialValue":"123456","applications":["f4KX5zd8RW2pERKKFUCZgQ"]} # SyntheticCredential | 
+    synthetic_credential = {"credentialName":"password4db2","credentialValue":"123456","applications":["f4KX5zd8RW2pERKKFUCZgQ"],"rbacTags":[{"id":"test","displayName":"test"}]} # SyntheticCredential | 
 
     try:
-        # Update a Synthetic Credential
+        # Update a Synthetic credential
         api_instance.update_synthetic_credential(name, synthetic_credential)
     except Exception as e:
         print("Exception when calling SyntheticSettingsApi->update_synthetic_credential: %s\n" % e)
@@ -1407,7 +1662,7 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**201** | Successful - resource created |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions. |  -  |
 **500** | Internal server error. |  -  |
@@ -1418,6 +1673,8 @@ void (empty response body)
 > update_synthetic_test(id, synthetic_test)
 
 Update a Synthetic test
+
+API request to update a Synthetic Test.
 
 ### Example
 
@@ -1451,7 +1708,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.SyntheticSettingsApi(api_client)
     id = 'ic25Vt1T5dgKzi0K7812' # str | Id of the synthetic test to be updated
-    synthetic_test = {"id":"ic25Vt1T5dgKzi0K7812","label":"Test_SimplePing","description":"this is to test a simple ping API","serviceId":"serviceId001","applicationId":"applicationId001","active":true,"testFrequency":1,"playbackMode":"Simultaneous","locations":["saas_instana_test"],"configuration":{"syntheticType":"HTTPAction","url":"https://httpbin.org/post","operation":"POST","headers":{"Content-Type":"text/plain"},"body":"Hello World!","validationString":"Hello World!"},"customProperties":{"Team":"DevTeam","Purpose":"Demo"}} # SyntheticTest | 
+    synthetic_test = {"id":"ic25Vt1T5dgKzi0K7812","label":"Test_SimplePing","description":"this is to test a simple ping API","serviceId":"serviceId001","applicationId":"applicationId001","active":true,"testFrequency":1,"playbackMode":"Simultaneous","locations":["saas_instana_test"],"configuration":{"syntheticType":"HTTPAction","url":"https://httpbin.org/post","operation":"POST","headers":{"Content-Type":"text/plain"},"body":"Hello World!","validationString":"Hello World!"},"customProperties":{"Team":"DevTeam","Purpose":"Demo"},"rbacTags":[{"id":"JxrVZtRtTUGug71K1oYMcw","displayName":"tests"}]} # SyntheticTest | 
 
     try:
         # Update a Synthetic test

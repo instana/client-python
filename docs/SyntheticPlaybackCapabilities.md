@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **browser_type** | **List[str]** |  | 
+**execution_type** | **List[str]** |  | [optional] 
 **synthetic_type** | **List[str]** |  | 
 
 ## Example

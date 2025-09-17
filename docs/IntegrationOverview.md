@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **kind** | **str** | The type of the Alerting Channel. | 
 **name** | **str** | The name of the Alerting Channel. | 
 **properties** | **Dict[str, str]** | Properties of the alert channel in pairs of key/value | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) | Team Tags that&#39;s assigned to the Alerting Channel | [optional] 
 
 ## Example
 

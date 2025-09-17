@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **mobile_apps** | **List[str]** |  | [optional] 
 **modified_at** | **int** |  | [optional] 
 **modified_by** | **str** |  | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) |  | [optional] 
 **website_labels** | **List[str]** |  | [optional] 
 **websites** | **List[str]** |  | [optional] 
 

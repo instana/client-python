@@ -4,9 +4,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.304.1059
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -31,6 +31,7 @@ from instana_client.models.action_match import ActionMatch
 from instana_client.models.action_search_space import ActionSearchSpace
 from instana_client.models.adaptive_baseline import AdaptiveBaseline
 from instana_client.models.adaptive_threshold_rule import AdaptiveThresholdRule
+from instana_client.models.addition import Addition
 from instana_client.models.adjusted_timeframe import AdjustedTimeframe
 from instana_client.models.agent_configuration_update import AgentConfigurationUpdate
 from instana_client.models.alerting_configuration import AlertingConfiguration
@@ -41,10 +42,18 @@ from instana_client.models.apdex_configuration_input import ApdexConfigurationIn
 from instana_client.models.apdex_entity import ApdexEntity
 from instana_client.models.apdex_report import ApdexReport
 from instana_client.models.api_create_group import ApiCreateGroup
+from instana_client.models.api_create_role import ApiCreateRole
 from instana_client.models.api_group import ApiGroup
 from instana_client.models.api_member import ApiMember
 from instana_client.models.api_permission_set import ApiPermissionSet
 from instana_client.models.api_restricted_application_filter import ApiRestrictedApplicationFilter
+from instana_client.models.api_role import ApiRole
+from instana_client.models.api_tag import ApiTag
+from instana_client.models.api_team import ApiTeam
+from instana_client.models.api_team_info import ApiTeamInfo
+from instana_client.models.api_team_member import ApiTeamMember
+from instana_client.models.api_team_role import ApiTeamRole
+from instana_client.models.api_team_scope import ApiTeamScope
 from instana_client.models.api_token import ApiToken
 from instana_client.models.app_data_metric_configuration import AppDataMetricConfiguration
 from instana_client.models.application import Application
@@ -63,6 +72,9 @@ from instana_client.models.application_scope_with_metadata import ApplicationSco
 from instana_client.models.application_sli_entity import ApplicationSliEntity
 from instana_client.models.application_slo_entity import ApplicationSloEntity
 from instana_client.models.application_time_threshold import ApplicationTimeThreshold
+from instana_client.models.arithmetic_configuration import ArithmeticConfiguration
+from instana_client.models.arithmetic_operand import ArithmeticOperand
+from instana_client.models.arithmetic_operation import ArithmeticOperation
 from instana_client.models.audit_log_entry import AuditLogEntry
 from instana_client.models.audit_log_ui_response import AuditLogUiResponse
 from instana_client.models.author import Author
@@ -71,6 +83,8 @@ from instana_client.models.availability_sli_entity import AvailabilitySliEntity
 from instana_client.models.available_metrics import AvailableMetrics
 from instana_client.models.available_plugins import AvailablePlugins
 from instana_client.models.backend_trace_reference import BackendTraceReference
+from instana_client.models.bidirectional_ms_teams_app_integration import BidirectionalMsTeamsAppIntegration
+from instana_client.models.bidirectional_slack_app_integration import BidirectionalSlackAppIntegration
 from instana_client.models.binary_operator_dto import BinaryOperatorDTO
 from instana_client.models.browser_script_configuration import BrowserScriptConfiguration
 from instana_client.models.built_in_event_specification import BuiltInEventSpecification
@@ -84,6 +98,10 @@ from instana_client.models.change_summary import ChangeSummary
 from instana_client.models.cloudfoundry_physical_context import CloudfoundryPhysicalContext
 from instana_client.models.condition import Condition
 from instana_client.models.config_version import ConfigVersion
+from instana_client.models.correction import Correction
+from instana_client.models.correction_configuration import CorrectionConfiguration
+from instana_client.models.correction_scheduling import CorrectionScheduling
+from instana_client.models.correction_window import CorrectionWindow
 from instana_client.models.crash_mobile_app_alert_rule import CrashMobileAppAlertRule
 from instana_client.models.cursor_paginated_business_activity_item import CursorPaginatedBusinessActivityItem
 from instana_client.models.cursor_pagination import CursorPagination
@@ -91,7 +109,11 @@ from instana_client.models.cursor_pagination_infra_explore_cursor import CursorP
 from instana_client.models.custom_blueprint_indicator import CustomBlueprintIndicator
 from instana_client.models.custom_dashboard import CustomDashboard
 from instana_client.models.custom_dashboard_preview import CustomDashboardPreview
+from instana_client.models.custom_dashboard_with_user_specific_information import CustomDashboardWithUserSpecificInformation
+from instana_client.models.custom_dependency import CustomDependency
 from instana_client.models.custom_email_subject_prefix import CustomEmailSubjectPrefix
+from instana_client.models.custom_entity_model import CustomEntityModel
+from instana_client.models.custom_entity_with_metadata import CustomEntityWithMetadata
 from instana_client.models.custom_event_mobile_app_alert_rule import CustomEventMobileAppAlertRule
 from instana_client.models.custom_event_specification import CustomEventSpecification
 from instana_client.models.custom_event_specification_with_last_updated import CustomEventSpecificationWithLastUpdated
@@ -99,12 +121,14 @@ from instana_client.models.custom_event_website_alert_rule import CustomEventWeb
 from instana_client.models.custom_payload_configuration import CustomPayloadConfiguration
 from instana_client.models.custom_payload_field import CustomPayloadField
 from instana_client.models.custom_payload_with_last_updated import CustomPayloadWithLastUpdated
-from instana_client.models.dns_action_configuration import DNSActionConfiguration
-from instana_client.models.dns_action_filter_query_time import DNSActionFilterQueryTime
-from instana_client.models.dns_action_filter_target_value import DNSActionFilterTargetValue
+from instana_client.models.custom_payload_with_version import CustomPayloadWithVersion
+from instana_client.models.dns_configuration import DNSConfiguration
+from instana_client.models.dns_filter_query_time import DNSFilterQueryTime
+from instana_client.models.dns_filter_target_value import DNSFilterTargetValue
 from instana_client.models.dashboard_api_token import DashboardApiToken
 from instana_client.models.database_integration import DatabaseIntegration
 from instana_client.models.deprecated_tag_filter import DeprecatedTagFilter
+from instana_client.models.division import Division
 from instana_client.models.duration import Duration
 from instana_client.models.dynamic_field import DynamicField
 from instana_client.models.dynamic_field_value import DynamicFieldValue
@@ -135,7 +159,6 @@ from instana_client.models.extended_service import ExtendedService
 from instana_client.models.failure_synthetic_alert_rule import FailureSyntheticAlertRule
 from instana_client.models.fixed_http_path_segment_matching_rule import FixedHttpPathSegmentMatchingRule
 from instana_client.models.fixed_time_window import FixedTimeWindow
-from instana_client.models.full_trace import FullTrace
 from instana_client.models.generic_infra_alert_rule import GenericInfraAlertRule
 from instana_client.models.geo_location_configuration import GeoLocationConfiguration
 from instana_client.models.geo_mapping_rule import GeoMappingRule
@@ -160,6 +183,7 @@ from instana_client.models.get_payload_keys_result import GetPayloadKeysResult
 from instana_client.models.get_services import GetServices
 from instana_client.models.get_snapshots_query import GetSnapshotsQuery
 from instana_client.models.get_test_result import GetTestResult
+from instana_client.models.get_test_result_analytic import GetTestResultAnalytic
 from instana_client.models.get_test_result_base import GetTestResultBase
 from instana_client.models.get_test_result_list import GetTestResultList
 from instana_client.models.get_test_summary_result import GetTestSummaryResult
@@ -178,6 +202,7 @@ from instana_client.models.graph_node import GraphNode
 from instana_client.models.group import Group
 from instana_client.models.group_by_tag import GroupByTag
 from instana_client.models.group_mapping import GroupMapping
+from instana_client.models.group_mapping_overview import GroupMappingOverview
 from instana_client.models.health_state import HealthState
 from instana_client.models.historic_baseline import HistoricBaseline
 from instana_client.models.host_availability_rule import HostAvailabilityRule
@@ -188,11 +213,13 @@ from instana_client.models.http_path_segment_matching_rule import HttpPathSegmen
 from instana_client.models.http_script_configuration import HttpScriptConfiguration
 from instana_client.models.hyper_param import HyperParam
 from instana_client.models.identity_provider_patch import IdentityProviderPatch
+from instana_client.models.impacted_beacon_info import ImpactedBeaconInfo
 from instana_client.models.infra_alert_config import InfraAlertConfig
 from instana_client.models.infra_alert_config_with_metadata import InfraAlertConfigWithMetadata
 from instana_client.models.infra_alert_rule import InfraAlertRule
 from instana_client.models.infra_event_result import InfraEventResult
 from instana_client.models.infra_metric_configuration import InfraMetricConfiguration
+from instana_client.models.infra_slo_entity import InfraSloEntity
 from instana_client.models.infra_time_threshold import InfraTimeThreshold
 from instana_client.models.infrastructure_entities_result import InfrastructureEntitiesResult
 from instana_client.models.infrastructure_group import InfrastructureGroup
@@ -207,6 +234,7 @@ from instana_client.models.invitation_result import InvitationResult
 from instana_client.models.ip_masking_configuration import IpMaskingConfiguration
 from instana_client.models.js_stack_trace_line import JsStackTraceLine
 from instana_client.models.kubernetes_physical_context import KubernetesPhysicalContext
+from instana_client.models.llm_egress_gateway import LLMEgressGateway
 from instana_client.models.latency_blueprint_indicator import LatencyBlueprintIndicator
 from instana_client.models.location_status import LocationStatus
 from instana_client.models.log_alert_config import LogAlertConfig
@@ -216,6 +244,9 @@ from instana_client.models.log_count_alert_rule import LogCountAlertRule
 from instana_client.models.log_entry_actor import LogEntryActor
 from instana_client.models.log_event_result import LogEventResult
 from instana_client.models.log_time_threshold import LogTimeThreshold
+from instana_client.models.log_volume_group import LogVolumeGroup
+from instana_client.models.log_volume_usage_item import LogVolumeUsageItem
+from instana_client.models.log_volume_usage_result import LogVolumeUsageResult
 from instana_client.models.logs_application_alert_rule import LogsApplicationAlertRule
 from instana_client.models.maintenance_config import MaintenanceConfig
 from instana_client.models.maintenance_config_scheduling import MaintenanceConfigScheduling
@@ -237,6 +268,7 @@ from instana_client.models.metric_instance import MetricInstance
 from instana_client.models.metric_item import MetricItem
 from instana_client.models.metric_metadata import MetricMetadata
 from instana_client.models.metric_pattern import MetricPattern
+from instana_client.models.metric_query import MetricQuery
 from instana_client.models.metrics_result import MetricsResult
 from instana_client.models.metrics_result_item import MetricsResultItem
 from instana_client.models.metrics_test_result_item import MetricsTestResultItem
@@ -257,9 +289,14 @@ from instana_client.models.mobile_app_time_threshold import MobileAppTimeThresho
 from instana_client.models.model_field import ModelField
 from instana_client.models.monitoring_state import MonitoringState
 from instana_client.models.multiple_scripts_configuration import MultipleScriptsConfiguration
+from instana_client.models.multiplication import Multiplication
+from instana_client.models.nested_operation import NestedOperation
 from instana_client.models.new_application_config import NewApplicationConfig
 from instana_client.models.new_business_perspective_config import NewBusinessPerspectiveConfig
 from instana_client.models.new_manual_service_config import NewManualServiceConfig
+from instana_client.models.o_auth_config import OAuthConfig
+from instana_client.models.o_auth_integration import OAuthIntegration
+from instana_client.models.o_auth_token import OAuthToken
 from instana_client.models.occurrence import Occurrence
 from instana_client.models.office365_integration import Office365Integration
 from instana_client.models.one_time_maintenance_window import OneTimeMaintenanceWindow
@@ -275,6 +312,7 @@ from instana_client.models.physical_context import PhysicalContext
 from instana_client.models.plugin_result import PluginResult
 from instana_client.models.policy import Policy
 from instana_client.models.policy_runnable import PolicyRunnable
+from instana_client.models.policy_scheduling import PolicyScheduling
 from instana_client.models.post_snapshots_result import PostSnapshotsResult
 from instana_client.models.problem import Problem
 from instana_client.models.prometheus_webhook_integration import PrometheusWebhookIntegration
@@ -282,6 +320,7 @@ from instana_client.models.recurrent_maintenance_window import RecurrentMaintena
 from instana_client.models.release import Release
 from instana_client.models.release_scope import ReleaseScope
 from instana_client.models.release_with_metadata import ReleaseWithMetadata
+from instana_client.models.retention_period import RetentionPeriod
 from instana_client.models.rolling_time_window import RollingTimeWindow
 from instana_client.models.rule_input import RuleInput
 from instana_client.models.rule_with_threshold_application_alert_rule import RuleWithThresholdApplicationAlertRule
@@ -291,7 +330,9 @@ from instana_client.models.rule_with_threshold_mobile_app_alert_rule import Rule
 from instana_client.models.rule_with_threshold_website_alert_rule import RuleWithThresholdWebsiteAlertRule
 from instana_client.models.run_configuration import RunConfiguration
 from instana_client.models.ssl_certificate_configuration import SSLCertificateConfiguration
+from instana_client.models.ssl_certificate_validation import SSLCertificateValidation
 from instana_client.models.salesforce_integration import SalesforceIntegration
+from instana_client.models.saturation_blueprint_indicator import SaturationBlueprintIndicator
 from instana_client.models.scope_binding import ScopeBinding
 from instana_client.models.search_field_result import SearchFieldResult
 from instana_client.models.service import Service
@@ -303,7 +344,9 @@ from instana_client.models.service_level_objective_alert_rule import ServiceLeve
 from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
 from instana_client.models.service_levels_alert_config import ServiceLevelsAlertConfig
 from instana_client.models.service_levels_alert_rule import ServiceLevelsAlertRule
+from instana_client.models.service_levels_burn_rate_config import ServiceLevelsBurnRateConfig
 from instana_client.models.service_levels_burn_rate_time_windows import ServiceLevelsBurnRateTimeWindows
+from instana_client.models.service_levels_static_threshold_config import ServiceLevelsStaticThresholdConfig
 from instana_client.models.service_levels_time_threshold import ServiceLevelsTimeThreshold
 from instana_client.models.service_levelse_alert_config_with_metadata import ServiceLevelseAlertConfigWithMetadata
 from instana_client.models.service_map import ServiceMap
@@ -320,6 +363,8 @@ from instana_client.models.service_scoped_to import ServiceScopedTo
 from instana_client.models.service_scoped_to_with_metadata import ServiceScopedToWithMetadata
 from instana_client.models.service_simple import ServiceSimple
 from instana_client.models.session_settings import SessionSettings
+from instana_client.models.simple_metric_configuration import SimpleMetricConfiguration
+from instana_client.models.single_value import SingleValue
 from instana_client.models.slack_integration import SlackIntegration
 from instana_client.models.sli_configuration import SliConfiguration
 from instana_client.models.sli_configuration_with_last_updated import SliConfigurationWithLastUpdated
@@ -328,6 +373,7 @@ from instana_client.models.sli_report import SliReport
 from instana_client.models.slo_entity import SloEntity
 from instana_client.models.slo_report import SloReport
 from instana_client.models.slowness_application_alert_rule import SlownessApplicationAlertRule
+from instana_client.models.slowness_mobile_app_alert_rule import SlownessMobileAppAlertRule
 from instana_client.models.slowness_website_alert_rule import SlownessWebsiteAlertRule
 from instana_client.models.snapshot_item import SnapshotItem
 from instana_client.models.snapshot_preview import SnapshotPreview
@@ -338,8 +384,6 @@ from instana_client.models.source_map_file_blob import SourceMapFileBlob
 from instana_client.models.source_map_file_meta import SourceMapFileMeta
 from instana_client.models.source_map_upload_config import SourceMapUploadConfig
 from instana_client.models.source_map_upload_configs import SourceMapUploadConfigs
-from instana_client.models.team import Team
-from instana_client.models.span import Span
 from instana_client.models.span_excerpt import SpanExcerpt
 from instana_client.models.span_relation import SpanRelation
 from instana_client.models.specific_js_errors_website_alert_rule import SpecificJsErrorsWebsiteAlertRule
@@ -353,12 +397,14 @@ from instana_client.models.static_threshold_rule import StaticThresholdRule
 from instana_client.models.status_code_application_alert_rule import StatusCodeApplicationAlertRule
 from instana_client.models.status_code_mobile_app_alert_rule import StatusCodeMobileAppAlertRule
 from instana_client.models.status_code_website_alert_rule import StatusCodeWebsiteAlertRule
+from instana_client.models.subtraction import Subtraction
 from instana_client.models.synthetic_alert_config import SyntheticAlertConfig
 from instana_client.models.synthetic_alert_config_with_metadata import SyntheticAlertConfigWithMetadata
 from instana_client.models.synthetic_alert_rule import SyntheticAlertRule
 from instana_client.models.synthetic_call_config import SyntheticCallConfig
 from instana_client.models.synthetic_call_rule import SyntheticCallRule
 from instana_client.models.synthetic_call_with_defaults_config import SyntheticCallWithDefaultsConfig
+from instana_client.models.synthetic_configuration import SyntheticConfiguration
 from instana_client.models.synthetic_credential import SyntheticCredential
 from instana_client.models.synthetic_datacenter import SyntheticDatacenter
 from instana_client.models.synthetic_datacenter_configuration import SyntheticDatacenterConfiguration
@@ -370,6 +416,10 @@ from instana_client.models.synthetic_metric_tag_group import SyntheticMetricTagG
 from instana_client.models.synthetic_playback_capabilities import SyntheticPlaybackCapabilities
 from instana_client.models.synthetic_slo_entity import SyntheticSloEntity
 from instana_client.models.synthetic_test import SyntheticTest
+from instana_client.models.synthetic_test_cicd import SyntheticTestCICD
+from instana_client.models.synthetic_test_cicd_customization import SyntheticTestCICDCustomization
+from instana_client.models.synthetic_test_cicd_item import SyntheticTestCICDItem
+from instana_client.models.synthetic_test_cicd_response import SyntheticTestCICDResponse
 from instana_client.models.synthetic_time_threshold import SyntheticTimeThreshold
 from instana_client.models.synthetic_type_configuration import SyntheticTypeConfiguration
 from instana_client.models.synthetics_event_result import SyntheticsEventResult
@@ -385,6 +435,7 @@ from instana_client.models.tag_tree_level import TagTreeLevel
 from instana_client.models.tag_tree_node import TagTreeNode
 from instana_client.models.tag_tree_tag import TagTreeTag
 from instana_client.models.test_common_properties import TestCommonProperties
+from instana_client.models.test_last_error import TestLastError
 from instana_client.models.test_result import TestResult
 from instana_client.models.test_result_common_properties import TestResultCommonProperties
 from instana_client.models.test_result_detail_data import TestResultDetailData

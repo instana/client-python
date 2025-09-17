@@ -1,6 +1,6 @@
 # MatchExpressionDTO
 
-This field is deprecated. A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by tagFilterExpression which is also used in Application Analyze API endpoints. 
+ Specify the expression to match, For example, `endpoint.name contains health`.
 
 ## Properties
 

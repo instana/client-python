@@ -4,6 +4,7 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_agent_clr_logs**](HostAgentApi.md#get_agent_clr_logs) | **GET** /api/host-agent/{hostId}/clr-logs | Agent CLR download logs
 [**get_agent_logs**](HostAgentApi.md#get_agent_logs) | **GET** /api/host-agent/{hostId}/logs | Agent download logs
 [**get_agent_snapshot**](HostAgentApi.md#get_agent_snapshot) | **GET** /api/host-agent/{id} | Get host agent snapshot details
 [**get_agent_support_information**](HostAgentApi.md#get_agent_support_information) | **GET** /api/host-agent/{hostId}/support-info | Agent download support information
@@ -12,6 +13,82 @@ Method | HTTP request | Description
 [**update_configuration_by_host**](HostAgentApi.md#update_configuration_by_host) | **POST** /api/host-agent/{hostId}/configuration | Update agent configuration by host
 [**update_configuration_by_query**](HostAgentApi.md#update_configuration_by_query) | **POST** /api/host-agent/configuration | Update agent configuration by query
 
+
+# **get_agent_clr_logs**
+> get_agent_clr_logs(host_id, download=download)
+
+Agent CLR download logs
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.HostAgentApi(api_client)
+    host_id = 'host_id_example' # str | 
+    download = True # bool |  (optional)
+
+    try:
+        # Agent CLR download logs
+        api_instance.get_agent_clr_logs(host_id, download=download)
+    except Exception as e:
+        print("Exception when calling HostAgentApi->get_agent_clr_logs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **host_id** | **str**|  | 
+ **download** | **bool**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/octet-stream
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | default response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_agent_logs**
 > get_agent_logs(host_id, file, download=download)
@@ -412,8 +489,6 @@ void (empty response body)
 
 Update agent configuration by host
 
-This endpoint can be used to initialize or change configuration management settings for a specific host agent.  
-
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -490,8 +565,6 @@ void (empty response body)
 > update_configuration_by_query(query=query, to=to, window_size=window_size, size=size, offline=offline, agent_configuration_update=agent_configuration_update)
 
 Update agent configuration by query
-
-This endpoint can be used to initialize or change configuration management settings for all agents selected by the given Dynamic Focus Query.  
 
 ### Example
 
