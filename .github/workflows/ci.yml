@@ -2,9 +2,9 @@ name: CI - Instana Python SDK Sanity Testing
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main, master, develop, INSTA-54905 ]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [ main, master, develop, INSTA-54905 ]
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
