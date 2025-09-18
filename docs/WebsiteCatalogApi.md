@@ -14,7 +14,7 @@ Method | HTTP request | Description
 
 Metric catalog
 
-This endpoint retrieves all available metric definitions for website monitoring. 
+API to get catalog of website metrics.
 
 ### Example
 
@@ -91,7 +91,7 @@ This endpoint does not need any parameter.
 
 Get all existing website tags
 
-This endpoint retrieves all available tags for your monitored system.  These tags can be used to group metric results. ``` \"group\": {   \"groupbyTag\": \"beacon.page.name\" } ```  These tags can be used to filter metric results. ``` \"tagFilters\": [{  \"name\": \"beacon.website.name\",  \"operator\": \"EQUALS\",  \"value\": \"example\" }] ``` 
+API to get all existing website tags.
 
 ### Example
 
@@ -167,6 +167,8 @@ This endpoint does not need any parameter.
 > TagCatalog get_website_tag_catalog(beacon_type, use_case)
 
 Get website tag catalog
+
+API to get website tag catalog for specified beaconType and useCase.
 
 ### Example
 

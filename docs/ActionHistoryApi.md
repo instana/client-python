@@ -177,7 +177,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **delete_action_instances**
-> delete_action_instances(var_from, to, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids)
+> delete_action_instances(var_from, to, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids, policy_id=policy_id)
 
 Delete automation action run results.
 
@@ -222,10 +222,11 @@ with instana_client.ApiClient(configuration) as api_client:
     types = ['One or more of the following types HTTP, SCRIPT, ANSIBLE, GITHUB, GITLAB, JIRA'] # List[str] | Action type filter to look up the action run results to delete (optional)
     action_statuses = ['One or more of the following status SUBMITTED, IN_PROGRESS, SUCCESS, FAILED, TIMEOUT'] # List[str] | Action status filter to look up the action run results to delete (optional)
     action_ids = ['cCtEoR6NSPqG61QkIkwwCw'] # List[str] | List of action IDs  to filter the action run results to delete (optional)
+    policy_id = 'bCtEoR6NSPqG61QkIkwwCw' # str | Policy ID filter to look up the action run results to delete (optional)
 
     try:
         # Delete automation action run results.
-        api_instance.delete_action_instances(var_from, to, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids)
+        api_instance.delete_action_instances(var_from, to, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids, policy_id=policy_id)
     except Exception as e:
         print("Exception when calling ActionHistoryApi->delete_action_instances: %s\n" % e)
 ```
@@ -246,6 +247,7 @@ Name | Type | Description  | Notes
  **types** | [**List[str]**](str.md)| Action type filter to look up the action run results to delete | [optional] 
  **action_statuses** | [**List[str]**](str.md)| Action status filter to look up the action run results to delete | [optional] 
  **action_ids** | [**List[str]**](str.md)| List of action IDs  to filter the action run results to delete | [optional] 
+ **policy_id** | **str**| Policy ID filter to look up the action run results to delete | [optional] 
 
 ### Return type
 
@@ -357,7 +359,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_action_instances**
-> PaginatedResult get_action_instances(window_size=window_size, to=to, page=page, page_size=page_size, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, order_by=order_by, order_direction=order_direction)
+> PaginatedResult get_action_instances(window_size=window_size, to=to, page=page, page_size=page_size, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids, policy_id=policy_id, order_by=order_by, order_direction=order_direction)
 
 Get the details of automation action run results from action run history.
 
@@ -404,12 +406,14 @@ with instana_client.ApiClient(configuration) as api_client:
     search = '1706713140000' # str | Text in action run result name, description and event name filter to get the action run result details (optional)
     types = ['One or more of the following types HTTP, SCRIPT, ANSIBLE, GITHUB, GITLAB, JIRA'] # List[str] | Action type filter to get the action run result details (optional)
     action_statuses = ['One or more of the following status SUBMITTED, IN_PROGRESS, SUCCESS, FAILED, TIMEOUT'] # List[str] | Action status filter to get the action run result details (optional)
+    action_ids = ['action_ids_example'] # List[str] | Action IDs filter to get the action run result details for only these actions (optional)
+    policy_id = 'nCtEoR6NSPqG61QkIkwwCw' # str | Policy ID filter to get the action run result details (optional)
     order_by = 'Name of the action run result column. Default is action run result start date.' # str | Action run result column to order the result set. (optional)
     order_direction = 'asc or desc' # str | Sort order direction. (optional)
 
     try:
         # Get the details of automation action run results from action run history.
-        api_response = api_instance.get_action_instances(window_size=window_size, to=to, page=page, page_size=page_size, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, order_by=order_by, order_direction=order_direction)
+        api_response = api_instance.get_action_instances(window_size=window_size, to=to, page=page, page_size=page_size, target_snapshot_id=target_snapshot_id, event_id=event_id, event_specification_id=event_specification_id, search=search, types=types, action_statuses=action_statuses, action_ids=action_ids, policy_id=policy_id, order_by=order_by, order_direction=order_direction)
         print("The response of ActionHistoryApi->get_action_instances:\n")
         pprint(api_response)
     except Exception as e:
@@ -433,6 +437,8 @@ Name | Type | Description  | Notes
  **search** | **str**| Text in action run result name, description and event name filter to get the action run result details | [optional] 
  **types** | [**List[str]**](str.md)| Action type filter to get the action run result details | [optional] 
  **action_statuses** | [**List[str]**](str.md)| Action status filter to get the action run result details | [optional] 
+ **action_ids** | [**List[str]**](str.md)| Action IDs filter to get the action run result details for only these actions | [optional] 
+ **policy_id** | **str**| Policy ID filter to get the action run result details | [optional] 
  **order_by** | **str**| Action run result column to order the result set. | [optional] 
  **order_direction** | **str**| Sort order direction. | [optional] 
 

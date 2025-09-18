@@ -1,13 +1,14 @@
 # StackTraceItem
 
+For an erroneous call, if stack trace is available it will show a list of items containing file, method and line number of the code.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**file** | **str** |  | [optional] 
-**line** | **str** |  | [optional] 
-**method** | **str** |  | [optional] 
+**file** | **str** | The name of the file where the executed code resides. | [optional] 
+**line** | **str** | The line number within the file where the error was thrown. | [optional] 
+**method** | **str** | The name of the method or function being executed at the time the stack trace item was generated. | [optional] 
 
 ## Example
 

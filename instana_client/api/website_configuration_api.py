@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.304.1059
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -13,7 +13,6 @@
 """  # noqa: E501
 
 import warnings
-import json
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
@@ -21,12 +20,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictStr
 from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
+from instana_client.models.api_tag import ApiTag
 from instana_client.models.geo_location_configuration import GeoLocationConfiguration
 from instana_client.models.ip_masking_configuration import IpMaskingConfiguration
 from instana_client.models.source_map_upload_config import SourceMapUploadConfig
 from instana_client.models.source_map_upload_configs import SourceMapUploadConfigs
 from instana_client.models.website import Website
-from instana_client.models.team import Team
 
 from instana_client.api_client import ApiClient, RequestSerialized
 from instana_client.api_response import ApiResponse
@@ -64,9 +63,9 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Clear source map files for source map upload configuration
+        """Clear source map files for sourcemap upload configuration
 
-        API request to clear source map files for source map upload configuration.
+        API request to clear source map files for sourcemap upload configuration.
 
         :param website_id: Website ID (required)
         :type website_id: str
@@ -139,9 +138,9 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Clear source map files for source map upload configuration
+        """Clear source map files for sourcemap upload configuration
 
-        API request to clear source map files for source map upload configuration.
+        API request to clear source map files for sourcemap upload configuration.
 
         :param website_id: Website ID (required)
         :type website_id: str
@@ -214,9 +213,9 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Clear source map files for source map upload configuration
+        """Clear source map files for sourcemap upload configuration
 
-        API request to clear source map files for source map upload configuration.
+        API request to clear source map files for sourcemap upload configuration.
 
         :param website_id: Website ID (required)
         :type website_id: str
@@ -331,6 +330,7 @@ class WebsiteConfigurationApi:
     def create_website(
         self,
         name: Optional[StrictStr] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -350,6 +350,8 @@ class WebsiteConfigurationApi:
 
         :param name:
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -374,6 +376,7 @@ class WebsiteConfigurationApi:
 
         _param = self._create_website_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -402,6 +405,7 @@ class WebsiteConfigurationApi:
     def create_website_with_http_info(
         self,
         name: Optional[StrictStr] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -421,6 +425,8 @@ class WebsiteConfigurationApi:
 
         :param name:
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -445,6 +451,7 @@ class WebsiteConfigurationApi:
 
         _param = self._create_website_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -473,6 +480,7 @@ class WebsiteConfigurationApi:
     def create_website_without_preload_content(
         self,
         name: Optional[StrictStr] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -492,6 +500,8 @@ class WebsiteConfigurationApi:
 
         :param name:
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -516,6 +526,7 @@ class WebsiteConfigurationApi:
 
         _param = self._create_website_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -539,6 +550,7 @@ class WebsiteConfigurationApi:
     def _create_website_serialize(
         self,
         name,
+        api_tag,
         _request_auth,
         _content_type,
         _headers,
@@ -548,6 +560,7 @@ class WebsiteConfigurationApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'ApiTag': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -568,6 +581,8 @@ class WebsiteConfigurationApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if api_tag is not None:
+            _body_params = api_tag
 
 
         # set the HTTP header `Accept`
@@ -578,6 +593,19 @@ class WebsiteConfigurationApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -605,7 +633,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def delete_website(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -623,7 +651,7 @@ class WebsiteConfigurationApi:
 
         API request to delete website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -675,7 +703,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def delete_website_with_http_info(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -693,7 +721,7 @@ class WebsiteConfigurationApi:
 
         API request to delete website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -745,7 +773,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def delete_website_without_preload_content(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -763,7 +791,7 @@ class WebsiteConfigurationApi:
 
         API request to delete website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -866,9 +894,286 @@ class WebsiteConfigurationApi:
 
 
     @validate_call
+    def delete_website_source_map_upload_configuration(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete sourcemap upload configuration for website
+
+        API request to delete sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_website_source_map_upload_configuration_with_http_info(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete sourcemap upload configuration for website
+
+        API request to delete sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_website_source_map_upload_configuration_without_preload_content(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete sourcemap upload configuration for website
+
+        API request to delete sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_website_source_map_upload_configuration_serialize(
+        self,
+        website_id,
+        source_map_config_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if website_id is not None:
+            _path_params['websiteId'] = website_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_website(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -886,7 +1191,7 @@ class WebsiteConfigurationApi:
 
         API request to get configured website details for specified websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -937,7 +1242,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_with_http_info(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -955,7 +1260,7 @@ class WebsiteConfigurationApi:
 
         API request to get configured website details for specified websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1006,7 +1311,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_without_preload_content(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1024,7 +1329,7 @@ class WebsiteConfigurationApi:
 
         API request to get configured website details for specified websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1135,7 +1440,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_geo_location_configuration(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1153,7 +1458,7 @@ class WebsiteConfigurationApi:
 
         API request to get geo-location configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1206,7 +1511,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_geo_location_configuration_with_http_info(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1224,7 +1529,7 @@ class WebsiteConfigurationApi:
 
         API request to get geo-location configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1277,7 +1582,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_geo_location_configuration_without_preload_content(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1295,7 +1600,7 @@ class WebsiteConfigurationApi:
 
         API request to get geo-location configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1681,7 +1986,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_ip_masking_configuration(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1699,7 +2004,7 @@ class WebsiteConfigurationApi:
 
         API request to get IP masking configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1752,7 +2057,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_ip_masking_configuration_with_http_info(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1770,7 +2075,7 @@ class WebsiteConfigurationApi:
 
         API request to get IP masking configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1823,7 +2128,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def get_website_ip_masking_configuration_without_preload_content(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1841,7 +2146,7 @@ class WebsiteConfigurationApi:
 
         API request to get IP masking configuration of a website specified by its websiteId
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1936,6 +2241,553 @@ class WebsiteConfigurationApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/api/website-monitoring/config/{websiteId}/ip-masking',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_website_source_map_upload_configuration(
+        self,
+        website_id: StrictStr,
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Get sourcemap upload configurations for website
+
+        API request to get sourcemap upload configuration for website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_website_source_map_upload_configuration_with_http_info(
+        self,
+        website_id: StrictStr,
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Get sourcemap upload configurations for website
+
+        API request to get sourcemap upload configuration for website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_website_source_map_upload_configuration_without_preload_content(
+        self,
+        website_id: StrictStr,
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get sourcemap upload configurations for website
+
+        API request to get sourcemap upload configuration for website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configuration_serialize(
+            website_id=website_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_website_source_map_upload_configuration_serialize(
+        self,
+        website_id,
+        source_map_config_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if website_id is not None:
+            _path_params['websiteId'] = website_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_website_source_map_upload_configurations(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfigs:
+        """Get all sourcemap upload configurations for website
+
+        API request to get all sourcemap upload configurations for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configurations_serialize(
+            website_id=website_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_website_source_map_upload_configurations_with_http_info(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfigs]:
+        """Get all sourcemap upload configurations for website
+
+        API request to get all sourcemap upload configurations for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configurations_serialize(
+            website_id=website_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_website_source_map_upload_configurations_without_preload_content(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get all sourcemap upload configurations for website
+
+        API request to get all sourcemap upload configurations for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_website_source_map_upload_configurations_serialize(
+            website_id=website_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_website_source_map_upload_configurations_serialize(
+        self,
+        website_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if website_id is not None:
+            _path_params['websiteId'] = website_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2207,9 +3059,312 @@ class WebsiteConfigurationApi:
 
 
     @validate_call
+    def post_website_source_map_upload_config(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_upload_configs: Optional[SourceMapUploadConfigs] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Add new sourcemap upload configuration for website
+
+        API request to add sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_upload_configs:
+        :type source_map_upload_configs: SourceMapUploadConfigs
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_website_source_map_upload_config_serialize(
+            website_id=website_id,
+            source_map_upload_configs=source_map_upload_configs,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_website_source_map_upload_config_with_http_info(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_upload_configs: Optional[SourceMapUploadConfigs] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Add new sourcemap upload configuration for website
+
+        API request to add sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_upload_configs:
+        :type source_map_upload_configs: SourceMapUploadConfigs
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_website_source_map_upload_config_serialize(
+            website_id=website_id,
+            source_map_upload_configs=source_map_upload_configs,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_website_source_map_upload_config_without_preload_content(
+        self,
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
+        source_map_upload_configs: Optional[SourceMapUploadConfigs] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Add new sourcemap upload configuration for website
+
+        API request to add sourcemap upload configuration for website.
+
+        :param website_id: Website ID (required)
+        :type website_id: str
+        :param source_map_upload_configs:
+        :type source_map_upload_configs: SourceMapUploadConfigs
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_website_source_map_upload_config_serialize(
+            website_id=website_id,
+            source_map_upload_configs=source_map_upload_configs,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_website_source_map_upload_config_serialize(
+        self,
+        website_id,
+        source_map_upload_configs,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if website_id is not None:
+            _path_params['websiteId'] = website_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if source_map_upload_configs is not None:
+            _body_params = source_map_upload_configs
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def rename_website(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         name: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2228,7 +3383,7 @@ class WebsiteConfigurationApi:
 
         API request to rename website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param name:
         :type name: str
@@ -2284,7 +3439,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def rename_website_with_http_info(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         name: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2303,7 +3458,7 @@ class WebsiteConfigurationApi:
 
         API request to rename website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param name:
         :type name: str
@@ -2359,7 +3514,7 @@ class WebsiteConfigurationApi:
     @validate_call
     def rename_website_without_preload_content(
         self,
-        website_id: Annotated[StrictStr, Field(description="websiteId")],
+        website_id: Annotated[StrictStr, Field(description="Website ID")],
         name: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2378,7 +3533,7 @@ class WebsiteConfigurationApi:
 
         API request to rename website.
 
-        :param website_id: websiteId (required)
+        :param website_id: Website ID (required)
         :type website_id: str
         :param name:
         :type name: str
@@ -3403,13 +4558,315 @@ class WebsiteConfigurationApi:
 
 
     @validate_call
+    def update_website_teams(
+        self,
+        website_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ApiTag]:
+        """Update teams assigned to the website
+
+        API request to update teams of a website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_website_teams_serialize(
+            website_id=website_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def update_website_teams_with_http_info(
+        self,
+        website_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ApiTag]]:
+        """Update teams assigned to the website
+
+        API request to update teams of a website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_website_teams_serialize(
+            website_id=website_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def update_website_teams_without_preload_content(
+        self,
+        website_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update teams assigned to the website
+
+        API request to update teams of a website.
+
+        :param website_id: (required)
+        :type website_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_website_teams_serialize(
+            website_id=website_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _update_website_teams_serialize(
+        self,
+        website_id,
+        api_tag,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'ApiTag': '',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if website_id is not None:
+            _path_params['websiteId'] = website_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if api_tag is not None:
+            _body_params = api_tag
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/website-monitoring/config/{websiteId}/teams',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def upload_source_map_file(
         self,
         website_id: Annotated[StrictStr, Field(description="Website ID")],
         source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Local Source Map file path")],
+        url: Annotated[StrictStr, Field(description="URL of the website")],
         file_format: Optional[StrictStr] = None,
-        source_map: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
-        url: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3423,20 +4880,20 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> SourceMapUploadConfig:
-        """Upload source map file for website
+        """Upload sourcemap file for website
 
-        API request to upload source map file for a website.
+        API request to upload sourcemap file for website.
 
         :param website_id: Website ID (required)
         :type website_id: str
         :param source_map_config_id: Source Map Config ID (required)
         :type source_map_config_id: str
+        :param source_map: Local Source Map file path (required)
+        :type source_map: bytearray
+        :param url: URL of the website (required)
+        :type url: str
         :param file_format:
         :type file_format: str
-        :param source_map:
-        :type source_map: bytearray
-        :param url:
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3462,9 +4919,9 @@ class WebsiteConfigurationApi:
         _param = self._upload_source_map_file_serialize(
             website_id=website_id,
             source_map_config_id=source_map_config_id,
-            file_format=file_format,
             source_map=source_map,
             url=url,
+            file_format=file_format,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3473,6 +4930,7 @@ class WebsiteConfigurationApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SourceMapUploadConfig",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,
@@ -3494,9 +4952,9 @@ class WebsiteConfigurationApi:
         self,
         website_id: Annotated[StrictStr, Field(description="Website ID")],
         source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Local Source Map file path")],
+        url: Annotated[StrictStr, Field(description="URL of the website")],
         file_format: Optional[StrictStr] = None,
-        source_map: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
-        url: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3510,20 +4968,20 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[SourceMapUploadConfig]:
-        """Upload source map file for website
+        """Upload sourcemap file for website
 
-        API request to upload source map file for a website.
+        API request to upload sourcemap file for website.
 
         :param website_id: Website ID (required)
         :type website_id: str
         :param source_map_config_id: Source Map Config ID (required)
         :type source_map_config_id: str
+        :param source_map: Local Source Map file path (required)
+        :type source_map: bytearray
+        :param url: URL of the website (required)
+        :type url: str
         :param file_format:
         :type file_format: str
-        :param source_map:
-        :type source_map: bytearray
-        :param url:
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3549,9 +5007,9 @@ class WebsiteConfigurationApi:
         _param = self._upload_source_map_file_serialize(
             website_id=website_id,
             source_map_config_id=source_map_config_id,
-            file_format=file_format,
             source_map=source_map,
             url=url,
+            file_format=file_format,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3560,6 +5018,7 @@ class WebsiteConfigurationApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SourceMapUploadConfig",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,
@@ -3581,9 +5040,9 @@ class WebsiteConfigurationApi:
         self,
         website_id: Annotated[StrictStr, Field(description="Website ID")],
         source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Local Source Map file path")],
+        url: Annotated[StrictStr, Field(description="URL of the website")],
         file_format: Optional[StrictStr] = None,
-        source_map: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
-        url: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3597,20 +5056,20 @@ class WebsiteConfigurationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Upload source map file for website
+        """Upload sourcemap file for website
 
-        API request to upload source map file for a website.
+        API request to upload sourcemap file for website.
 
         :param website_id: Website ID (required)
         :type website_id: str
         :param source_map_config_id: Source Map Config ID (required)
         :type source_map_config_id: str
+        :param source_map: Local Source Map file path (required)
+        :type source_map: bytearray
+        :param url: URL of the website (required)
+        :type url: str
         :param file_format:
         :type file_format: str
-        :param source_map:
-        :type source_map: bytearray
-        :param url:
-        :type url: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3636,9 +5095,9 @@ class WebsiteConfigurationApi:
         _param = self._upload_source_map_file_serialize(
             website_id=website_id,
             source_map_config_id=source_map_config_id,
-            file_format=file_format,
             source_map=source_map,
             url=url,
+            file_format=file_format,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3647,6 +5106,7 @@ class WebsiteConfigurationApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "SourceMapUploadConfig",
+            '400': None,
             '401': None,
             '403': None,
             '404': None,
@@ -3663,9 +5123,9 @@ class WebsiteConfigurationApi:
         self,
         website_id,
         source_map_config_id,
-        file_format,
         source_map,
         url,
+        file_format,
         _request_auth,
         _content_type,
         _headers,
@@ -3746,942 +5206,3 @@ class WebsiteConfigurationApi:
         )
 
 
-    @validate_call
-    def get_website_sourcemap_upload_configuration(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
-        _request_timeout: Union[
-                None,
-                Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SourceMapUploadConfig:
-        """Get source map upload configuration for website
-
-        API request to get source map upload configuration for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param source_map_config_id: Source Map Config ID (required)
-        :type source_map_config_id: str
-        :return: Returns the result object.
-        """
-        _param = self._get_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_config_id=source_map_config_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceMapUploadConfig",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    def get_website_sourcemap_upload_configuration_with_http_info(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
-        _request_timeout: Union[
-                None,
-                Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SourceMapUploadConfig]:
-        """Get source map upload configuration for website
-
-        API request to get source map upload configuration for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param source_map_config_id: Source Map Config ID (required)
-        :type source_map_config_id: str
-        :return: Returns the result object.
-        """
-        _param = self._get_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_config_id=source_map_config_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceMapUploadConfig",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def get_website_sourcemap_upload_configuration_without_preload_content(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
-        _request_timeout: Union[
-                None,
-                Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Get source map upload configuration for website
-
-        API request to get source map upload configuration for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param source_map_config_id: Source Map Config ID (required)
-        :type source_map_config_id: str
-        :return: Returns the result object.
-        """
-        _param = self._get_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_config_id=source_map_config_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceMapUploadConfig",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data
-
-    def _get_website_sourcemap_upload_configuration_serialize(
-        self,
-        website_id,
-        source_map_config_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if website_id is not None:
-            _path_params['websiteId'] = website_id
-        if source_map_config_id is not None:
-            _path_params['sourceMapConfigId'] = source_map_config_id
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'ApiKeyAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-    @validate_call
-    def get_all_sourcemap_upload_configurations_for_a_website(
-        self, 
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-        ) -> List[SourceMapUploadConfig]:
-        """Get all source map upload configurations for a website
-
-        API request to get all of the source map upload configurations for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :return: Returns the result object.
-        """
-
-        _param = self._get_all_sourcemap_upload_configurations_for_a_website_serialize(
-            website_id=website_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceMapUploadConfigs",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-
-        wrapper = self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-        
-        return wrapper.configs
-
-    @validate_call
-    def get_all_sourcemap_upload_configurations_for_a_website_with_http_info(
-            self, 
-            website_id: Annotated[StrictStr, Field(description="Website ID")],
-            _request_timeout: Union[
-                None,
-                Annotated[StrictFloat, Field(gt=0)],
-                Tuple[
-                    Annotated[StrictFloat, Field(gt=0)],
-                    Annotated[StrictFloat, Field(gt=0)]
-                ]
-            ] = None,
-            _request_auth: Optional[Dict[StrictStr, Any]] = None,
-            _content_type: Optional[StrictStr] = None,
-            _headers: Optional[Dict[StrictStr, Any]] = None,
-            _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,) -> ApiResponse[List[SourceMapUploadConfig]]:
-        """Get all source map upload configurations for a website
-
-        API request to get all of the source map upload configurations for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :return: Returns the result object.
-        """
-
-        _param = self._get_all_sourcemap_upload_configurations_for_a_website_serialize(
-            website_id=website_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceMapUploadConfigs",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-
-        deserialized_response = self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-        
-        deserialized_response.data = deserialized_response.data.configs
-        return deserialized_response
-
-    @validate_call
-    def get_all_sourcemap_upload_configurations_for_a_website_without_preload_content(
-        self, 
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,) -> RESTResponseType:
-        """Get all source map upload configurations for a website
-
-        API request to get all of the source map upload configurations for a website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :return: Returns the result object.
-        """
-
-        _param = self._get_all_sourcemap_upload_configurations_for_a_website_serialize(
-            website_id=website_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[SourceMapUploadConfig]",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        return response_data
-
-    def _get_all_sourcemap_upload_configurations_for_a_website_serialize(
-        self,
-        website_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if website_id is not None:
-            _path_params['websiteId'] = website_id
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'ApiKeyAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-    @validate_call
-    def add_website_sourcemap_upload_configuration(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_upload_config: Annotated[SourceMapUploadConfig, Field(description="Source map upload configuration, please pass the description only")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SourceMapUploadConfig:
-        """Add website source map upload configuration
-
-            API request to add website source map upload configuration.
-        
-            :param website_id: Website ID (required)
-            :type website_id: str
-            :param source_map_upload_config: Source map upload configuration (required)
-            :type source_map_upload_config: SourceMapUploadConfig
-            :return: Returns the result object.
-        """
-
-        _param = self._add_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_upload_config=source_map_upload_config,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-             '200': "SourceMapUploadConfig",
-            '400': None,
-            '401': None,
-            '403': None,
-            '422': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-        *_param,
-        _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-        
-
-    @validate_call
-    def add_website_sourcemap_upload_configuration_with_http_info(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_upload_config: Annotated[SourceMapUploadConfig, Field(description="Source map upload configuration, please pass the description only")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SourceMapUploadConfig]:
-        """Add website source map upload configuration
-
-            API request to add website source map upload configuration.
-        
-            :param website_id: Website ID (required)
-            :type website_id: str
-            :param source_map_upload_config: Source map upload configuration (required)
-            :type source_map_upload_config: SourceMapUploadConfig
-            :return: Returns the result object.
-        """
-
-        _param = self._add_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_upload_config=source_map_upload_config,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-             '200': "SourceMapUploadConfig",
-            '400': None,
-            '401': None,
-            '403': None,
-            '422': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-        *_param,
-        _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-        
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def add_website_sourcemap_upload_configuration_without_preload_content(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_upload_config: Annotated[SourceMapUploadConfig, Field(description="Source map upload configuration, please pass the description only")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Add website source map upload configuration
-
-            API request to add website source map upload configuration.
-        
-            :param website_id: Website ID (required)
-            :type website_id: str
-            :param source_map_upload_config: Source map upload configuration (required)
-            :type source_map_upload_config: SourceMapUploadConfig
-            :return: Returns the result object.
-        """
-
-        _param = self._add_website_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_upload_config=source_map_upload_config,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-             '200': "SourceMapUploadConfig",
-            '400': None,
-            '401': None,
-            '403': None,
-            '422': None,
-            '500': None,
-        }
-
-        response_data = self.api_client.call_api(
-        *_param,
-        _request_timeout=_request_timeout
-        )
-
-        return response_data
-
-    def _add_website_sourcemap_upload_configuration_serialize(
-        self,
-        website_id,
-        source_map_upload_config,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _header_params['Content-Type'] = 'application/json'
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[Dict[str, Any]] = None
-
-        if website_id is not None:
-            _path_params['websiteId'] = website_id
-        if source_map_upload_config is not None:
-            config_dict = source_map_upload_config.to_dict()
-            filtered_dict = {k: v for k, v in config_dict.items() if v is not None and v != "" and v != []}
-            _body_params = filtered_dict
-
-        # set the HTTP header `Accept`
-        _auth_settings: List[str] = [
-        'ApiKeyAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-    @validate_call
-    def update_teams_assigned_to_website(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        teams_assigned_to_website: Annotated[List[Team], Field(description="List of teams assigned to website")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Team]:
-        """Update teams assigned to website
-
-        API request to update teams assigned to website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param teams_assigned_to_website: List of teams assigned to website (required)
-        :type teams_assigned_to_website: List[Team]
-        :return: Returns the result object.
-        """
-        _param = self._update_teams_assigned_to_website_serialize(
-            website_id=website_id,
-            teams_assigned_to_website=teams_assigned_to_website,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Team]",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    def update_teams_assigned_to_website_with_http_info(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        teams_assigned_to_website: Annotated[List[Team], Field(description="List of teams assigned to website")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Team]]:
-        """Update teams assigned to website
-
-        API request to update teams assigned to website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param teams_assigned_to_website: List of teams assigned to website (required)
-        :type teams_assigned_to_website: List[Team]
-        :return: Returns the result object.
-        """
-        _param = self._update_teams_assigned_to_website_serialize(
-            website_id=website_id,
-            teams_assigned_to_website=teams_assigned_to_website,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Team]",
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        response_data.read()
-
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def update_teams_assigned_to_website_without_preload_content(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        teams_assigned_to_website: Annotated[List[Team], Field(description="List of teams assigned to website")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Update teams assigned to website
-
-        API request to update teams assigned to website.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param teams_assigned_to_website: List of teams assigned to website (required)
-        :type teams_assigned_to_website: List[Team]
-        :return: Returns the result object.
-        """
-        _param = self._update_teams_assigned_to_website_serialize(
-            website_id=website_id,
-            teams_assigned_to_website=teams_assigned_to_website,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-
-        return response_data
-
-    def _update_teams_assigned_to_website_serialize(
-        self,
-        website_id,
-        teams_assigned_to_website,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _header_params['Content-Type'] = 'application/json'
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[List[Dict[str, Any]]] = None
-        if website_id is not None:
-            _path_params['websiteId'] = website_id
-        if teams_assigned_to_website is not None:
-            teams_dict = [team.to_dict() for team in teams_assigned_to_website]
-            _body_params = teams_dict
-        
-        _auth_settings: List[str] = [
-        'ApiKeyAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/api/website-monitoring/config/{websiteId}/teams',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-    @validate_call
-    def delete_sourcemap_upload_configuration(
-        self,
-        website_id: Annotated[StrictStr, Field(description="Website ID")],
-        source_map_config_id: Annotated[StrictStr, Field(description="Source map config ID")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Delete source map upload configuration
-
-        API request to delete source map upload configuration.
-
-        :param website_id: Website ID (required)
-        :type website_id: str
-        :param source_map_config_id: Source map config ID (required)
-        :type source_map_config_id: str
-        :return: Returns the result object.
-        """
-        _param = self._delete_sourcemap_upload_configuration_serialize(
-            website_id=website_id,
-            source_map_config_id=source_map_config_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-            '401': None,
-            '403': None,
-            '404': None,
-            '500': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return None
-
-
-    def _delete_sourcemap_upload_configuration_serialize(
-        self,
-        website_id,
-        source_map_config_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-        if website_id is not None:
-            _path_params['websiteId'] = website_id
-        if source_map_config_id is not None:
-            _path_params['sourceMapConfigId'] = source_map_config_id
-        _auth_settings: List[str] = [
-        'ApiKeyAuth'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )

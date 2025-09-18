@@ -14,8 +14,6 @@ Method | HTTP request | Description
 
 Get Metric catalog
 
-This endpoint retrieves all available metric definitions for application monitoring. 
-
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -88,8 +86,6 @@ This endpoint does not need any parameter.
 > TagCatalog get_application_tag_catalog(var_from=var_from, data_source=data_source, use_case=use_case)
 
 Get application tag catalog
-
-Use this API endpoint to retrieve a list of tags. This API endpoint also shows tags which are grouped together. This grouping also denotes the dimensionality of an event. Eg: `Call` can have 9 attributes. Also these tags have cardinality ranging from low to high which will help in examining broad or narrow patterns during the analysis. Queryable tags are a powerful enabler for slice and dice analysis in `Query Builder`.  `Query Builder` can be found in `Unbounded Analytics`.
 
 ### Example
 
@@ -171,8 +167,6 @@ Name | Type | Description  | Notes
 > List[Tag] get_application_tags(var_from=var_from, data_source=data_source, use_case=use_case)
 
 Get application tags
-
-**Note:** This API Endpoint is deprecated. Use `Get application tag catalog` endpoint instead.  This endpoint retrieves all available tags for your monitored system.  These tags can be used to group metric results. ``` \"group\": {   \"groupbyTag\": \"service.name\" } ```  These tags can be used to filter metric results. ``` \"tagFilters\": [{  \"name\": \"application.name\",  \"operator\": \"EQUALS\",  \"value\": \"example\" }] ``` 
 
 ### Example
 

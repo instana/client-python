@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_slo_configs**
-> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, query=query, tag=tag, entity_type=entity_type, order_by=order_by, order_direction=order_direction, slo_ids=slo_ids, refresh=refresh)
+> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
 
 Get All SLO Configs
 
@@ -282,17 +282,21 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
     page_size = 1 # int |  (optional)
     page = 1 # int |  (optional)
-    query = 'test SLO' # str |  (optional)
-    tag = ['Testing'] # List[str] |  (optional)
-    entity_type = 'application' # str |  (optional)
     order_by = 'name' # str |  (optional)
     order_direction = 'ASC' # str |  (optional)
+    query = 'test SLO' # str |  (optional)
+    tag = ['Testing'] # List[str] |  (optional)
+    entity_type = ['application'] # List[str] |  (optional)
+    blueprint = ['latency'] # List[str] |  (optional)
     slo_ids = ['SLOdCTspkHlS_OzNOATQWgsuw'] # List[str] |  (optional)
+    slo_status = 'green' # str |  (optional)
+    entity_ids = ['adsewby312sdfd1'] # List[str] |  (optional)
+    grouped = false # bool |  (optional)
     refresh = false # bool |  (optional)
 
     try:
         # Get All SLO Configs
-        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, query=query, tag=tag, entity_type=entity_type, order_by=order_by, order_direction=order_direction, slo_ids=slo_ids, refresh=refresh)
+        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->get_all_slo_configs:\n")
         pprint(api_response)
     except Exception as e:
@@ -308,12 +312,16 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page_size** | **int**|  | [optional] 
  **page** | **int**|  | [optional] 
- **query** | **str**|  | [optional] 
- **tag** | [**List[str]**](str.md)|  | [optional] 
- **entity_type** | **str**|  | [optional] 
  **order_by** | **str**|  | [optional] 
  **order_direction** | **str**|  | [optional] 
+ **query** | **str**|  | [optional] 
+ **tag** | [**List[str]**](str.md)|  | [optional] 
+ **entity_type** | [**List[str]**](str.md)|  | [optional] 
+ **blueprint** | [**List[str]**](str.md)|  | [optional] 
  **slo_ids** | [**List[str]**](str.md)|  | [optional] 
+ **slo_status** | **str**|  | [optional] 
+ **entity_ids** | [**List[str]**](str.md)|  | [optional] 
+ **grouped** | **bool**|  | [optional] 
  **refresh** | **bool**|  | [optional] 
 
 ### Return type
@@ -493,7 +501,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Updated SLO Configuration Successfully |  -  |
-**404** | SLO Configuration Not Found |  -  |
+**400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

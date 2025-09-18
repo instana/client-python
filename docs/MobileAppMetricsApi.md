@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_mobile_app_beacon_metrics**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics) | **POST** /api/mobile-app-monitoring/metrics | Get mobile app beacon metrics
 [**get_mobile_app_beacon_metrics_v2**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics_v2) | **POST** /api/mobile-app-monitoring/v2/metrics | Get beacon metrics
-[**get_session**](MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session | Get mobile app session
+[**get_session**](MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session{id}{timestamp} | Get mobile app session
 
 
 # **get_mobile_app_beacon_metrics**
@@ -167,7 +167,6 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

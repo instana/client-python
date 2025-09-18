@@ -1,14 +1,15 @@
 # SyntheticCallRule
 
+The list of custom rules for synthetic endpoints defined by the user.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **str** |  | [optional] 
-**enabled** | **bool** |  | [optional] 
+**description** | **str** | A description of the custom rule. For example, one can mention the reason behind having the custom rule. | [optional] 
+**enabled** | **bool** | A flag to enable/disable the custom synthetic endpoint configurations defined by the user. | [optional] 
 **match_specification** | [**MatchExpressionDTO**](MatchExpressionDTO.md) |  | 
-**name** | **str** |  | 
+**name** | **str** | The name of the custom rule for Synthetic endpoints. | 
 
 ## Example
 

@@ -6,7 +6,7 @@ The destination service's endpoint where the call enters.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | Unique ID of the Service. Eg: &#x60;NCRq5oYnan5x-PkdTPQwLLUdu5M&#x60;. | [optional] 
+**id** | **str** | Unique ID of the Endpoint. Eg: &#x60;NCRq5oYnan5x-PkdTPQwLLUdu5M&#x60;. | [optional] 
 **label** | **str** | Name of the Endpoint. Eg: &#x60;GET /api/fetch&#x60;. | [optional] 
 **type** | **str** | The type of the Endpoint. | [optional] 
 

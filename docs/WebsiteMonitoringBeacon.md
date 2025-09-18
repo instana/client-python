@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **beacon_id** | **str** |  | 
 **browser_name** | **str** |  | [optional] 
 **browser_version** | **str** |  | [optional] 
+**bytes_ingested** | **int** |  | [optional] 
 **cache_interaction** | **str** |  | [optional] 
 **children_time** | **int** |  | [optional] 
 **city** | **str** |  | [optional] 
@@ -64,6 +65,7 @@ Name | Type | Description | Notes
 **initiator** | **str** |  | [optional] 
 **interaction_next_paint** | **int** |  | [optional] 
 **internal_meta** | **Dict[str, str]** |  | [optional] 
+**label** | **str** |  | [optional] 
 **largest_contentful_paint_time** | **int** |  | [optional] 
 **latitude** | **float** |  | [optional] 
 **location_origin** | **str** |  | 

@@ -1,12 +1,13 @@
 # CloudfoundryPhysicalContext
 
+Contains physical context of Cloudfoundry. It contains the following information: 1. `application`: Application running within Cloud Foundry environment. 2. `cfInstanceIndex`: A unique ID of the container created and managed by Garden in the Cloud Foundry environment. 3. `organization`: Organization in the Cloud Foundry environment. 4. `space`: Space within an organization in Cloud Foundry environment. 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **application** | [**SnapshotPreview**](SnapshotPreview.md) |  | [optional] 
-**cf_instance_index** | **str** |  | [optional] 
+**cf_instance_index** | **str** | A unique ID of the container created and managed by Garden in the Cloud Foundry environment. | [optional] 
 **organization** | [**SnapshotPreview**](SnapshotPreview.md) |  | [optional] 
 **space** | [**SnapshotPreview**](SnapshotPreview.md) |  | [optional] 
 

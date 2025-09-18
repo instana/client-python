@@ -1,17 +1,18 @@
 # Trace
 
+1. `service`: The service from where trace started. 2. `endpoint`: Endpoint of the service. 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**duration** | **int** |  | [optional] 
+**duration** | **int** | Total time taken for a trace to finish. | [optional] 
 **endpoint** | [**Endpoint**](Endpoint.md) |  | [optional] 
-**erroneous** | **bool** |  | [optional] 
-**id** | **str** |  | 
-**label** | **str** |  | 
+**erroneous** | **bool** | Flag which tells whether the trace is erroneous or not | [optional] 
+**id** | **str** | The trace ID. All spans of the same trace must have the same trace ID. For example, &#x60;e93282c0d5018320&#x60;. | 
+**label** | **str** | Name of the trace. | 
 **service** | [**Service**](Service.md) |  | [optional] 
-**start_time** | **int** |  | [optional] 
+**start_time** | **int** | The start time of the trace. | [optional] 
 
 ## Example
 

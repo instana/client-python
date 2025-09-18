@@ -1,12 +1,13 @@
 # ServiceScopeWithMetadata
 
+The list of services where the release can be viewed.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | [optional] 
+**id** | **str** | Unique ID of the Service. Eg: &#x60;3feb3dcd206c166ef2b41c707e0cd38d7cd325aa&#x60;. | 
+**name** | **str** | Name of the Service. Eg: &#x60;payment&#x60;. | [optional] 
 **scoped_to** | [**ServiceScopedToWithMetadata**](ServiceScopedToWithMetadata.md) |  | [optional] 
 
 ## Example

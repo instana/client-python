@@ -5,9 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**accept_self_signed_certificate** | **bool** |  | [optional] 
 **days_remaining_check** | **int** |  | 
 **hostname** | **str** |  | 
 **port** | **int** |  | [optional] 
+**validation_rules** | [**List[SSLCertificateValidation]**](SSLCertificateValidation.md) |  | [optional] 
 
 ## Example
 

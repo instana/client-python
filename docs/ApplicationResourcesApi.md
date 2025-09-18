@@ -15,7 +15,9 @@ Method | HTTP request | Description
 
 Get endpoints
 
-Use this API endpoint if one wants to retrieve a list of Endpoints. A use case could be to view the endpoint id of an Endpoint. 
+Use this API endpoint if one wants to retrieve a list of Endpoints.
+A use case could be to view the endpoint id of an Endpoint.
+
 
 ### Example
 
@@ -108,7 +110,9 @@ Name | Type | Description  | Notes
 
 Get applications/services
 
-Use this API endpoint if one wants to retrieve a list of services in an Application Perspective. A use case could be to retrieve all service ids present in an Application Perspective. 
+Use this API endpoint if one wants to retrieve a list of services in an Application Perspective.
+A use case could be to retrieve all service ids present in an Application Perspective.
+
 
 ### Example
 
@@ -199,7 +203,9 @@ Name | Type | Description  | Notes
 
 Get applications
 
-Use this API endpoint if one wants to retrieve a list of Application Perspectives. A use case could be to view the application id of an Application Perspective. 
+Use this API endpoint if one wants to retrieve a list of Application Perspectives.
+A use case could be to view the application id of an Application Perspective.
+
 
 ### Example
 
@@ -288,7 +294,9 @@ Name | Type | Description  | Notes
 
 Get services
 
-Use this API endpoint if one wants to retrieve a list of Services. A use case could be to view the service id of a Service. 
+Use this API endpoint if one wants to retrieve a list of Services.
+A use case could be to view the service id of a Service.
+
 
 ### Example
 

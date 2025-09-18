@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **label** | **str** | The name of the metric. For example, &#x60;Call count&#x60;, &#x60;Erroneous calls&#x60;, &#x60;Service count&#x60; etc. | 
 **metric_id** | **str** | The unique id of the metric. For example, &#x60;calls&#x60;, &#x60;erroneousCalls&#x60;, &#x60;latency&#x60; etc. | 
 **path_to_value_in_beacon** | **List[str]** |  | [optional] 
+**secondary_beacon_types** | **List[str]** |  | [optional] 
 **tag_name** | **str** |  | [optional] 
 
 ## Example

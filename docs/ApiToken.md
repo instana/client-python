@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **access_granting_token** | **str** |  | 
 **can_configure_agent_run_mode** | **bool** |  | [optional] 
 **can_configure_agents** | **bool** |  | [optional] 
+**can_configure_ai_agents** | **bool** |  | [optional] 
 **can_configure_api_tokens** | **bool** |  | [optional] 
 **can_configure_application_smart_alerts** | **bool** |  | [optional] 
 **can_configure_applications** | **bool** |  | [optional] 
@@ -24,6 +25,7 @@ Name | Type | Description | Notes
 **can_configure_global_log_smart_alerts** | **bool** |  | [optional] 
 **can_configure_global_synthetic_smart_alerts** | **bool** |  | [optional] 
 **can_configure_integrations** | **bool** |  | [optional] 
+**can_configure_llm** | **bool** |  | [optional] 
 **can_configure_log_management** | **bool** |  | [optional] 
 **can_configure_log_retention_period** | **bool** |  | [optional] 
 **can_configure_maintenance_windows** | **bool** |  | [optional] 
@@ -70,11 +72,13 @@ Name | Type | Description | Notes
 **id** | **str** |  | [optional] 
 **internal_id** | **str** |  | 
 **last_used_on** | **int** |  | [optional] 
+**limited_alert_channels_scope** | **bool** |  | [optional] 
 **limited_applications_scope** | **bool** |  | [optional] 
 **limited_automation_scope** | **bool** |  | [optional] 
 **limited_biz_ops_scope** | **bool** |  | [optional] 
 **limited_infrastructure_scope** | **bool** |  | [optional] 
 **limited_kubernetes_scope** | **bool** |  | [optional] 
+**limited_linux_kvm_hypervisor_scope** | **bool** |  | [optional] 
 **limited_logs_scope** | **bool** |  | [optional] 
 **limited_mobile_apps_scope** | **bool** |  | [optional] 
 **limited_nutanix_scope** | **bool** |  | [optional] 
@@ -85,6 +89,8 @@ Name | Type | Description | Notes
 **limited_synthetics_scope** | **bool** |  | [optional] 
 **limited_vsphere_scope** | **bool** |  | [optional] 
 **limited_websites_scope** | **bool** |  | [optional] 
+**limited_windows_hypervisor_scope** | **bool** |  | [optional] 
+**limited_xen_server_scope** | **bool** |  | [optional] 
 **limited_zhmc_scope** | **bool** |  | [optional] 
 **name** | **str** |  | 
 

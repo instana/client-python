@@ -6,14 +6,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **alert_channel_ids** | **List[str]** | This is the list of channel IDs when alert triggered and sent to. | 
+**burn_rate_config** | [**List[ServiceLevelsBurnRateConfig]**](ServiceLevelsBurnRateConfig.md) | This is the burn rate alert configuration which defines alerting windows and corresponding thresholds. This configuration must to specified for BURN_RATE_V2 Alerts. | [optional] 
 **burn_rate_time_windows** | [**ServiceLevelsBurnRateTimeWindows**](ServiceLevelsBurnRateTimeWindows.md) |  | [optional] 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | This is the custom name and value pairs to be sent along with the alert to the alert channels. | 
 **description** | **str** | The description of the alert. It is also the alert message content. | 
 **name** | **str** | Name of the Service Levels Smart Alerts Configuration. | 
 **rule** | [**ServiceLevelsAlertRule**](ServiceLevelsAlertRule.md) |  | 
-**severity** | **int** | This is the severity of the alert. The value can be: &lt;b&gt;5&lt;/b&gt;: warning, &lt;b&gt;10&lt;/b&gt;: critical. | [optional] 
+**severity** | **int** | This is the severity of the alert. The value can be: &lt;b&gt;5&lt;/b&gt;: warning, &lt;b&gt;10&lt;/b&gt;: critical. | 
 **slo_ids** | **List[str]** | This is the list of SLO configurations related to this alert. | 
-**threshold** | [**StaticThreshold**](StaticThreshold.md) |  | 
+**threshold** | [**StaticThreshold**](StaticThreshold.md) |  | [optional] 
 **time_threshold** | [**ServiceLevelsTimeThreshold**](ServiceLevelsTimeThreshold.md) |  | 
 **triggering** | **bool** | Incident flag. If value is true, this alert will become an accident. | [optional] 
 

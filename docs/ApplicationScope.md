@@ -1,11 +1,12 @@
 # ApplicationScope
 
+The list of application perspectives where the release can be viewed.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** |  | 
+**name** | **str** | Name of the Application Perspective. Eg: &#x60;app1&#x60;. | 
 
 ## Example
 

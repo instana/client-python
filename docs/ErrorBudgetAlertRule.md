@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**metric** | **str** | This is the service levels metric type. Error budget alert uses &lt;b&gt;spent&lt;/b&gt; or &lt;b&gt;burn rate&lt;/b&gt; metric. | 
+**metric** | **str** | This is the service levels metric type. Error budget alert uses &lt;b&gt;BURNED_PERCENTAGE&lt;/b&gt;, &lt;b&gt;BURN_RATE&lt;/b&gt; (&lt;i&gt;Deprecated&lt;/i&gt;) or &lt;B&gt;BURN_RATE_V2&lt;/B&gt; metric. | 
 
 ## Example
 

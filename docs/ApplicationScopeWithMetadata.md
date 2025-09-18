@@ -1,12 +1,13 @@
 # ApplicationScopeWithMetadata
 
+The list of application perspectives where the release can be viewed.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** |  | 
-**name** | **str** |  | [optional] 
+**id** | **str** | Unique ID of the Application Perspective. Eg: &#x60;Av62RoIKQv-A3n6DbMQh9g&#x60;. | 
+**name** | **str** | Name of the Application Perspective. Eg: &#x60;app1&#x60;. | [optional] 
 
 ## Example
 

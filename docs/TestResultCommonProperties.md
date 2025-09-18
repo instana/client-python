@@ -7,12 +7,19 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **client_id** | **str** |  | 
 **custom_tags** | **Dict[str, str]** |  | [optional] 
+**dns_query_type** | **str** |  | [optional] 
+**dns_server_name** | **str** |  | [optional] 
 **errors** | **List[str]** |  | [optional] 
 **id** | **str** |  | [optional] 
+**ism_details** | **Dict[str, str]** |  | [optional] 
+**last_errors** | [**TestLastError**](TestLastError.md) |  | [optional] 
 **location_display_label** | **str** |  | [optional] 
 **location_id** | **str** |  | [optional] 
+**run_type** | **str** |  | [optional] 
+**ssl_days_remaining** | **str** |  | [optional] 
 **test_common_properties** | [**TestCommonProperties**](TestCommonProperties.md) |  | [optional] 
 **test_id** | **str** |  | 
+**test_last_error** | [**TestLastError**](TestLastError.md) |  | [optional] 
 **test_name** | **str** |  | [optional] 
 
 ## Example

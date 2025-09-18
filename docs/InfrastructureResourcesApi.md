@@ -92,6 +92,8 @@ This endpoint does not need any parameter.
 
 Get a payload for a snapshot
 
+This endpoint retrieves the payload for a snapshot. Please note that this endpoint is only available for instances of db2.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -123,7 +125,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.InfrastructureResourcesApi(api_client)
     snapshot_id = 'snapshot_id_example' # str | Snapshot id.
-    payload_key = 'topqueries' # str | Payload key. Use [getAvailablePayloadKeysByPluginId](/#operation/getAvailablePayloadKeysByPluginId) to retrieve the list of possible keys.
+    payload_key = 'topqueries' # str | Payload key. Use [getAvailablePayloadKeysByPluginId](/openapi/#operation/getAvailablePayloadKeysByPluginId) to retrieve the list of possible keys.
     to = 1689018652000 # int | End of timeframe expressed as the Unix epoch time in milliseconds. (optional)
     window_size = 3600000 # int | Window size in milliseconds. (optional)
 
@@ -142,7 +144,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **snapshot_id** | **str**| Snapshot id. | 
- **payload_key** | **str**| Payload key. Use [getAvailablePayloadKeysByPluginId](/#operation/getAvailablePayloadKeysByPluginId) to retrieve the list of possible keys. | 
+ **payload_key** | **str**| Payload key. Use [getAvailablePayloadKeysByPluginId](/openapi/#operation/getAvailablePayloadKeysByPluginId) to retrieve the list of possible keys. | 
  **to** | **int**| End of timeframe expressed as the Unix epoch time in milliseconds. | [optional] 
  **window_size** | **int**| Window size in milliseconds. | [optional] 
 
@@ -254,8 +256,6 @@ Name | Type | Description  | Notes
 > SnapshotResult get_snapshots(query=query, to=to, window_size=window_size, size=size, plugin=plugin, offline=offline)
 
 Search snapshots
-
-These APIs can be used to retrieve information about hosts, processes, JVMs and other entities that we are calling snapshots. A snapshot represents static information about an entity as it was at a specific point in time. To clarify:  **Static information** is any information which is seldom changing, e.g. process IDs, host FQDNs or a list of host hard disks. The counterpart to static information are metrics which have a much higher change rate, e.g. host CPU usage or JVM garbage collection activity. Snapshots only contain static information.  - Snapshots are **versioned** and represent an entity's state for a specific point in time. While snapshots only contain static information, even that information may change. For example you may add another hard disk to a server. For such a change, a new snapshot would be created.  - The **size** parameter can be used in order to limit the maximum number of retrieved snapshots.  - The **offline** parameter is used to allow deeper visibility into snapshots. Set to `false`, the query will return all snapshots that are still available on the given **to** timestamp. However, set to `true`, the query will return all snapshots that have been active within the time window, this must at least include the online result and snapshots terminated within this time.  
 
 ### Example
 
@@ -424,7 +424,10 @@ Name | Type | Description  | Notes
 
 Get installed software
 
-Retrieve information about the software that are sensed by the agent remotely, natively, or both. This includes runtime and package manager information.  The `plugin`, `name`, `version`, `discoveryType`, `softwareType` and `vendor` parameters are optional filters that can be used to reduce the result data set. The `snapshotId` in `usedBy` is either of host or container, if available
+Retrieve information about the software that are sensed by the agent remotely, natively, or both. This includes runtime and package manager information.
+
+The `plugin`, `name`, `version`, `discoveryType`, `softwareType` and `vendor` parameters are optional filters that can be used to reduce the result data set.
+The `snapshotId` in `usedBy` is either of host or container, if available
 
 ### Example
 

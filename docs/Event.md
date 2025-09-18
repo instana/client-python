@@ -9,7 +9,9 @@ Name | Type | Description | Notes
 **endpoint_service_id** | **str** |  | [optional] 
 **entity_id** | **str** |  | 
 **entity_type** | **str** |  | [optional] 
+**event_configuration_type** | **str** |  | [optional] 
 **id** | **str** |  | 
+**long_form_plugin_id** | **str** |  | [optional] 
 **metadata** | **Dict[str, object]** |  | [optional] 
 **metric_access_id** | **str** |  | [optional] 
 **plugin** | **str** |  | 

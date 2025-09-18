@@ -6,8 +6,8 @@ This is the warm-up and cool-down setting to emit or stop alert event after thre
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**expiry** | **int** | This is the cooldown period when the active alert misses threshold and stop emitting notification. | [optional] 
-**time_window** | **int** | This is the grace period when the threshold is reached and the alert becomes active to emit notification. | [optional] 
+**expiry** | **int** | This is the cooldown period when the active alert misses threshold and stop emitting notification. | 
+**time_window** | **int** | This is the grace period when the threshold is reached and the alert becomes active to emit notification. | 
 
 ## Example
 

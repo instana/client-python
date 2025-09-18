@@ -9,7 +9,9 @@ Name | Type | Description | Notes
 **alert_type** | **str** |  | 
 **cross_series_aggregation** | **str** |  | [optional] 
 **entity_type** | **str** |  | [optional] 
+**metric_group_by** | **List[str]** |  | [optional] 
 **metric_name** | **str** |  | 
+**metric_tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 
 **regex** | **bool** |  | [optional] 
 
 ## Example

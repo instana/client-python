@@ -20,6 +20,7 @@ Name | Type | Description | Notes
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 **threshold** | [**Threshold**](Threshold.md) |  | [optional] 
 **time_threshold** | [**InfraTimeThreshold**](InfraTimeThreshold.md) |  | 
+**triggering** | **bool** | Optional flag to indicate whether an Incident is also triggered or not. | [optional] 
 
 ## Example
 

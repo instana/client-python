@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_beacon_metrics**](WebsiteMetricsApi.md#get_beacon_metrics) | **POST** /api/website-monitoring/metrics | Get beacon metrics
 [**get_beacon_metrics_v2**](WebsiteMetricsApi.md#get_beacon_metrics_v2) | **POST** /api/website-monitoring/v2/metrics | Get beacon metrics
-[**get_page_load**](WebsiteMetricsApi.md#get_page_load) | **GET** /api/website-monitoring/page-load | Get page load
+[**get_page_load**](WebsiteMetricsApi.md#get_page_load) | **GET** /api/website-monitoring/page-load{id}{timestamp} | Get page load
 
 
 # **get_beacon_metrics**

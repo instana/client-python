@@ -5,10 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**application_id** | **str** |  | [optional] 
-**endpoint_id** | **str** |  | [optional] 
-**endpoint_service_id** | **str** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
+**application_id** | **str** | ID of the application this endpoint is in scope of. | [optional] 
+**endpoint_id** | **str** | ID of the endpoint. | [optional] 
+**endpoint_service_id** | **str** | ID service related to this endpoint. | [optional] 
 
 ## Example
 

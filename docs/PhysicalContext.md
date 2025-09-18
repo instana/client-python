@@ -1,5 +1,6 @@
 # PhysicalContext
 
+The physical context of an entity. This is typically used to describe where a host, container or process fits into the infrastructure. 1. `cloudfoundry`: Contains physical context of Cloudfoundry. 2. `cluster`: Contains physical context of cluster like Hazelcast, Elasticsearch. 3. `container`: Contains physical context of container. 4. `host`: Contains physical context of host. 5. `kubernetes`: Contains physical context of Kubernetes. 6. `process`: Contains physical context of a process. 
 
 ## Properties
 

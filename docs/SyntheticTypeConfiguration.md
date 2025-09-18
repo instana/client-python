@@ -1,6 +1,6 @@
 # SyntheticTypeConfiguration
 
-Synthetic test configuration that is unique to a synthetic type. Valid types are BrowserScript, HTTPAction, HTTPScript, SSLCertificate, WebpageAction, and WebpageScript.
+Synthetic test configuration that is unique to a synthetic type. Valid types are BrowserScript, DNS, HTTPAction, HTTPScript, SSLCertificate, WebpageAction, and WebpageScript.
 
 ## Properties
 

@@ -46,7 +46,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ReleasesApi(api_client)
-    release_id = 'release_id_example' # str | 
+    release_id = 'XK1e1TE3T9SHKugndn_soQ' # str | 
 
     try:
         # Delete release
@@ -89,8 +89,6 @@ void (empty response body)
 > List[ReleaseWithMetadata] get_all_releases(var_from=var_from, to=to, max_results=max_results)
 
 Get all releases
-
-This endpoint exposes the Releases functionality.  These APIs can be used to create, update, delete and fetch already existing releases.  ## Mandatory Parameters:  **releaseId:** A unique identifier assigned to each release.  ## Optional Parameters:  **name:** Name of the exact release you want to retrieve, eg. \"Release-161\", \"Release-162\".  **start:** Start time of the particular release (as UNIX timestamp in milliseconds).  **from:** Filters the releases to retrieve only the releases which have \"start\" time greater than or equal to this value (as UNIX timestamp in milliseconds).  **to:** Filters the releases to retrieve only the releases which have \"start\" time lesser than or equal to this value (as UNIX timestamp in milliseconds).  **maxResults:** Maximum number of releases to be retrieved.  ## Defaults:  **from, to, maxResults:** By default these parameters are not set.  
 
 ### Example
 
@@ -204,7 +202,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ReleasesApi(api_client)
-    release_id = 'XK1e1TF3T9SHKugndn_soQ' # str | Release ID
+    release_id = 'XK1e1TF3T9SHKugndn_soQ' # str | The unique release id which one wants to retrieve.
 
     try:
         # Get release
@@ -222,7 +220,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **release_id** | **str**| Release ID | 
+ **release_id** | **str**| The unique release id which one wants to retrieve. | 
 
 ### Return type
 
@@ -360,7 +358,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ReleasesApi(api_client)
-    release_id = 'release_id_example' # str | 
+    release_id = 'XK1e1TQ3T9SHKugndn_soQ' # str | 
     release = instana_client.Release() # Release | 
 
     try:

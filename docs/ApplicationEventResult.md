@@ -5,8 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**application_id** | **str** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
+**application_id** | **str** | ID of the application. | [optional] 
 
 ## Example
 

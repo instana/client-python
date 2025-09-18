@@ -5,8 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
-**snapshot_id** | **str** |  | [optional] 
+**snapshot_id** | **str** | ID of the snapshot. | [optional] 
 
 ## Example
 

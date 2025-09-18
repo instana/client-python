@@ -5,7 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**bad_event_infra_metric** | **str** |  | [optional] 
 **bad_events_filter** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 
+**good_event_infra_metric** | **str** |  | [optional] 
 **good_events_filter** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 
 ## Example

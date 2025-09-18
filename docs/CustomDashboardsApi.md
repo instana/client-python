@@ -167,7 +167,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_custom_dashboard**
-> CustomDashboard get_custom_dashboard(custom_dashboard_id)
+> CustomDashboardWithUserSpecificInformation get_custom_dashboard(custom_dashboard_id)
 
 Get custom dashboard
 
@@ -179,7 +179,7 @@ Get all Custom Dashboard Info for specified customDashboardId.
 
 ```python
 import instana_client
-from instana_client.models.custom_dashboard import CustomDashboard
+from instana_client.models.custom_dashboard_with_user_specific_information import CustomDashboardWithUserSpecificInformation
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -226,7 +226,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CustomDashboard**](CustomDashboard.md)
+[**CustomDashboardWithUserSpecificInformation**](CustomDashboardWithUserSpecificInformation.md)
 
 ### Authorization
 

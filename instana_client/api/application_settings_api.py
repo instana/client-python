@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.304.1059
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -64,7 +64,6 @@ class ApplicationSettingsApi:
     ) -> ApplicationConfig:
         """Add application configuration
 
-        Use this API endpoint if one wants to create a new Application Perspective. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.   ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param new_application_config: (required)
         :type new_application_config: NewApplicationConfig
@@ -131,7 +130,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[ApplicationConfig]:
         """Add application configuration
 
-        Use this API endpoint if one wants to create a new Application Perspective. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.   ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param new_application_config: (required)
         :type new_application_config: NewApplicationConfig
@@ -198,7 +196,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Add application configuration
 
-        Use this API endpoint if one wants to create a new Application Perspective. This endpoint requires `canConfigureApplications` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.   ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param new_application_config: (required)
         :type new_application_config: NewApplicationConfig
@@ -338,7 +335,6 @@ class ApplicationSettingsApi:
     ) -> ManualServiceConfig:
         """Add manual service configuration
 
-        Use this API endpoint if one wants to add a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: NewManualServiceConfig
@@ -405,7 +401,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[ManualServiceConfig]:
         """Add manual service configuration
 
-        Use this API endpoint if one wants to add a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: NewManualServiceConfig
@@ -472,7 +467,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Add manual service configuration
 
-        Use this API endpoint if one wants to add a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: NewManualServiceConfig
@@ -1472,6 +1466,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1538,6 +1535,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1604,6 +1604,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1644,13 +1647,6 @@ class ApplicationSettingsApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1730,6 +1726,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1796,6 +1795,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1862,6 +1864,9 @@ class ApplicationSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1902,13 +1907,6 @@ class ApplicationSettingsApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -2214,7 +2212,6 @@ class ApplicationSettingsApi:
     ) -> None:
         """Delete manual service configuration
 
-        Use this API endpoint if one wants to delete a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param id: (required)
         :type id: str
@@ -2280,7 +2277,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[None]:
         """Delete manual service configuration
 
-        Use this API endpoint if one wants to delete a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param id: (required)
         :type id: str
@@ -2346,7 +2342,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Delete manual service configuration
 
-        Use this API endpoint if one wants to delete a manual service configuration. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param id: (required)
         :type id: str
@@ -2729,7 +2724,6 @@ class ApplicationSettingsApi:
     ) -> List[ManualServiceConfig]:
         """All manual service configurations
 
-        Use this API Endpoint if one wants to retrieve a list of all manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2792,7 +2786,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[List[ManualServiceConfig]]:
         """All manual service configurations
 
-        Use this API Endpoint if one wants to retrieve a list of all manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2855,7 +2848,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """All manual service configurations
 
-        Use this API Endpoint if one wants to retrieve a list of all manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3012,6 +3004,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApplicationConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3079,6 +3073,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApplicationConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3146,6 +3142,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ApplicationConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3519,6 +3517,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EndpointConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3586,6 +3586,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EndpointConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3653,6 +3655,8 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "EndpointConfig",
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4539,6 +4543,9 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ServiceConfig",
+            '401': None,
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4606,6 +4613,9 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ServiceConfig",
+            '401': None,
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4673,6 +4683,9 @@ class ApplicationSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "ServiceConfig",
+            '401': None,
+            '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5283,7 +5296,6 @@ class ApplicationSettingsApi:
     ) -> ApplicationConfig:
         """Update application configuration
 
-        Use this API endpoint if one wants to update an existing Application Perspective. This endpoint requires `canConfigureApplications` permission. One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param id: (required)
         :type id: str
@@ -5354,7 +5366,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[ApplicationConfig]:
         """Update application configuration
 
-        Use this API endpoint if one wants to update an existing Application Perspective. This endpoint requires `canConfigureApplications` permission. One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param id: (required)
         :type id: str
@@ -5425,7 +5436,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Update application configuration
 
-        Use this API endpoint if one wants to update an existing Application Perspective. This endpoint requires `canConfigureApplications` permission. One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Configuration of applications` to `true`.  ## Deprecated Parameters **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
         :param id: (required)
         :type id: str
@@ -6135,7 +6145,6 @@ class ApplicationSettingsApi:
     ) -> List[ManualServiceConfig]:
         """Replace all manual service configurations
 
-        Use this API endpoint if one wants to update more than 1 manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: List[NewManualServiceConfig]
@@ -6202,7 +6211,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[List[ManualServiceConfig]]:
         """Replace all manual service configurations
 
-        Use this API endpoint if one wants to update more than 1 manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: List[NewManualServiceConfig]
@@ -6269,7 +6277,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Replace all manual service configurations
 
-        Use this API endpoint if one wants to update more than 1 manual service configurations. This endpoint requires `CanConfigureServiceMapping` permission.   One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`. If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token. There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param new_manual_service_config: (required)
         :type new_manual_service_config: List[NewManualServiceConfig]
@@ -6992,7 +6999,6 @@ class ApplicationSettingsApi:
     ) -> ManualServiceConfig:
         """Update manual service configuration
 
-        Use this API endpoint if one wants to update a manual service configuration.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param id: (required)
         :type id: str
@@ -7063,7 +7069,6 @@ class ApplicationSettingsApi:
     ) -> ApiResponse[ManualServiceConfig]:
         """Update manual service configuration
 
-        Use this API endpoint if one wants to update a manual service configuration.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param id: (required)
         :type id: str
@@ -7134,7 +7139,6 @@ class ApplicationSettingsApi:
     ) -> RESTResponseType:
         """Update manual service configuration
 
-        Use this API endpoint if one wants to update a manual service configuration.  **This is an experimental endpoint to workaround service mapping issues.**  ### Use cases  The manual service configuration APIs enables mapping calls to services using tag filter expressions based on call tags.  There are two use cases on the usage of these APIs:  1. Map to an Unmonitored Service with a Custom Name. For example, Map HTTP calls to different Google domains (`www.ibm.com`, `www.ibm.fr`) into a single service named `IBM` using the `call.http.host tag`. 2. Link Calls to an Existing Monitored Service. For example, Link database calls (`jdbc:mysql://10.128.0.1:3306`) to an existing service like `MySQL@3306` on demo-host by referencing its service ID.  ### Important Note  1. Use `tagfilterExpression` to match calls on which the manual service configuration will be applied. **Only call tags are allowed** in the tag filter expression.  2.  Either `unmonitoredServiceName` or `existingServiceId` should be specified in a configuration.
 
         :param id: (required)
         :type id: str

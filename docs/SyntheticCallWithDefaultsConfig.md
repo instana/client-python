@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**custom_rules** | [**List[SyntheticCallRule]**](SyntheticCallRule.md) |  | 
+**custom_rules** | [**List[SyntheticCallRule]**](SyntheticCallRule.md) | The list of custom rules for synthetic endpoints defined by the user. | 
 **default_rules** | [**List[SyntheticCallRule]**](SyntheticCallRule.md) |  | 
-**default_rules_enabled** | **bool** |  | [optional] 
+**default_rules_enabled** | **bool** | A flag to enable/disable the default synthetic endpoint configurations defined by Instana. | [optional] 
 
 ## Example
 

@@ -5,9 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**location_ids** | **List[str]** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
-**synthetic_test_id** | **str** |  | [optional] 
+**location_ids** | **List[str]** | IDs of the locations. | [optional] 
+**synthetic_test_id** | **str** | ID of the synthetic test. | [optional] 
 
 ## Example
 

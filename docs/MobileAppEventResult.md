@@ -5,8 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**mobile_app_id** | **str** |  | [optional] 
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
+**mobile_app_id** | **str** | ID of the mobile app. | [optional] 
 
 ## Example
 

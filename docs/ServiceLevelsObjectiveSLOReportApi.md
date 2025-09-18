@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **get_slo**
-> List[SloReport] get_slo(slo_id, var_from=var_from, to=to)
+> List[SloReport] get_slo(slo_id, var_from=var_from, to=to, exclude_correction_id=exclude_correction_id, include_correction_id=include_correction_id)
 
 Generate Service Levels report
 
@@ -46,10 +46,12 @@ with instana_client.ApiClient(configuration) as api_client:
     slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | Service Levels Objective(SLO) Configuration ID
     var_from = '1706713140000' # str | Starting point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds (optional)
     to = '1706813100000' # str | Ending point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds (optional)
+    exclude_correction_id = ['N1Xj6q8QTZu_cfJOGqy4mg'] # List[str] | IDs of Correction Configurations to be Excluded from the result (optional)
+    include_correction_id = ['uvP7Z03pSUuybDT8-WHLDA'] # List[str] | IDs of Correction Configurations to be Included in the result (optional)
 
     try:
         # Generate Service Levels report
-        api_response = api_instance.get_slo(slo_id, var_from=var_from, to=to)
+        api_response = api_instance.get_slo(slo_id, var_from=var_from, to=to, exclude_correction_id=exclude_correction_id, include_correction_id=include_correction_id)
         print("The response of ServiceLevelsObjectiveSLOReportApi->get_slo:\n")
         pprint(api_response)
     except Exception as e:
@@ -66,6 +68,8 @@ Name | Type | Description  | Notes
  **slo_id** | **str**| Service Levels Objective(SLO) Configuration ID | 
  **var_from** | **str**| Starting point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds | [optional] 
  **to** | **str**| Ending point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds | [optional] 
+ **exclude_correction_id** | [**List[str]**](str.md)| IDs of Correction Configurations to be Excluded from the result | [optional] 
+ **include_correction_id** | [**List[str]**](str.md)| IDs of Correction Configurations to be Included in the result | [optional] 
 
 ### Return type
 

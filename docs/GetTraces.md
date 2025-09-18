@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**include_internal** | **bool** |  | [optional] 
-**include_synthetic** | **bool** |  | [optional] 
+**include_internal** | **bool** | Flag to include Internal Calls. These calls are work done inside a service and correspond to intermediate spans in custom tracing. | [optional] 
+**include_synthetic** | **bool** | Flag to include Synthetic Calls. These calls have a synthetic endpoint as their destination, such as calls to health-check endpoints. | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
 **pagination** | [**CursorPagination**](CursorPagination.md) |  | [optional] 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 

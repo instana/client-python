@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.304.1059
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -23,6 +23,7 @@ from typing_extensions import Annotated
 from instana_client.models.api_create_group import ApiCreateGroup
 from instana_client.models.api_group import ApiGroup
 from instana_client.models.group_mapping import GroupMapping
+from instana_client.models.group_mapping_overview import GroupMappingOverview
 from instana_client.models.identity_provider_patch import IdentityProviderPatch
 
 from instana_client.api_client import ApiClient, RequestSerialized
@@ -63,7 +64,6 @@ class GroupsApi:
     ) -> ApiGroup:
         """Add permissions to group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param group_id: Id of the group to add permissions (required)
         :type group_id: str
@@ -134,7 +134,6 @@ class GroupsApi:
     ) -> ApiResponse[ApiGroup]:
         """Add permissions to group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param group_id: Id of the group to add permissions (required)
         :type group_id: str
@@ -205,7 +204,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Add permissions to group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param group_id: Id of the group to add permissions (required)
         :type group_id: str
@@ -353,7 +351,6 @@ class GroupsApi:
     ) -> ApiGroup:
         """Add users to group
 
-        Add one or more users to a group. The array contains the ids of the users to be added.
 
         :param group_id: Id of the group to add users (required)
         :type group_id: str
@@ -424,7 +421,6 @@ class GroupsApi:
     ) -> ApiResponse[ApiGroup]:
         """Add users to group
 
-        Add one or more users to a group. The array contains the ids of the users to be added.
 
         :param group_id: Id of the group to add users (required)
         :type group_id: str
@@ -495,7 +491,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Add users to group
 
-        Add one or more users to a group. The array contains the ids of the users to be added.
 
         :param group_id: Id of the group to add users (required)
         :type group_id: str
@@ -642,7 +637,6 @@ class GroupsApi:
     ) -> ApiGroup:
         """Create group
 
-        Creates a group on the tenant. Each group entry also needs a `Permission Set` per unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  Possible access permissions values are:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE`  The `id` value for the group is ignored, a new id is generated.  The `scopeRoleId` is ignored, the id corresponding to the area is used.  The `scopeId` is the id for the corresponding resource.
 
         :param api_create_group: (required)
         :type api_create_group: ApiCreateGroup
@@ -709,7 +703,6 @@ class GroupsApi:
     ) -> ApiResponse[ApiGroup]:
         """Create group
 
-        Creates a group on the tenant. Each group entry also needs a `Permission Set` per unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  Possible access permissions values are:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE`  The `id` value for the group is ignored, a new id is generated.  The `scopeRoleId` is ignored, the id corresponding to the area is used.  The `scopeId` is the id for the corresponding resource.
 
         :param api_create_group: (required)
         :type api_create_group: ApiCreateGroup
@@ -776,7 +769,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Create group
 
-        Creates a group on the tenant. Each group entry also needs a `Permission Set` per unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  Possible access permissions values are:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE`  The `id` value for the group is ignored, a new id is generated.  The `scopeRoleId` is ignored, the id corresponding to the area is used.  The `scopeId` is the id for the corresponding resource.
 
         :param api_create_group: (required)
         :type api_create_group: ApiCreateGroup
@@ -916,7 +908,6 @@ class GroupsApi:
     ) -> GroupMapping:
         """Create group mapping
 
-        Creates a mapping between a group from the IdP (LDAP, OIDC, SAML) and an Instana group.  If the IdP is configured and mappings are enabled, the `key` `value` pairs a user sent by the idp will be evaluated every time this user logs in.  If they match the mapping, the user will be assigned to the group corresponding to the `groupId`.  Inside the payload, the `id` for the mapping is ignored, and instead, Instana generates a new id.
 
         :param group_mapping: (required)
         :type group_mapping: GroupMapping
@@ -983,7 +974,6 @@ class GroupsApi:
     ) -> ApiResponse[GroupMapping]:
         """Create group mapping
 
-        Creates a mapping between a group from the IdP (LDAP, OIDC, SAML) and an Instana group.  If the IdP is configured and mappings are enabled, the `key` `value` pairs a user sent by the idp will be evaluated every time this user logs in.  If they match the mapping, the user will be assigned to the group corresponding to the `groupId`.  Inside the payload, the `id` for the mapping is ignored, and instead, Instana generates a new id.
 
         :param group_mapping: (required)
         :type group_mapping: GroupMapping
@@ -1050,7 +1040,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Create group mapping
 
-        Creates a mapping between a group from the IdP (LDAP, OIDC, SAML) and an Instana group.  If the IdP is configured and mappings are enabled, the `key` `value` pairs a user sent by the idp will be evaluated every time this user logs in.  If they match the mapping, the user will be assigned to the group corresponding to the `groupId`.  Inside the payload, the `id` for the mapping is ignored, and instead, Instana generates a new id.
 
         :param group_mapping: (required)
         :type group_mapping: GroupMapping
@@ -1685,6 +1674,545 @@ class GroupsApi:
 
 
     @validate_call
+    def delete_group_mappings(
+        self,
+        body: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete multiple group mappings
+
+
+        :param body: (required)
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_group_mappings_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_group_mappings_with_http_info(
+        self,
+        body: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete multiple group mappings
+
+
+        :param body: (required)
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_group_mappings_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_group_mappings_without_preload_content(
+        self,
+        body: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete multiple group mappings
+
+
+        :param body: (required)
+        :type body: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_group_mappings_serialize(
+            body=body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_group_mappings_serialize(
+        self,
+        body,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if body is not None:
+            _body_params = body
+
+
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/settings/rbac/mappings/delete',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_groups(
+        self,
+        request_body: List[StrictStr],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete groups
+
+        Delete multiple groups
+
+        :param request_body: (required)
+        :type request_body: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_groups_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_groups_with_http_info(
+        self,
+        request_body: List[StrictStr],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete groups
+
+        Delete multiple groups
+
+        :param request_body: (required)
+        :type request_body: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_groups_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_groups_without_preload_content(
+        self,
+        request_body: List[StrictStr],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete groups
+
+        Delete multiple groups
+
+        :param request_body: (required)
+        :type request_body: List[str]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_groups_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_groups_serialize(
+        self,
+        request_body,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'request_body': '',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if request_body is not None:
+            _body_params = request_body
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/settings/rbac/groups/delete',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_group(
         self,
         id: Annotated[StrictStr, Field(description="Id of the group for retrieval")],
@@ -1703,7 +2231,6 @@ class GroupsApi:
     ) -> ApiGroup:
         """Get group
 
-        Returns group data, including the `Permission set`. See [get groups](#operation/getGroups) for more details.
 
         :param id: Id of the group for retrieval (required)
         :type id: str
@@ -1770,7 +2297,6 @@ class GroupsApi:
     ) -> ApiResponse[ApiGroup]:
         """Get group
 
-        Returns group data, including the `Permission set`. See [get groups](#operation/getGroups) for more details.
 
         :param id: Id of the group for retrieval (required)
         :type id: str
@@ -1837,7 +2363,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Get group
 
-        Returns group data, including the `Permission set`. See [get groups](#operation/getGroups) for more details.
 
         :param id: Id of the group for retrieval (required)
         :type id: str
@@ -1946,6 +2471,267 @@ class GroupsApi:
 
 
     @validate_call
+    def get_group_mapping(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GroupMapping:
+        """Get group mapping
+
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mapping_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GroupMapping",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_group_mapping_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GroupMapping]:
+        """Get group mapping
+
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mapping_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GroupMapping",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_group_mapping_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get group mapping
+
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mapping_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GroupMapping",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_group_mapping_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/settings/rbac/mappings/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_group_mappings(
         self,
         _request_timeout: Union[
@@ -1963,7 +2749,6 @@ class GroupsApi:
     ) -> List[GroupMapping]:
         """Get all group mappings
 
-        If mappings between groups on the identity provider (LDAP, OIDC, SAML) and Instana groups where configured, this will return a list of those mappings.  This can be configured through the [api](#operation/createGroupMapping) or on Instana graphical user interface at Settings > Authentication > IDENTITY PROVIDERS > Group Mapping.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2027,7 +2812,6 @@ class GroupsApi:
     ) -> ApiResponse[List[GroupMapping]]:
         """Get all group mappings
 
-        If mappings between groups on the identity provider (LDAP, OIDC, SAML) and Instana groups where configured, this will return a list of those mappings.  This can be configured through the [api](#operation/createGroupMapping) or on Instana graphical user interface at Settings > Authentication > IDENTITY PROVIDERS > Group Mapping.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2091,7 +2875,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Get all group mappings
 
-        If mappings between groups on the identity provider (LDAP, OIDC, SAML) and Instana groups where configured, this will return a list of those mappings.  This can be configured through the [api](#operation/createGroupMapping) or on Instana graphical user interface at Settings > Authentication > IDENTITY PROVIDERS > Group Mapping.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2195,6 +2978,252 @@ class GroupsApi:
 
 
     @validate_call
+    def get_group_mappings_overview(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[GroupMappingOverview]:
+        """Get all group mappings overview
+
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mappings_overview_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GroupMappingOverview]",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_group_mappings_overview_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[GroupMappingOverview]]:
+        """Get all group mappings overview
+
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mappings_overview_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GroupMappingOverview]",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_group_mappings_overview_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get all group mappings overview
+
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_group_mappings_overview_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[GroupMappingOverview]",
+            '404': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_group_mappings_overview_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/settings/rbac/mappings/overview',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_groups(
         self,
         _request_timeout: Union[
@@ -2212,7 +3241,6 @@ class GroupsApi:
     ) -> List[ApiGroup]:
         """Get groups
 
-        Retrieve the list of all groups on the tenant together with the `Permission Set` for the tenant unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  The areas are included inside the `permissionSet`.  The scopeRoleId is a fixed value for each area type:  | Area                    | value         | | ----------------------- | ------------- | | applicationIds          | -100          | | kubernetesClusterUUIDs  | -200          | | kubernetesNamespaceUIDs | -300          | | websiteIds              | -400          | | mobileAppIds            | -500          | | infraDfqFilter          | -600          |  For example:  ``` [     {         \"id\": \"7hwdhtt7TU2CJDgYXgwwww\",         \"name\": \"Scoped Group\",         \"members\": [             {                 \"userId\": \"61892cfdfcffab03016b2950\",                 \"email\": \"jhon@example.com\"             }         ],         \"permissionSet\": {         \"permissions\": [             \"CAN_VIEW_LOGS\",             \"CAN_VIEW_TRACE_DETAILS\",             \"CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS\",             \"ACCESS_APPLICATIONS\",             \"LIMITED_APPLICATIONS_SCOPE\",                         \"ACCESS_KUBERNETES\",             \"LIMITED_KUBERNETES_SCOPE\",             \"ACCESS_INFRASTRUCTURE_APPS\",             \"LIMITED_INFRASTRUCTURE_SCOPE\",             \"LIMITED_WEBSITES_SCOPE\",                      ],         \"applicationIds\": [             {             \"scopeId\": \"1qvWgVfLTNqi9gGTcCaNUw\",             \"scopeRoleId\": \"-100\"             }         ],         \"kubernetesClusterUUIDs\": [             {             \"scopeId\": \"induced\",             \"scopeRoleId\": \"-200\"             }         ],         \"kubernetesNamespaceUIDs\": [],         \"websiteIds\": [],         \"mobileAppIds\": [],         \"infraDfqFilter\": {             \"scopeId\": \"production\",             \"scopeRoleId\": \"-600\"         }     } ] ``` In this case `Scoped Group` has no access to websites due to having `LIMITED_WEBSITES_SCOPE` but not `ACCESS_WEBSITES`.  Also due to having `LIMITED_APPLICATIONS_SCOPE`, the only visible application is the one with this id: `1qvWgVfLTNqi9gGTcCaNUw`.  Same applies to `kubernetesClusterUUIDs`, `kubernetesNamespaceUIDs` and `infraDfqFilter`, with the only difference is that `infraDfqFilter` uses a filter \"production\" instead of an id.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2276,7 +3304,6 @@ class GroupsApi:
     ) -> ApiResponse[List[ApiGroup]]:
         """Get groups
 
-        Retrieve the list of all groups on the tenant together with the `Permission Set` for the tenant unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  The areas are included inside the `permissionSet`.  The scopeRoleId is a fixed value for each area type:  | Area                    | value         | | ----------------------- | ------------- | | applicationIds          | -100          | | kubernetesClusterUUIDs  | -200          | | kubernetesNamespaceUIDs | -300          | | websiteIds              | -400          | | mobileAppIds            | -500          | | infraDfqFilter          | -600          |  For example:  ``` [     {         \"id\": \"7hwdhtt7TU2CJDgYXgwwww\",         \"name\": \"Scoped Group\",         \"members\": [             {                 \"userId\": \"61892cfdfcffab03016b2950\",                 \"email\": \"jhon@example.com\"             }         ],         \"permissionSet\": {         \"permissions\": [             \"CAN_VIEW_LOGS\",             \"CAN_VIEW_TRACE_DETAILS\",             \"CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS\",             \"ACCESS_APPLICATIONS\",             \"LIMITED_APPLICATIONS_SCOPE\",                         \"ACCESS_KUBERNETES\",             \"LIMITED_KUBERNETES_SCOPE\",             \"ACCESS_INFRASTRUCTURE_APPS\",             \"LIMITED_INFRASTRUCTURE_SCOPE\",             \"LIMITED_WEBSITES_SCOPE\",                      ],         \"applicationIds\": [             {             \"scopeId\": \"1qvWgVfLTNqi9gGTcCaNUw\",             \"scopeRoleId\": \"-100\"             }         ],         \"kubernetesClusterUUIDs\": [             {             \"scopeId\": \"induced\",             \"scopeRoleId\": \"-200\"             }         ],         \"kubernetesNamespaceUIDs\": [],         \"websiteIds\": [],         \"mobileAppIds\": [],         \"infraDfqFilter\": {             \"scopeId\": \"production\",             \"scopeRoleId\": \"-600\"         }     } ] ``` In this case `Scoped Group` has no access to websites due to having `LIMITED_WEBSITES_SCOPE` but not `ACCESS_WEBSITES`.  Also due to having `LIMITED_APPLICATIONS_SCOPE`, the only visible application is the one with this id: `1qvWgVfLTNqi9gGTcCaNUw`.  Same applies to `kubernetesClusterUUIDs`, `kubernetesNamespaceUIDs` and `infraDfqFilter`, with the only difference is that `infraDfqFilter` uses a filter \"production\" instead of an id.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2340,7 +3367,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Get groups
 
-        Retrieve the list of all groups on the tenant together with the `Permission Set` for the tenant unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  The areas are included inside the `permissionSet`.  The scopeRoleId is a fixed value for each area type:  | Area                    | value         | | ----------------------- | ------------- | | applicationIds          | -100          | | kubernetesClusterUUIDs  | -200          | | kubernetesNamespaceUIDs | -300          | | websiteIds              | -400          | | mobileAppIds            | -500          | | infraDfqFilter          | -600          |  For example:  ``` [     {         \"id\": \"7hwdhtt7TU2CJDgYXgwwww\",         \"name\": \"Scoped Group\",         \"members\": [             {                 \"userId\": \"61892cfdfcffab03016b2950\",                 \"email\": \"jhon@example.com\"             }         ],         \"permissionSet\": {         \"permissions\": [             \"CAN_VIEW_LOGS\",             \"CAN_VIEW_TRACE_DETAILS\",             \"CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS\",             \"ACCESS_APPLICATIONS\",             \"LIMITED_APPLICATIONS_SCOPE\",                         \"ACCESS_KUBERNETES\",             \"LIMITED_KUBERNETES_SCOPE\",             \"ACCESS_INFRASTRUCTURE_APPS\",             \"LIMITED_INFRASTRUCTURE_SCOPE\",             \"LIMITED_WEBSITES_SCOPE\",                      ],         \"applicationIds\": [             {             \"scopeId\": \"1qvWgVfLTNqi9gGTcCaNUw\",             \"scopeRoleId\": \"-100\"             }         ],         \"kubernetesClusterUUIDs\": [             {             \"scopeId\": \"induced\",             \"scopeRoleId\": \"-200\"             }         ],         \"kubernetesNamespaceUIDs\": [],         \"websiteIds\": [],         \"mobileAppIds\": [],         \"infraDfqFilter\": {             \"scopeId\": \"production\",             \"scopeRoleId\": \"-600\"         }     } ] ``` In this case `Scoped Group` has no access to websites due to having `LIMITED_WEBSITES_SCOPE` but not `ACCESS_WEBSITES`.  Also due to having `LIMITED_APPLICATIONS_SCOPE`, the only visible application is the one with this id: `1qvWgVfLTNqi9gGTcCaNUw`.  Same applies to `kubernetesClusterUUIDs`, `kubernetesNamespaceUIDs` and `infraDfqFilter`, with the only difference is that `infraDfqFilter` uses a filter \"production\" instead of an id.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2462,7 +3488,6 @@ class GroupsApi:
     ) -> List[ApiGroup]:
         """Get groups of a single user
 
-        Returns a list of all groups a user belongs to. This includes data from these groups, the `members`, the `name` and the `Permission set`.
 
         :param email: Email of the user for retrieval (required)
         :type email: str
@@ -2530,7 +3555,6 @@ class GroupsApi:
     ) -> ApiResponse[List[ApiGroup]]:
         """Get groups of a single user
 
-        Returns a list of all groups a user belongs to. This includes data from these groups, the `members`, the `name` and the `Permission set`.
 
         :param email: Email of the user for retrieval (required)
         :type email: str
@@ -2598,7 +3622,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Get groups of a single user
 
-        Returns a list of all groups a user belongs to. This includes data from these groups, the `members`, the `name` and the `Permission set`.
 
         :param email: Email of the user for retrieval (required)
         :type email: str
@@ -2725,7 +3748,6 @@ class GroupsApi:
     ) -> IdentityProviderPatch:
         """Check user restrictions for empty Idp group mapping
 
-        Returns `RestrictEmptyIdpGroups` value indicating if access is denied for empty Idp group mapping. `RestrictEmptyIdpGroups = true` indicates that the tenant is locked and only those users are allowed access that have at least one working mapping rule applied to them during the login process.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2789,7 +3811,6 @@ class GroupsApi:
     ) -> ApiResponse[IdentityProviderPatch]:
         """Check user restrictions for empty Idp group mapping
 
-        Returns `RestrictEmptyIdpGroups` value indicating if access is denied for empty Idp group mapping. `RestrictEmptyIdpGroups = true` indicates that the tenant is locked and only those users are allowed access that have at least one working mapping rule applied to them during the login process.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2853,7 +3874,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Check user restrictions for empty Idp group mapping
 
-        Returns `RestrictEmptyIdpGroups` value indicating if access is denied for empty Idp group mapping. `RestrictEmptyIdpGroups = true` indicates that the tenant is locked and only those users are allowed access that have at least one working mapping rule applied to them during the login process.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3249,7 +4269,6 @@ class GroupsApi:
     ) -> ApiGroup:
         """Update group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param id: Id of the group to update (required)
         :type id: str
@@ -3320,7 +4339,6 @@ class GroupsApi:
     ) -> ApiResponse[ApiGroup]:
         """Update group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param id: Id of the group to update (required)
         :type id: str
@@ -3391,7 +4409,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Update group
 
-        Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
 
         :param id: Id of the group to update (required)
         :type id: str
@@ -3538,7 +4555,6 @@ class GroupsApi:
     ) -> GroupMapping:
         """Update group mapping
 
-        See [creating group mapping](#operation/createGroupMapping)
 
         :param id: Id of the group mapping to update (required)
         :type id: str
@@ -3609,7 +4625,6 @@ class GroupsApi:
     ) -> ApiResponse[GroupMapping]:
         """Update group mapping
 
-        See [creating group mapping](#operation/createGroupMapping)
 
         :param id: Id of the group mapping to update (required)
         :type id: str
@@ -3680,7 +4695,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Update group mapping
 
-        See [creating group mapping](#operation/createGroupMapping)
 
         :param id: Id of the group mapping to update (required)
         :type id: str
@@ -3826,7 +4840,6 @@ class GroupsApi:
     ) -> None:
         """Allow/Restrict users with empty Idp group mapping
 
-        Set the RestrictEmptyIdpGroups value as true/false. See [Check user restrictions for empty Idp group mapping](#operation/getIdentityProviderPatch) for more details.
 
         :param identity_provider_patch: (required)
         :type identity_provider_patch: IdentityProviderPatch
@@ -3892,7 +4905,6 @@ class GroupsApi:
     ) -> ApiResponse[None]:
         """Allow/Restrict users with empty Idp group mapping
 
-        Set the RestrictEmptyIdpGroups value as true/false. See [Check user restrictions for empty Idp group mapping](#operation/getIdentityProviderPatch) for more details.
 
         :param identity_provider_patch: (required)
         :type identity_provider_patch: IdentityProviderPatch
@@ -3958,7 +4970,6 @@ class GroupsApi:
     ) -> RESTResponseType:
         """Allow/Restrict users with empty Idp group mapping
 
-        Set the RestrictEmptyIdpGroups value as true/false. See [Check user restrictions for empty Idp group mapping](#operation/getIdentityProviderPatch) for more details.
 
         :param identity_provider_patch: (required)
         :type identity_provider_patch: IdentityProviderPatch

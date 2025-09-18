@@ -18,6 +18,8 @@ Method | HTTP request | Description
 
 Get payload keys for plugin
 
+This endpoint retrieves the list of keys that can be used to retrieve payloads for a plugin. 
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -91,11 +93,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_infrastructure_catalog_metrics**
-> List[MetricInstance] get_infrastructure_catalog_metrics(plugin, filter=filter)
+> List[MetricInstance] get_infrastructure_catalog_metrics(plugin, filter=filter, label=label, limit=limit)
 
 Get metric catalog
-
-This endpoint retrieves all available metric definitions of the requested plugin.  ### Path Parameters:  **plugin** The plugin id from [available plugins](#operation/getInfrastructureCatalogPlugins)  ### Optional Parameters:  **filter** You can restrict the returned metric definitions by passing a filter.  * `custom` to retrieve custom metric definitions only. * `builtin` to retrieve built-in metric definitions only. 
 
 ### Example
 
@@ -130,10 +130,12 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.InfrastructureCatalogApi(api_client)
     plugin = 'plugin_example' # str | 
     filter = 'filter_example' # str |  (optional)
+    label = 'label_example' # str |  (optional)
+    limit = 56 # int |  (optional)
 
     try:
         # Get metric catalog
-        api_response = api_instance.get_infrastructure_catalog_metrics(plugin, filter=filter)
+        api_response = api_instance.get_infrastructure_catalog_metrics(plugin, filter=filter, label=label, limit=limit)
         print("The response of InfrastructureCatalogApi->get_infrastructure_catalog_metrics:\n")
         pprint(api_response)
     except Exception as e:
@@ -149,6 +151,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **plugin** | **str**|  | 
  **filter** | **str**|  | [optional] 
+ **label** | **str**|  | [optional] 
+ **limit** | **int**|  | [optional] 
 
 ### Return type
 
@@ -175,8 +179,6 @@ Name | Type | Description  | Notes
 > List[PluginResult] get_infrastructure_catalog_plugins()
 
 Get plugin catalog
-
-This endpoint retrieves all available plugin ids for your monitored system. 
 
 ### Example
 
@@ -251,6 +253,8 @@ This endpoint does not need any parameter.
 
 Get all plugins with custom metrics catalog
 
+This endpoint retrieves a list of all plugins that have custom metrics
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -323,8 +327,6 @@ This endpoint does not need any parameter.
 > List[SearchFieldResult] get_infrastructure_catalog_search_fields()
 
 get search field catalog
-
-This endpoint retrieves all available search keywords for dynamic focus queries.  These search fields can be accessed via lucene queries. Each field belongs to a context, e.g. to entity, trace or event data. Some fields contain a set of possible fixed values, in this case a deviant value is invalid.  ``` ?query={keyword}:{value} ``` 
 
 ### Example
 
@@ -463,7 +465,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: applciation/json
+ - **Accept**: application/json
 
 ### HTTP response details
 
