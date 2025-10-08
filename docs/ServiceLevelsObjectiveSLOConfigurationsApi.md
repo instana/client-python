@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_slo_config**
-> ServiceLevelObjectiveConfiguration create_slo_config(service_level_objective_configuration)
+> SLOConfigWithRBACTag create_slo_config(slo_config_with_rbac_tag)
 
 Create a new SLO Config
 
@@ -23,7 +23,7 @@ Create a new SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -48,11 +48,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
-    service_level_objective_configuration = {"name":"Stans test SLO 4","target":0.99,"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # ServiceLevelObjectiveConfiguration | 
+    slo_config_with_rbac_tag = {"name":"Stans test SLO 4","target":0.99,"rbacTags":[{"id":"R3_hPrHXSMe0yGsnlFdReA","displayName":"team 1"}],"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # SLOConfigWithRBACTag | 
 
     try:
         # Create a new SLO Config
-        api_response = api_instance.create_slo_config(service_level_objective_configuration)
+        api_response = api_instance.create_slo_config(slo_config_with_rbac_tag)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->create_slo_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -66,11 +66,11 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **service_level_objective_configuration** | [**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)|  | 
+ **slo_config_with_rbac_tag** | [**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)|  | 
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -346,7 +346,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_slo_config_by_id**
-> ServiceLevelObjectiveConfiguration get_slo_config_by_id(id, refresh=refresh)
+> SLOConfigWithRBACTag get_slo_config_by_id(id, refresh=refresh)
 
 Get an existing SLO Config
 
@@ -356,7 +356,7 @@ Get an existing SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -405,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -426,7 +426,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_slo_config**
-> ServiceLevelObjectiveConfiguration update_slo_config(id, service_level_objective_configuration)
+> SLOConfigWithRBACTag update_slo_config(id, slo_config_with_rbac_tag)
 
 Update an existing SLO Config
 
@@ -436,7 +436,7 @@ Update an existing SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -462,11 +462,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
     id = 'SLOdCTspkHlS_OzNOATQWgsuw' # str | 
-    service_level_objective_configuration = {"name":"Stans test SLO 4","target":0.99,"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # ServiceLevelObjectiveConfiguration | 
+    slo_config_with_rbac_tag = {"name":"Stans test SLO 4","target":0.99,"rbacTags":[{"id":"R3_hPrHXSMe0yGsnlFdReA","displayName":"team 1"}],"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # SLOConfigWithRBACTag | 
 
     try:
         # Update an existing SLO Config
-        api_response = api_instance.update_slo_config(id, service_level_objective_configuration)
+        api_response = api_instance.update_slo_config(id, slo_config_with_rbac_tag)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->update_slo_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -481,11 +481,11 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**|  | 
- **service_level_objective_configuration** | [**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)|  | 
+ **slo_config_with_rbac_tag** | [**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)|  | 
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 

@@ -38,6 +38,9 @@ Method | HTTP request | Description
 
 Add application configuration
 
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -115,6 +118,9 @@ Name | Type | Description  | Notes
 > ManualServiceConfig add_manual_service_config(new_manual_service_config)
 
 Add manual service configuration
+
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -195,20 +201,18 @@ Name | Type | Description  | Notes
 Add service configuration
 
 Use this API endpoint if one wants to create a custom service rule.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
-There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`. 
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
-
-## Errata: 
-
+## Errata:
 
 The following field is documented in the request schema:
 - The `id` field is not mandatory and one can't have a service configuration id before creating one configuration.
 Instana creates it automatically.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -288,12 +292,12 @@ Name | Type | Description  | Notes
 Create endpoint configuration
 
 Use this API endpoint if one wants to create an endpoint configuration of a service.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -373,12 +377,12 @@ Name | Type | Description  | Notes
 Create HTTP endpoint configuration
 
 This is a deprecated endpoint. Use `Create endpoint configuration` instead.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -457,14 +461,14 @@ Name | Type | Description  | Notes
 
 Delete application configuration
 
-Use this API endpoint if one wants to delete an Application Perspective. This endpoint requires `canConfigureApplications` permission. 
-
+Use this API endpoint if one wants to delete an Application Perspective. This endpoint requires `canConfigureApplications` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 
 ## Deprecated Parameters
 **matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -543,12 +547,12 @@ void (empty response body)
 Delete endpoint configuration
 
 Use this API endpoint if one wants to delete an endpoint configuration of a service.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -627,12 +631,12 @@ void (empty response body)
 Delete HTTP endpoint configuration
 
 This is a deprecated endpoint. Use `Delete endpoint configuration` instead.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -707,6 +711,9 @@ void (empty response body)
 > delete_manual_service_config(id)
 
 Delete manual service configuration
+
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -783,12 +790,12 @@ void (empty response body)
 Delete service configuration
 
 Use this API endpoint if one wants to delete a service configuration.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -864,6 +871,9 @@ void (empty response body)
 
 All manual service configurations
 
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -938,8 +948,7 @@ This endpoint does not need any parameter.
 Application configuration
 
 Use this API endpoint if one wants to retrieve an Application Perspective with its configuration setting.
-This endpoint requires `canConfigureApplications` permission. 
-
+This endpoint requires `canConfigureApplications` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Configuration of applications` to `true`.
@@ -947,6 +956,7 @@ There one can update the existing token or create a new token and set `Configura
 ## Deprecated Parameters
 **matchSpecification:** A binary tree structure of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1028,8 +1038,7 @@ Name | Type | Description  | Notes
 All Application configurations
 
 Use this API endpoint if one wants to retrieve a list of all Application Perspectives with their configuration settings.
-This endpoint requires `canConfigureApplications` permission. 
-
+This endpoint requires `canConfigureApplications` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureApplications` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Configuration of applications` to `true`.
@@ -1037,6 +1046,7 @@ There one can update the existing token or create a new token and set `Configura
 ## Deprecated Parameters
 **matchSpecification:** A binary tree sturcture of match expression connected with binary operator AND or OR. It is replaced by **tagFilterExpression** which is also used in Application Analyze API endpoints.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1112,12 +1122,12 @@ This endpoint does not need any parameter.
 Endpoint configuration
 
 Use this API endpoint if one wants to retrieve the endpoint configuration of a service.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1199,12 +1209,12 @@ Name | Type | Description  | Notes
 All Endpoint configurations
 
 Use this API endpoint if one wants to retrieve a list of all endpoint configurations.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1280,12 +1290,12 @@ This endpoint does not need any parameter.
 HTTP Endpoint configuration
 
 This is a deprecated endpoint. Use `Endpoint configuration` instead.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1365,12 +1375,12 @@ Name | Type | Description  | Notes
 All HTTP endpoint configurations
 
 This is a deprecated endpoint. Use `All Endpoint configurations` instead.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1446,12 +1456,12 @@ This endpoint does not need any parameter.
 Service configuration
 
 Use this API endpoint if one wants to retrieve a particular custom service rule.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1534,12 +1544,12 @@ Name | Type | Description  | Notes
 All service configurations
 
 Use this API endpoint if one wants to retrive a list of all service configurations.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1616,12 +1626,12 @@ Order of service configuration
 
 Use this API endpoint if one wants to change the order of service configurations aka custom service rules.
 Note that all service configuration IDs have to be passed in the request to re-order the configurations.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1682,13 +1692,16 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | Order of Service rules modified |  -  |
+**400** | Provided config is not found |  -  |
+**401** | Unauthorized request |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1696,6 +1709,9 @@ void (empty response body)
 > ApplicationConfig put_application_config(id, application_config)
 
 Update application configuration
+
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1777,12 +1793,12 @@ Name | Type | Description  | Notes
 Update service configuration
 
 Use this API endpoint if one wants to update a particular custom service rule.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1864,12 +1880,12 @@ Name | Type | Description  | Notes
 Replace all service configurations
 
 Use this API endpoint if one wants to modify 1 or more existing service configuration.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -1947,6 +1963,9 @@ Name | Type | Description  | Notes
 > List[ManualServiceConfig] replace_all_manual_service_configs(new_manual_service_config)
 
 Replace all manual service configurations
+
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -2027,12 +2046,12 @@ Name | Type | Description  | Notes
 Update endpoint configuration
 
 Use this API endpoint if one wants to update an existing endpoint configuration of a service.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -2114,12 +2133,12 @@ Name | Type | Description  | Notes
 Update HTTP endpoint configuration
 
 This is a deprecated endpoint. Use `Update endpoint configuration` instead.
-This endpoint requires `CanConfigureServiceMapping` permission. 
-
+This endpoint requires `CanConfigureServiceMapping` permission.
 One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
 If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
 There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
 
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 
@@ -2199,6 +2218,9 @@ Name | Type | Description  | Notes
 > ManualServiceConfig update_manual_service_config(id, manual_service_config)
 
 Update manual service configuration
+
+
+For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
 

@@ -19,6 +19,7 @@ Get call detail
 
 Use this API endpoint to retrieve a vast information about a call present in a trace.
 
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -98,6 +99,9 @@ Name | Type | Description  | Notes
 > CallGroupsResult get_call_group(fill_time_series=fill_time_series, get_call_groups=get_call_groups)
 
 Get grouped call metrics
+
+
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -180,6 +184,7 @@ Name | Type | Description  | Notes
 Resolve Trace IDs from Monitoring Beacons.
 
 Resolves backend trace IDs using correlation IDs from website and mobile app monitoring beacons.
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -259,6 +264,7 @@ Name | Type | Description  | Notes
 Get trace detail
 
 Use this API endpoint if one wants to retrive comprehensive details of a particular trace.
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -344,6 +350,7 @@ Name | Type | Description  | Notes
 Get grouped trace metrics
 
 In this endpoint, the supported `groupbyTag` are `trace.endpoint.name` and `trace.service.name`. 
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -424,6 +431,9 @@ Name | Type | Description  | Notes
 > TraceResult get_traces(get_traces=get_traces)
 
 Get all traces
+
+
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 

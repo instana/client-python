@@ -7,8 +7,10 @@ Custom handler definition.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ai_model** | **str** |  | [optional] 
+**configurations** | **object** |  | [optional] 
 **created_at** | **str** |  | 
 **description** | **str** |  | [optional] 
+**enabled** | **bool** |  | [optional] 
 **endpoint_api_key** | **str** |  | [optional] 
 **endpoint_url** | **str** |  | [optional] 
 **id** | **str** |  | 
@@ -18,6 +20,7 @@ Name | Type | Description | Notes
 **name** | **str** |  | 
 **prompt** | **str** |  | 
 **supports** | **object** |  | 
+**system** | **bool** |  | [optional] 
 **tenant_unit_id** | **str** |  | 
 **watsonx_key** | **str** |  | [optional] 
 **watsonx_project** | **str** |  | [optional] 

@@ -21,6 +21,9 @@ Method | HTTP request | Description
 
 Delete maintenance configuration
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -95,6 +98,9 @@ void (empty response body)
 
 Delete maintenance configuration
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -168,6 +174,9 @@ void (empty response body)
 > MaintenanceConfigWithLastUpdated get_maintenance_config(id)
 
 Maintenance configuration
+
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
 
 ### Example
 
@@ -246,6 +255,9 @@ Name | Type | Description  | Notes
 
 Get maintenance configuration
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -323,6 +335,9 @@ Name | Type | Description  | Notes
 
 All maintenance configurations
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -396,6 +411,9 @@ This endpoint does not need any parameter.
 
 All maintenance configurations
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -468,6 +486,9 @@ This endpoint does not need any parameter.
 > MaintenanceConfigV2WithStateAndOccurrence pause_recurrent_maintenance_configuration(id)
 
 Pause maintenance configuration
+
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
 
 ### Example
 
@@ -545,6 +566,9 @@ Name | Type | Description  | Notes
 > put_maintenance_config(id, maintenance_config)
 
 Create or update maintenance configuration
+
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
 
 ### Example
 
@@ -625,6 +649,9 @@ void (empty response body)
 
 Create or update maintenance configuration
 
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -704,6 +731,9 @@ void (empty response body)
 > MaintenanceConfigV2WithStateAndOccurrence resume_recurrent_maintenance_configuration(id)
 
 Resume maintenance configuration
+
+
+For more information on Maintenance Configurations please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#maintenance-configurations.
 
 ### Example
 

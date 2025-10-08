@@ -8,7 +8,7 @@ Method | HTTP request | Description
 [**delete_application_alert_config**](ApplicationAlertConfigurationApi.md#delete_application_alert_config) | **DELETE** /api/events/settings/application-alert-configs/{id} | Delete Smart Alert Config
 [**disable_application_alert_config**](ApplicationAlertConfigurationApi.md#disable_application_alert_config) | **PUT** /api/events/settings/application-alert-configs/{id}/disable | Disable Smart Alert Config
 [**enable_application_alert_config**](ApplicationAlertConfigurationApi.md#enable_application_alert_config) | **PUT** /api/events/settings/application-alert-configs/{id}/enable | Enable Application Alert Config
-[**find_active_application_alert_configs**](ApplicationAlertConfigurationApi.md#find_active_application_alert_configs) | **GET** /api/events/settings/application-alert-configs | Get all Smart Alert Configs
+[**find_all_active_application_alert_configs**](ApplicationAlertConfigurationApi.md#find_all_active_application_alert_configs) | **GET** /api/events/settings/application-alert-configs | Get all Smart Alert Configs
 [**find_application_alert_config**](ApplicationAlertConfigurationApi.md#find_application_alert_config) | **GET** /api/events/settings/application-alert-configs/{id} | Get Smart Alert Config
 [**find_application_alert_config_versions**](ApplicationAlertConfigurationApi.md#find_application_alert_config_versions) | **GET** /api/events/settings/application-alert-configs/{id}/versions | Get Smart Alert Config Versions
 [**restore_application_alert_config**](ApplicationAlertConfigurationApi.md#restore_application_alert_config) | **PUT** /api/events/settings/application-alert-configs/{id}/restore/{created} | Restore Smart Alert Config
@@ -22,6 +22,7 @@ Method | HTTP request | Description
 Create Smart Alert Config
 
 Creates a new Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -96,6 +97,7 @@ Name | Type | Description  | Notes
 **400** | Invalid Configuration. |  -  |
 **403** | Insufficient permissions. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -105,6 +107,7 @@ Name | Type | Description  | Notes
 Delete Smart Alert Config
 
 Deletes an Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -171,9 +174,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -183,6 +186,7 @@ void (empty response body)
 Disable Smart Alert Config
 
 Disables an Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -251,9 +255,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -263,6 +267,7 @@ void (empty response body)
 Enable Application Alert Config
 
 Enables an Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -331,18 +336,19 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **find_active_application_alert_configs**
-> List[ApplicationAlertConfigWithMetadata] find_active_application_alert_configs(application_id, alert_ids=alert_ids)
+# **find_all_active_application_alert_configs**
+> List[ApplicationAlertConfigWithMetadata] find_all_active_application_alert_configs(application_id, alert_ids=alert_ids)
 
 Get all Smart Alert Configs
 
 Gets all the Smart Alert Configurations pertaining to a specific application. Configurations are sorted by creation date in descending order.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -380,11 +386,11 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # Get all Smart Alert Configs
-        api_response = api_instance.find_active_application_alert_configs(application_id, alert_ids=alert_ids)
-        print("The response of ApplicationAlertConfigurationApi->find_active_application_alert_configs:\n")
+        api_response = api_instance.find_all_active_application_alert_configs(application_id, alert_ids=alert_ids)
+        print("The response of ApplicationAlertConfigurationApi->find_all_active_application_alert_configs:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling ApplicationAlertConfigurationApi->find_active_application_alert_configs: %s\n" % e)
+        print("Exception when calling ApplicationAlertConfigurationApi->find_all_active_application_alert_configs: %s\n" % e)
 ```
 
 
@@ -414,9 +420,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | OK - Returns an empty list if no configurations match the criteria |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested application doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -426,6 +431,7 @@ Name | Type | Description  | Notes
 Get Smart Alert Config
 
 Gets a specific Smart Alert Configuration. This may return a deleted Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -509,6 +515,7 @@ Name | Type | Description  | Notes
 Get Smart Alert Config Versions
 
 Gets all versions of an Smart Alert Configuration. This may return deleted Configurations. Configurations are sorted by creation date in descending order.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -590,6 +597,7 @@ Name | Type | Description  | Notes
 Restore Smart Alert Config
 
 Restores a deleted Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -660,9 +668,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -672,6 +680,7 @@ void (empty response body)
 Update Smart Alert Config
 
 Updates an existing Smart Alert Configuration.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -749,6 +758,7 @@ Name | Type | Description  | Notes
 **400** | Invalid Application ID provided. |  -  |
 **403** | Insufficient permissions. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 **500** | Internal error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -759,6 +769,7 @@ Name | Type | Description  | Notes
 Recalculate Smart Alert Config Baseline
 
 Recalculates and updates the historic baseline (static seasonal threshold) of a Configuration. The `LastUpdated` field of the Configuration is changed to the current time.
+For more information on Application Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-alert-configuration.
 
 ### Example
 
@@ -825,9 +836,12 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration baseline recalculated |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions to access this configuration. |  -  |
+**404** | Smart Alert Configuration not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -33,6 +33,7 @@ Method | HTTP request | Description
 Create a Synthetic credential
 
 API request to create a Synthetic Credential.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -113,6 +114,7 @@ void (empty response body)
 Create a Synthetic test
 
 API request to create a Synthetic Test.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -195,6 +197,7 @@ Name | Type | Description  | Notes
 Create a Synthetic test CI/CD
 
 API request to create a Synthetic Test CI/CD.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -278,6 +281,7 @@ Name | Type | Description  | Notes
 Delete a Synthetic credential
 
 API request to delete a Synthetic Credential.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -357,6 +361,7 @@ void (empty response body)
 Delete a Synthetic location
 
 API request to delete a Synthetic Location with matching id.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -435,6 +440,7 @@ void (empty response body)
 Delete a Synthetic test
 
 API request to delete a Synthetic Test.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -514,6 +520,7 @@ void (empty response body)
 A Synthetic credential
 
 API request to retrieve a Synthetic Credential with matching name.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -597,6 +604,7 @@ Name | Type | Description  | Notes
 All Synthetic credentials
 
 API request to retrieve all Synthetic Credentials.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -676,6 +684,7 @@ This endpoint does not need any parameter.
 All Synthetic credential names
 
 API request to retrieve the names of all Synthetic Credentials.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -754,6 +763,7 @@ This endpoint does not need any parameter.
 A Synthetic datacenter
 
 API request to retrieve a Synthetic Datacenter with matching id.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -837,6 +847,7 @@ Name | Type | Description  | Notes
 All Synthetic datacenters
 
 API request to retrieve all Synthetic Datacenters.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -915,6 +926,7 @@ This endpoint does not need any parameter.
 A Synthetic location
 
 API request to retrieve a Synthetic Location with matching id.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -997,6 +1009,7 @@ Name | Type | Description  | Notes
 All Synthetic locations
 
 API request to retrieve Synthetic Locations.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1084,6 +1097,7 @@ Name | Type | Description  | Notes
 A Synthetic test
 
 API request to retrieve a Synthetic Test with matching id.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1167,6 +1181,7 @@ Name | Type | Description  | Notes
 A Synthetic test CI/CD.
 
 API request to retrieve the Synthetic Test CI/CD identified by the given test result id.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1250,6 +1265,7 @@ Name | Type | Description  | Notes
 All Synthetic test CI/CDs
 
 API request to retrieve the Synthetic Test CI/CDs
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1331,11 +1347,12 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_synthetic_tests**
-> List[SyntheticTest] get_synthetic_tests(application_id=application_id, location_id=location_id, sort=sort, offset=offset, limit=limit, filter=filter)
+> List[SyntheticTest] get_synthetic_tests(application_id=application_id, location_id=location_id, credential_name=credential_name, sort=sort, offset=offset, limit=limit, filter=filter)
 
 All Synthetic tests
 
 API request to retrieve Synthetic Tests.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1370,6 +1387,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.SyntheticSettingsApi(api_client)
     application_id = 'pWoK4onRRN-POTz1RU62UQ' # str | Defines the application id by which the returned synthetic tests will be filtered by.  (optional)
     location_id = '18WyhtDb5jpVOsjlNdeV' # str | Defines the location id by which the returned synthetic tests will be filtered by.  (optional)
+    credential_name = 'adminPassword' # str | Defines the credential name by which the returned synthetic tests will be filtered by.  (optional)
     sort = '+label' # str | Defines the attribute by which the returned synthetic tests will be ordered by. Order using '+' means ASC and '-' means DESC (optional)
     offset = 1 # int | Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic tests (optional)
     limit = 10 # int | Defines the size of a page - the number of synthetic tests that will be returned by the query (optional)
@@ -1377,7 +1395,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # All Synthetic tests
-        api_response = api_instance.get_synthetic_tests(application_id=application_id, location_id=location_id, sort=sort, offset=offset, limit=limit, filter=filter)
+        api_response = api_instance.get_synthetic_tests(application_id=application_id, location_id=location_id, credential_name=credential_name, sort=sort, offset=offset, limit=limit, filter=filter)
         print("The response of SyntheticSettingsApi->get_synthetic_tests:\n")
         pprint(api_response)
     except Exception as e:
@@ -1393,6 +1411,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **application_id** | **str**| Defines the application id by which the returned synthetic tests will be filtered by.  | [optional] 
  **location_id** | **str**| Defines the location id by which the returned synthetic tests will be filtered by.  | [optional] 
+ **credential_name** | **str**| Defines the credential name by which the returned synthetic tests will be filtered by.  | [optional] 
  **sort** | **str**| Defines the attribute by which the returned synthetic tests will be ordered by. Order using &#39;+&#39; means ASC and &#39;-&#39; means DESC | [optional] 
  **offset** | **int**| Used in conjunction with limit. Defines how many pages will be skipped before returning the synthetic tests | [optional] 
  **limit** | **int**| Defines the size of a page - the number of synthetic tests that will be returned by the query | [optional] 
@@ -1428,6 +1447,7 @@ Name | Type | Description  | Notes
 Patch a Synthetic credential
 
 API request to patch attributes of a Synthetic Credential.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1510,6 +1530,7 @@ void (empty response body)
 Patch a Synthetic test
 
 API request to update a Synthetic Test.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1593,6 +1614,7 @@ void (empty response body)
 Update a Synthetic credential
 
 API request to update a Synthetic Credential.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 
@@ -1675,6 +1697,7 @@ void (empty response body)
 Update a Synthetic test
 
 API request to update a Synthetic Test.
+For more information on Synthetic Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-settings.
 
 ### Example
 

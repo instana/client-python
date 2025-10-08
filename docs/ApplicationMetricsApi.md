@@ -20,8 +20,7 @@ For eg: retrieve `MEAN` aggregation of `latency` metric for an Endpoint `GET /ap
 Consider this API endpoint an upgraded version of `Get Application Metrics`, `Get Endpoint metrics` and `Get Service metrics`.
 For more information on supported metrics, refer `Get Metric catalog`.
 
-For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Application#application-metrics.
-
+For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-metrics.
 
 ### Example
 
@@ -105,8 +104,7 @@ Use this API endpoint if one wants to retrieve one or more supported aggregation
 For eg: retrieve `MEAN` aggregation of `latency` metric for an Application Perspective `app`.
 For more information on supported metrics, refer `Get Metric catalog`.
 
-For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Application#application-metrics.
-
+For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-metrics.
 
 ### Example
 
@@ -192,8 +190,7 @@ Use this API endpoint if one wants to retrieve one or more supported aggregation
 For eg: retrieve `MEAN` aggregation of `latency` metric for an Endpoint `GET /api/foo`.
 For more information on supported metrics, refer `Get Metric catalog`.
 
-For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Application#application-metrics.
-
+For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-metrics.
 
 ### Example
 
@@ -279,8 +276,7 @@ Use this API endpoint if one wants to retrieve one or more supported aggregation
 For eg: retrieve `MEAN` aggregation of `latency` metric for a Service `payment`.
 For more information on supported metrics, refer `Get Metric catalog`.
 
-For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Application#application-metrics.
-
+For more information on Application Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-metrics.
 
 ### Example
 

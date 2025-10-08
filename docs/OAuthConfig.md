@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **additional_parameters** | **Dict[str, str]** |  | [optional] 
 **client_id** | **str** |  | 
 **client_secret** | **str** |  | 
-**fallback_strategy** | **str** |  | [optional] 
 **grant_type** | **str** |  | 
 **password** | **str** |  | [optional] 
 **token_url** | **str** |  | 

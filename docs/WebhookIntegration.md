@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **headers** | **List[str]** |  | [optional] 
 **oauth** | [**OAuthIntegration**](OAuthIntegration.md) |  | [optional] 
 **oauth_enabled** | **bool** |  | [optional] 
+**transformation_expression** | **str** |  | [optional] 
 **webhook_urls** | **List[str]** |  | 
 
 ## Example

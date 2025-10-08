@@ -16,6 +16,7 @@ Method | HTTP request | Description
 Get available metrics
 
 This endpoint retrieves available metrics for an entity type.
+For more information on Infrastructure Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-analyze.
 
 ### Example
 
@@ -96,6 +97,7 @@ Name | Type | Description  | Notes
 Get available entity types
 
 This endpoint retrieves available entity types.
+For more information on Infrastructure Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-analyze.
 
 ### Example
 
@@ -176,6 +178,7 @@ Name | Type | Description  | Notes
 Get infrastructure entities
 
 This endpoint retrieves entities for a given entity type along with the requested metrics.
+For more information on Infrastructure Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-analyze.
 
 ### Example
 
@@ -256,6 +259,7 @@ Name | Type | Description  | Notes
 Get grouped infrastructure entities with aggregated metrics
 
 This endpoint groups entities for a given entity type and aggregates metrics for these groups.
+For more information on Infrastructure Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-analyze.
 
 ### Example
 

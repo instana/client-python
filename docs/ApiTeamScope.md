@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **log_filter** | **str** |  | [optional] 
 **mobile_apps** | **List[str]** |  | [optional] 
 **restricted_application_filter** | [**ApiRestrictedApplicationFilter**](ApiRestrictedApplicationFilter.md) |  | [optional] 
+**slo_ids** | **List[str]** |  | [optional] 
 **synthetic_credentials** | **List[str]** |  | [optional] 
 **synthetic_tests** | **List[str]** |  | [optional] 
 **tag_ids** | **List[str]** |  | [optional] 

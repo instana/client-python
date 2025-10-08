@@ -107,7 +107,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_website**
-> Website create_website(name=name, api_tag=api_tag)
+> Website create_website(name=name, create_website_request_inner=create_website_request_inner)
 
 Configure new website
 
@@ -119,7 +119,7 @@ API request to add new website.
 
 ```python
 import instana_client
-from instana_client.models.api_tag import ApiTag
+from instana_client.models.create_website_request_inner import CreateWebsiteRequestInner
 from instana_client.models.website import Website
 from instana_client.rest import ApiException
 from pprint import pprint
@@ -146,11 +146,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.WebsiteConfigurationApi(api_client)
     name = 'name_example' # str |  (optional)
-    api_tag = [{"id":"test","displayName":"test"}] # List[ApiTag] |  (optional)
+    create_website_request_inner = [{"id":"test","displayName":"test"}] # List[CreateWebsiteRequestInner] |  (optional)
 
     try:
         # Configure new website
-        api_response = api_instance.create_website(name=name, api_tag=api_tag)
+        api_response = api_instance.create_website(name=name, create_website_request_inner=create_website_request_inner)
         print("The response of WebsiteConfigurationApi->create_website:\n")
         pprint(api_response)
     except Exception as e:
@@ -165,7 +165,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**|  | [optional] 
- **api_tag** | [**List[ApiTag]**](ApiTag.md)|  | [optional] 
+ **create_website_request_inner** | [**List[CreateWebsiteRequestInner]**](CreateWebsiteRequestInner.md)|  | [optional] 
 
 ### Return type
 
@@ -889,7 +889,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_website_source_map_upload_config**
-> SourceMapUploadConfig post_website_source_map_upload_config(website_id, source_map_upload_configs=source_map_upload_configs)
+> SourceMapUploadConfig post_website_source_map_upload_config(website_id, post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request)
 
 Add new sourcemap upload configuration for website
 
@@ -900,8 +900,8 @@ API request to add sourcemap upload configuration for website.
 
 ```python
 import instana_client
+from instana_client.models.post_mobile_app_source_map_config_request import PostMobileAppSourceMapConfigRequest
 from instana_client.models.source_map_upload_config import SourceMapUploadConfig
-from instana_client.models.source_map_upload_configs import SourceMapUploadConfigs
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -917,11 +917,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.WebsiteConfigurationApi(api_client)
     website_id = '1ELrNt-eQ9SlK4D_EgLMiA' # str | Website ID
-    source_map_upload_configs = {"description":"testConfig1"} # SourceMapUploadConfigs |  (optional)
+    post_mobile_app_source_map_config_request = {"description":"websiteSourcemapConfig2"} # PostMobileAppSourceMapConfigRequest |  (optional)
 
     try:
         # Add new sourcemap upload configuration for website
-        api_response = api_instance.post_website_source_map_upload_config(website_id, source_map_upload_configs=source_map_upload_configs)
+        api_response = api_instance.post_website_source_map_upload_config(website_id, post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request)
         print("The response of WebsiteConfigurationApi->post_website_source_map_upload_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -936,7 +936,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **website_id** | **str**| Website ID | 
- **source_map_upload_configs** | [**SourceMapUploadConfigs**](SourceMapUploadConfigs.md)|  | [optional] 
+ **post_mobile_app_source_map_config_request** | [**PostMobileAppSourceMapConfigRequest**](PostMobileAppSourceMapConfigRequest.md)|  | [optional] 
 
 ### Return type
 

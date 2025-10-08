@@ -20,6 +20,7 @@ Method | HTTP request | Description
 Get a list of Synthetic locations with last run test on each location data
 
 Get summary information for Synthetic locations matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -103,6 +104,7 @@ Name | Type | Description  | Notes
 Get Synthetic test playback results
 
 Get a list of aggregated playback results metrics for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -186,6 +188,7 @@ Name | Type | Description  | Notes
 Get a list of Synthetic tests based on the specified analytic function
 
 Get a list of playback results metrics for Synthetic tests matching the specified parameters for the specified analytic
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -269,6 +272,7 @@ Name | Type | Description  | Notes
 Get Synthetic test playback result detail data
 
 Download the contents of the Synthetic the playback result detail data file matching the specified file type
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -360,6 +364,7 @@ Name | Type | Description  | Notes
 Download the synthetic test playback result detail data file
 
 Download a Synthetic the playback result detail data file matching the specified file type
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -446,6 +451,7 @@ void (empty response body)
 Get a list of Synthetic test playback results
 
 Get a list of playback results metrics for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -529,6 +535,7 @@ Name | Type | Description  | Notes
 Get Synthetic test playback detail result description(metadata)
 
 Gets the list of detailed data file names associated to a Synthetic playback result
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -616,6 +623,7 @@ Name | Type | Description  | Notes
 Get a list of Synthetic tests with success rate and average response time data
 
 Get a summary of the playback results metrics and success rate for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 

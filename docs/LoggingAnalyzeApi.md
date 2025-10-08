@@ -14,8 +14,7 @@ Get Log Volume Usage
 
 Returns aggregated log volume usage data for a specified time range and optional grouping tag.
 `fromTs` and `toTs` are required and must define a valid time range (i.e., `fromTs` <= `toTs`).
-Valid groupingTag`s are: kubernetes_cluster_name, kubernetes_daemonset_name, kubernetes_namespace_name,
-kubernetes_deployment_name, host_name, zone.
+Refer to the query parameter description for valid `groupingTag` values.
 
 
 ### Example
@@ -51,7 +50,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.LoggingAnalyzeApi(api_client)
     from_ts = 1682899200 # int | Start timestamp in seconds. Must be <= `toTs`.
     to_ts = 1682899201 # int | End timestamp in seconds. Must be >= `fromTs`.
-    grouping_tag = 'zone' # str | Optional tag to group volume usage by. (optional)
+    grouping_tag = 'zone' # str | Optional tag to group volume usage by. Valid groupingTag values are: `kubernetes_cluster_name`, `kubernetes_daemonset_name`, `kubernetes_namespace_name`, `kubernetes_deployment_name`, `host_name`, `zone`.  (optional)
 
     try:
         # Get Log Volume Usage
@@ -71,7 +70,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **from_ts** | **int**| Start timestamp in seconds. Must be &lt;&#x3D; &#x60;toTs&#x60;. | 
  **to_ts** | **int**| End timestamp in seconds. Must be &gt;&#x3D; &#x60;fromTs&#x60;. | 
- **grouping_tag** | **str**| Optional tag to group volume usage by. | [optional] 
+ **grouping_tag** | **str**| Optional tag to group volume usage by. Valid groupingTag values are: &#x60;kubernetes_cluster_name&#x60;, &#x60;kubernetes_daemonset_name&#x60;, &#x60;kubernetes_namespace_name&#x60;, &#x60;kubernetes_deployment_name&#x60;, &#x60;host_name&#x60;, &#x60;zone&#x60;.  | [optional] 
 
 ### Return type
 

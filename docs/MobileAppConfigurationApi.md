@@ -14,6 +14,7 @@ Method | HTTP request | Description
 [**get_mobile_app_ip_masking_configuration**](MobileAppConfigurationApi.md#get_mobile_app_ip_masking_configuration) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking | Get IP masking configuration for mobile app
 [**get_mobile_app_source_map_file**](MobileAppConfigurationApi.md#get_mobile_app_source_map_file) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId} | Get sourcemap configuration for mobile app
 [**get_mobile_app_source_map_files**](MobileAppConfigurationApi.md#get_mobile_app_source_map_files) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload | Get all sourcemap configurations for mobile app
+[**get_single_mobile_app_config**](MobileAppConfigurationApi.md#get_single_mobile_app_config) | **GET** /api/mobile-app-monitoring/config/{mobileAppId} | Get mobile app configuration by ID
 [**post_mobile_app_config**](MobileAppConfigurationApi.md#post_mobile_app_config) | **POST** /api/mobile-app-monitoring/config | Configure new mobile app
 [**post_mobile_app_source_map_config**](MobileAppConfigurationApi.md#post_mobile_app_source_map_config) | **POST** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload | Add new sourcemap configuration for mobile app
 [**rename_mobile_app_config**](MobileAppConfigurationApi.md#rename_mobile_app_config) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId} | Rename mobile app
@@ -841,6 +842,88 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_single_mobile_app_config**
+> MobileApp get_single_mobile_app_config(mobile_app_id)
+
+Get mobile app configuration by ID
+
+API request to get a specific mobile app configuration by ID.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.mobile_app import MobileApp
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.MobileAppConfigurationApi(api_client)
+    mobile_app_id = 'K3bP-bmCRkyimNai9vvq8o' # str | Mobile App ID
+
+    try:
+        # Get mobile app configuration by ID
+        api_response = api_instance.get_single_mobile_app_config(mobile_app_id)
+        print("The response of MobileAppConfigurationApi->get_single_mobile_app_config:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling MobileAppConfigurationApi->get_single_mobile_app_config: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mobile_app_id** | **str**| Mobile App ID | 
+
+### Return type
+
+[**MobileApp**](MobileApp.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**404** | Resource not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **post_mobile_app_config**
 > MobileApp post_mobile_app_config(name=name, api_tag=api_tag)
 
@@ -928,7 +1011,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_mobile_app_source_map_config**
-> SourceMapUploadConfig post_mobile_app_source_map_config(mobile_app_id)
+> SourceMapUploadConfig post_mobile_app_source_map_config(mobile_app_id, post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request)
 
 Add new sourcemap configuration for mobile app
 
@@ -940,6 +1023,7 @@ API request to add sourcemap configuration for mobile app.
 
 ```python
 import instana_client
+from instana_client.models.post_mobile_app_source_map_config_request import PostMobileAppSourceMapConfigRequest
 from instana_client.models.source_map_upload_config import SourceMapUploadConfig
 from instana_client.rest import ApiException
 from pprint import pprint
@@ -966,10 +1050,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.MobileAppConfigurationApi(api_client)
     mobile_app_id = 'K3bP-bmCRkyimNai9vvq8o' # str | Mobile App ID
+    post_mobile_app_source_map_config_request = {"description":"InstanaAgentExample_v2"} # PostMobileAppSourceMapConfigRequest |  (optional)
 
     try:
         # Add new sourcemap configuration for mobile app
-        api_response = api_instance.post_mobile_app_source_map_config(mobile_app_id)
+        api_response = api_instance.post_mobile_app_source_map_config(mobile_app_id, post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request)
         print("The response of MobileAppConfigurationApi->post_mobile_app_source_map_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -984,6 +1069,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **mobile_app_id** | **str**| Mobile App ID | 
+ **post_mobile_app_source_map_config_request** | [**PostMobileAppSourceMapConfigRequest**](PostMobileAppSourceMapConfigRequest.md)|  | [optional] 
 
 ### Return type
 
@@ -995,7 +1081,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details

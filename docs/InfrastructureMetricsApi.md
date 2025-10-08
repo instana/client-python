@@ -12,6 +12,9 @@ Method | HTTP request | Description
 
 Get infrastructure metrics
 
+
+For more information on Infrastructure Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-metrics.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):

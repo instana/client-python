@@ -224,6 +224,7 @@ Name | Type | Description  | Notes
 **400** | Invalid configuration. |  -  |
 **403** | Insufficient permissions. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -674,9 +675,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -752,9 +753,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Website Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -990,9 +991,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1070,9 +1071,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Website Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1308,9 +1309,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1388,9 +1389,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Config ID provided. |  -  |
+**204** | Website Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1399,7 +1400,7 @@ void (empty response body)
 
 Get all Mobile Smart Alert Configs
 
-Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurationss are sorted by creation date in descending order.
+Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurations are sorted by creation date in descending order.
 
 ### Example
 
@@ -1471,9 +1472,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | Success. Returns empty result if mobileAppId is invalid. |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested mobile application doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1482,7 +1482,7 @@ Name | Type | Description  | Notes
 
 Get all Website Smart Alert Configs
 
-Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurationss are sorted by creation date in descending order.
+Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurations are sorted by creation date in descending order.
 
 ### Example
 
@@ -1554,9 +1554,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | Success. Returns empty result if websiteId is invalid. |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested website doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3718,9 +3717,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Mobile Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3800,9 +3799,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Website Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3879,7 +3878,7 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**200** | Test alerting channel response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4121,9 +4120,12 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration baseline recalculated. |  -  |
-**400** | Invalid Mobile App ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | Mobile Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions to access this configuration. |  -  |
+**404** | Mobile Smart Alert Configuration not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4209,7 +4211,9 @@ Name | Type | Description  | Notes
 **204** | Website Smart Alert Configuration did not change. |  -  |
 **400** | Invalid Configuration ID provided. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | The requested configuration does not exist. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 **500** | Internal error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -4286,9 +4290,12 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration baseline recalculated. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | Website Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions to access this configuration. |  -  |
+**404** | Website Smart Alert Configuration not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

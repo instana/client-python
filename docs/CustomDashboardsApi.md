@@ -18,6 +18,9 @@ Method | HTTP request | Description
 
 Add custom dashboard
 
+
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -97,6 +100,9 @@ Name | Type | Description  | Notes
 
 Remove custom dashboard
 
+
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -172,6 +178,7 @@ void (empty response body)
 Get custom dashboard
 
 Get all Custom Dashboard Info for specified customDashboardId.
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
 
 ### Example
 
@@ -251,6 +258,7 @@ Name | Type | Description  | Notes
 Get accessible custom dashboards
 
 Get all accessible custom dashboards details.
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
 
 ### Example
 
@@ -336,6 +344,7 @@ Name | Type | Description  | Notes
 Get all API tokens.
 
 Get all API tokens that have access to shareable custom dashboards.
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
 
 ### Example
 
@@ -411,6 +420,7 @@ This endpoint does not need any parameter.
 Get all users (without invitations).
 
 Get all users (without invitations) that have access to shareable custom dashboards.
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
 
 ### Example
 
@@ -484,6 +494,9 @@ This endpoint does not need any parameter.
 > CustomDashboard update_custom_dashboard(custom_dashboard_id, custom_dashboard=custom_dashboard)
 
 Update custom dashboard
+
+
+For more information on custom dashboards please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#custom-dashboards.
 
 ### Example
 

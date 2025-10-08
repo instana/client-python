@@ -30,6 +30,9 @@ Method | HTTP request | Description
 
 Add permissions to group
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -108,6 +111,9 @@ Name | Type | Description  | Notes
 > ApiGroup add_users_to_group(group_id, request_body)
 
 Add users to group
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -188,6 +194,9 @@ Name | Type | Description  | Notes
 
 Create group
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -265,6 +274,9 @@ Name | Type | Description  | Notes
 > GroupMapping create_group_mapping(group_mapping)
 
 Create group mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -344,6 +356,7 @@ Name | Type | Description  | Notes
 Delete group
 
 Delete the group data.
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -419,6 +432,9 @@ void (empty response body)
 
 Delete group mapping
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -492,6 +508,9 @@ void (empty response body)
 > delete_group_mappings(body)
 
 Delete multiple group mappings
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -569,6 +588,7 @@ void (empty response body)
 Delete groups
 
 Delete multiple groups
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -643,6 +663,9 @@ void (empty response body)
 > ApiGroup get_group(id)
 
 Get group
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -720,6 +743,9 @@ Name | Type | Description  | Notes
 > GroupMapping get_group_mapping(id)
 
 Get group mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -799,6 +825,9 @@ Name | Type | Description  | Notes
 
 Get all group mappings
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -872,6 +901,9 @@ This endpoint does not need any parameter.
 > List[GroupMappingOverview] get_group_mappings_overview()
 
 Get all group mappings overview
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -947,6 +979,9 @@ This endpoint does not need any parameter.
 
 Get groups
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -1020,6 +1055,9 @@ This endpoint does not need any parameter.
 > List[ApiGroup] get_groups_by_user(email)
 
 Get groups of a single user
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -1099,6 +1137,9 @@ Name | Type | Description  | Notes
 
 Check user restrictions for empty Idp group mapping
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -1174,6 +1215,7 @@ This endpoint does not need any parameter.
 Remove user from group
 
 Remove the user from a group.
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -1250,6 +1292,9 @@ void (empty response body)
 > ApiGroup update_group(id, api_group)
 
 Update group
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -1330,6 +1375,9 @@ Name | Type | Description  | Notes
 
 Update group mapping
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -1408,6 +1456,9 @@ Name | Type | Description  | Notes
 > update_identity_provider(identity_provider_patch)
 
 Allow/Restrict users with empty Idp group mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 

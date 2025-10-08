@@ -5,8 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**bad_events_filter** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 
-**good_events_filter** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 
 **metric_name** | **str** |  | [optional] 
 **threshold** | **float** | Threshold Value for the Blueprint | [optional] 
 

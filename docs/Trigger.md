@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **id** | **str** | Trigger (Instana event or Smart Alert) identifier. | [optional] 
 **name** | **str** | A name of the trigger (name of Instana event or Smart Alert). | [optional] 
 **scheduling** | [**PolicyScheduling**](PolicyScheduling.md) |  | [optional] 
-**type** | **str** | Instana event type, Smart Alert type, or &#39;schedule&#39;. The type must be one of the enum values. | [optional] 
+**type** | **str** | Instana event type, Smart Alert type, or &#39;schedule&#39;. The type must be one of the enum values. | 
 
 ## Example
 

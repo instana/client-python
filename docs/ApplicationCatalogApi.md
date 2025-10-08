@@ -14,6 +14,9 @@ Method | HTTP request | Description
 
 Get Metric catalog
 
+
+For more information on Application Catalog please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-catalog.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -86,6 +89,9 @@ This endpoint does not need any parameter.
 > TagCatalog get_application_tag_catalog(var_from=var_from, data_source=data_source, use_case=use_case)
 
 Get application tag catalog
+
+
+For more information on Application Catalog please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-catalog.
 
 ### Example
 
@@ -167,6 +173,9 @@ Name | Type | Description  | Notes
 > List[Tag] get_application_tags(var_from=var_from, data_source=data_source, use_case=use_case)
 
 Get application tags
+
+
+For more information on Application Catalog please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-catalog.
 
 ### Example
 

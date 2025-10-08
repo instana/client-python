@@ -21,6 +21,7 @@ Method | HTTP request | Description
 Create Global Smart Alert Config
 
 Creates a new Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -103,7 +104,8 @@ Name | Type | Description  | Notes
 
 Delete Global Smart Alert Config
 
-Deletes a Global Smart Alert Configuration.
+Disables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -170,9 +172,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -182,6 +184,7 @@ void (empty response body)
 Disable Global Smart Alert Config
 
 Disables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -250,9 +253,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -262,6 +265,7 @@ void (empty response body)
 Enable Global Smart Alert Config
 
 Enables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -330,9 +334,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -342,6 +346,7 @@ void (empty response body)
 Get all Global Smart Alert Configs
 
 Gets all Global Smart Alert Configuration. Configurations are sorted by creation date in descending order.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -413,9 +418,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | OK - Returns an empty list if no configurations match the criteria |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested website doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -425,6 +429,7 @@ Name | Type | Description  | Notes
 Get Global Smart Alert Config
 
 Gets a specific Global Smart Alert Configuration. This may return a deleted Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -508,6 +513,7 @@ Name | Type | Description  | Notes
 Get Global Smart Alert Config Versions
 
 Gets all versions of a Global Smart Alert Configuration. This may return deleted Configurations. Configurations are sorted by creation date in descending order.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -589,6 +595,7 @@ Name | Type | Description  | Notes
 Restore Global Smart Alert Config
 
 Restores a deleted Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -659,9 +666,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Global Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -671,6 +678,7 @@ void (empty response body)
 Update Global Smart Alert Config
 
 Updates an existing Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 

@@ -21,6 +21,7 @@ Method | HTTP request | Description
 Create Synthetic Smart Alert Config
 
 Creates a new Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -104,6 +105,7 @@ Name | Type | Description  | Notes
 Delete Synthetic Smart Alert Config
 
 Deletes a Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -170,9 +172,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Synthetic Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Synthetic Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -182,6 +184,7 @@ void (empty response body)
 Disable Synthetic Smart Alert Config
 
 Disables a Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -250,9 +253,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Synthetic Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Synthetic Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -262,6 +265,7 @@ void (empty response body)
 Enable Synthetic Smart Alert Config
 
 Enables a Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -330,9 +334,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Synthetic Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Synthetic Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -342,6 +346,7 @@ void (empty response body)
 Get all Synthetic Smart Alert Configs
 
 Gets all the Synthetic Smart Alert Configuration pertaining to a specific synthetic test. Configurations are sorted by creation date in descending order.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -413,9 +418,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | Success. Returns empty result if syntheticTestId is invalid. |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested Configurations do not exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -425,6 +429,7 @@ Name | Type | Description  | Notes
 Get Synthetic Smart Alert Config
 
 Gets a specific Synthetic Smart Alert Configuration. This may return a deleted Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -508,6 +513,7 @@ Name | Type | Description  | Notes
 Get Synthetic Smart Alert Config Versions
 
 Gets all versions of a Synthetic Smart Alert Configuration. This may return deleted Configurations. Configurations are sorted by creation date in descending order.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -589,6 +595,7 @@ Name | Type | Description  | Notes
 Restore Synthetic Smart Alert Config
 
 Restores a deleted Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 
@@ -659,9 +666,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Synthetic Smart Alert Configuration restored. |  -  |
-**400** | Invalid Config provided. |  -  |
+**204** | Synthetic Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -671,6 +678,7 @@ void (empty response body)
 Update Synthetic Smart Alert Config
 
 Updates an existing Synthetic Smart Alert Configuration.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
 
 ### Example
 

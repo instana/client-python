@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **dependencies** | [**List[CustomDependency]**](CustomDependency.md) |  | [optional] 
 **identifiers** | **List[str]** |  | 
 **label** | **str** |  | 
-**metrics** | **List[str]** |  | [optional] 
+**metrics** | [**List[CustomMetric]**](CustomMetric.md) |  | [optional] 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 
 ## Example
