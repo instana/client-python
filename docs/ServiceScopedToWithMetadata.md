@@ -1,11 +1,12 @@
 # ServiceScopedToWithMetadata
 
+The release marker would be present in the service but not for other services within the Application perspective.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**applications** | [**List[ApplicationScopeWithMetadata]**](ApplicationScopeWithMetadata.md) |  | 
+**applications** | [**List[ApplicationScopeWithMetadata]**](ApplicationScopeWithMetadata.md) | The list of application perspectives where the service is present.  | 
 
 ## Example
 

@@ -8,9 +8,11 @@ Name | Type | Description | Notes
 **action** | **str** |  | 
 **email** | **str** |  | 
 **full_name** | **str** |  | 
+**message** | **str** |  | [optional] 
+**meta** | **Dict[str, object]** |  | [optional] 
 **tenant_id** | **str** |  | 
 **tenant_unit_id** | **str** |  | [optional] 
-**timestamp** | **int** |  | 
+**timestamp** | **int** |  | [optional] 
 
 ## Example
 

@@ -5,17 +5,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**application_labels** | **List[str]** |  | [optional] 
+**application_labels** | **List[str]** |  | [optional] [readonly] 
 **applications** | **List[str]** |  | [optional] 
-**created_at** | **int** |  | [optional] 
+**created_at** | **int** |  | [optional] [readonly] 
 **created_by** | **str** |  | [optional] 
 **credential_name** | **str** |  | 
 **credential_value** | **str** |  | 
-**mobile_app_labels** | **List[str]** |  | [optional] 
+**mobile_app_labels** | **List[str]** |  | [optional] [readonly] 
 **mobile_apps** | **List[str]** |  | [optional] 
-**modified_at** | **int** |  | [optional] 
+**modified_at** | **int** |  | [optional] [readonly] 
 **modified_by** | **str** |  | [optional] 
-**website_labels** | **List[str]** |  | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) |  | [optional] 
+**website_labels** | **List[str]** |  | [optional] [readonly] 
 **websites** | **List[str]** |  | [optional] 
 
 ## Example

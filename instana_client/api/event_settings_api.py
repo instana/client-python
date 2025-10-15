@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.306.1368
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -30,6 +30,7 @@ from instana_client.models.custom_event_specification import CustomEventSpecific
 from instana_client.models.custom_event_specification_with_last_updated import CustomEventSpecificationWithLastUpdated
 from instana_client.models.custom_payload_configuration import CustomPayloadConfiguration
 from instana_client.models.custom_payload_with_last_updated import CustomPayloadWithLastUpdated
+from instana_client.models.custom_payload_with_version import CustomPayloadWithVersion
 from instana_client.models.event import Event
 from instana_client.models.event_specification_info import EventSpecificationInfo
 from instana_client.models.integration_overview import IntegrationOverview
@@ -324,6 +325,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -402,6 +404,7 @@ class EventSettingsApi:
             '400': None,
             '403': None,
             '422': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -472,6 +475,7 @@ class EventSettingsApi:
             '400': None,
             '403': None,
             '422': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -542,6 +546,7 @@ class EventSettingsApi:
             '400': None,
             '403': None,
             '422': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -903,7 +908,7 @@ class EventSettingsApi:
     ) -> None:
         """Delete Alerting Channel
 
-        Deletes an alert channel.
+        Deletes an alert channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to delete. (required)
         :type id: str
@@ -970,7 +975,7 @@ class EventSettingsApi:
     ) -> ApiResponse[None]:
         """Delete Alerting Channel
 
-        Deletes an alert channel.
+        Deletes an alert channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to delete. (required)
         :type id: str
@@ -1037,7 +1042,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Delete Alerting Channel
 
-        Deletes an alert channel.
+        Deletes an alert channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to delete. (required)
         :type id: str
@@ -1412,7 +1417,6 @@ class EventSettingsApi:
     ) -> None:
         """Delete custom event specification
 
-        This endpoint deletes a Custom Event Specification.  By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid. However, check out the docs for [updating a configuration](#operation/putCustomEventSpecification) how this default behavior can be changed using the `allowRestore` query parameter.   ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for the custom event specification to delete.   # Example:  ``` curl --request DELETE 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' ``` 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -1478,7 +1482,6 @@ class EventSettingsApi:
     ) -> ApiResponse[None]:
         """Delete custom event specification
 
-        This endpoint deletes a Custom Event Specification.  By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid. However, check out the docs for [updating a configuration](#operation/putCustomEventSpecification) how this default behavior can be changed using the `allowRestore` query parameter.   ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for the custom event specification to delete.   # Example:  ``` curl --request DELETE 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' ``` 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -1544,7 +1547,6 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Delete custom event specification
 
-        This endpoint deletes a Custom Event Specification.  By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid. However, check out the docs for [updating a configuration](#operation/putCustomEventSpecification) how this default behavior can be changed using the `allowRestore` query parameter.   ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for the custom event specification to delete.   # Example:  ``` curl --request DELETE 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' ``` 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -1950,9 +1952,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2019,9 +2021,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2088,9 +2090,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2135,6 +2137,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -2209,9 +2212,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2278,9 +2281,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2347,9 +2350,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3045,9 +3048,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3118,9 +3121,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3191,9 +3194,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3254,6 +3257,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -3332,9 +3336,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3405,9 +3409,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3478,9 +3482,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4192,9 +4196,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4265,9 +4269,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4338,9 +4342,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4401,6 +4405,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -4479,9 +4484,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4552,9 +4557,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4625,9 +4630,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4729,7 +4734,7 @@ class EventSettingsApi:
     ) -> List[WithMetadata]:
         """Get all Mobile Smart Alert Configs
 
-        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurationss are sorted by creation date in descending order.
+        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurations are sorted by creation date in descending order.
 
         :param mobile_app_id: The ID of a specific Mobile Application. (required)
         :type mobile_app_id: str
@@ -4769,7 +4774,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4802,7 +4806,7 @@ class EventSettingsApi:
     ) -> ApiResponse[List[WithMetadata]]:
         """Get all Mobile Smart Alert Configs
 
-        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurationss are sorted by creation date in descending order.
+        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurations are sorted by creation date in descending order.
 
         :param mobile_app_id: The ID of a specific Mobile Application. (required)
         :type mobile_app_id: str
@@ -4842,7 +4846,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4875,7 +4878,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Get all Mobile Smart Alert Configs
 
-        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurationss are sorted by creation date in descending order.
+        Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurations are sorted by creation date in descending order.
 
         :param mobile_app_id: The ID of a specific Mobile Application. (required)
         :type mobile_app_id: str
@@ -4915,7 +4918,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4975,6 +4977,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -5015,7 +5018,7 @@ class EventSettingsApi:
     ) -> List[WebsiteAlertConfigWithMetadata]:
         """Get all Website Smart Alert Configs
 
-        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurationss are sorted by creation date in descending order.
+        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurations are sorted by creation date in descending order.
 
         :param website_id: The ID of a specific Website (required)
         :type website_id: str
@@ -5055,7 +5058,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WebsiteAlertConfigWithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5088,7 +5090,7 @@ class EventSettingsApi:
     ) -> ApiResponse[List[WebsiteAlertConfigWithMetadata]]:
         """Get all Website Smart Alert Configs
 
-        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurationss are sorted by creation date in descending order.
+        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurations are sorted by creation date in descending order.
 
         :param website_id: The ID of a specific Website (required)
         :type website_id: str
@@ -5128,7 +5130,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WebsiteAlertConfigWithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5161,7 +5162,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Get all Website Smart Alert Configs
 
-        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurationss are sorted by creation date in descending order.
+        Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurations are sorted by creation date in descending order.
 
         :param website_id: The ID of a specific Website (required)
         :type website_id: str
@@ -5201,7 +5202,6 @@ class EventSettingsApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[WebsiteAlertConfigWithMetadata]",
             '403': None,
-            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5545,6 +5545,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -5811,6 +5812,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -6671,7 +6673,7 @@ class EventSettingsApi:
     ) -> AbstractIntegration:
         """Get Alerting Channel
 
-        Gets an alerting channel.
+        Gets an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to get. (required)
         :type id: str
@@ -6738,7 +6740,7 @@ class EventSettingsApi:
     ) -> ApiResponse[AbstractIntegration]:
         """Get Alerting Channel
 
-        Gets an alerting channel.
+        Gets an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to get. (required)
         :type id: str
@@ -6805,7 +6807,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Get Alerting Channel
 
-        Gets an alerting channel.
+        Gets an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to get. (required)
         :type id: str
@@ -6932,7 +6934,7 @@ class EventSettingsApi:
     ) -> List[AbstractIntegration]:
         """Get all Alerting Channels
 
-        Gets all the alerting channels.
+        Gets all the alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -6999,7 +7001,7 @@ class EventSettingsApi:
     ) -> ApiResponse[List[AbstractIntegration]]:
         """Get all Alerting Channels
 
-        Gets all the alerting channels.
+        Gets all the alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -7066,7 +7068,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Get all Alerting Channels
 
-        Gets all the alerting channels.
+        Gets all the alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -7196,7 +7198,7 @@ class EventSettingsApi:
     ) -> List[IntegrationOverview]:
         """Get Overview of Alerting Channels
 
-        Gets the overview information of all alerting channels.
+        Gets the overview information of all alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -7263,7 +7265,7 @@ class EventSettingsApi:
     ) -> ApiResponse[List[IntegrationOverview]]:
         """Get Overview of Alerting Channels
 
-        Gets the overview information of all alerting channels.
+        Gets the overview information of all alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -7330,7 +7332,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Get Overview of Alerting Channels
 
-        Gets the overview information of all alerting channels.
+        Gets the overview information of all alerting channels. Requires the permission called CanConfigureIntegrations.
 
         :param ids: List of IDs of alert channels defined in Instana. Can be left empty.
         :type ids: List[str]
@@ -9013,7 +9015,7 @@ class EventSettingsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CustomPayloadWithLastUpdated:
+    ) -> CustomPayloadWithVersion:
         """Get All Global Custom Payload Configurations
 
         Gets All Global Custom Payload Configurations.
@@ -9051,7 +9053,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CustomPayloadWithLastUpdated",
+            '200': "CustomPayloadWithVersion",
             '401': None,
             '403': None,
         }
@@ -9082,7 +9084,7 @@ class EventSettingsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CustomPayloadWithLastUpdated]:
+    ) -> ApiResponse[CustomPayloadWithVersion]:
         """Get All Global Custom Payload Configurations
 
         Gets All Global Custom Payload Configurations.
@@ -9120,7 +9122,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CustomPayloadWithLastUpdated",
+            '200': "CustomPayloadWithVersion",
             '401': None,
             '403': None,
         }
@@ -9189,7 +9191,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CustomPayloadWithLastUpdated",
+            '200': "CustomPayloadWithVersion",
             '401': None,
             '403': None,
         }
@@ -10873,6 +10875,286 @@ class EventSettingsApi:
 
 
     @validate_call
+    def post_alerting_channel(
+        self,
+        abstract_integration: AbstractIntegration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AbstractIntegration:
+        """Create Alert Channel
+
+        Creates an alerting channel. Requires the permission called CanConfigureIntegrations.
+
+        :param abstract_integration: (required)
+        :type abstract_integration: AbstractIntegration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_alerting_channel_serialize(
+            abstract_integration=abstract_integration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AbstractIntegration",
+            '302': None,
+            '400': "str",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_alerting_channel_with_http_info(
+        self,
+        abstract_integration: AbstractIntegration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AbstractIntegration]:
+        """Create Alert Channel
+
+        Creates an alerting channel. Requires the permission called CanConfigureIntegrations.
+
+        :param abstract_integration: (required)
+        :type abstract_integration: AbstractIntegration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_alerting_channel_serialize(
+            abstract_integration=abstract_integration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AbstractIntegration",
+            '302': None,
+            '400': "str",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_alerting_channel_without_preload_content(
+        self,
+        abstract_integration: AbstractIntegration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create Alert Channel
+
+        Creates an alerting channel. Requires the permission called CanConfigureIntegrations.
+
+        :param abstract_integration: (required)
+        :type abstract_integration: AbstractIntegration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_alerting_channel_serialize(
+            abstract_integration=abstract_integration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AbstractIntegration",
+            '302': None,
+            '400': "str",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_alerting_channel_serialize(
+        self,
+        abstract_integration,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if abstract_integration is not None:
+            _body_params = abstract_integration
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/events/settings/alertingChannels',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_custom_event_specification(
         self,
         custom_event_specification: CustomEventSpecification,
@@ -10891,7 +11173,6 @@ class EventSettingsApi:
     ) -> CustomEventSpecificationWithLastUpdated:
         """Create new custom event specification
 
-        This endpoint creates a new Custom Event Specification.  ## Mandatory Parameters:  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param custom_event_specification: (required)
         :type custom_event_specification: CustomEventSpecification
@@ -10958,7 +11239,6 @@ class EventSettingsApi:
     ) -> ApiResponse[CustomEventSpecificationWithLastUpdated]:
         """Create new custom event specification
 
-        This endpoint creates a new Custom Event Specification.  ## Mandatory Parameters:  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param custom_event_specification: (required)
         :type custom_event_specification: CustomEventSpecification
@@ -11025,7 +11305,6 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Create new custom event specification
 
-        This endpoint creates a new Custom Event Specification.  ## Mandatory Parameters:  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param custom_event_specification: (required)
         :type custom_event_specification: CustomEventSpecification
@@ -11464,7 +11743,7 @@ class EventSettingsApi:
     ) -> AbstractIntegration:
         """Update Alert Channel
 
-        Updates an alerting channel.
+        Updates an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to update. (required)
         :type id: str
@@ -11503,6 +11782,7 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AbstractIntegration",
+            '302': None,
             '400': "str",
         }
         response_data = self.api_client.call_api(
@@ -11536,7 +11816,7 @@ class EventSettingsApi:
     ) -> ApiResponse[AbstractIntegration]:
         """Update Alert Channel
 
-        Updates an alerting channel.
+        Updates an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to update. (required)
         :type id: str
@@ -11575,6 +11855,7 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AbstractIntegration",
+            '302': None,
             '400': "str",
         }
         response_data = self.api_client.call_api(
@@ -11608,7 +11889,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Update Alert Channel
 
-        Updates an alerting channel.
+        Updates an alerting channel. Requires the permission called CanConfigureIntegrations.
 
         :param id: ID of the Alerting Channel to update. (required)
         :type id: str
@@ -11647,6 +11928,7 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "AbstractIntegration",
+            '302': None,
             '400': "str",
         }
         response_data = self.api_client.call_api(
@@ -11757,7 +12039,6 @@ class EventSettingsApi:
     ) -> CustomEventSpecificationWithLastUpdated:
         """Create or update custom event specification
 
-        This endpoint creates or updates a Custom Event Specification.  ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for each custom event  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ## Optional Parameters:  - **allowRestore (Query Parameter):** Allows to restore a custom event specification that was previously deleted or migrated when set to `true`. This allows to have idempotent operations that can be useful in _configuration as code_ scenarios. By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid.  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -11832,7 +12113,6 @@ class EventSettingsApi:
     ) -> ApiResponse[CustomEventSpecificationWithLastUpdated]:
         """Create or update custom event specification
 
-        This endpoint creates or updates a Custom Event Specification.  ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for each custom event  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ## Optional Parameters:  - **allowRestore (Query Parameter):** Allows to restore a custom event specification that was previously deleted or migrated when set to `true`. This allows to have idempotent operations that can be useful in _configuration as code_ scenarios. By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid.  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -11907,7 +12187,6 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Create or update custom event specification
 
-        This endpoint creates or updates a Custom Event Specification.  ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for each custom event  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ## Optional Parameters:  - **allowRestore (Query Parameter):** Allows to restore a custom event specification that was previously deleted or migrated when set to `true`. This allows to have idempotent operations that can be useful in _configuration as code_ scenarios. By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid.  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
         :param event_specification_id: (required)
         :type event_specification_id: str
@@ -12104,9 +12383,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12181,9 +12460,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12258,9 +12537,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12324,6 +12603,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -12406,9 +12686,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12483,9 +12763,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12560,9 +12840,9 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': None,
-            '400': None,
+            '204': None,
             '403': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12666,7 +12946,7 @@ class EventSettingsApi:
     ) -> None:
         """Test Alerting Channel
 
-        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana.
+        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana. Requires the permission called CanConfigureIntegrations.
 
         :param abstract_integration: (required)
         :type abstract_integration: AbstractIntegration
@@ -12701,6 +12981,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12732,7 +13013,7 @@ class EventSettingsApi:
     ) -> ApiResponse[None]:
         """Test Alerting Channel
 
-        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana.
+        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana. Requires the permission called CanConfigureIntegrations.
 
         :param abstract_integration: (required)
         :type abstract_integration: AbstractIntegration
@@ -12767,6 +13048,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12798,7 +13080,7 @@ class EventSettingsApi:
     ) -> RESTResponseType:
         """Test Alerting Channel
 
-        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana.
+        Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana. Requires the permission called CanConfigureIntegrations.
 
         :param abstract_integration: (required)
         :type abstract_integration: AbstractIntegration
@@ -12833,6 +13115,7 @@ class EventSettingsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12936,9 +13219,9 @@ class EventSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Notify manually to Alerting Channel
+        """Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 
-        Sends alert for a specific event to an alerting channel.Provided the event Id, an alert could be sent to the alerting channel.
+        Sends alert for a specific event to an alerting channel.  Provided the event Id, an alert could be sent to the alerting channel. This endpoint requires `canInvokeAlertChannel` permission.
 
         :param id: ID of the alerting channel to be notified on. (required)
         :type id: str
@@ -13006,9 +13289,9 @@ class EventSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Notify manually to Alerting Channel
+        """Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 
-        Sends alert for a specific event to an alerting channel.Provided the event Id, an alert could be sent to the alerting channel.
+        Sends alert for a specific event to an alerting channel.  Provided the event Id, an alert could be sent to the alerting channel. This endpoint requires `canInvokeAlertChannel` permission.
 
         :param id: ID of the alerting channel to be notified on. (required)
         :type id: str
@@ -13076,9 +13359,9 @@ class EventSettingsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Notify manually to Alerting Channel
+        """Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 
-        Sends alert for a specific event to an alerting channel.Provided the event Id, an alert could be sent to the alerting channel.
+        Sends alert for a specific event to an alerting channel.  Provided the event Id, an alert could be sent to the alerting channel. This endpoint requires `canInvokeAlertChannel` permission.
 
         :param id: ID of the alerting channel to be notified on. (required)
         :type id: str
@@ -13487,6 +13770,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -13562,8 +13846,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13631,8 +13918,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13700,8 +13990,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13746,6 +14039,7 @@ class EventSettingsApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'ApiKeyAuth'
         ]
 
         return self.api_client.param_serialize(
@@ -13828,7 +14122,9 @@ class EventSettingsApi:
             '204': None,
             '400': None,
             '403': None,
+            '404': None,
             '422': None,
+            '428': None,
             '500': None,
         }
         response_data = self.api_client.call_api(
@@ -13904,7 +14200,9 @@ class EventSettingsApi:
             '204': None,
             '400': None,
             '403': None,
+            '404': None,
             '422': None,
+            '428': None,
             '500': None,
         }
         response_data = self.api_client.call_api(
@@ -13980,7 +14278,9 @@ class EventSettingsApi:
             '204': None,
             '400': None,
             '403': None,
+            '404': None,
             '422': None,
+            '428': None,
             '500': None,
         }
         response_data = self.api_client.call_api(
@@ -14125,8 +14425,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14194,8 +14497,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14263,8 +14569,11 @@ class EventSettingsApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': None,
+            '204': None,
             '400': None,
             '403': None,
+            '404': None,
+            '428': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14598,6 +14907,295 @@ class EventSettingsApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/api/events/settings/custom-payload-configurations',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def upsert_custom_payload_configuration_v2(
+        self,
+        custom_payload_configuration: CustomPayloadConfiguration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[CustomPayloadWithVersion]:
+        """Create/Update Global Custom Payload Configuration
+
+        Creates or Updates Global Custom Payload Configuration.
+
+        :param custom_payload_configuration: (required)
+        :type custom_payload_configuration: CustomPayloadConfiguration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_custom_payload_configuration_v2_serialize(
+            custom_payload_configuration=custom_payload_configuration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[CustomPayloadWithVersion]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '409': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def upsert_custom_payload_configuration_v2_with_http_info(
+        self,
+        custom_payload_configuration: CustomPayloadConfiguration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[CustomPayloadWithVersion]]:
+        """Create/Update Global Custom Payload Configuration
+
+        Creates or Updates Global Custom Payload Configuration.
+
+        :param custom_payload_configuration: (required)
+        :type custom_payload_configuration: CustomPayloadConfiguration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_custom_payload_configuration_v2_serialize(
+            custom_payload_configuration=custom_payload_configuration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[CustomPayloadWithVersion]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '409': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def upsert_custom_payload_configuration_v2_without_preload_content(
+        self,
+        custom_payload_configuration: CustomPayloadConfiguration,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Create/Update Global Custom Payload Configuration
+
+        Creates or Updates Global Custom Payload Configuration.
+
+        :param custom_payload_configuration: (required)
+        :type custom_payload_configuration: CustomPayloadConfiguration
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_custom_payload_configuration_v2_serialize(
+            custom_payload_configuration=custom_payload_configuration,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[CustomPayloadWithVersion]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '409': None,
+            '422': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _upsert_custom_payload_configuration_v2_serialize(
+        self,
+        custom_payload_configuration,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if custom_payload_configuration is not None:
+            _body_params = custom_payload_configuration
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/events/settings/custom-payload-configurations/v2',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

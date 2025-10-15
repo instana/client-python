@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**action** | [**Action**](Action.md) |  | 
+**action** | [**Action**](Action.md) |  | [optional] 
 **ai_engine** | **str** |  | 
 **confidence** | **str** |  | 
+**policy** | [**Policy**](Policy.md) |  | [optional] 
 **score** | **float** |  | 
 
 ## Example

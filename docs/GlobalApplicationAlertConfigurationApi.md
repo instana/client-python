@@ -21,6 +21,7 @@ Method | HTTP request | Description
 Create Global Smart Alert Config
 
 Creates a new Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -54,7 +55,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
-    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
+    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
 
     try:
         # Create Global Smart Alert Config
@@ -103,7 +104,8 @@ Name | Type | Description  | Notes
 
 Delete Global Smart Alert Config
 
-Deletes a Global Smart Alert Configuration.
+Disables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -170,9 +172,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -182,6 +184,7 @@ void (empty response body)
 Disable Global Smart Alert Config
 
 Disables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -250,9 +253,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -262,6 +265,7 @@ void (empty response body)
 Enable Global Smart Alert Config
 
 Enables a Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -330,9 +334,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Global Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -342,6 +346,7 @@ void (empty response body)
 Get all Global Smart Alert Configs
 
 Gets all Global Smart Alert Configuration. Configurations are sorted by creation date in descending order.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -413,9 +418,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | OK - Returns an empty list if no configurations match the criteria |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested website doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -425,6 +429,7 @@ Name | Type | Description  | Notes
 Get Global Smart Alert Config
 
 Gets a specific Global Smart Alert Configuration. This may return a deleted Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -508,6 +513,7 @@ Name | Type | Description  | Notes
 Get Global Smart Alert Config Versions
 
 Gets all versions of a Global Smart Alert Configuration. This may return deleted Configurations. Configurations are sorted by creation date in descending order.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -589,6 +595,7 @@ Name | Type | Description  | Notes
 Restore Global Smart Alert Config
 
 Restores a deleted Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -659,9 +666,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Global Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Global Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -671,6 +678,7 @@ void (empty response body)
 Update Global Smart Alert Config
 
 Updates an existing Global Smart Alert Configuration.
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example
 
@@ -705,7 +713,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
     id = 'vlFnxhVTS3KVb-wsN26PeQ' # str | ID of a specific Global Smart Alert Configuration to update.
-    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
+    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
 
     try:
         # Update Global Smart Alert Config

@@ -1,13 +1,12 @@
 # Endpoint
 
-Returns a list of Endpoints.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **entity_type** | **str** | Since, this is a Endpoint, it will be of type &#x60;ENDPOINT&#x60;. | [optional] 
-**id** | **str** | Unique ID of the Service. Eg: &#x60;NCRq5oYnan5x-PkdTPQwLLUdu5M&#x60;. | 
+**id** | **str** | Unique ID of the Endpoint. Eg: &#x60;NCRq5oYnan5x-PkdTPQwLLUdu5M&#x60;. | 
 **is_synthetic** | **bool** |  | [optional] 
 **label** | **str** | Name of the Endpoint. Eg: &#x60;GET /api/fetch&#x60;. | 
 **service_id** | **str** | The serviceId this endpoint belongs to. | 

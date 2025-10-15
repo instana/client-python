@@ -13,6 +13,7 @@ Method | HTTP request | Description
 Get Synthetic Metrics
 
 API request to retrieve Synthetic Metrics.
+For more information on Synthetic Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-metrics.
 
 ### Example
 

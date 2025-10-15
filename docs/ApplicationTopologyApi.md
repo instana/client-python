@@ -12,7 +12,14 @@ Method | HTTP request | Description
 
 Gets the service topology
 
-Use this API endpoint if one wants to retrieve services and connections (call paths) between them for calls in the scope given by the parameters.  ## Errata:  The following fields are unsupported but documented in the schema for the result `services`: - The `applications` field is always missing and the `snapshotIds` field is always empty, despite being declared as required in the result schema. - The `maxSeverity` and `numberOfOpenIssues` fields are always missing. 
+Use this API endpoint if one wants to retrieve services and connections (call paths) between them for calls in the scope given by the parameters.
+
+## Errata:
+
+The following fields are unsupported but documented in the schema for the result `services`:
+- The `applications` field is always missing and the `snapshotIds` field is always empty, despite being declared as required in the result schema.
+- The `maxSeverity` and `numberOfOpenIssues` fields are always missing.
+
 
 ### Example
 
@@ -89,6 +96,9 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**400** | Bad Request |  -  |
+**401** | Unauthorized |  -  |
+**403** | Forbidden |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

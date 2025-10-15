@@ -14,6 +14,14 @@ Method | HTTP request | Description
 
 Delete synthetic call configurations
 
+Use this API endpoint if one wants to delete all custom synthetic call configurations.
+This endpoint requires `CanConfigureServiceMapping` permission.
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
+For more information on Synthetic Calls please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#synthetic-calls.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -83,6 +91,14 @@ void (empty response body)
 > SyntheticCallWithDefaultsConfig get_synthetic_calls()
 
 Synthetic call configurations
+
+Use this API endpoint if one wants to get all custom synthetic call configurations.
+This endpoint requires `CanConfigureServiceMapping` permission.
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
+For more information on Synthetic Calls please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#synthetic-calls.
 
 ### Example
 
@@ -157,6 +173,14 @@ This endpoint does not need any parameter.
 
 Update synthetic call configurations
 
+Use this API endpoint if one wants to get all custom synthetic call configurations.
+This endpoint requires `CanConfigureServiceMapping` permission.
+One can use `Create or update an API token` endpoint to update the permission by setting `canConfigureServiceMapping` to `true`.
+If one wants to enable the permission from Instana UI, go to Settings -> Security & Access -> Access Control -> API Token.
+There one can update the existing token or create a new token and set `Customize service rules and endpoint mapping` to `true`.
+
+For more information on Synthetic Calls please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#synthetic-calls.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -217,13 +241,15 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json
+ - **Accept**: Not defined
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

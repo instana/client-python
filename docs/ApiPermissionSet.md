@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **mobile_app_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **permissions** | **List[str]** |  | 
 **restricted_application_filter** | [**ApiRestrictedApplicationFilter**](ApiRestrictedApplicationFilter.md) |  | [optional] 
+**slo_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **synthetic_credential_keys** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **synthetic_test_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **website_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 

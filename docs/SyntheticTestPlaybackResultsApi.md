@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_location_summary_list**](SyntheticTestPlaybackResultsApi.md#get_location_summary_list) | **POST** /api/synthetics/results/locationsummarylist | Get a list of Synthetic locations with last run test on each location data
 [**get_synthetic_result**](SyntheticTestPlaybackResultsApi.md#get_synthetic_result) | **POST** /api/synthetics/results | Get Synthetic test playback results
+[**get_synthetic_result_analytic**](SyntheticTestPlaybackResultsApi.md#get_synthetic_result_analytic) | **POST** /api/synthetics/results/analytic | Get a list of Synthetic tests based on the specified analytic function
 [**get_synthetic_result_detail_data**](SyntheticTestPlaybackResultsApi.md#get_synthetic_result_detail_data) | **GET** /api/synthetics/results/{testid}/{testresultid}/detail | Get Synthetic test playback result detail data
 [**get_synthetic_result_detail_data_file**](SyntheticTestPlaybackResultsApi.md#get_synthetic_result_detail_data_file) | **GET** /api/synthetics/results/{testid}/{testresultid}/file | Download the synthetic test playback result detail data file
 [**get_synthetic_result_list**](SyntheticTestPlaybackResultsApi.md#get_synthetic_result_list) | **POST** /api/synthetics/results/list | Get a list of Synthetic test playback results
@@ -19,6 +20,7 @@ Method | HTTP request | Description
 Get a list of Synthetic locations with last run test on each location data
 
 Get summary information for Synthetic locations matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -102,6 +104,7 @@ Name | Type | Description  | Notes
 Get Synthetic test playback results
 
 Get a list of aggregated playback results metrics for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -179,12 +182,97 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_synthetic_result_analytic**
+> TestResultListResult get_synthetic_result_analytic(get_test_result_analytic=get_test_result_analytic)
+
+Get a list of Synthetic tests based on the specified analytic function
+
+Get a list of playback results metrics for Synthetic tests matching the specified parameters for the specified analytic
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.get_test_result_analytic import GetTestResultAnalytic
+from instana_client.models.test_result_list_result import TestResultListResult
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticTestPlaybackResultsApi(api_client)
+    get_test_result_analytic = {"pagination":{"page":1,"pageSize":3},"syntheticMetrics":["synthetic.metricsResponseTime","status","synthetic.errors"],"order":{"by":"start_time","direction":"DESC"},"timeFrame":{"to":0,"windowSize":144000000},"TagFilterExpression":{"type":"EXPRESSION","elements":[{"type":"EXPRESSION","elements":[{"name":"synthetic.errors","stringValue":"Exception","operator":"CONTAINS"}],"logicalOperator":"OR"}],"logicalOperator":"OR"},"analyticFunction":"LAST_VALUE"} # GetTestResultAnalytic |  (optional)
+
+    try:
+        # Get a list of Synthetic tests based on the specified analytic function
+        api_response = api_instance.get_synthetic_result_analytic(get_test_result_analytic=get_test_result_analytic)
+        print("The response of SyntheticTestPlaybackResultsApi->get_synthetic_result_analytic:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SyntheticTestPlaybackResultsApi->get_synthetic_result_analytic: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **get_test_result_analytic** | [**GetTestResultAnalytic**](GetTestResultAnalytic.md)|  | [optional] 
+
+### Return type
+
+[**TestResultListResult**](TestResultListResult.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_synthetic_result_detail_data**
 > TestResultDetailData get_synthetic_result_detail_data(testid, testresultid, type, name=name, start_time=start_time)
 
 Get Synthetic test playback result detail data
 
 Download the contents of the Synthetic the playback result detail data file matching the specified file type
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -275,6 +363,9 @@ Name | Type | Description  | Notes
 
 Download the synthetic test playback result detail data file
 
+Download a Synthetic the playback result detail data file matching the specified file type
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -360,6 +451,7 @@ void (empty response body)
 Get a list of Synthetic test playback results
 
 Get a list of playback results metrics for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -443,6 +535,7 @@ Name | Type | Description  | Notes
 Get Synthetic test playback detail result description(metadata)
 
 Gets the list of detailed data file names associated to a Synthetic playback result
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 
@@ -530,6 +623,7 @@ Name | Type | Description  | Notes
 Get a list of Synthetic tests with success rate and average response time data
 
 Get a summary of the playback results metrics and success rate for Synthetic tests matching the specified parameters
+For more information on Synthetic Test Playback Results please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-test-playback-results.
 
 ### Example
 

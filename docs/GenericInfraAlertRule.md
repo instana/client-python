@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**metric_group_by** | **List[str]** |  | 
 
 ## Example
 

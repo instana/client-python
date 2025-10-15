@@ -14,6 +14,8 @@ Method | HTTP request | Description
 
 Get all existing mobile app tags
 
+API request to get all mobile app tags.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -88,6 +90,8 @@ This endpoint does not need any parameter.
 > List[MobileAppMonitoringMetricDescription] get_mobile_app_metric_catalog()
 
 Metric catalog
+
+API request to get mobile app metric catalog.
 
 ### Example
 

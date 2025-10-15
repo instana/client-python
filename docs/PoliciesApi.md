@@ -87,10 +87,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**201** | Created. |  -  |
+**400** | Bad request. |  -  |
 **403** | Insufficient permissions. |  -  |
 **412** | Invalid input value. |  -  |
-**500** | Server Error. |  -  |
+**500** | Internal Server Error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -169,10 +170,11 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | New policy created. |  -  |
+**201** | New policy created. |  -  |
+**400** | Bad request. |  -  |
 **403** | Insufficient permissions. |  -  |
 **412** | Invalid input value. |  -  |
-**500** | Server Error. |  -  |
+**500** | Internal Server Error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -337,7 +339,6 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Automation policies list filtered by the values in query parameters. |  -  |
 **403** | Insufficient permissions. |  -  |
-**412** | Invalid input value. |  -  |
 **500** | Failed to retrieve the automation policies. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

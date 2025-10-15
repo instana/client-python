@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **create_slo_config**
-> ServiceLevelObjectiveConfiguration create_slo_config(service_level_objective_configuration)
+> SLOConfigWithRBACTag create_slo_config(slo_config_with_rbac_tag)
 
 Create a new SLO Config
 
@@ -23,7 +23,7 @@ Create a new SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -48,11 +48,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
-    service_level_objective_configuration = {"name":"Stans test SLO 4","target":0.99,"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # ServiceLevelObjectiveConfiguration | 
+    slo_config_with_rbac_tag = {"name":"Stans test SLO 4","target":0.99,"rbacTags":[{"id":"R3_hPrHXSMe0yGsnlFdReA","displayName":"team 1"}],"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # SLOConfigWithRBACTag | 
 
     try:
         # Create a new SLO Config
-        api_response = api_instance.create_slo_config(service_level_objective_configuration)
+        api_response = api_instance.create_slo_config(slo_config_with_rbac_tag)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->create_slo_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -66,11 +66,11 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **service_level_objective_configuration** | [**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)|  | 
+ **slo_config_with_rbac_tag** | [**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)|  | 
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_slo_configs**
-> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, query=query, tag=tag, entity_type=entity_type, order_by=order_by, order_direction=order_direction, slo_ids=slo_ids, refresh=refresh)
+> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
 
 Get All SLO Configs
 
@@ -282,17 +282,21 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
     page_size = 1 # int |  (optional)
     page = 1 # int |  (optional)
-    query = 'test SLO' # str |  (optional)
-    tag = ['Testing'] # List[str] |  (optional)
-    entity_type = 'application' # str |  (optional)
     order_by = 'name' # str |  (optional)
     order_direction = 'ASC' # str |  (optional)
+    query = 'test SLO' # str |  (optional)
+    tag = ['Testing'] # List[str] |  (optional)
+    entity_type = ['application'] # List[str] |  (optional)
+    blueprint = ['latency'] # List[str] |  (optional)
     slo_ids = ['SLOdCTspkHlS_OzNOATQWgsuw'] # List[str] |  (optional)
+    slo_status = 'green' # str |  (optional)
+    entity_ids = ['adsewby312sdfd1'] # List[str] |  (optional)
+    grouped = false # bool |  (optional)
     refresh = false # bool |  (optional)
 
     try:
         # Get All SLO Configs
-        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, query=query, tag=tag, entity_type=entity_type, order_by=order_by, order_direction=order_direction, slo_ids=slo_ids, refresh=refresh)
+        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->get_all_slo_configs:\n")
         pprint(api_response)
     except Exception as e:
@@ -308,12 +312,16 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **page_size** | **int**|  | [optional] 
  **page** | **int**|  | [optional] 
- **query** | **str**|  | [optional] 
- **tag** | [**List[str]**](str.md)|  | [optional] 
- **entity_type** | **str**|  | [optional] 
  **order_by** | **str**|  | [optional] 
  **order_direction** | **str**|  | [optional] 
+ **query** | **str**|  | [optional] 
+ **tag** | [**List[str]**](str.md)|  | [optional] 
+ **entity_type** | [**List[str]**](str.md)|  | [optional] 
+ **blueprint** | [**List[str]**](str.md)|  | [optional] 
  **slo_ids** | [**List[str]**](str.md)|  | [optional] 
+ **slo_status** | **str**|  | [optional] 
+ **entity_ids** | [**List[str]**](str.md)|  | [optional] 
+ **grouped** | **bool**|  | [optional] 
  **refresh** | **bool**|  | [optional] 
 
 ### Return type
@@ -338,7 +346,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_slo_config_by_id**
-> ServiceLevelObjectiveConfiguration get_slo_config_by_id(id, refresh=refresh)
+> SLOConfigWithRBACTag get_slo_config_by_id(id, refresh=refresh)
 
 Get an existing SLO Config
 
@@ -348,7 +356,7 @@ Get an existing SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -397,7 +405,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -418,7 +426,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_slo_config**
-> ServiceLevelObjectiveConfiguration update_slo_config(id, service_level_objective_configuration)
+> SLOConfigWithRBACTag update_slo_config(id, slo_config_with_rbac_tag)
 
 Update an existing SLO Config
 
@@ -428,7 +436,7 @@ Update an existing SLO Config
 
 ```python
 import instana_client
-from instana_client.models.service_level_objective_configuration import ServiceLevelObjectiveConfiguration
+from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -454,11 +462,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsObjectiveSLOConfigurationsApi(api_client)
     id = 'SLOdCTspkHlS_OzNOATQWgsuw' # str | 
-    service_level_objective_configuration = {"name":"Stans test SLO 4","target":0.99,"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # ServiceLevelObjectiveConfiguration | 
+    slo_config_with_rbac_tag = {"name":"Stans test SLO 4","target":0.99,"rbacTags":[{"id":"R3_hPrHXSMe0yGsnlFdReA","displayName":"team 1"}],"entity":{"type":"application","applicationId":"VTNvC_sATZqMj4vSZfsjKA","serviceId":null,"endpointId":null,"boundaryScope":"INBOUND","includeInternal":false,"includeSynthetic":false,"tagFilterExpression":null},"indicator":{"type":"timeBased","blueprint":"latency","threshold":100,"aggregation":"P90"},"timeWindow":{"type":"rolling","duration":1,"durationUnit":"week"},"tags":["Stan","testing"]} # SLOConfigWithRBACTag | 
 
     try:
         # Update an existing SLO Config
-        api_response = api_instance.update_slo_config(id, service_level_objective_configuration)
+        api_response = api_instance.update_slo_config(id, slo_config_with_rbac_tag)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->update_slo_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -473,11 +481,11 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**|  | 
- **service_level_objective_configuration** | [**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)|  | 
+ **slo_config_with_rbac_tag** | [**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)|  | 
 
 ### Return type
 
-[**ServiceLevelObjectiveConfiguration**](ServiceLevelObjectiveConfiguration.md)
+[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -493,7 +501,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Updated SLO Configuration Successfully |  -  |
-**404** | SLO Configuration Not Found |  -  |
+**400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

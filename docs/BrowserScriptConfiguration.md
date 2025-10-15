@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **browser** | **str** |  | [optional] 
+**file_name** | **str** |  | [optional] 
 **record_video** | **bool** |  | [optional] 
 **script** | **str** |  | [optional] 
 **script_type** | **str** |  | [optional] 

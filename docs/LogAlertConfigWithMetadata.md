@@ -6,8 +6,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **alert_channel_ids** | **List[str]** | List of IDs of alert channels defined in Instana. Can be left empty. | [optional] 
+**alert_channels** | **Dict[str, List[str]]** | Set of alert channel IDs associated with the severity. | [optional] 
 **created** | **int** |  | [optional] 
-**custom_payload_fields** | [**List[StaticStringField]**](StaticStringField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | [optional] 
+**custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | [optional] 
 **description** | **str** | Description of the Log Smart Alert. Used as a template for the description of alert/event notifications triggered by this Smart Alert configuration. | 
 **enabled** | **bool** |  | [optional] 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 

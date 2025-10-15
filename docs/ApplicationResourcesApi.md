@@ -5,7 +5,7 @@ All URIs are relative to *https://unit-tenant.instana.io*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_application_endpoints**](ApplicationResourcesApi.md#get_application_endpoints) | **GET** /api/application-monitoring/applications/services/endpoints | Get endpoints
-[**get_application_services**](ApplicationResourcesApi.md#get_application_services) | **GET** /api/application-monitoring/applications/services | Get applications/services
+[**get_application_services**](ApplicationResourcesApi.md#get_application_services) | **GET** /api/application-monitoring/applications;id&#x3D;&lt;appId&gt;/services | Get applications/services
 [**get_applications**](ApplicationResourcesApi.md#get_applications) | **GET** /api/application-monitoring/applications | Get applications
 [**get_services**](ApplicationResourcesApi.md#get_services) | **GET** /api/application-monitoring/services | Get services
 
@@ -15,7 +15,10 @@ Method | HTTP request | Description
 
 Get endpoints
 
-Use this API endpoint if one wants to retrieve a list of Endpoints. A use case could be to view the endpoint id of an Endpoint. 
+Use this API endpoint if one wants to retrieve a list of Endpoints.
+A use case could be to view the endpoint id of an Endpoint.
+
+For more information on Application Resources please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-resources.
 
 ### Example
 
@@ -108,7 +111,10 @@ Name | Type | Description  | Notes
 
 Get applications/services
 
-Use this API endpoint if one wants to retrieve a list of services in an Application Perspective. A use case could be to retrieve all service ids present in an Application Perspective. 
+Use this API endpoint if one wants to retrieve a list of services in an Application Perspective.
+A use case could be to retrieve all service ids present in an Application Perspective.
+
+For more information on Application Resources please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-resources.
 
 ### Example
 
@@ -141,7 +147,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationResourcesApi(api_client)
-    name_filter = 'name_filter_example' # str | Name of application/service (optional)
+    name_filter = 'name_filter_example' # str | Name of service (partial match allowed) (optional)
     window_size = 56 # int | Size of time window in milliseconds (optional)
     to = 56 # int | Timestamp since Unix Epoch in milliseconds of the end of the time window (optional)
     page = 56 # int | Page number from results (optional)
@@ -165,7 +171,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name_filter** | **str**| Name of application/service | [optional] 
+ **name_filter** | **str**| Name of service (partial match allowed) | [optional] 
  **window_size** | **int**| Size of time window in milliseconds | [optional] 
  **to** | **int**| Timestamp since Unix Epoch in milliseconds of the end of the time window | [optional] 
  **page** | **int**| Page number from results | [optional] 
@@ -199,7 +205,10 @@ Name | Type | Description  | Notes
 
 Get applications
 
-Use this API endpoint if one wants to retrieve a list of Application Perspectives. A use case could be to view the application id of an Application Perspective. 
+Use this API endpoint if one wants to retrieve a list of Application Perspectives.
+A use case could be to view the application id of an Application Perspective.
+
+For more information on Application Resources please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-resources.
 
 ### Example
 
@@ -288,7 +297,10 @@ Name | Type | Description  | Notes
 
 Get services
 
-Use this API endpoint if one wants to retrieve a list of Services. A use case could be to view the service id of a Service. 
+Use this API endpoint if one wants to retrieve a list of Services.
+A use case could be to view the service id of a Service.
+
+For more information on Application Resources please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-resources.
 
 ### Example
 

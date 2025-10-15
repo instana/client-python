@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **duration** | **int** | The total time taken for the entire operation of a call, from the moment the request was initiated to when the response was received. The time measured is in milliseconds. This is also known as latency of a call. | [optional] 
 **error_count** | **int** | Represents whether the call is erroneous or not. 0 is not erroneous and 1 is erroneous. | [optional] 
 **foreign_parent_id** | **str** |  | [optional] 
-**id** | **str** | The unique call id. For example: &#x60;1bcad5c82338deaf&#x60;. | [optional] 
+**id** | **str** | The call ID. A unique identifier for an individual call. For example: &#x60;1bcad5c82338deaf&#x60;. | [optional] 
 **min_self_time** | **int** | The smallest self time in the batch. May be null to indicate that &#x60;minSelfTime&#x60; is unknown when this node has only an exit span and no children. The time measured is in milliseconds. | [optional] 
 **name** | **str** | Name of the call. For example: &#x60;GET /articles/:id&#x60;. | [optional] 
 **network_time** | **int** | exit span duration - entry span duration | [optional] 

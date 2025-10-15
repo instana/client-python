@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.306.1368
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -39,6 +39,7 @@ class MobileAppMonitoringBeacon(BaseModel):
     batch_size: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(default=None, alias="batchSize")
     beacon_id: Annotated[str, Field(min_length=0, strict=True, max_length=128)] = Field(alias="beaconId")
     bundle_identifier: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="bundleIdentifier")
+    bytes_ingested: Optional[StrictInt] = Field(default=None, alias="bytesIngested")
     carrier: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = None
     city: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = None
     clock_skew: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="clockSkew")
@@ -48,12 +49,14 @@ class MobileAppMonitoringBeacon(BaseModel):
     continent_code: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=64)]] = Field(default=None, alias="continentCode")
     country: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = None
     country_code: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=64)]] = Field(default=None, alias="countryCode")
+    current_app_state: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=24)]] = Field(default=None, alias="currentAppState")
     custom_event_name: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = Field(default=None, alias="customEventName")
     custom_metric: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="customMetric")
     decoded_body_size: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="decodedBodySize")
     device_hardware: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="deviceHardware")
     device_manufacturer: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="deviceManufacturer")
     device_model: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="deviceModel")
+    drop_view: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = Field(default=None, alias="dropView")
     duration: Optional[Annotated[int, Field(strict=True, ge=0)]] = None
     effective_connection_type: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=16)]] = Field(default=None, alias="effectiveConnectionType")
     encoded_body_size: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="encodedBodySize")
@@ -72,6 +75,7 @@ class MobileAppMonitoringBeacon(BaseModel):
     http_call_url: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=4096)]] = Field(default=None, alias="httpCallUrl")
     ingestion_time: Optional[Annotated[int, Field(strict=True, ge=1)]] = Field(default=None, alias="ingestionTime")
     internal_meta: Optional[Dict[str, StrictStr]] = Field(default=None, alias="internalMeta")
+    label: Optional[StrictStr] = None
     latitude: Optional[Union[StrictFloat, StrictInt]] = None
     longitude: Optional[Union[StrictFloat, StrictInt]] = None
     max_mb: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="maxMb")
@@ -84,9 +88,14 @@ class MobileAppMonitoringBeacon(BaseModel):
     parsed_stack_trace: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=16384)]] = Field(default=None, alias="parsedStackTrace")
     performance_subtype: Annotated[str, Field(min_length=0, strict=True, max_length=24)] = Field(alias="performanceSubtype")
     platform: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=32)]] = None
+    rate_limit_beacon_type: Annotated[str, Field(min_length=0, strict=True, max_length=128)] = Field(alias="rateLimitBeaconType")
+    rate_limit_count: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="rateLimitCount")
+    rate_limit_custom_metric_val: Optional[List[Union[StrictFloat, StrictInt]]] = Field(default=None, alias="rateLimitCustomMetricVal")
+    rate_limit_time_max: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="rateLimitTimeMax")
+    rate_limit_time_min: Optional[Annotated[int, Field(strict=True, ge=0)]] = Field(default=None, alias="rateLimitTimeMin")
     region: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=256)]] = None
     rooted: Optional[StrictBool] = None
-    session_id: Annotated[str, Field(min_length=0, strict=True, max_length=128)] = Field(alias="sessionId")
+    session_id: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="sessionId")
     stack_trace: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=16384)]] = Field(default=None, alias="stackTrace")
     stack_trace_key_checksum: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=128)]] = Field(default=None, alias="stackTraceKeyChecksum")
     stack_trace_key_information: Optional[Annotated[str, Field(min_length=0, strict=True, max_length=1024)]] = Field(default=None, alias="stackTraceKeyInformation")
@@ -111,7 +120,7 @@ class MobileAppMonitoringBeacon(BaseModel):
     viewport_height: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="viewportHeight")
     viewport_width: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="viewportWidth")
     warm_start_time_ms: Optional[Annotated[int, Field(strict=True, ge=-1)]] = Field(default=None, alias="warmStartTimeMs")
-    __properties: ClassVar[List[str]] = ["accuracyRadius", "agentVersion", "appBuild", "appVersion", "appVersionNumber", "availableMb", "backendTraceId", "batchSize", "beaconId", "bundleIdentifier", "carrier", "city", "clockSkew", "coldStartTimeMs", "connectionType", "continent", "continentCode", "country", "countryCode", "customEventName", "customMetric", "decodedBodySize", "deviceHardware", "deviceManufacturer", "deviceModel", "duration", "effectiveConnectionType", "encodedBodySize", "environment", "errorCount", "errorId", "errorMessage", "errorType", "googlePlayServicesMissing", "hotStartTimeMs", "httpCallHeaders", "httpCallMethod", "httpCallOrigin", "httpCallPath", "httpCallStatus", "httpCallUrl", "ingestionTime", "internalMeta", "latitude", "longitude", "maxMb", "meta", "mobileAppId", "mobileAppLabel", "osName", "osVersion", "parentBeaconId", "parsedStackTrace", "performanceSubtype", "platform", "region", "rooted", "sessionId", "stackTrace", "stackTraceKeyChecksum", "stackTraceKeyInformation", "stackTraceLine", "stackTraceParsingStatus", "subdivision", "subdivisionCode", "tenant", "timestamp", "transferSize", "type", "unit", "useFeatures", "usedMb", "userEmail", "userId", "userIp", "userLanguages", "userName", "userSessionId", "view", "viewportHeight", "viewportWidth", "warmStartTimeMs"]
+    __properties: ClassVar[List[str]] = ["accuracyRadius", "agentVersion", "appBuild", "appVersion", "appVersionNumber", "availableMb", "backendTraceId", "batchSize", "beaconId", "bundleIdentifier", "bytesIngested", "carrier", "city", "clockSkew", "coldStartTimeMs", "connectionType", "continent", "continentCode", "country", "countryCode", "currentAppState", "customEventName", "customMetric", "decodedBodySize", "deviceHardware", "deviceManufacturer", "deviceModel", "dropView", "duration", "effectiveConnectionType", "encodedBodySize", "environment", "errorCount", "errorId", "errorMessage", "errorType", "googlePlayServicesMissing", "hotStartTimeMs", "httpCallHeaders", "httpCallMethod", "httpCallOrigin", "httpCallPath", "httpCallStatus", "httpCallUrl", "ingestionTime", "internalMeta", "label", "latitude", "longitude", "maxMb", "meta", "mobileAppId", "mobileAppLabel", "osName", "osVersion", "parentBeaconId", "parsedStackTrace", "performanceSubtype", "platform", "rateLimitBeaconType", "rateLimitCount", "rateLimitCustomMetricVal", "rateLimitTimeMax", "rateLimitTimeMin", "region", "rooted", "sessionId", "stackTrace", "stackTraceKeyChecksum", "stackTraceKeyInformation", "stackTraceLine", "stackTraceParsingStatus", "subdivision", "subdivisionCode", "tenant", "timestamp", "transferSize", "type", "unit", "useFeatures", "usedMb", "userEmail", "userId", "userIp", "userLanguages", "userName", "userSessionId", "view", "viewportHeight", "viewportWidth", "warmStartTimeMs"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -181,6 +190,7 @@ class MobileAppMonitoringBeacon(BaseModel):
             "batchSize": obj.get("batchSize"),
             "beaconId": obj.get("beaconId"),
             "bundleIdentifier": obj.get("bundleIdentifier"),
+            "bytesIngested": obj.get("bytesIngested"),
             "carrier": obj.get("carrier"),
             "city": obj.get("city"),
             "clockSkew": obj.get("clockSkew"),
@@ -190,12 +200,14 @@ class MobileAppMonitoringBeacon(BaseModel):
             "continentCode": obj.get("continentCode"),
             "country": obj.get("country"),
             "countryCode": obj.get("countryCode"),
+            "currentAppState": obj.get("currentAppState"),
             "customEventName": obj.get("customEventName"),
             "customMetric": obj.get("customMetric"),
             "decodedBodySize": obj.get("decodedBodySize"),
             "deviceHardware": obj.get("deviceHardware"),
             "deviceManufacturer": obj.get("deviceManufacturer"),
             "deviceModel": obj.get("deviceModel"),
+            "dropView": obj.get("dropView"),
             "duration": obj.get("duration"),
             "effectiveConnectionType": obj.get("effectiveConnectionType"),
             "encodedBodySize": obj.get("encodedBodySize"),
@@ -214,6 +226,7 @@ class MobileAppMonitoringBeacon(BaseModel):
             "httpCallUrl": obj.get("httpCallUrl"),
             "ingestionTime": obj.get("ingestionTime"),
             "internalMeta": obj.get("internalMeta"),
+            "label": obj.get("label"),
             "latitude": obj.get("latitude"),
             "longitude": obj.get("longitude"),
             "maxMb": obj.get("maxMb"),
@@ -226,6 +239,11 @@ class MobileAppMonitoringBeacon(BaseModel):
             "parsedStackTrace": obj.get("parsedStackTrace"),
             "performanceSubtype": obj.get("performanceSubtype"),
             "platform": obj.get("platform"),
+            "rateLimitBeaconType": obj.get("rateLimitBeaconType"),
+            "rateLimitCount": obj.get("rateLimitCount"),
+            "rateLimitCustomMetricVal": obj.get("rateLimitCustomMetricVal"),
+            "rateLimitTimeMax": obj.get("rateLimitTimeMax"),
+            "rateLimitTimeMin": obj.get("rateLimitTimeMin"),
             "region": obj.get("region"),
             "rooted": obj.get("rooted"),
             "sessionId": obj.get("sessionId"),

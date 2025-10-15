@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 Basic health traffic light
 
-The returned JSON object will provide a health property which contains a simple traffic light (GREEN/YELLO/RED). For any non-Green-state a list  of reasons will be provided in the messages array.  Possible messages: * No data being processed * No data arriving from agents 
+Get basic health of application.
 
 ### Example
 
@@ -87,6 +87,8 @@ This endpoint does not need any parameter.
 > InstanaVersionInfo get_version()
 
 API version information
+
+Get lastest API version information.
 
 ### Example
 

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**items** | [**List[Endpoint]**](Endpoint.md) | Returns a list of Endpoints. | [optional] 
+**items** | [**List[Endpoint]**](Endpoint.md) |  | [optional] 
 **page** | **int** | Page number you want to retrieve in a request / retrieved in a response. | [optional] 
 **page_size** | **int** | number of elements retrieved in a single query. | [optional] 
 **total_hits** | **int** | The number of results returned. For eg: If &#x60;items&#x60; has 5 elements, &#x60;totalhits&#x60; will be 5 | [optional] 

@@ -6,9 +6,11 @@ The trigger is the Instana event or Smart Alert that defines the initial conditi
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **str** | Trigger (Instana event or Smart Alert) identifier. | 
+**description** | **str** | A description for the trigger. | [optional] 
+**id** | **str** | Trigger (Instana event or Smart Alert) identifier. | [optional] 
 **name** | **str** | A name of the trigger (name of Instana event or Smart Alert). | [optional] 
-**type** | **str** | Instana event or Smart Alert type. The type must be one of the enum values. | 
+**scheduling** | [**PolicyScheduling**](PolicyScheduling.md) |  | [optional] 
+**type** | **str** | Instana event type, Smart Alert type, or &#39;schedule&#39;. The type must be one of the enum values. | 
 
 ## Example
 

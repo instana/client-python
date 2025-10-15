@@ -1,5 +1,6 @@
 # SpanRelation
 
+It shows from where the call is destined to. It includes the following information: 1. List of Application Perspectives from which the call is destined to. 2. Destination service and destination endpoint. 3. Physical context from the infrastructure point of view. 
 
 ## Properties
 

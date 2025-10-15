@@ -44,6 +44,7 @@ Method | HTTP request | Description
 [**get_system_rules**](EventSettingsApi.md#get_system_rules) | **GET** /api/events/settings/event-specifications/custom/systemRules | All system rules for custom event specifications
 [**manually_close_event**](EventSettingsApi.md#manually_close_event) | **POST** /api/events/settings/manual-close/{eventId} | Manually close an event.
 [**multi_close_event**](EventSettingsApi.md#multi_close_event) | **POST** /api/events/settings/manual-close | Manually closing multiple events
+[**post_alerting_channel**](EventSettingsApi.md#post_alerting_channel) | **POST** /api/events/settings/alertingChannels | Create Alert Channel
 [**post_custom_event_specification**](EventSettingsApi.md#post_custom_event_specification) | **POST** /api/events/settings/event-specifications/custom | Create new custom event specification
 [**put_alert**](EventSettingsApi.md#put_alert) | **PUT** /api/events/settings/alerts/{id} | Create or update Alert Configuration
 [**put_alerting_channel**](EventSettingsApi.md#put_alerting_channel) | **PUT** /api/events/settings/alertingChannels/{id} | Update Alert Channel
@@ -51,12 +52,13 @@ Method | HTTP request | Description
 [**restore_mobile_app_alert_config**](EventSettingsApi.md#restore_mobile_app_alert_config) | **PUT** /api/events/settings/mobile-app-alert-configs/{id}/restore/{created} | Restore Mobile Smart Alert Config
 [**restore_website_alert_config**](EventSettingsApi.md#restore_website_alert_config) | **PUT** /api/events/settings/website-alert-configs/{id}/restore/{created} | Restore Website Smart Alert Config
 [**send_test_alerting**](EventSettingsApi.md#send_test_alerting) | **PUT** /api/events/settings/alertingChannels/test | Test Alerting Channel
-[**send_test_alerting_by_id**](EventSettingsApi.md#send_test_alerting_by_id) | **POST** /api/events/settings/alertingChannels/notify/{id} | Notify manually to Alerting Channel
+[**send_test_alerting_by_id**](EventSettingsApi.md#send_test_alerting_by_id) | **POST** /api/events/settings/alertingChannels/notify/{id} | Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 [**update_mobile_app_alert_config**](EventSettingsApi.md#update_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs/{id} | Update Mobile Smart Alert Config
 [**update_mobile_app_historic_baseline**](EventSettingsApi.md#update_mobile_app_historic_baseline) | **POST** /api/events/settings/mobile-app-alert-configs/{id}/update-baseline | Recalculate Mobile Smart Alert Config Baseline
 [**update_website_alert_config**](EventSettingsApi.md#update_website_alert_config) | **POST** /api/events/settings/website-alert-configs/{id} | Update Website Smart Alert Config
 [**update_website_historic_baseline**](EventSettingsApi.md#update_website_historic_baseline) | **POST** /api/events/settings/website-alert-configs/{id}/update-baseline | Recalculate Website Smart Alert Config Baseline
 [**upsert_custom_payload_configuration**](EventSettingsApi.md#upsert_custom_payload_configuration) | **PUT** /api/events/settings/custom-payload-configurations | Create/Update Global Custom Payload Configuration
+[**upsert_custom_payload_configuration_v2**](EventSettingsApi.md#upsert_custom_payload_configuration_v2) | **PUT** /api/events/settings/custom-payload-configurations/v2 | Create/Update Global Custom Payload Configuration
 
 
 # **create_mobile_app_alert_config**
@@ -68,6 +70,7 @@ Creates a new Mobile Smart Alert Configuration.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -82,12 +85,22 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
+    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
 
     try:
         # Create Mobile Smart Alert Config
@@ -113,7 +126,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -170,7 +183,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
+    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
 
     try:
         # Create Website Smart Alert Config
@@ -211,6 +224,7 @@ Name | Type | Description  | Notes
 **400** | Invalid configuration. |  -  |
 **403** | Insufficient permissions. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -296,7 +310,7 @@ void (empty response body)
 
 Delete Alerting Channel
 
-Deletes an alert channel.
+Deletes an alert channel. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -445,8 +459,6 @@ void (empty response body)
 > delete_custom_event_specification(event_specification_id)
 
 Delete custom event specification
-
-This endpoint deletes a Custom Event Specification.  By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid. However, check out the docs for [updating a configuration](#operation/putCustomEventSpecification) how this default behavior can be changed using the `allowRestore` query parameter.   ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for the custom event specification to delete.   # Example:  ``` curl --request DELETE 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' ``` 
 
 ### Example
 
@@ -600,6 +612,7 @@ Deletes a Mobile Smart Alert Configuration
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -612,6 +625,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -641,7 +664,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -652,9 +675,9 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -730,9 +753,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration deleted. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Website Smart Alert Configuration deleted. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -903,6 +926,7 @@ Disables a Mobile Smart Alert Configuration.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -915,6 +939,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -946,7 +980,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -957,9 +991,9 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1037,9 +1071,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration disabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Website Smart Alert Configuration disabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1210,6 +1244,7 @@ Enables a Mobile Smart Alert Configuration.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -1222,6 +1257,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -1253,7 +1298,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -1264,9 +1309,9 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
+**204** | Mobile Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1344,9 +1389,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration enabled. |  -  |
-**400** | Invalid Config ID provided. |  -  |
+**204** | Website Smart Alert Configuration enabled. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration ID provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1355,10 +1400,11 @@ void (empty response body)
 
 Get all Mobile Smart Alert Configs
 
-Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurationss are sorted by creation date in descending order.
+Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile app.Configurations are sorted by creation date in descending order.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -1372,6 +1418,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -1405,7 +1461,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -1416,9 +1472,8 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | Success. Returns empty result if mobileAppId is invalid. |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested mobile application doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1427,7 +1482,7 @@ No authorization required
 
 Get all Website Smart Alert Configs
 
-Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurationss are sorted by creation date in descending order.
+Gets all the Website Smart Alert Configuration pertaining to a specific website. Configurations are sorted by creation date in descending order.
 
 ### Example
 
@@ -1499,9 +1554,8 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK |  -  |
+**200** | Success. Returns empty result if websiteId is invalid. |  -  |
 **403** | Insufficient permissions. |  -  |
-**404** | The requested website doesn&#39;t exist. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1514,6 +1568,7 @@ Gets a specific Mobile Smart Alert Configuration. This may return a deleted Conf
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -1527,6 +1582,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -1560,7 +1625,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -1586,6 +1651,7 @@ Gets all versions of a Mobile Smart Alert Configuration. This may return deleted
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -1599,6 +1665,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -1630,7 +1706,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -1898,7 +1974,7 @@ Name | Type | Description  | Notes
 
 Get Alerting Channel
 
-Gets an alerting channel.
+Gets an alerting channel. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -1977,7 +2053,7 @@ Name | Type | Description  | Notes
 
 Get all Alerting Channels
 
-Gets all the alerting channels.
+Gets all the alerting channels. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -2056,7 +2132,7 @@ Name | Type | Description  | Notes
 
 Get Overview of Alerting Channels
 
-Gets the overview information of all alerting channels.
+Gets the overview information of all alerting channels. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -2601,7 +2677,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_custom_payload_configurations**
-> CustomPayloadWithLastUpdated get_custom_payload_configurations(context=context)
+> CustomPayloadWithVersion get_custom_payload_configurations(context=context)
 
 Get All Global Custom Payload Configurations
 
@@ -2613,7 +2689,7 @@ Gets All Global Custom Payload Configurations.
 
 ```python
 import instana_client
-from instana_client.models.custom_payload_with_last_updated import CustomPayloadWithLastUpdated
+from instana_client.models.custom_payload_with_version import CustomPayloadWithVersion
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -2660,7 +2736,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**CustomPayloadWithLastUpdated**](CustomPayloadWithLastUpdated.md)
+[**CustomPayloadWithVersion**](CustomPayloadWithVersion.md)
 
 ### Authorization
 
@@ -3156,12 +3232,91 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **post_alerting_channel**
+> AbstractIntegration post_alerting_channel(abstract_integration)
+
+Create Alert Channel
+
+Creates an alerting channel. Requires the permission called CanConfigureIntegrations.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.abstract_integration import AbstractIntegration
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    abstract_integration = instana_client.AbstractIntegration() # AbstractIntegration | 
+
+    try:
+        # Create Alert Channel
+        api_response = api_instance.post_alerting_channel(abstract_integration)
+        print("The response of EventSettingsApi->post_alerting_channel:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->post_alerting_channel: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **abstract_integration** | [**AbstractIntegration**](AbstractIntegration.md)|  | 
+
+### Return type
+
+[**AbstractIntegration**](AbstractIntegration.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | created the alert channel setting |  -  |
+**302** | Redirect to the integration service for continuing the configuration with the 3rd party system  |  -  |
+**400** | Failed creating the alert channel setting |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **post_custom_event_specification**
 > CustomEventSpecificationWithLastUpdated post_custom_event_specification(custom_event_specification)
 
 Create new custom event specification
-
-This endpoint creates a new Custom Event Specification.  ## Mandatory Parameters:  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request POST 'https://<Host>/api/events/settings/event-specifications/custom' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
 ### Example
 
@@ -3326,7 +3481,7 @@ Name | Type | Description  | Notes
 
 Update Alert Channel
 
-Updates an alerting channel.
+Updates an alerting channel. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -3399,6 +3554,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Updated the alert channel setting |  -  |
+**302** | Redirect to the integration service for continuing the configuration with the 3rd party system  |  -  |
 **400** | Failed updating the alert channel setting |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -3407,8 +3563,6 @@ Name | Type | Description  | Notes
 > CustomEventSpecificationWithLastUpdated put_custom_event_specification(event_specification_id, custom_event_specification, allow_restore=allow_restore)
 
 Create or update custom event specification
-
-This endpoint creates or updates a Custom Event Specification.  ## Mandatory Parameters:  - **eventSpecificationId (Path Parameter):** A unique identifier for each custom event  - **name:** Name for the custom event  - **entityType:** Name of the available plugins for the selected source  - **rules.ruleType:** Type of the rule being set for the custom event  ### Rule-type specific parameters  Depending on the chosen `ruleType`, there are further required parameters:  #### Threshold Rule using a dynamic built-in metric by pattern :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricPattern.prefix:** Prefix pattern for the metric  - **rules.metricPattern.operator:** Operator for matching the metric  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\",\"name\":\"Event for OpenAPI documentation\", \"query\":<Query>,  \"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":null, \"metricPattern\":{\"prefix\":\"fs\", \"postfix\":\"free\", \"operator\":\"endsWith\", \"placeholder\":\"/xvda1\"}, \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ``` The above example creates a custom event that matches disk devices that end with \"/xvda1\" for the metric \"fs.{device}.free\" for any host in scope.  #### Threshold Rule using fixed metric :  - **rules.conditionOperator:** Conditional operator for the aggregation for the provided time window  - **rules.metricName:** Metric name for the event  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation fixed Metric\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation fixed metric\",\"rules\":[{\"aggregation\":\"sum\",\"conditionOperator\":\">\", \"conditionValue\":0.1, \"metricName\":\"fs./dev/xvda1.free\",  \"rollup\":null, \"ruleType\":\"threshold\", \"severity\":10, \"window\":30000}], \"triggering\":false }' ```  #### System Rule:  - **rules.systemRuleId:** Id of the System Rule being set   ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI documentation System Rule\", \"enabled\":true,\"entityType\":\"any\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI documentation System Rule\", \"rules\":[{\"ruleType\":\"system\", \"systemRuleId\":\"entity.offline\",\"severity\":10}], \"triggering\":false }' ```  #### Entity Verification Rule:  - **rules.matchingEntityType:** Type of the Entity - **rules.matchingOperator:** Operator for matching the Entity name - **rules.matchingEntityLabel:** Name Pattern for the Entity  ``` curl --request PUT 'https://<Host>/api/events/settings/event-specifications/custom/<EventSpecificationId>' \\ --header 'Authorization: apiToken <Token>' \\ --header 'Content-Type: application/json' \\ --data-raw '{ \"description\":\"Event for OpenAPI Entity Verification Rule\", \"enabled\":true,\"entityType\":\"host\",\"expirationTime\":\"60000\", \"name\":\"Event for OpenAPI Entity Verification Rule\", \"rules\":[{\"matchingEntityLabel\":\"test\", \"matchingEntityType\":\"jvmRuntimePlatform\",\"matchingOperator\":\"startsWith\",\"offlineDuration\":1800000,  \"ruleType\":\"entity_verification\",\"severity\": 5}], \"triggering\":false }' ```  ## Optional Parameters:  - **allowRestore (Query Parameter):** Allows to restore a custom event specification that was previously deleted or migrated when set to `true`. This allows to have idempotent operations that can be useful in _configuration as code_ scenarios. By default, the ID of a deleted configuration cannot be reused anymore to enable links in previous Issues or Incidents to stay valid.  ### Deprecations:  The entity types `application`, `service` and `endpoint` are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please [refer to our documentation](https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts). 
 
 ### Example
 
@@ -3496,6 +3650,7 @@ Restores a Mobile Smart Alert Configuration.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -3508,6 +3663,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -3541,7 +3706,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -3552,9 +3717,9 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Mobile Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3634,9 +3799,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration restored. |  -  |
-**400** | Invalid Configuration provided. |  -  |
+**204** | Website Smart Alert Configuration restored. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Invalid Configuration provided. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3645,7 +3810,7 @@ void (empty response body)
 
 Test Alerting Channel
 
-Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana.
+Sends a test alert to an alert channel. This is for testing if an potential alert channel is able to receive alerts from Instana. Requires the permission called CanConfigureIntegrations.
 
 ### Example
 
@@ -3713,16 +3878,16 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**200** | Test alerting channel response |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **send_test_alerting_by_id**
 > send_test_alerting_by_id(id, manual_alerting_channel_configuration)
 
-Notify manually to Alerting Channel
+Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 
-Sends alert for a specific event to an alerting channel.Provided the event Id, an alert could be sent to the alerting channel.
+Sends alert for a specific event to an alerting channel.  Provided the event Id, an alert could be sent to the alerting channel. This endpoint requires `canInvokeAlertChannel` permission.
 
 ### Example
 
@@ -3759,7 +3924,7 @@ with instana_client.ApiClient(configuration) as api_client:
     manual_alerting_channel_configuration = instana_client.ManualAlertingChannelConfiguration() # ManualAlertingChannelConfiguration | 
 
     try:
-        # Notify manually to Alerting Channel
+        # Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
         api_instance.send_test_alerting_by_id(id, manual_alerting_channel_configuration)
     except Exception as e:
         print("Exception when calling EventSettingsApi->send_test_alerting_by_id: %s\n" % e)
@@ -3805,6 +3970,7 @@ Updates an existing Mobile Smart Alert Configuration.
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -3819,13 +3985,23 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'qOW5jlR5TQafXKWDIceRkA' # str | ID of a specific Mobile Smart Alert Configuration to update.
-    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
+    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
 
     try:
         # Update Mobile Smart Alert Config
@@ -3852,7 +4028,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -3881,6 +4057,7 @@ Recalculates and updates the historic baseline (static seasonal threshold) of a 
 
 ### Example
 
+* Api Key Authentication (ApiKeyAuth):
 
 ```python
 import instana_client
@@ -3893,6 +4070,16 @@ configuration = instana_client.Configuration(
     host = "https://unit-tenant.instana.io"
 )
 
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
@@ -3922,7 +4109,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -3933,9 +4120,12 @@ No authorization required
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration baseline recalculated. |  -  |
-**400** | Invalid Mobile App ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | Mobile Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions to access this configuration. |  -  |
+**404** | Mobile Smart Alert Configuration not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3979,7 +4169,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'G-h5p0znTHan2m2U3c-Z1Q' # str | ID of a specific Website Smart Alert Configuration to update.
-    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
+    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
 
     try:
         # Update Website Smart Alert Config
@@ -4021,7 +4211,9 @@ Name | Type | Description  | Notes
 **204** | Website Smart Alert Configuration did not change. |  -  |
 **400** | Invalid Configuration ID provided. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | The requested configuration does not exist. |  -  |
 **422** | Unprocessable entity. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 **500** | Internal error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -4098,9 +4290,12 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration baseline recalculated. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | Website Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions to access this configuration. |  -  |
+**404** | Website Smart Alert Configuration not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4183,6 +4378,108 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions. |  -  |
+**422** | Unable to process request, request data is invalid. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **upsert_custom_payload_configuration_v2**
+> List[CustomPayloadWithVersion] upsert_custom_payload_configuration_v2(custom_payload_configuration)
+
+Create/Update Global Custom Payload Configuration
+
+Creates or Updates Global Custom Payload Configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.custom_payload_configuration import CustomPayloadConfiguration
+from instana_client.models.custom_payload_with_version import CustomPayloadWithVersion
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    custom_payload_configuration =       "fields":
+      [
+        {
+            "type": "staticString",
+            "key": "string",
+            "value": "customValue"
+        },
+        {
+            "type": "dynamic",
+            "key": "string",
+            "value": {
+                "tagName": "agent.zone",
+                "key": "string"
+            }
+        }
+      ],
+      "version": 1
+ # CustomPayloadConfiguration | 
+
+    try:
+        # Create/Update Global Custom Payload Configuration
+        api_response = api_instance.upsert_custom_payload_configuration_v2(custom_payload_configuration)
+        print("The response of EventSettingsApi->upsert_custom_payload_configuration_v2:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->upsert_custom_payload_configuration_v2: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **custom_payload_configuration** | [**CustomPayloadConfiguration**](CustomPayloadConfiguration.md)|  | 
+
+### Return type
+
+[**List[CustomPayloadWithVersion]**](CustomPayloadWithVersion.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions. |  -  |
+**409** | Version conflict. |  -  |
 **422** | Unable to process request, request data is invalid. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

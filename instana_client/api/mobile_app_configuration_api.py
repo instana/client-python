@@ -3,9 +3,9 @@
 """
     Instana REST API documentation
 
-    Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).  ## Overview The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.  ### Navigating the API documentation The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include: - Websites & Mobile Apps - Applications - Infrastructure - Synthetic Monitoring - Events - Automation - Service Levels - Settings - etc  ### Rate Limiting A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.  - **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour. - **X-RateLimit-Remaining:** How many calls may still be executed within the current hour. - **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.  ### Further Reading We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.  ## Getting Started with the REST API  ### API base URL The base URL for an specific instance of Instana can be determined using the tenant and unit information. - `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface. - `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.  ### Curl Example Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.  ```bash curl --request GET \\   --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' ```  Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.  ```bash curl --request POST \\   --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\   --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\   --header 'content-type: application/json' \\   --data '{   \"group\":{       \"groupbyTag\":\"endpoint.name\"   },   \"tagFilters\":[    {     \"name\":\"call.error.count\",     \"value\":\"0\",     \"operator\":\"GREATER_THAN\"    }   ],   \"metrics\":[    {     \"metric\":\"errors\",     \"aggregation\":\"MEAN\"    }   ]   }' ```  ### Generating REST API clients  The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format. You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).  OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made. To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).  #### Go For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:  ```bash #!/bin/bash  ### This script assumes you have the `java` and `wget` commands on the path  export UNIT_NAME='myunit' # for example: prod export TENANT_NAME='mytenant' # for example: awesomecompany  //Download the generator to your current working directory: wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"  //generate a client library that you can vendor into your repository java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\     -o pkg/instana/openapi \\     --skip-validate-spec  //(optional) format the Go code according to the Go code standard gofmt -s -w pkg/instana/openapi ```  The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:  ```go import instana \"./pkg/instana/openapi\"  // readTags will read all available application monitoring tags along with their type and category func readTags() {  configuration := instana.NewConfiguration()  configuration.Host = \"tenant-unit.instana.io\"  configuration.BasePath = \"https://tenant-unit.instana.io\"   client := instana.NewAPIClient(configuration)  auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{   Key:    apiKey,   Prefix: \"apiToken\",  })   tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)  if err != nil {   fmt.Fatalf(\"Error calling the API, aborting.\")  }   for _, tag := range tags {   fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)  } } ```  #### Java Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).  Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification: ``` //Nativ Java HTTP Client java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native  //Spring WebClient java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient  //Spring RestTemplate java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate  ``` 
+    Documentation for INSTANA REST API
 
-    The version of the OpenAPI document: 1.291.1002
+    The version of the OpenAPI document: 1.306.1368
     Contact: support@instana.com
     Generated by OpenAPI Generator (https://openapi-generator.tech)
 
@@ -17,12 +17,16 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import List, Optional
+from pydantic import Field, StrictBytes, StrictInt, StrictStr
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
+from instana_client.models.api_tag import ApiTag
 from instana_client.models.geo_location_configuration import GeoLocationConfiguration
 from instana_client.models.ip_masking_configuration import IpMaskingConfiguration
 from instana_client.models.mobile_app import MobileApp
+from instana_client.models.post_mobile_app_source_map_config_request import PostMobileAppSourceMapConfigRequest
+from instana_client.models.source_map_upload_config import SourceMapUploadConfig
+from instana_client.models.source_map_upload_configs import SourceMapUploadConfigs
 
 from instana_client.api_client import ApiClient, RequestSerialized
 from instana_client.api_response import ApiResponse
@@ -40,6 +44,615 @@ class MobileAppConfigurationApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def clear_mobile_app_source_map_upload_configuration(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Clear sourcemap files for sourcemap upload configuration
+
+        API request to clear sourcemap files of a configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clear_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def clear_mobile_app_source_map_upload_configuration_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Clear sourcemap files for sourcemap upload configuration
+
+        API request to clear sourcemap files of a configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clear_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def clear_mobile_app_source_map_upload_configuration_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Clear sourcemap files for sourcemap upload configuration
+
+        API request to clear sourcemap files of a configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._clear_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _clear_mobile_app_source_map_upload_configuration_serialize(
+        self,
+        mobile_app_id,
+        source_map_config_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/clear',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def commit_mobile_app_source_map_file(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        file_id: Optional[StrictStr] = None,
+        file_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Commit sourcemap file upload for mobile app
+
+        API request to commit sourcemap file upload for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param file_id:
+        :type file_id: str
+        :param file_type:
+        :type file_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._commit_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            file_id=file_id,
+            file_type=file_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def commit_mobile_app_source_map_file_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        file_id: Optional[StrictStr] = None,
+        file_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Commit sourcemap file upload for mobile app
+
+        API request to commit sourcemap file upload for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param file_id:
+        :type file_id: str
+        :param file_type:
+        :type file_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._commit_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            file_id=file_id,
+            file_type=file_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def commit_mobile_app_source_map_file_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        file_id: Optional[StrictStr] = None,
+        file_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Commit sourcemap file upload for mobile app
+
+        API request to commit sourcemap file upload for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param file_id:
+        :type file_id: str
+        :param file_type:
+        :type file_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._commit_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            file_id=file_id,
+            file_type=file_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _commit_mobile_app_source_map_file_serialize(
+        self,
+        mobile_app_id,
+        source_map_config_id,
+        file_id,
+        file_type,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if file_id is not None:
+            _form_params.append(('fileId', file_id))
+        if file_type is not None:
+            _form_params.append(('fileType', file_type))
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'multipart/form-data'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/commit',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -290,6 +903,284 @@ class MobileAppConfigurationApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/api/mobile-app-monitoring/config/{mobileAppId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_mobile_app_source_map_upload_configuration(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Delete sourcemap configuration for mobile app
+
+        API request to delete sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_mobile_app_source_map_upload_configuration_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Delete sourcemap configuration for mobile app
+
+        API request to delete sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_mobile_app_source_map_upload_configuration_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Delete sourcemap configuration for mobile app
+
+        API request to delete sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_mobile_app_source_map_upload_configuration_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_mobile_app_source_map_upload_configuration_serialize(
+        self,
+        mobile_app_id,
+        source_map_config_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -560,7 +1451,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_location_configuration(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -578,7 +1469,7 @@ class MobileAppConfigurationApi:
 
         API request to get geo location configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -631,7 +1522,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_location_configuration_with_http_info(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -649,7 +1540,7 @@ class MobileAppConfigurationApi:
 
         API request to get geo location configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -702,7 +1593,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_location_configuration_without_preload_content(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -720,7 +1611,7 @@ class MobileAppConfigurationApi:
 
         API request to get geo location configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -833,7 +1724,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_mapping_rules(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -851,7 +1742,7 @@ class MobileAppConfigurationApi:
 
         API request to get custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -904,7 +1795,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_mapping_rules_with_http_info(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -922,7 +1813,7 @@ class MobileAppConfigurationApi:
 
         API request to get custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -975,7 +1866,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_geo_mapping_rules_without_preload_content(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -993,7 +1884,7 @@ class MobileAppConfigurationApi:
 
         API request to get custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1106,7 +1997,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_ip_masking_configuration(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1124,7 +2015,7 @@ class MobileAppConfigurationApi:
 
         API request to get IP masking configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1177,7 +2068,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_ip_masking_configuration_with_http_info(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1195,7 +2086,7 @@ class MobileAppConfigurationApi:
 
         API request to get IP masking configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1248,7 +2139,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def get_mobile_app_ip_masking_configuration_without_preload_content(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1266,7 +2157,7 @@ class MobileAppConfigurationApi:
 
         API request to get IP masking configuration for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1377,9 +2268,829 @@ class MobileAppConfigurationApi:
 
 
     @validate_call
+    def get_mobile_app_source_map_file(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Get sourcemap configuration for mobile app
+
+        API request to get sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_mobile_app_source_map_file_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Get sourcemap configuration for mobile app
+
+        API request to get sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_mobile_app_source_map_file_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get sourcemap configuration for mobile app
+
+        API request to get sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_mobile_app_source_map_file_serialize(
+        self,
+        mobile_app_id,
+        source_map_config_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_mobile_app_source_map_files(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfigs:
+        """Get all sourcemap configurations for mobile app
+
+        API request to get all sourcemap configurations for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_files_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_mobile_app_source_map_files_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfigs]:
+        """Get all sourcemap configurations for mobile app
+
+        API request to get all sourcemap configurations for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_files_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_mobile_app_source_map_files_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get all sourcemap configurations for mobile app
+
+        API request to get all sourcemap configurations for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_mobile_app_source_map_files_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfigs",
+            '401': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_mobile_app_source_map_files_serialize(
+        self,
+        mobile_app_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_single_mobile_app_config(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MobileApp:
+        """Get mobile app configuration by ID
+
+        API request to get a specific mobile app configuration by ID.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_single_mobile_app_config_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MobileApp",
+            '401': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_single_mobile_app_config_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MobileApp]:
+        """Get mobile app configuration by ID
+
+        API request to get a specific mobile app configuration by ID.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_single_mobile_app_config_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MobileApp",
+            '401': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_single_mobile_app_config_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get mobile app configuration by ID
+
+        API request to get a specific mobile app configuration by ID.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_single_mobile_app_config_serialize(
+            mobile_app_id=mobile_app_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MobileApp",
+            '401': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_single_mobile_app_config_serialize(
+        self,
+        mobile_app_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_mobile_app_config(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name of the mobile app")] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1399,6 +3110,8 @@ class MobileAppConfigurationApi:
 
         :param name: Name of the mobile app
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1423,6 +3136,7 @@ class MobileAppConfigurationApi:
 
         _param = self._post_mobile_app_config_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1451,6 +3165,7 @@ class MobileAppConfigurationApi:
     def post_mobile_app_config_with_http_info(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name of the mobile app")] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1470,6 +3185,8 @@ class MobileAppConfigurationApi:
 
         :param name: Name of the mobile app
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1494,6 +3211,7 @@ class MobileAppConfigurationApi:
 
         _param = self._post_mobile_app_config_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1522,6 +3240,7 @@ class MobileAppConfigurationApi:
     def post_mobile_app_config_without_preload_content(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name of the mobile app")] = None,
+        api_tag: Optional[List[ApiTag]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1541,6 +3260,8 @@ class MobileAppConfigurationApi:
 
         :param name: Name of the mobile app
         :type name: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1565,6 +3286,7 @@ class MobileAppConfigurationApi:
 
         _param = self._post_mobile_app_config_serialize(
             name=name,
+            api_tag=api_tag,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1588,6 +3310,314 @@ class MobileAppConfigurationApi:
     def _post_mobile_app_config_serialize(
         self,
         name,
+        api_tag,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'ApiTag': '',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if name is not None:
+            
+            _query_params.append(('name', name))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if api_tag is not None:
+            _body_params = api_tag
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/api/mobile-app-monitoring/config',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_mobile_app_source_map_config(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        post_mobile_app_source_map_config_request: Optional[PostMobileAppSourceMapConfigRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Add new sourcemap configuration for mobile app
+
+        API request to add sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param post_mobile_app_source_map_config_request:
+        :type post_mobile_app_source_map_config_request: PostMobileAppSourceMapConfigRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_mobile_app_source_map_config_serialize(
+            mobile_app_id=mobile_app_id,
+            post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_mobile_app_source_map_config_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        post_mobile_app_source_map_config_request: Optional[PostMobileAppSourceMapConfigRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Add new sourcemap configuration for mobile app
+
+        API request to add sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param post_mobile_app_source_map_config_request:
+        :type post_mobile_app_source_map_config_request: PostMobileAppSourceMapConfigRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_mobile_app_source_map_config_serialize(
+            mobile_app_id=mobile_app_id,
+            post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_mobile_app_source_map_config_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        post_mobile_app_source_map_config_request: Optional[PostMobileAppSourceMapConfigRequest] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Add new sourcemap configuration for mobile app
+
+        API request to add sourcemap configuration for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param post_mobile_app_source_map_config_request:
+        :type post_mobile_app_source_map_config_request: PostMobileAppSourceMapConfigRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_mobile_app_source_map_config_serialize(
+            mobile_app_id=mobile_app_id,
+            post_mobile_app_source_map_config_request=post_mobile_app_source_map_config_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '422': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_mobile_app_source_map_config_serialize(
+        self,
+        mobile_app_id,
+        post_mobile_app_source_map_config_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1609,14 +3639,14 @@ class MobileAppConfigurationApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
         # process the query parameters
-        if name is not None:
-            
-            _query_params.append(('name', name))
-            
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if post_mobile_app_source_map_config_request is not None:
+            _body_params = post_mobile_app_source_map_config_request
 
 
         # set the HTTP header `Accept`
@@ -1627,6 +3657,19 @@ class MobileAppConfigurationApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -1635,7 +3678,7 @@ class MobileAppConfigurationApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/api/mobile-app-monitoring/config',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1944,7 +3987,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def set_mobile_app_geo_mapping_rules(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         body: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -1963,7 +4006,7 @@ class MobileAppConfigurationApi:
 
         API request to set custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param body:
         :type body: str
@@ -2020,7 +4063,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def set_mobile_app_geo_mapping_rules_with_http_info(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         body: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2039,7 +4082,7 @@ class MobileAppConfigurationApi:
 
         API request to set custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param body:
         :type body: str
@@ -2096,7 +4139,7 @@ class MobileAppConfigurationApi:
     @validate_call
     def set_mobile_app_geo_mapping_rules_without_preload_content(
         self,
-        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        mobile_app_id: StrictStr,
         body: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -2115,7 +4158,7 @@ class MobileAppConfigurationApi:
 
         API request to set custom geo mapping rules for mobile app.
 
-        :param mobile_app_id: Mobile App ID (required)
+        :param mobile_app_id: (required)
         :type mobile_app_id: str
         :param body:
         :type body: str
@@ -2832,6 +4875,687 @@ class MobileAppConfigurationApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/ip-masking',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def update_mobile_app_teams(
+        self,
+        mobile_app_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> List[ApiTag]:
+        """Update teams assigned to the mobile app
+
+        API request to update teams of a mobile app.
+
+        :param mobile_app_id: (required)
+        :type mobile_app_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_mobile_app_teams_serialize(
+            mobile_app_id=mobile_app_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def update_mobile_app_teams_with_http_info(
+        self,
+        mobile_app_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[List[ApiTag]]:
+        """Update teams assigned to the mobile app
+
+        API request to update teams of a mobile app.
+
+        :param mobile_app_id: (required)
+        :type mobile_app_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_mobile_app_teams_serialize(
+            mobile_app_id=mobile_app_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def update_mobile_app_teams_without_preload_content(
+        self,
+        mobile_app_id: StrictStr,
+        api_tag: Optional[List[ApiTag]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Update teams assigned to the mobile app
+
+        API request to update teams of a mobile app.
+
+        :param mobile_app_id: (required)
+        :type mobile_app_id: str
+        :param api_tag:
+        :type api_tag: List[ApiTag]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._update_mobile_app_teams_serialize(
+            mobile_app_id=mobile_app_id,
+            api_tag=api_tag,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[ApiTag]",
+            '400': None,
+            '401': None,
+            '403': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _update_mobile_app_teams_serialize(
+        self,
+        mobile_app_id,
+        api_tag,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+            'ApiTag': '',
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if api_tag is not None:
+            _body_params = api_tag
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/teams',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def upload_mobile_app_source_map_file(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        blob_index: Annotated[StrictInt, Field(description="Blob index which starts from 1")],
+        file_format: Annotated[StrictStr, Field(description="File format. Example tgz")],
+        file_id: Annotated[StrictStr, Field(description="Identifier of your app. For example, com.instana.ios.InstanaExampleApp")],
+        file_type: Annotated[StrictStr, Field(description="dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Path to your local symbol file")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SourceMapUploadConfig:
+        """Upload sourcemap file for mobile app
+
+        API request to upload sourcemap file for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param blob_index: Blob index which starts from 1 (required)
+        :type blob_index: int
+        :param file_format: File format. Example tgz (required)
+        :type file_format: str
+        :param file_id: Identifier of your app. For example, com.instana.ios.InstanaExampleApp (required)
+        :type file_id: str
+        :param file_type: dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file (required)
+        :type file_type: str
+        :param source_map: Path to your local symbol file (required)
+        :type source_map: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upload_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            blob_index=blob_index,
+            file_format=file_format,
+            file_id=file_id,
+            file_type=file_type,
+            source_map=source_map,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def upload_mobile_app_source_map_file_with_http_info(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        blob_index: Annotated[StrictInt, Field(description="Blob index which starts from 1")],
+        file_format: Annotated[StrictStr, Field(description="File format. Example tgz")],
+        file_id: Annotated[StrictStr, Field(description="Identifier of your app. For example, com.instana.ios.InstanaExampleApp")],
+        file_type: Annotated[StrictStr, Field(description="dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Path to your local symbol file")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SourceMapUploadConfig]:
+        """Upload sourcemap file for mobile app
+
+        API request to upload sourcemap file for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param blob_index: Blob index which starts from 1 (required)
+        :type blob_index: int
+        :param file_format: File format. Example tgz (required)
+        :type file_format: str
+        :param file_id: Identifier of your app. For example, com.instana.ios.InstanaExampleApp (required)
+        :type file_id: str
+        :param file_type: dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file (required)
+        :type file_type: str
+        :param source_map: Path to your local symbol file (required)
+        :type source_map: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upload_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            blob_index=blob_index,
+            file_format=file_format,
+            file_id=file_id,
+            file_type=file_type,
+            source_map=source_map,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def upload_mobile_app_source_map_file_without_preload_content(
+        self,
+        mobile_app_id: Annotated[StrictStr, Field(description="Mobile App ID")],
+        source_map_config_id: Annotated[StrictStr, Field(description="Source Map Config ID")],
+        blob_index: Annotated[StrictInt, Field(description="Blob index which starts from 1")],
+        file_format: Annotated[StrictStr, Field(description="File format. Example tgz")],
+        file_id: Annotated[StrictStr, Field(description="Identifier of your app. For example, com.instana.ios.InstanaExampleApp")],
+        file_type: Annotated[StrictStr, Field(description="dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file")],
+        source_map: Annotated[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]], Field(description="Path to your local symbol file")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Upload sourcemap file for mobile app
+
+        API request to upload sourcemap file for mobile app.
+
+        :param mobile_app_id: Mobile App ID (required)
+        :type mobile_app_id: str
+        :param source_map_config_id: Source Map Config ID (required)
+        :type source_map_config_id: str
+        :param blob_index: Blob index which starts from 1 (required)
+        :type blob_index: int
+        :param file_format: File format. Example tgz (required)
+        :type file_format: str
+        :param file_id: Identifier of your app. For example, com.instana.ios.InstanaExampleApp (required)
+        :type file_id: str
+        :param file_type: dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file (required)
+        :type file_type: str
+        :param source_map: Path to your local symbol file (required)
+        :type source_map: bytearray
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upload_mobile_app_source_map_file_serialize(
+            mobile_app_id=mobile_app_id,
+            source_map_config_id=source_map_config_id,
+            blob_index=blob_index,
+            file_format=file_format,
+            file_id=file_id,
+            file_type=file_type,
+            source_map=source_map,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SourceMapUploadConfig",
+            '400': None,
+            '401': None,
+            '403': None,
+            '404': None,
+            '500': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _upload_mobile_app_source_map_file_serialize(
+        self,
+        mobile_app_id,
+        source_map_config_id,
+        blob_index,
+        file_format,
+        file_id,
+        file_type,
+        source_map,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if mobile_app_id is not None:
+            _path_params['mobileAppId'] = mobile_app_id
+        if source_map_config_id is not None:
+            _path_params['sourceMapConfigId'] = source_map_config_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        if blob_index is not None:
+            _form_params.append(('blobIndex', blob_index))
+        if file_format is not None:
+            _form_params.append(('fileFormat', file_format))
+        if file_id is not None:
+            _form_params.append(('fileId', file_id))
+        if file_type is not None:
+            _form_params.append(('fileType', file_type))
+        if source_map is not None:
+            _files['sourceMap'] = source_map
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'multipart/form-data'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'ApiKeyAuth'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/form',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

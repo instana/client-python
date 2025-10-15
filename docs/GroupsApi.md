@@ -10,8 +10,12 @@ Method | HTTP request | Description
 [**create_group_mapping**](GroupsApi.md#create_group_mapping) | **POST** /api/settings/rbac/mappings | Create group mapping
 [**delete_group**](GroupsApi.md#delete_group) | **DELETE** /api/settings/rbac/groups/{id} | Delete group
 [**delete_group_mapping**](GroupsApi.md#delete_group_mapping) | **DELETE** /api/settings/rbac/mappings/{id} | Delete group mapping
+[**delete_group_mappings**](GroupsApi.md#delete_group_mappings) | **PUT** /api/settings/rbac/mappings/delete | Delete multiple group mappings
+[**delete_groups**](GroupsApi.md#delete_groups) | **PUT** /api/settings/rbac/groups/delete | Delete groups
 [**get_group**](GroupsApi.md#get_group) | **GET** /api/settings/rbac/groups/{id} | Get group
+[**get_group_mapping**](GroupsApi.md#get_group_mapping) | **GET** /api/settings/rbac/mappings/{id} | Get group mapping
 [**get_group_mappings**](GroupsApi.md#get_group_mappings) | **GET** /api/settings/rbac/mappings | Get all group mappings
+[**get_group_mappings_overview**](GroupsApi.md#get_group_mappings_overview) | **GET** /api/settings/rbac/mappings/overview | Get all group mappings overview
 [**get_groups**](GroupsApi.md#get_groups) | **GET** /api/settings/rbac/groups | Get groups
 [**get_groups_by_user**](GroupsApi.md#get_groups_by_user) | **GET** /api/settings/rbac/groups/user/{email} | Get groups of a single user
 [**get_identity_provider_patch**](GroupsApi.md#get_identity_provider_patch) | **GET** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Check user restrictions for empty Idp group mapping
@@ -26,7 +30,8 @@ Method | HTTP request | Description
 
 Add permissions to group
 
-Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -107,7 +112,8 @@ Name | Type | Description  | Notes
 
 Add users to group
 
-Add one or more users to a group. The array contains the ids of the users to be added.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -188,7 +194,8 @@ Name | Type | Description  | Notes
 
 Create group
 
-Creates a group on the tenant. Each group entry also needs a `Permission Set` per unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  Possible access permissions values are:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE`  The `id` value for the group is ignored, a new id is generated.  The `scopeRoleId` is ignored, the id corresponding to the area is used.  The `scopeId` is the id for the corresponding resource.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -268,7 +275,8 @@ Name | Type | Description  | Notes
 
 Create group mapping
 
-Creates a mapping between a group from the IdP (LDAP, OIDC, SAML) and an Instana group.  If the IdP is configured and mappings are enabled, the `key` `value` pairs a user sent by the idp will be evaluated every time this user logs in.  If they match the mapping, the user will be assigned to the group corresponding to the `groupId`.  Inside the payload, the `id` for the mapping is ignored, and instead, Instana generates a new id.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -348,6 +356,7 @@ Name | Type | Description  | Notes
 Delete group
 
 Delete the group data.
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -423,6 +432,9 @@ void (empty response body)
 
 Delete group mapping
 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -492,12 +504,168 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **delete_group_mappings**
+> delete_group_mappings(body)
+
+Delete multiple group mappings
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    body = ["firstid","secondid"] # str | 
+
+    try:
+        # Delete multiple group mappings
+        api_instance.delete_group_mappings(body)
+    except Exception as e:
+        print("Exception when calling GroupsApi->delete_group_mappings: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | OK |  -  |
+**422** | invalid request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_groups**
+> delete_groups(request_body)
+
+Delete groups
+
+Delete multiple groups
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Delete groups
+        api_instance.delete_groups(request_body)
+    except Exception as e:
+        print("Exception when calling GroupsApi->delete_groups: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | default response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_group**
 > ApiGroup get_group(id)
 
 Get group
 
-Returns group data, including the `Permission set`. See [get groups](#operation/getGroups) for more details.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -571,12 +739,94 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_group_mapping**
+> GroupMapping get_group_mapping(id)
+
+Get group mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.group_mapping import GroupMapping
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    id = 'id_example' # str | 
+
+    try:
+        # Get group mapping
+        api_response = api_instance.get_group_mapping(id)
+        print("The response of GroupsApi->get_group_mapping:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->get_group_mapping: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**|  | 
+
+### Return type
+
+[**GroupMapping**](GroupMapping.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | No group mapping found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_group_mappings**
 > List[GroupMapping] get_group_mappings()
 
 Get all group mappings
 
-If mappings between groups on the identity provider (LDAP, OIDC, SAML) and Instana groups where configured, this will return a list of those mappings.  This can be configured through the [api](#operation/createGroupMapping) or on Instana graphical user interface at Settings > Authentication > IDENTITY PROVIDERS > Group Mapping.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -647,12 +897,90 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_group_mappings_overview**
+> List[GroupMappingOverview] get_group_mappings_overview()
+
+Get all group mappings overview
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.group_mapping_overview import GroupMappingOverview
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+
+    try:
+        # Get all group mappings overview
+        api_response = api_instance.get_group_mappings_overview()
+        print("The response of GroupsApi->get_group_mappings_overview:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->get_group_mappings_overview: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[GroupMappingOverview]**](GroupMappingOverview.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | No group mapping overviews found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_groups**
 > List[ApiGroup] get_groups()
 
 Get groups
 
-Retrieve the list of all groups on the tenant together with the `Permission Set` for the tenant unit.  The `Permission Set` object contains a set of permissions applied to the group.  In case `permissions` include the entry e.g. `LIMITED_APPLICATIONS_SCOPE`, this group will have limited access to application area.  The areas are included inside the `permissionSet`.  The scopeRoleId is a fixed value for each area type:  | Area                    | value         | | ----------------------- | ------------- | | applicationIds          | -100          | | kubernetesClusterUUIDs  | -200          | | kubernetesNamespaceUIDs | -300          | | websiteIds              | -400          | | mobileAppIds            | -500          | | infraDfqFilter          | -600          |  For example:  ``` [     {         \"id\": \"7hwdhtt7TU2CJDgYXgwwww\",         \"name\": \"Scoped Group\",         \"members\": [             {                 \"userId\": \"61892cfdfcffab03016b2950\",                 \"email\": \"jhon@example.com\"             }         ],         \"permissionSet\": {         \"permissions\": [             \"CAN_VIEW_LOGS\",             \"CAN_VIEW_TRACE_DETAILS\",             \"CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS\",             \"ACCESS_APPLICATIONS\",             \"LIMITED_APPLICATIONS_SCOPE\",                         \"ACCESS_KUBERNETES\",             \"LIMITED_KUBERNETES_SCOPE\",             \"ACCESS_INFRASTRUCTURE_APPS\",             \"LIMITED_INFRASTRUCTURE_SCOPE\",             \"LIMITED_WEBSITES_SCOPE\",                      ],         \"applicationIds\": [             {             \"scopeId\": \"1qvWgVfLTNqi9gGTcCaNUw\",             \"scopeRoleId\": \"-100\"             }         ],         \"kubernetesClusterUUIDs\": [             {             \"scopeId\": \"induced\",             \"scopeRoleId\": \"-200\"             }         ],         \"kubernetesNamespaceUIDs\": [],         \"websiteIds\": [],         \"mobileAppIds\": [],         \"infraDfqFilter\": {             \"scopeId\": \"production\",             \"scopeRoleId\": \"-600\"         }     } ] ``` In this case `Scoped Group` has no access to websites due to having `LIMITED_WEBSITES_SCOPE` but not `ACCESS_WEBSITES`.  Also due to having `LIMITED_APPLICATIONS_SCOPE`, the only visible application is the one with this id: `1qvWgVfLTNqi9gGTcCaNUw`.  Same applies to `kubernetesClusterUUIDs`, `kubernetesNamespaceUIDs` and `infraDfqFilter`, with the only difference is that `infraDfqFilter` uses a filter \"production\" instead of an id.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -728,7 +1056,8 @@ This endpoint does not need any parameter.
 
 Get groups of a single user
 
-Returns a list of all groups a user belongs to. This includes data from these groups, the `members`, the `name` and the `Permission set`.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -808,7 +1137,8 @@ Name | Type | Description  | Notes
 
 Check user restrictions for empty Idp group mapping
 
-Returns `RestrictEmptyIdpGroups` value indicating if access is denied for empty Idp group mapping. `RestrictEmptyIdpGroups = true` indicates that the tenant is locked and only those users are allowed access that have at least one working mapping rule applied to them during the login process.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -885,6 +1215,7 @@ This endpoint does not need any parameter.
 Remove user from group
 
 Remove the user from a group.
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -962,7 +1293,8 @@ void (empty response body)
 
 Update group
 
-Add a permission to a group. Permissions are strings associated with the group that some resources requires to fulfill requests.  Examples of `Permissions`:  - `ACCESS_APPLICATIONS` - `ACCESS_INFRASTRUCTURE` - `ACCESS_KUBERNETES` - `ACCESS_MOBILE_APPS` - `ACCESS_WEBSITES` - `CAN_CONFIGURE_AGENT_RUN_MODE` - `CAN_CONFIGURE_AGENTS` - `CAN_CONFIGURE_API_TOKENS` - `CAN_CONFIGURE_APPLICATIONS` - `CAN_CONFIGURE_AUTHENTICATION_METHODS` - `CAN_CONFIGURE_CUSTOM_ALERTS` - `CAN_CONFIGURE_EUM_APPLICATIONS` - `CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS` - `CAN_CONFIGURE_GLOBAL_ALERT_PAYLOAD` - `CAN_CONFIGURE_INTEGRATIONS` - `CAN_CONFIGURE_LOG_MANAGEMENT` - `CAN_CONFIGURE_MOBILE_APP_MONITORING` - `CAN_CONFIGURE_PERSONAL_API_TOKENS` - `CAN_CONFIGURE_RELEASES` - `CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS` - `CAN_CONFIGURE_SERVICE_MAPPING` - `CAN_CONFIGURE_SESSION_SETTINGS` - `CAN_CONFIGURE_TEAMS` - `CAN_CONFIGURE_USERS` - `CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS` - `CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS` - `CAN_INSTALL_NEW_AGENTS` - `CAN_VIEW_ACCOUNT_AND_BILLING_INFORMATION` - `CAN_VIEW_AUDIT_LOG` - `CAN_VIEW_LOGS` - `CAN_VIEW_TRACE_DETAILS` - `LIMITED_APPLICATIONS_SCOPE` - `LIMITED_INFRASTRUCTURE_SCOPE` - `LIMITED_KUBERNETES_SCOPE` - `LIMITED_MOBILE_APPS_SCOPE` - `LIMITED_WEBSITES_SCOPE` 
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -1043,7 +1375,8 @@ Name | Type | Description  | Notes
 
 Update group mapping
 
-See [creating group mapping](#operation/createGroupMapping)
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 
@@ -1124,7 +1457,8 @@ Name | Type | Description  | Notes
 
 Allow/Restrict users with empty Idp group mapping
 
-Set the RestrictEmptyIdpGroups value as true/false. See [Check user restrictions for empty Idp group mapping](#operation/getIdentityProviderPatch) for more details.
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
 
 ### Example
 

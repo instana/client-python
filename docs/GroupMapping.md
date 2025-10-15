@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **group_id** | **str** |  | 
 **id** | **str** |  | [optional] 
 **key** | **str** |  | 
+**team_id** | **str** |  | [optional] 
 **value** | **str** |  | 
 
 ## Example

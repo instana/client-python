@@ -1,170 +1,22 @@
-# openapi-client
-Searching for answers and best pratices? Check our [IBM Instana Community](https://community.ibm.com/community/user/aiops/communities/community-home?CommunityKey=58f324a3-3104-41be-9510-5b7c413cc48f).
-
-## Overview
-The Instana REST API provides programmatic access to the Instana platform. It can be used to retrieve data available through the Instana UI Dashboard -- metrics, events, traces, etc -- and also to automate configuration tasks such as user management.
-
-### Navigating the API documentation
-The API endpoints are grouped by product area and functionality. This generally maps to how our UI Dashboard is organized, hopefully making it easier to locate which endpoints you'd use to fetch the data you see visualized in our UI. The [UI sections](https://www.ibm.com/docs/en/instana-observability/current?topic=working-user-interface#navigation-menu) include:
-- Websites & Mobile Apps
-- Applications
-- Infrastructure
-- Synthetic Monitoring
-- Events
-- Automation
-- Service Levels
-- Settings
-- etc
-
-### Rate Limiting
-A rate limit is applied to API usage. Up to 5,000 calls per hour can be made. How many remaining calls can be made and when this call limit resets, can inspected via three headers that are part of the responses of the API server.
-
-- **X-RateLimit-Limit:** Shows the maximum number of calls that may be executed per hour.
-- **X-RateLimit-Remaining:** How many calls may still be executed within the current hour.
-- **X-RateLimit-Reset:** Time when the remaining calls will be reset to the limit. For compatibility reasons with other rate limited APIs, this date is not the date in milliseconds, but instead in seconds since 1970-01-01T00:00:00+00:00.
-
-### Further Reading
-We provide additional documentation for our REST API in our [product documentation](https://www.ibm.com/docs/en/instana-observability/current?topic=apis-web-rest-api). Here you'll also find some common queries for retrieving data and configuring Instana.
-
-## Getting Started with the REST API
-
-### API base URL
-The base URL for an specific instance of Instana can be determined using the tenant and unit information.
-- `base`: This is the base URL of a tenant unit, e.g. `https://test-example.instana.io`. This is the same URL that is used to access the Instana user interface.
-- `apiToken`: Requests against the Instana API require valid API tokens. An initial API token can be generated via the Instana user interface. Any additional API tokens can be generated via the API itself.
-
-### Curl Example
-Here is an Example to use the REST API with Curl. First lets get all the available metrics with possible aggregations with a GET call.
-
-```bash
-curl --request GET \\
-  --url https://test-instana.instana.io/api/application-monitoring/catalog/metrics \\
-  --header 'authorization: apiToken xxxxxxxxxxxxxxxx'
-```
-
-Next we can get every call grouped by the endpoint name that has an error count greater then zero. As a metric we could get the mean error rate for example.
-
-```bash
-curl --request POST \\
-  --url https://test-instana.instana.io/api/application-monitoring/analyze/call-groups \\
-  --header 'authorization: apiToken xxxxxxxxxxxxxxxx' \\
-  --header 'content-type: application/json' \\
-  --data '{
-  \"group\":{
-      \"groupbyTag\":\"endpoint.name\"
-  },
-  \"tagFilters\":[
-   {
-    \"name\":\"call.error.count\",
-    \"value\":\"0\",
-    \"operator\":\"GREATER_THAN\"
-   }
-  ],
-  \"metrics\":[
-   {
-    \"metric\":\"errors\",
-    \"aggregation\":\"MEAN\"
-   }
-  ]
-  }'
-```
-
-### Generating REST API clients
-
-The API is specified using the [OpenAPI v3](https://github.com/OAI/OpenAPI-Specification) (previously known as Swagger) format.
-You can download the current specification at our [GitHub API documentation](https://instana.github.io/openapi/openapi.yaml).
-
-OpenAPI tries to solve the issue of ever-evolving APIs and clients lagging behind. Please make sure that you always use the latest version of the generator, as a number of improvements are regularly made.
-To generate a client library for your language, you can use the [OpenAPI client generators](https://github.com/OpenAPITools/openapi-generator).
-
-#### Go
-For example, to generate a client library for Go to interact with our backend, you can use the following script; mind replacing the values of the `UNIT_NAME` and `TENANT_NAME` environment variables using those for your tenant unit:
-
-```bash
-#!/bin/bash
-
-### This script assumes you have the `java` and `wget` commands on the path
-
-export UNIT_NAME='myunit' # for example: prod
-export TENANT_NAME='mytenant' # for example: awesomecompany
-
-//Download the generator to your current working directory:
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar --server-variables \"tenant=${TENANT_NAME},unit=${UNIT_NAME}\"
-
-//generate a client library that you can vendor into your repository
-java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g go \\
-    -o pkg/instana/openapi \\
-    --skip-validate-spec
-
-//(optional) format the Go code according to the Go code standard
-gofmt -s -w pkg/instana/openapi
-```
-
-The generated clients contain comprehensive READMEs, and you can start right away using the client from the example above:
-
-```go
-import instana \"./pkg/instana/openapi\"
-
-// readTags will read all available application monitoring tags along with their type and category
-func readTags() {
- configuration := instana.NewConfiguration()
- configuration.Host = \"tenant-unit.instana.io\"
- configuration.BasePath = \"https://tenant-unit.instana.io\"
-
- client := instana.NewAPIClient(configuration)
- auth := context.WithValue(context.Background(), instana.ContextAPIKey, instana.APIKey{
-  Key:    apiKey,
-  Prefix: \"apiToken\",
- })
-
- tags, _, err := client.ApplicationCatalogApi.GetApplicationTagCatalog(auth)
- if err != nil {
-  fmt.Fatalf(\"Error calling the API, aborting.\")
- }
-
- for _, tag := range tags {
-  fmt.Printf(\"%s (%s): %s\\n\", tag.Category, tag.Type, tag.Name)
- }
-}
-```
-
-#### Java
-Follow the instructions provided in the official documentation from [OpenAPI Tools](https://github.com/OpenAPITools) to download the [openapi-generator-cli.jar](https://github.com/OpenAPITools/openapi-generator?tab=readme-ov-file#13---download-jar).
-
-Depending on your environment, use one of the following java http client implementations which will create a valid client for our OpenAPI specification:
-```
-//Nativ Java HTTP Client
-java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8 --library native
-
-//Spring WebClient
-java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library webclient
-
-//Spring RestTemplate
-java -jar openapi-generator-cli.jar generate -i https://instana.github.io/openapi/openapi.yaml -g java -o pkg/instana/openapi --skip-validate-spec  -p dateLibrary=java8,hideGenerationTimestamp=true --library resttemplate
-
-```
-
+# instana-client
+Documentation for INSTANA REST API
 
 This Python package is automatically generated by the [OpenAPI Generator](https://openapi-generator.tech) project:
 
-- API version: 1.291.1002
-- Package version: 1.0.0
-- Generator version: 7.11.0
+- API version: 1.304.1059
+- Package version: 1.0.1
+- Generator version: 7.13.0
 - Build package: org.openapitools.codegen.languages.PythonClientCodegen
 For more information, please visit [http://instana.com](http://instana.com)
 
 ## Requirements.
 
-Python 3.8+
+Python 3.9+
 
 ## Installation & Usage
+### pip install
 
-Installation from release package (from PyPI):
-```sh
-pip install instana-client
-```
-
-If you want to install from the repository to apply latest changes for development purpose:
+If the python package is hosted on a repository, you can install directly using:
 
 ```sh
 pip install git+https://github.com/GIT_USER_ID/GIT_REPO_ID.git
@@ -225,14 +77,16 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 # Enter a context with an instance of the API client
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = instana_client.APITokenApi(api_client)
-    internal_id = 'internal_id_example' # str | 
+    api_instance = instana_client.AIManagementApi(api_client)
+    llm_egress_gateway = {"name":"Example LLM egress Handler","description":"This is a sample custom handler used for testing.","aiModel":"watsonx-gpt-4","supports":{"capabilities":["anomaly-detection","remediation"]},"metadata":{"source":"user","version":"1.0.1"},"endpointUrl":"https://example.com/handler","endpointApiKey":"secret-api-key","watsonxKey":"watsonx-123","watsonxProject":"project-xyz","watsonxUrl":"https://watsonx.example.com","instanaAgents":{"agents":["agent-1","agent-2"]}} # LLMEgressGateway | 
 
     try:
-        # Delete API token
-        api_instance.delete_api_token(internal_id)
+        # Create a new LLM egress gateway
+        api_response = api_instance.add_llm_egress_gateway(llm_egress_gateway)
+        print("The response of AIManagementApi->add_llm_egress_gateway:\n")
+        pprint(api_response)
     except ApiException as e:
-        print("Exception when calling APITokenApi->delete_api_token: %s\n" % e)
+        print("Exception when calling AIManagementApi->add_llm_egress_gateway: %s\n" % e)
 
 ```
 
@@ -242,6 +96,12 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AIManagementApi* | [**add_llm_egress_gateway**](docs/AIManagementApi.md#add_llm_egress_gateway) | **POST** /api/llm/egress/handler | Create a new LLM egress gateway
+*AIManagementApi* | [**delete_llm_egress_gateway**](docs/AIManagementApi.md#delete_llm_egress_gateway) | **DELETE** /api/llm/egress/handler/{id} | Delete a LLM egress gateway
+*AIManagementApi* | [**get_llm_capabilities**](docs/AIManagementApi.md#get_llm_capabilities) | **GET** /api/llm/capabilities | Get all LLM capabilities
+*AIManagementApi* | [**get_llm_egress_gateway_by_id**](docs/AIManagementApi.md#get_llm_egress_gateway_by_id) | **GET** /api/llm/egress/handler/{id} | Get a LLM egress gateway by ID
+*AIManagementApi* | [**get_llm_egress_gateways**](docs/AIManagementApi.md#get_llm_egress_gateways) | **GET** /api/llm/egress/handler | Get all LLM egress gateways
+*AIManagementApi* | [**update_llm_egress_gateway**](docs/AIManagementApi.md#update_llm_egress_gateway) | **PUT** /api/llm/egress/handler/{id} | Update an existing LLM egress gateway.
 *APITokenApi* | [**delete_api_token**](docs/APITokenApi.md#delete_api_token) | **DELETE** /api/settings/api-tokens/{internalId} | Delete API token
 *APITokenApi* | [**get_api_token**](docs/APITokenApi.md#get_api_token) | **GET** /api/settings/api-tokens/{internalId} | Get API token
 *APITokenApi* | [**get_api_tokens**](docs/APITokenApi.md#get_api_tokens) | **GET** /api/settings/api-tokens | Get all API Tokens
@@ -249,6 +109,7 @@ Class | Method | HTTP request | Description
 *APITokenApi* | [**put_api_token**](docs/APITokenApi.md#put_api_token) | **PUT** /api/settings/api-tokens/{internalId} | Create or update an API token
 *ActionCatalogApi* | [**get_action_by_id**](docs/ActionCatalogApi.md#get_action_by_id) | **GET** /api/automation/actions/{id} | Get an automation action by ID.
 *ActionCatalogApi* | [**get_action_matches**](docs/ActionCatalogApi.md#get_action_matches) | **POST** /api/automation/ai/action/match | Get automation actions that match the incidents or issues.
+*ActionCatalogApi* | [**get_action_matches_by_id_and_time_window**](docs/ActionCatalogApi.md#get_action_matches_by_id_and_time_window) | **GET** /api/automation/ai/action/match | Get action matches by application ID or snapshot ID.
 *ActionCatalogApi* | [**get_actions**](docs/ActionCatalogApi.md#get_actions) | **GET** /api/automation/actions | Get all automation actions.
 *ActionCatalogApi* | [**get_dynamic_parameters_tag_catalog**](docs/ActionCatalogApi.md#get_dynamic_parameters_tag_catalog) | **GET** /api/automation/parameters/dynamic/catalog | Get tag catalog for dynamic parameters
 *ActionCatalogApi* | [**resolve**](docs/ActionCatalogApi.md#resolve) | **PUT** /api/automation/parameters/dynamic | Resolve dynamic parameter values
@@ -276,7 +137,6 @@ Class | Method | HTTP request | Description
 *ApplicationAnalyzeApi* | [**get_call_details**](docs/ApplicationAnalyzeApi.md#get_call_details) | **GET** /api/application-monitoring/v2/analyze/traces/{traceId}/calls/{callId}/details | Get call detail
 *ApplicationAnalyzeApi* | [**get_call_group**](docs/ApplicationAnalyzeApi.md#get_call_group) | **POST** /api/application-monitoring/analyze/call-groups | Get grouped call metrics
 *ApplicationAnalyzeApi* | [**get_correlated_traces**](docs/ApplicationAnalyzeApi.md#get_correlated_traces) | **GET** /api/application-monitoring/analyze/backend-correlation | Resolve Trace IDs from Monitoring Beacons.
-*ApplicationAnalyzeApi* | [**get_trace**](docs/ApplicationAnalyzeApi.md#get_trace) | **GET** /api/application-monitoring/analyze/traces/{id} | Get trace detail
 *ApplicationAnalyzeApi* | [**get_trace_download**](docs/ApplicationAnalyzeApi.md#get_trace_download) | **GET** /api/application-monitoring/v2/analyze/traces/{id} | Get trace detail
 *ApplicationAnalyzeApi* | [**get_trace_groups**](docs/ApplicationAnalyzeApi.md#get_trace_groups) | **POST** /api/application-monitoring/analyze/trace-groups | Get grouped trace metrics
 *ApplicationAnalyzeApi* | [**get_traces**](docs/ApplicationAnalyzeApi.md#get_traces) | **POST** /api/application-monitoring/analyze/traces | Get all traces
@@ -340,6 +200,13 @@ Class | Method | HTTP request | Description
 *CustomDashboardsApi* | [**get_shareable_api_tokens**](docs/CustomDashboardsApi.md#get_shareable_api_tokens) | **GET** /api/custom-dashboard/shareable-api-tokens | Get all API tokens.
 *CustomDashboardsApi* | [**get_shareable_users**](docs/CustomDashboardsApi.md#get_shareable_users) | **GET** /api/custom-dashboard/shareable-users | Get all users (without invitations).
 *CustomDashboardsApi* | [**update_custom_dashboard**](docs/CustomDashboardsApi.md#update_custom_dashboard) | **PUT** /api/custom-dashboard/{customDashboardId} | Update custom dashboard
+*CustomEntitiesApi* | [**create_custom_entities**](docs/CustomEntitiesApi.md#create_custom_entities) | **POST** /api/custom-entitytypes | Create a Custom Entity type
+*CustomEntitiesApi* | [**delete_custom_entity**](docs/CustomEntitiesApi.md#delete_custom_entity) | **DELETE** /api/custom-entitytypes/{id} | Delete a Custom Entity Type
+*CustomEntitiesApi* | [**get_custom_entity**](docs/CustomEntitiesApi.md#get_custom_entity) | **GET** /api/custom-entitytypes/{id} | Get custom Entity Types
+*CustomEntitiesApi* | [**list_custom_entities**](docs/CustomEntitiesApi.md#list_custom_entities) | **GET** /api/custom-entitytypes | List custom Entity Type Definition
+*CustomEntitiesApi* | [**list_entities_from_infra_entities**](docs/CustomEntitiesApi.md#list_entities_from_infra_entities) | **POST** /api/custom-entitytypes/entities | List all entity types that match the custom entity metadata
+*CustomEntitiesApi* | [**update_custom_entity**](docs/CustomEntitiesApi.md#update_custom_entity) | **PUT** /api/custom-entitytypes/{id} | Update a Custom Entity Type
+*EndUserMonitoringApi* | [**get_impacted_users_report**](docs/EndUserMonitoringApi.md#get_impacted_users_report) | **GET** /api/eum/impact/report/{eventId} | Get impacted users report
 *EventSettingsApi* | [**create_mobile_app_alert_config**](docs/EventSettingsApi.md#create_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs | Create Mobile Smart Alert Config
 *EventSettingsApi* | [**create_website_alert_config**](docs/EventSettingsApi.md#create_website_alert_config) | **POST** /api/events/settings/website-alert-configs | Create Website Smart Alert Config
 *EventSettingsApi* | [**delete_alert**](docs/EventSettingsApi.md#delete_alert) | **DELETE** /api/events/settings/alerts/{id} | Delete Alert Configuration
@@ -380,6 +247,7 @@ Class | Method | HTTP request | Description
 *EventSettingsApi* | [**get_system_rules**](docs/EventSettingsApi.md#get_system_rules) | **GET** /api/events/settings/event-specifications/custom/systemRules | All system rules for custom event specifications
 *EventSettingsApi* | [**manually_close_event**](docs/EventSettingsApi.md#manually_close_event) | **POST** /api/events/settings/manual-close/{eventId} | Manually close an event.
 *EventSettingsApi* | [**multi_close_event**](docs/EventSettingsApi.md#multi_close_event) | **POST** /api/events/settings/manual-close | Manually closing multiple events
+*EventSettingsApi* | [**post_alerting_channel**](docs/EventSettingsApi.md#post_alerting_channel) | **POST** /api/events/settings/alertingChannels | Create Alert Channel
 *EventSettingsApi* | [**post_custom_event_specification**](docs/EventSettingsApi.md#post_custom_event_specification) | **POST** /api/events/settings/event-specifications/custom | Create new custom event specification
 *EventSettingsApi* | [**put_alert**](docs/EventSettingsApi.md#put_alert) | **PUT** /api/events/settings/alerts/{id} | Create or update Alert Configuration
 *EventSettingsApi* | [**put_alerting_channel**](docs/EventSettingsApi.md#put_alerting_channel) | **PUT** /api/events/settings/alertingChannels/{id} | Update Alert Channel
@@ -387,12 +255,13 @@ Class | Method | HTTP request | Description
 *EventSettingsApi* | [**restore_mobile_app_alert_config**](docs/EventSettingsApi.md#restore_mobile_app_alert_config) | **PUT** /api/events/settings/mobile-app-alert-configs/{id}/restore/{created} | Restore Mobile Smart Alert Config
 *EventSettingsApi* | [**restore_website_alert_config**](docs/EventSettingsApi.md#restore_website_alert_config) | **PUT** /api/events/settings/website-alert-configs/{id}/restore/{created} | Restore Website Smart Alert Config
 *EventSettingsApi* | [**send_test_alerting**](docs/EventSettingsApi.md#send_test_alerting) | **PUT** /api/events/settings/alertingChannels/test | Test Alerting Channel
-*EventSettingsApi* | [**send_test_alerting_by_id**](docs/EventSettingsApi.md#send_test_alerting_by_id) | **POST** /api/events/settings/alertingChannels/notify/{id} | Notify manually to Alerting Channel
+*EventSettingsApi* | [**send_test_alerting_by_id**](docs/EventSettingsApi.md#send_test_alerting_by_id) | **POST** /api/events/settings/alertingChannels/notify/{id} | Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 *EventSettingsApi* | [**update_mobile_app_alert_config**](docs/EventSettingsApi.md#update_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs/{id} | Update Mobile Smart Alert Config
 *EventSettingsApi* | [**update_mobile_app_historic_baseline**](docs/EventSettingsApi.md#update_mobile_app_historic_baseline) | **POST** /api/events/settings/mobile-app-alert-configs/{id}/update-baseline | Recalculate Mobile Smart Alert Config Baseline
 *EventSettingsApi* | [**update_website_alert_config**](docs/EventSettingsApi.md#update_website_alert_config) | **POST** /api/events/settings/website-alert-configs/{id} | Update Website Smart Alert Config
 *EventSettingsApi* | [**update_website_historic_baseline**](docs/EventSettingsApi.md#update_website_historic_baseline) | **POST** /api/events/settings/website-alert-configs/{id}/update-baseline | Recalculate Website Smart Alert Config Baseline
 *EventSettingsApi* | [**upsert_custom_payload_configuration**](docs/EventSettingsApi.md#upsert_custom_payload_configuration) | **PUT** /api/events/settings/custom-payload-configurations | Create/Update Global Custom Payload Configuration
+*EventSettingsApi* | [**upsert_custom_payload_configuration_v2**](docs/EventSettingsApi.md#upsert_custom_payload_configuration_v2) | **PUT** /api/events/settings/custom-payload-configurations/v2 | Create/Update Global Custom Payload Configuration
 *EventsApi* | [**agent_monitoring_events**](docs/EventsApi.md#agent_monitoring_events) | **GET** /api/events/agent-monitoring-events | Get Agent Monitoring Events
 *EventsApi* | [**get_event**](docs/EventsApi.md#get_event) | **GET** /api/events/{eventId} | Get Event
 *EventsApi* | [**get_events**](docs/EventsApi.md#get_events) | **GET** /api/events | Get all Events
@@ -413,8 +282,12 @@ Class | Method | HTTP request | Description
 *GroupsApi* | [**create_group_mapping**](docs/GroupsApi.md#create_group_mapping) | **POST** /api/settings/rbac/mappings | Create group mapping
 *GroupsApi* | [**delete_group**](docs/GroupsApi.md#delete_group) | **DELETE** /api/settings/rbac/groups/{id} | Delete group
 *GroupsApi* | [**delete_group_mapping**](docs/GroupsApi.md#delete_group_mapping) | **DELETE** /api/settings/rbac/mappings/{id} | Delete group mapping
+*GroupsApi* | [**delete_group_mappings**](docs/GroupsApi.md#delete_group_mappings) | **PUT** /api/settings/rbac/mappings/delete | Delete multiple group mappings
+*GroupsApi* | [**delete_groups**](docs/GroupsApi.md#delete_groups) | **PUT** /api/settings/rbac/groups/delete | Delete groups
 *GroupsApi* | [**get_group**](docs/GroupsApi.md#get_group) | **GET** /api/settings/rbac/groups/{id} | Get group
+*GroupsApi* | [**get_group_mapping**](docs/GroupsApi.md#get_group_mapping) | **GET** /api/settings/rbac/mappings/{id} | Get group mapping
 *GroupsApi* | [**get_group_mappings**](docs/GroupsApi.md#get_group_mappings) | **GET** /api/settings/rbac/mappings | Get all group mappings
+*GroupsApi* | [**get_group_mappings_overview**](docs/GroupsApi.md#get_group_mappings_overview) | **GET** /api/settings/rbac/mappings/overview | Get all group mappings overview
 *GroupsApi* | [**get_groups**](docs/GroupsApi.md#get_groups) | **GET** /api/settings/rbac/groups | Get groups
 *GroupsApi* | [**get_groups_by_user**](docs/GroupsApi.md#get_groups_by_user) | **GET** /api/settings/rbac/groups/user/{email} | Get groups of a single user
 *GroupsApi* | [**get_identity_provider_patch**](docs/GroupsApi.md#get_identity_provider_patch) | **GET** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Check user restrictions for empty Idp group mapping
@@ -424,6 +297,7 @@ Class | Method | HTTP request | Description
 *GroupsApi* | [**update_identity_provider**](docs/GroupsApi.md#update_identity_provider) | **PUT** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Allow/Restrict users with empty Idp group mapping
 *HealthApi* | [**get_health_state**](docs/HealthApi.md#get_health_state) | **GET** /api/instana/health | Basic health traffic light
 *HealthApi* | [**get_version**](docs/HealthApi.md#get_version) | **GET** /api/instana/version | API version information
+*HostAgentApi* | [**get_agent_clr_logs**](docs/HostAgentApi.md#get_agent_clr_logs) | **GET** /api/host-agent/{hostId}/clr-logs | Agent CLR download logs
 *HostAgentApi* | [**get_agent_logs**](docs/HostAgentApi.md#get_agent_logs) | **GET** /api/host-agent/{hostId}/logs | Agent download logs
 *HostAgentApi* | [**get_agent_snapshot**](docs/HostAgentApi.md#get_agent_snapshot) | **GET** /api/host-agent/{id} | Get host agent snapshot details
 *HostAgentApi* | [**get_agent_support_information**](docs/HostAgentApi.md#get_agent_support_information) | **GET** /api/host-agent/{hostId}/support-info | Agent download support information
@@ -469,6 +343,7 @@ Class | Method | HTTP request | Description
 *LogAlertConfigurationApi* | [**find_log_alert_config_versions**](docs/LogAlertConfigurationApi.md#find_log_alert_config_versions) | **GET** /api/events/settings/global-alert-configs/logs/{id}/versions | Get versions of Log Alert Config
 *LogAlertConfigurationApi* | [**restore_log_alert_config**](docs/LogAlertConfigurationApi.md#restore_log_alert_config) | **PUT** /api/events/settings/global-alert-configs/logs/{id}/restore/{created} | Restore Log Alert Config
 *LogAlertConfigurationApi* | [**update_log_alert_config**](docs/LogAlertConfigurationApi.md#update_log_alert_config) | **POST** /api/events/settings/global-alert-configs/logs/{id} | Update Log Alert Config
+*LoggingAnalyzeApi* | [**get_log_volume_usage**](docs/LoggingAnalyzeApi.md#get_log_volume_usage) | **GET** /api/logging/logs/getLogVolumeUsage | Get Log Volume Usage
 *MaintenanceConfigurationApi* | [**delete_maintenance_config**](docs/MaintenanceConfigurationApi.md#delete_maintenance_config) | **DELETE** /api/settings/maintenance/{id} | Delete maintenance configuration
 *MaintenanceConfigurationApi* | [**delete_maintenance_config_v2**](docs/MaintenanceConfigurationApi.md#delete_maintenance_config_v2) | **DELETE** /api/settings/v2/maintenance/{id} | Delete maintenance configuration
 *MaintenanceConfigurationApi* | [**get_maintenance_config**](docs/MaintenanceConfigurationApi.md#get_maintenance_config) | **GET** /api/settings/maintenance/{id} | Maintenance configuration
@@ -484,19 +359,27 @@ Class | Method | HTTP request | Description
 *MobileAppCatalogApi* | [**get_all_mobile_app_catalog_tags**](docs/MobileAppCatalogApi.md#get_all_mobile_app_catalog_tags) | **GET** /api/mobile-app-monitoring/catalog/tags | Get all existing mobile app tags
 *MobileAppCatalogApi* | [**get_mobile_app_metric_catalog**](docs/MobileAppCatalogApi.md#get_mobile_app_metric_catalog) | **GET** /api/mobile-app-monitoring/catalog/metrics | Metric catalog
 *MobileAppCatalogApi* | [**get_mobile_app_tag_catalog**](docs/MobileAppCatalogApi.md#get_mobile_app_tag_catalog) | **GET** /api/mobile-app-monitoring/catalog | Get mobile app tag catalog
+*MobileAppConfigurationApi* | [**clear_mobile_app_source_map_upload_configuration**](docs/MobileAppConfigurationApi.md#clear_mobile_app_source_map_upload_configuration) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/clear | Clear sourcemap files for sourcemap upload configuration
+*MobileAppConfigurationApi* | [**commit_mobile_app_source_map_file**](docs/MobileAppConfigurationApi.md#commit_mobile_app_source_map_file) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/commit | Commit sourcemap file upload for mobile app
 *MobileAppConfigurationApi* | [**delete_mobile_app_config**](docs/MobileAppConfigurationApi.md#delete_mobile_app_config) | **DELETE** /api/mobile-app-monitoring/config/{mobileAppId} | Remove mobile app
+*MobileAppConfigurationApi* | [**delete_mobile_app_source_map_upload_configuration**](docs/MobileAppConfigurationApi.md#delete_mobile_app_source_map_upload_configuration) | **DELETE** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId} | Delete sourcemap configuration for mobile app
 *MobileAppConfigurationApi* | [**get_mobile_app_config**](docs/MobileAppConfigurationApi.md#get_mobile_app_config) | **GET** /api/mobile-app-monitoring/config | Get configured mobile apps
 *MobileAppConfigurationApi* | [**get_mobile_app_geo_location_configuration**](docs/MobileAppConfigurationApi.md#get_mobile_app_geo_location_configuration) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/geo-location | Get geo location configuration for mobile app
 *MobileAppConfigurationApi* | [**get_mobile_app_geo_mapping_rules**](docs/MobileAppConfigurationApi.md#get_mobile_app_geo_mapping_rules) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/geo-mapping-rules | Get custom geo mapping rules for mobile app
 *MobileAppConfigurationApi* | [**get_mobile_app_ip_masking_configuration**](docs/MobileAppConfigurationApi.md#get_mobile_app_ip_masking_configuration) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking | Get IP masking configuration for mobile app
+*MobileAppConfigurationApi* | [**get_mobile_app_source_map_file**](docs/MobileAppConfigurationApi.md#get_mobile_app_source_map_file) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId} | Get sourcemap configuration for mobile app
+*MobileAppConfigurationApi* | [**get_mobile_app_source_map_files**](docs/MobileAppConfigurationApi.md#get_mobile_app_source_map_files) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload | Get all sourcemap configurations for mobile app
 *MobileAppConfigurationApi* | [**post_mobile_app_config**](docs/MobileAppConfigurationApi.md#post_mobile_app_config) | **POST** /api/mobile-app-monitoring/config | Configure new mobile app
+*MobileAppConfigurationApi* | [**post_mobile_app_source_map_config**](docs/MobileAppConfigurationApi.md#post_mobile_app_source_map_config) | **POST** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload | Add new sourcemap configuration for mobile app
 *MobileAppConfigurationApi* | [**rename_mobile_app_config**](docs/MobileAppConfigurationApi.md#rename_mobile_app_config) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId} | Rename mobile app
 *MobileAppConfigurationApi* | [**set_mobile_app_geo_mapping_rules**](docs/MobileAppConfigurationApi.md#set_mobile_app_geo_mapping_rules) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/geo-mapping-rules | Set custom geo mapping rules for mobile app
 *MobileAppConfigurationApi* | [**update_mobile_app_geo_location_configuration**](docs/MobileAppConfigurationApi.md#update_mobile_app_geo_location_configuration) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/geo-location | Update geo location configuration for mobile app
 *MobileAppConfigurationApi* | [**update_mobile_app_ip_masking_configuration**](docs/MobileAppConfigurationApi.md#update_mobile_app_ip_masking_configuration) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking | Update IP masking configuration for mobile app
+*MobileAppConfigurationApi* | [**update_mobile_app_teams**](docs/MobileAppConfigurationApi.md#update_mobile_app_teams) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/teams | Update teams assigned to the mobile app
+*MobileAppConfigurationApi* | [**upload_mobile_app_source_map_file**](docs/MobileAppConfigurationApi.md#upload_mobile_app_source_map_file) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/form | Upload sourcemap file for mobile app
 *MobileAppMetricsApi* | [**get_mobile_app_beacon_metrics**](docs/MobileAppMetricsApi.md#get_mobile_app_beacon_metrics) | **POST** /api/mobile-app-monitoring/metrics | Get mobile app beacon metrics
 *MobileAppMetricsApi* | [**get_mobile_app_beacon_metrics_v2**](docs/MobileAppMetricsApi.md#get_mobile_app_beacon_metrics_v2) | **POST** /api/mobile-app-monitoring/v2/metrics | Get beacon metrics
-*MobileAppMetricsApi* | [**get_session**](docs/MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session | Get mobile app session
+*MobileAppMetricsApi* | [**get_session**](docs/MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session{id}{timestamp} | Get mobile app session
 *PoliciesApi* | [**add_policies**](docs/PoliciesApi.md#add_policies) | **POST** /api/automation/policies/bulk | Create automation policies.
 *PoliciesApi* | [**add_policy**](docs/PoliciesApi.md#add_policy) | **POST** /api/automation/policies | Create an automation policy.
 *PoliciesApi* | [**delete_policy**](docs/PoliciesApi.md#delete_policy) | **DELETE** /api/automation/policies/{id} | Deletes an automation policy by identifier.
@@ -508,6 +391,11 @@ Class | Method | HTTP request | Description
 *ReleasesApi* | [**get_release**](docs/ReleasesApi.md#get_release) | **GET** /api/releases/{releaseId} | Get release
 *ReleasesApi* | [**post_release**](docs/ReleasesApi.md#post_release) | **POST** /api/releases | Create release
 *ReleasesApi* | [**put_release**](docs/ReleasesApi.md#put_release) | **PUT** /api/releases/{releaseId} | Update release
+*RolesApi* | [**create_role**](docs/RolesApi.md#create_role) | **POST** /api/settings/rbac/roles | Create role
+*RolesApi* | [**delete_role**](docs/RolesApi.md#delete_role) | **DELETE** /api/settings/rbac/roles/{id} | Delete role
+*RolesApi* | [**get_role**](docs/RolesApi.md#get_role) | **GET** /api/settings/rbac/roles/{id} | Get role by ID
+*RolesApi* | [**get_roles**](docs/RolesApi.md#get_roles) | **GET** /api/settings/rbac/roles | Get all roles
+*RolesApi* | [**update_role**](docs/RolesApi.md#update_role) | **PUT** /api/settings/rbac/roles/{id} | Update role
 *SLIReportApi* | [**get_sli**](docs/SLIReportApi.md#get_sli) | **GET** /api/sli/report/{sliId} | Generate SLI report (Limitation: the Classic Edition API report can be available one hour after the SLI configuration created; other editions are around one minute.)
 *SLISettingsApi* | [**create_sli_config**](docs/SLISettingsApi.md#create_sli_config) | **POST** /api/settings/sli | Create SLI Config
 *SLISettingsApi* | [**create_sli_config_v2**](docs/SLISettingsApi.md#create_sli_config_v2) | **POST** /api/settings/v2/sli | Create SLI Config
@@ -519,6 +407,12 @@ Class | Method | HTTP request | Description
 *SLISettingsApi* | [**get_sli_config_v2**](docs/SLISettingsApi.md#get_sli_config_v2) | **GET** /api/settings/v2/sli/{id} | Get SLI Config
 *SLISettingsApi* | [**get_sli_configs_for_entity_type_and_id_v2**](docs/SLISettingsApi.md#get_sli_configs_for_entity_type_and_id_v2) | **GET** /api/settings/v2/sli/{entityType}/{entityId} | Get all SLI configs for entity type and entity id
 *SLISettingsApi* | [**update_sli_config**](docs/SLISettingsApi.md#update_sli_config) | **PUT** /api/settings/sli/{id} | Update SLI Config
+*SLOCorrectionConfigurationsApi* | [**create_slo_correction_window_config**](docs/SLOCorrectionConfigurationsApi.md#create_slo_correction_window_config) | **POST** /api/settings/correction | Create a new SLO Correction Window Config
+*SLOCorrectionConfigurationsApi* | [**delete_slo_correction_window_config**](docs/SLOCorrectionConfigurationsApi.md#delete_slo_correction_window_config) | **DELETE** /api/settings/correction/{id} | Delete an existing SLO Correction Window Configuration
+*SLOCorrectionConfigurationsApi* | [**get_all_slo_correction_window_configs**](docs/SLOCorrectionConfigurationsApi.md#get_all_slo_correction_window_configs) | **GET** /api/settings/correction | Get All SLO Correction Window Configs
+*SLOCorrectionConfigurationsApi* | [**get_slo_correction_window_config_by_id**](docs/SLOCorrectionConfigurationsApi.md#get_slo_correction_window_config_by_id) | **GET** /api/settings/correction/{id} | Get an existing SLO Correction Window Config
+*SLOCorrectionConfigurationsApi* | [**update_slo_correction_window_config**](docs/SLOCorrectionConfigurationsApi.md#update_slo_correction_window_config) | **PUT** /api/settings/correction/{id} | Update an existing SLO Correction Window Config
+*SLOCorrectionWindowsApi* | [**get_slo_correction**](docs/SLOCorrectionWindowsApi.md#get_slo_correction) | **GET** /api/slo/correction | Generate SLO Correction Windows
 *ServiceLevelsAlertConfigurationApi* | [**create_service_levels_alert_config**](docs/ServiceLevelsAlertConfigurationApi.md#create_service_levels_alert_config) | **POST** /api/events/settings/global-alert-configs/service-levels | Create Service levels Alert Config
 *ServiceLevelsAlertConfigurationApi* | [**delete_service_levels_alert_config**](docs/ServiceLevelsAlertConfigurationApi.md#delete_service_levels_alert_config) | **DELETE** /api/events/settings/global-alert-configs/service-levels/{id} | Delete Service levels Alert Config
 *ServiceLevelsAlertConfigurationApi* | [**disable_service_levels_alert_config**](docs/ServiceLevelsAlertConfigurationApi.md#disable_service_levels_alert_config) | **PUT** /api/events/settings/global-alert-configs/service-levels/{id}/disable | Disable Service levels Alert Config
@@ -553,31 +447,40 @@ Class | Method | HTTP request | Description
 *SyntheticCatalogApi* | [**get_synthetic_catalog_metrics**](docs/SyntheticCatalogApi.md#get_synthetic_catalog_metrics) | **GET** /api/synthetics/catalog/metrics | Get Metric catalog
 *SyntheticCatalogApi* | [**get_synthetic_tag_catalog**](docs/SyntheticCatalogApi.md#get_synthetic_tag_catalog) | **GET** /api/synthetics/catalog | Get synthetic tag catalog
 *SyntheticMetricsApi* | [**get_metrics_result**](docs/SyntheticMetricsApi.md#get_metrics_result) | **POST** /api/synthetics/metrics | Get Synthetic Metrics
-*SyntheticSettingsApi* | [**create_synthetic_credential**](docs/SyntheticSettingsApi.md#create_synthetic_credential) | **POST** /api/synthetics/settings/credentials | Create a Synthetic Credential
+*SyntheticSettingsApi* | [**create_synthetic_credential**](docs/SyntheticSettingsApi.md#create_synthetic_credential) | **POST** /api/synthetics/settings/credentials | Create a Synthetic credential
 *SyntheticSettingsApi* | [**create_synthetic_test**](docs/SyntheticSettingsApi.md#create_synthetic_test) | **POST** /api/synthetics/settings/tests | Create a Synthetic test
-*SyntheticSettingsApi* | [**delete_synthetic_credential**](docs/SyntheticSettingsApi.md#delete_synthetic_credential) | **DELETE** /api/synthetics/settings/credentials/{name} | Delete Synthetic credential
-*SyntheticSettingsApi* | [**delete_synthetic_location**](docs/SyntheticSettingsApi.md#delete_synthetic_location) | **DELETE** /api/synthetics/settings/locations/{id} | Delete Synthetic location
+*SyntheticSettingsApi* | [**create_synthetic_test_cicd**](docs/SyntheticSettingsApi.md#create_synthetic_test_cicd) | **POST** /api/synthetics/settings/tests/ci-cd | Create a Synthetic test CI/CD
+*SyntheticSettingsApi* | [**delete_synthetic_credential**](docs/SyntheticSettingsApi.md#delete_synthetic_credential) | **DELETE** /api/synthetics/settings/credentials/{name} | Delete a Synthetic credential
+*SyntheticSettingsApi* | [**delete_synthetic_location**](docs/SyntheticSettingsApi.md#delete_synthetic_location) | **DELETE** /api/synthetics/settings/locations/{id} | Delete a Synthetic location
 *SyntheticSettingsApi* | [**delete_synthetic_test**](docs/SyntheticSettingsApi.md#delete_synthetic_test) | **DELETE** /api/synthetics/settings/tests/{id} | Delete a Synthetic test
-*SyntheticSettingsApi* | [**get_one_synthetic_credential_associations**](docs/SyntheticSettingsApi.md#get_one_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations/{name} | A Synthetic Credential with Name and Associations
-*SyntheticSettingsApi* | [**get_synthetic_credential_associations**](docs/SyntheticSettingsApi.md#get_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations | All Synthetic Credential Names and Associations
-*SyntheticSettingsApi* | [**get_synthetic_credential_names**](docs/SyntheticSettingsApi.md#get_synthetic_credential_names) | **GET** /api/synthetics/settings/credentials | All Synthetic Credential Names
-*SyntheticSettingsApi* | [**get_synthetic_datacenter**](docs/SyntheticSettingsApi.md#get_synthetic_datacenter) | **GET** /api/synthetics/settings/datacenters/{datacenterId} | Synthetic datacenter
+*SyntheticSettingsApi* | [**get_one_synthetic_credential_associations**](docs/SyntheticSettingsApi.md#get_one_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations/{name} | A Synthetic credential
+*SyntheticSettingsApi* | [**get_synthetic_credential_associations**](docs/SyntheticSettingsApi.md#get_synthetic_credential_associations) | **GET** /api/synthetics/settings/credentials/associations | All Synthetic credentials
+*SyntheticSettingsApi* | [**get_synthetic_credential_names**](docs/SyntheticSettingsApi.md#get_synthetic_credential_names) | **GET** /api/synthetics/settings/credentials | All Synthetic credential names
+*SyntheticSettingsApi* | [**get_synthetic_datacenter**](docs/SyntheticSettingsApi.md#get_synthetic_datacenter) | **GET** /api/synthetics/settings/datacenters/{datacenterId} | A Synthetic datacenter
 *SyntheticSettingsApi* | [**get_synthetic_datacenters**](docs/SyntheticSettingsApi.md#get_synthetic_datacenters) | **GET** /api/synthetics/settings/datacenters | All Synthetic datacenters
-*SyntheticSettingsApi* | [**get_synthetic_location**](docs/SyntheticSettingsApi.md#get_synthetic_location) | **GET** /api/synthetics/settings/locations/{id} | Synthetic location
+*SyntheticSettingsApi* | [**get_synthetic_location**](docs/SyntheticSettingsApi.md#get_synthetic_location) | **GET** /api/synthetics/settings/locations/{id} | A Synthetic location
 *SyntheticSettingsApi* | [**get_synthetic_locations**](docs/SyntheticSettingsApi.md#get_synthetic_locations) | **GET** /api/synthetics/settings/locations | All Synthetic locations
 *SyntheticSettingsApi* | [**get_synthetic_test**](docs/SyntheticSettingsApi.md#get_synthetic_test) | **GET** /api/synthetics/settings/tests/{id} | A Synthetic test
+*SyntheticSettingsApi* | [**get_synthetic_test_cicd**](docs/SyntheticSettingsApi.md#get_synthetic_test_cicd) | **GET** /api/synthetics/settings/tests/ci-cd/{testResultId} | A Synthetic test CI/CD.
+*SyntheticSettingsApi* | [**get_synthetic_test_cicds**](docs/SyntheticSettingsApi.md#get_synthetic_test_cicds) | **GET** /api/synthetics/settings/tests/ci-cd | All Synthetic test CI/CDs
 *SyntheticSettingsApi* | [**get_synthetic_tests**](docs/SyntheticSettingsApi.md#get_synthetic_tests) | **GET** /api/synthetics/settings/tests | All Synthetic tests
-*SyntheticSettingsApi* | [**patch_synthetic_credential**](docs/SyntheticSettingsApi.md#patch_synthetic_credential) | **PATCH** /api/synthetics/settings/credentials/{name} | Patch a Synthetic Credential
+*SyntheticSettingsApi* | [**patch_synthetic_credential**](docs/SyntheticSettingsApi.md#patch_synthetic_credential) | **PATCH** /api/synthetics/settings/credentials/{name} | Patch a Synthetic credential
 *SyntheticSettingsApi* | [**patch_synthetic_test**](docs/SyntheticSettingsApi.md#patch_synthetic_test) | **PATCH** /api/synthetics/settings/tests/{id} | Patch a Synthetic test
-*SyntheticSettingsApi* | [**update_synthetic_credential**](docs/SyntheticSettingsApi.md#update_synthetic_credential) | **PUT** /api/synthetics/settings/credentials/{name} | Update a Synthetic Credential
+*SyntheticSettingsApi* | [**update_synthetic_credential**](docs/SyntheticSettingsApi.md#update_synthetic_credential) | **PUT** /api/synthetics/settings/credentials/{name} | Update a Synthetic credential
 *SyntheticSettingsApi* | [**update_synthetic_test**](docs/SyntheticSettingsApi.md#update_synthetic_test) | **PUT** /api/synthetics/settings/tests/{id} | Update a Synthetic test
 *SyntheticTestPlaybackResultsApi* | [**get_location_summary_list**](docs/SyntheticTestPlaybackResultsApi.md#get_location_summary_list) | **POST** /api/synthetics/results/locationsummarylist | Get a list of Synthetic locations with last run test on each location data
 *SyntheticTestPlaybackResultsApi* | [**get_synthetic_result**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result) | **POST** /api/synthetics/results | Get Synthetic test playback results
+*SyntheticTestPlaybackResultsApi* | [**get_synthetic_result_analytic**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result_analytic) | **POST** /api/synthetics/results/analytic | Get a list of Synthetic tests based on the specified analytic function
 *SyntheticTestPlaybackResultsApi* | [**get_synthetic_result_detail_data**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result_detail_data) | **GET** /api/synthetics/results/{testid}/{testresultid}/detail | Get Synthetic test playback result detail data
 *SyntheticTestPlaybackResultsApi* | [**get_synthetic_result_detail_data_file**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result_detail_data_file) | **GET** /api/synthetics/results/{testid}/{testresultid}/file | Download the synthetic test playback result detail data file
 *SyntheticTestPlaybackResultsApi* | [**get_synthetic_result_list**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result_list) | **POST** /api/synthetics/results/list | Get a list of Synthetic test playback results
 *SyntheticTestPlaybackResultsApi* | [**get_synthetic_result_metadata**](docs/SyntheticTestPlaybackResultsApi.md#get_synthetic_result_metadata) | **GET** /api/synthetics/results/{testid}/{testresultid} | Get Synthetic test playback detail result description(metadata)
 *SyntheticTestPlaybackResultsApi* | [**get_test_summary_list**](docs/SyntheticTestPlaybackResultsApi.md#get_test_summary_list) | **POST** /api/synthetics/results/testsummarylist | Get a list of Synthetic tests with success rate and average response time data
+*TeamsApi* | [**create_team**](docs/TeamsApi.md#create_team) | **POST** /api/settings/rbac/teams | Create team
+*TeamsApi* | [**delete_team**](docs/TeamsApi.md#delete_team) | **DELETE** /api/settings/rbac/teams/{id} | Delete team
+*TeamsApi* | [**get_team**](docs/TeamsApi.md#get_team) | **GET** /api/settings/rbac/teams/{id} | Get team by ID
+*TeamsApi* | [**get_teams**](docs/TeamsApi.md#get_teams) | **GET** /api/settings/rbac/teams | Get all teams
+*TeamsApi* | [**update_team**](docs/TeamsApi.md#update_team) | **PUT** /api/settings/rbac/teams/{id} | Update team
 *UsageApi* | [**get_all_usage**](docs/UsageApi.md#get_all_usage) | **GET** /api/instana/usage/api | API usage by customer
 *UsageApi* | [**get_hosts_per_day**](docs/UsageApi.md#get_hosts_per_day) | **GET** /api/instana/usage/hosts/{day}/{month}/{year} | Host count day / month / year
 *UsageApi* | [**get_hosts_per_month**](docs/UsageApi.md#get_hosts_per_month) | **GET** /api/instana/usage/hosts/{month}/{year} | Host count month / year
@@ -589,6 +492,7 @@ Class | Method | HTTP request | Description
 *UserApi* | [**get_users_including_invitations**](docs/UserApi.md#get_users_including_invitations) | **GET** /api/settings/users/overview | All users (incl. invitations)
 *UserApi* | [**invite_users**](docs/UserApi.md#invite_users) | **POST** /api/settings/invitations | Send user invitations
 *UserApi* | [**remove_user_from_tenant**](docs/UserApi.md#remove_user_from_tenant) | **DELETE** /api/settings/users/{userId} | Remove user from tenant
+*UserApi* | [**remove_users_from_tenant**](docs/UserApi.md#remove_users_from_tenant) | **PUT** /api/settings/users/delete | Remove users from tenant
 *UserApi* | [**revoke_pending_invitation**](docs/UserApi.md#revoke_pending_invitation) | **DELETE** /api/settings/invitations | Revoke pending invitation
 *UserApi* | [**share_and_invite_users**](docs/UserApi.md#share_and_invite_users) | **POST** /api/settings/invitation/share | Send user invitations
 *UserApi* | [**update_user**](docs/UserApi.md#update_user) | **PUT** /api/settings/users/{email} | Change user name of single user
@@ -597,22 +501,27 @@ Class | Method | HTTP request | Description
 *WebsiteCatalogApi* | [**get_website_catalog_metrics**](docs/WebsiteCatalogApi.md#get_website_catalog_metrics) | **GET** /api/website-monitoring/catalog/metrics | Metric catalog
 *WebsiteCatalogApi* | [**get_website_catalog_tags**](docs/WebsiteCatalogApi.md#get_website_catalog_tags) | **GET** /api/website-monitoring/catalog/tags | Get all existing website tags
 *WebsiteCatalogApi* | [**get_website_tag_catalog**](docs/WebsiteCatalogApi.md#get_website_tag_catalog) | **GET** /api/website-monitoring/catalog | Get website tag catalog
-*WebsiteConfigurationApi* | [**clear_source_map_upload_configuration**](docs/WebsiteConfigurationApi.md#clear_source_map_upload_configuration) | **PUT** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/clear | Clear source map files for source map upload configuration
+*WebsiteConfigurationApi* | [**clear_source_map_upload_configuration**](docs/WebsiteConfigurationApi.md#clear_source_map_upload_configuration) | **PUT** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/clear | Clear source map files for sourcemap upload configuration
 *WebsiteConfigurationApi* | [**create_website**](docs/WebsiteConfigurationApi.md#create_website) | **POST** /api/website-monitoring/config | Configure new website
 *WebsiteConfigurationApi* | [**delete_website**](docs/WebsiteConfigurationApi.md#delete_website) | **DELETE** /api/website-monitoring/config/{websiteId} | Remove website
+*WebsiteConfigurationApi* | [**delete_website_source_map_upload_configuration**](docs/WebsiteConfigurationApi.md#delete_website_source_map_upload_configuration) | **DELETE** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId} | Delete sourcemap upload configuration for website
 *WebsiteConfigurationApi* | [**get_website**](docs/WebsiteConfigurationApi.md#get_website) | **GET** /api/website-monitoring/config/{websiteId} | Get configured website
 *WebsiteConfigurationApi* | [**get_website_geo_location_configuration**](docs/WebsiteConfigurationApi.md#get_website_geo_location_configuration) | **GET** /api/website-monitoring/config/{websiteId}/geo-location | Get geo location configuration for website
 *WebsiteConfigurationApi* | [**get_website_geo_mapping_rules**](docs/WebsiteConfigurationApi.md#get_website_geo_mapping_rules) | **GET** /api/website-monitoring/config/{websiteId}/geo-mapping-rules | Get custom geo mapping rules for website
 *WebsiteConfigurationApi* | [**get_website_ip_masking_configuration**](docs/WebsiteConfigurationApi.md#get_website_ip_masking_configuration) | **GET** /api/website-monitoring/config/{websiteId}/ip-masking | Get IP masking configuration for website
+*WebsiteConfigurationApi* | [**get_website_source_map_upload_configuration**](docs/WebsiteConfigurationApi.md#get_website_source_map_upload_configuration) | **GET** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId} | Get sourcemap upload configurations for website
+*WebsiteConfigurationApi* | [**get_website_source_map_upload_configurations**](docs/WebsiteConfigurationApi.md#get_website_source_map_upload_configurations) | **GET** /api/website-monitoring/config/{websiteId}/sourcemap-upload | Get all sourcemap upload configurations for website
 *WebsiteConfigurationApi* | [**get_websites**](docs/WebsiteConfigurationApi.md#get_websites) | **GET** /api/website-monitoring/config | Get configured websites
+*WebsiteConfigurationApi* | [**post_website_source_map_upload_config**](docs/WebsiteConfigurationApi.md#post_website_source_map_upload_config) | **POST** /api/website-monitoring/config/{websiteId}/sourcemap-upload | Add new sourcemap upload configuration for website
 *WebsiteConfigurationApi* | [**rename_website**](docs/WebsiteConfigurationApi.md#rename_website) | **PUT** /api/website-monitoring/config/{websiteId} | Rename website
 *WebsiteConfigurationApi* | [**set_website_geo_mapping_rules**](docs/WebsiteConfigurationApi.md#set_website_geo_mapping_rules) | **PUT** /api/website-monitoring/config/{websiteId}/geo-mapping-rules | Set custom geo mapping rules for website
 *WebsiteConfigurationApi* | [**update_website_geo_location_configuration**](docs/WebsiteConfigurationApi.md#update_website_geo_location_configuration) | **PUT** /api/website-monitoring/config/{websiteId}/geo-location | Update geo location configuration for website
 *WebsiteConfigurationApi* | [**update_website_ip_masking_configuration**](docs/WebsiteConfigurationApi.md#update_website_ip_masking_configuration) | **PUT** /api/website-monitoring/config/{websiteId}/ip-masking | Update IP masking configuration for website
-*WebsiteConfigurationApi* | [**upload_source_map_file**](docs/WebsiteConfigurationApi.md#upload_source_map_file) | **PUT** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/form | Upload source map file for website
+*WebsiteConfigurationApi* | [**update_website_teams**](docs/WebsiteConfigurationApi.md#update_website_teams) | **PUT** /api/website-monitoring/config/{websiteId}/teams | Update teams assigned to the website
+*WebsiteConfigurationApi* | [**upload_source_map_file**](docs/WebsiteConfigurationApi.md#upload_source_map_file) | **PUT** /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/form | Upload sourcemap file for website
 *WebsiteMetricsApi* | [**get_beacon_metrics**](docs/WebsiteMetricsApi.md#get_beacon_metrics) | **POST** /api/website-monitoring/metrics | Get beacon metrics
 *WebsiteMetricsApi* | [**get_beacon_metrics_v2**](docs/WebsiteMetricsApi.md#get_beacon_metrics_v2) | **POST** /api/website-monitoring/v2/metrics | Get beacon metrics
-*WebsiteMetricsApi* | [**get_page_load**](docs/WebsiteMetricsApi.md#get_page_load) | **GET** /api/website-monitoring/page-load | Get page load
+*WebsiteMetricsApi* | [**get_page_load**](docs/WebsiteMetricsApi.md#get_page_load) | **GET** /api/website-monitoring/page-load{id}{timestamp} | Get page load
 
 
 ## Documentation For Models
@@ -633,6 +542,7 @@ Class | Method | HTTP request | Description
  - [ActionSearchSpace](docs/ActionSearchSpace.md)
  - [AdaptiveBaseline](docs/AdaptiveBaseline.md)
  - [AdaptiveThresholdRule](docs/AdaptiveThresholdRule.md)
+ - [Addition](docs/Addition.md)
  - [AdjustedTimeframe](docs/AdjustedTimeframe.md)
  - [AgentConfigurationUpdate](docs/AgentConfigurationUpdate.md)
  - [AlertingConfiguration](docs/AlertingConfiguration.md)
@@ -643,10 +553,18 @@ Class | Method | HTTP request | Description
  - [ApdexEntity](docs/ApdexEntity.md)
  - [ApdexReport](docs/ApdexReport.md)
  - [ApiCreateGroup](docs/ApiCreateGroup.md)
+ - [ApiCreateRole](docs/ApiCreateRole.md)
  - [ApiGroup](docs/ApiGroup.md)
  - [ApiMember](docs/ApiMember.md)
  - [ApiPermissionSet](docs/ApiPermissionSet.md)
  - [ApiRestrictedApplicationFilter](docs/ApiRestrictedApplicationFilter.md)
+ - [ApiRole](docs/ApiRole.md)
+ - [ApiTag](docs/ApiTag.md)
+ - [ApiTeam](docs/ApiTeam.md)
+ - [ApiTeamInfo](docs/ApiTeamInfo.md)
+ - [ApiTeamMember](docs/ApiTeamMember.md)
+ - [ApiTeamRole](docs/ApiTeamRole.md)
+ - [ApiTeamScope](docs/ApiTeamScope.md)
  - [ApiToken](docs/ApiToken.md)
  - [AppDataMetricConfiguration](docs/AppDataMetricConfiguration.md)
  - [Application](docs/Application.md)
@@ -665,6 +583,9 @@ Class | Method | HTTP request | Description
  - [ApplicationSliEntity](docs/ApplicationSliEntity.md)
  - [ApplicationSloEntity](docs/ApplicationSloEntity.md)
  - [ApplicationTimeThreshold](docs/ApplicationTimeThreshold.md)
+ - [ArithmeticConfiguration](docs/ArithmeticConfiguration.md)
+ - [ArithmeticOperand](docs/ArithmeticOperand.md)
+ - [ArithmeticOperation](docs/ArithmeticOperation.md)
  - [AuditLogEntry](docs/AuditLogEntry.md)
  - [AuditLogUiResponse](docs/AuditLogUiResponse.md)
  - [Author](docs/Author.md)
@@ -673,6 +594,8 @@ Class | Method | HTTP request | Description
  - [AvailableMetrics](docs/AvailableMetrics.md)
  - [AvailablePlugins](docs/AvailablePlugins.md)
  - [BackendTraceReference](docs/BackendTraceReference.md)
+ - [BidirectionalMsTeamsAppIntegration](docs/BidirectionalMsTeamsAppIntegration.md)
+ - [BidirectionalSlackAppIntegration](docs/BidirectionalSlackAppIntegration.md)
  - [BinaryOperatorDTO](docs/BinaryOperatorDTO.md)
  - [BrowserScriptConfiguration](docs/BrowserScriptConfiguration.md)
  - [BuiltInEventSpecification](docs/BuiltInEventSpecification.md)
@@ -686,6 +609,10 @@ Class | Method | HTTP request | Description
  - [CloudfoundryPhysicalContext](docs/CloudfoundryPhysicalContext.md)
  - [Condition](docs/Condition.md)
  - [ConfigVersion](docs/ConfigVersion.md)
+ - [Correction](docs/Correction.md)
+ - [CorrectionConfiguration](docs/CorrectionConfiguration.md)
+ - [CorrectionScheduling](docs/CorrectionScheduling.md)
+ - [CorrectionWindow](docs/CorrectionWindow.md)
  - [CrashMobileAppAlertRule](docs/CrashMobileAppAlertRule.md)
  - [CursorPaginatedBusinessActivityItem](docs/CursorPaginatedBusinessActivityItem.md)
  - [CursorPagination](docs/CursorPagination.md)
@@ -693,7 +620,11 @@ Class | Method | HTTP request | Description
  - [CustomBlueprintIndicator](docs/CustomBlueprintIndicator.md)
  - [CustomDashboard](docs/CustomDashboard.md)
  - [CustomDashboardPreview](docs/CustomDashboardPreview.md)
+ - [CustomDashboardWithUserSpecificInformation](docs/CustomDashboardWithUserSpecificInformation.md)
+ - [CustomDependency](docs/CustomDependency.md)
  - [CustomEmailSubjectPrefix](docs/CustomEmailSubjectPrefix.md)
+ - [CustomEntityModel](docs/CustomEntityModel.md)
+ - [CustomEntityWithMetadata](docs/CustomEntityWithMetadata.md)
  - [CustomEventMobileAppAlertRule](docs/CustomEventMobileAppAlertRule.md)
  - [CustomEventSpecification](docs/CustomEventSpecification.md)
  - [CustomEventSpecificationWithLastUpdated](docs/CustomEventSpecificationWithLastUpdated.md)
@@ -701,12 +632,14 @@ Class | Method | HTTP request | Description
  - [CustomPayloadConfiguration](docs/CustomPayloadConfiguration.md)
  - [CustomPayloadField](docs/CustomPayloadField.md)
  - [CustomPayloadWithLastUpdated](docs/CustomPayloadWithLastUpdated.md)
- - [DNSActionConfiguration](docs/DNSActionConfiguration.md)
- - [DNSActionFilterQueryTime](docs/DNSActionFilterQueryTime.md)
- - [DNSActionFilterTargetValue](docs/DNSActionFilterTargetValue.md)
+ - [CustomPayloadWithVersion](docs/CustomPayloadWithVersion.md)
+ - [DNSConfiguration](docs/DNSConfiguration.md)
+ - [DNSFilterQueryTime](docs/DNSFilterQueryTime.md)
+ - [DNSFilterTargetValue](docs/DNSFilterTargetValue.md)
  - [DashboardApiToken](docs/DashboardApiToken.md)
  - [DatabaseIntegration](docs/DatabaseIntegration.md)
  - [DeprecatedTagFilter](docs/DeprecatedTagFilter.md)
+ - [Division](docs/Division.md)
  - [Duration](docs/Duration.md)
  - [DynamicField](docs/DynamicField.md)
  - [DynamicFieldValue](docs/DynamicFieldValue.md)
@@ -737,7 +670,6 @@ Class | Method | HTTP request | Description
  - [FailureSyntheticAlertRule](docs/FailureSyntheticAlertRule.md)
  - [FixedHttpPathSegmentMatchingRule](docs/FixedHttpPathSegmentMatchingRule.md)
  - [FixedTimeWindow](docs/FixedTimeWindow.md)
- - [FullTrace](docs/FullTrace.md)
  - [GenericInfraAlertRule](docs/GenericInfraAlertRule.md)
  - [GeoLocationConfiguration](docs/GeoLocationConfiguration.md)
  - [GeoMappingRule](docs/GeoMappingRule.md)
@@ -762,6 +694,7 @@ Class | Method | HTTP request | Description
  - [GetServices](docs/GetServices.md)
  - [GetSnapshotsQuery](docs/GetSnapshotsQuery.md)
  - [GetTestResult](docs/GetTestResult.md)
+ - [GetTestResultAnalytic](docs/GetTestResultAnalytic.md)
  - [GetTestResultBase](docs/GetTestResultBase.md)
  - [GetTestResultList](docs/GetTestResultList.md)
  - [GetTestSummaryResult](docs/GetTestSummaryResult.md)
@@ -780,6 +713,7 @@ Class | Method | HTTP request | Description
  - [Group](docs/Group.md)
  - [GroupByTag](docs/GroupByTag.md)
  - [GroupMapping](docs/GroupMapping.md)
+ - [GroupMappingOverview](docs/GroupMappingOverview.md)
  - [HealthState](docs/HealthState.md)
  - [HistoricBaseline](docs/HistoricBaseline.md)
  - [HostAvailabilityRule](docs/HostAvailabilityRule.md)
@@ -790,11 +724,13 @@ Class | Method | HTTP request | Description
  - [HttpScriptConfiguration](docs/HttpScriptConfiguration.md)
  - [HyperParam](docs/HyperParam.md)
  - [IdentityProviderPatch](docs/IdentityProviderPatch.md)
+ - [ImpactedBeaconInfo](docs/ImpactedBeaconInfo.md)
  - [InfraAlertConfig](docs/InfraAlertConfig.md)
  - [InfraAlertConfigWithMetadata](docs/InfraAlertConfigWithMetadata.md)
  - [InfraAlertRule](docs/InfraAlertRule.md)
  - [InfraEventResult](docs/InfraEventResult.md)
  - [InfraMetricConfiguration](docs/InfraMetricConfiguration.md)
+ - [InfraSloEntity](docs/InfraSloEntity.md)
  - [InfraTimeThreshold](docs/InfraTimeThreshold.md)
  - [InfrastructureEntitiesResult](docs/InfrastructureEntitiesResult.md)
  - [InfrastructureGroup](docs/InfrastructureGroup.md)
@@ -809,6 +745,7 @@ Class | Method | HTTP request | Description
  - [IpMaskingConfiguration](docs/IpMaskingConfiguration.md)
  - [JsStackTraceLine](docs/JsStackTraceLine.md)
  - [KubernetesPhysicalContext](docs/KubernetesPhysicalContext.md)
+ - [LLMEgressGateway](docs/LLMEgressGateway.md)
  - [LatencyBlueprintIndicator](docs/LatencyBlueprintIndicator.md)
  - [LocationStatus](docs/LocationStatus.md)
  - [LogAlertConfig](docs/LogAlertConfig.md)
@@ -818,6 +755,9 @@ Class | Method | HTTP request | Description
  - [LogEntryActor](docs/LogEntryActor.md)
  - [LogEventResult](docs/LogEventResult.md)
  - [LogTimeThreshold](docs/LogTimeThreshold.md)
+ - [LogVolumeGroup](docs/LogVolumeGroup.md)
+ - [LogVolumeUsageItem](docs/LogVolumeUsageItem.md)
+ - [LogVolumeUsageResult](docs/LogVolumeUsageResult.md)
  - [LogsApplicationAlertRule](docs/LogsApplicationAlertRule.md)
  - [MaintenanceConfig](docs/MaintenanceConfig.md)
  - [MaintenanceConfigScheduling](docs/MaintenanceConfigScheduling.md)
@@ -839,6 +779,7 @@ Class | Method | HTTP request | Description
  - [MetricItem](docs/MetricItem.md)
  - [MetricMetadata](docs/MetricMetadata.md)
  - [MetricPattern](docs/MetricPattern.md)
+ - [MetricQuery](docs/MetricQuery.md)
  - [MetricsResult](docs/MetricsResult.md)
  - [MetricsResultItem](docs/MetricsResultItem.md)
  - [MetricsTestResultItem](docs/MetricsTestResultItem.md)
@@ -859,9 +800,14 @@ Class | Method | HTTP request | Description
  - [ModelField](docs/ModelField.md)
  - [MonitoringState](docs/MonitoringState.md)
  - [MultipleScriptsConfiguration](docs/MultipleScriptsConfiguration.md)
+ - [Multiplication](docs/Multiplication.md)
+ - [NestedOperation](docs/NestedOperation.md)
  - [NewApplicationConfig](docs/NewApplicationConfig.md)
  - [NewBusinessPerspectiveConfig](docs/NewBusinessPerspectiveConfig.md)
  - [NewManualServiceConfig](docs/NewManualServiceConfig.md)
+ - [OAuthConfig](docs/OAuthConfig.md)
+ - [OAuthIntegration](docs/OAuthIntegration.md)
+ - [OAuthToken](docs/OAuthToken.md)
  - [Occurrence](docs/Occurrence.md)
  - [Office365Integration](docs/Office365Integration.md)
  - [OneTimeMaintenanceWindow](docs/OneTimeMaintenanceWindow.md)
@@ -877,6 +823,7 @@ Class | Method | HTTP request | Description
  - [PluginResult](docs/PluginResult.md)
  - [Policy](docs/Policy.md)
  - [PolicyRunnable](docs/PolicyRunnable.md)
+ - [PolicyScheduling](docs/PolicyScheduling.md)
  - [PostSnapshotsResult](docs/PostSnapshotsResult.md)
  - [Problem](docs/Problem.md)
  - [PrometheusWebhookIntegration](docs/PrometheusWebhookIntegration.md)
@@ -884,6 +831,7 @@ Class | Method | HTTP request | Description
  - [Release](docs/Release.md)
  - [ReleaseScope](docs/ReleaseScope.md)
  - [ReleaseWithMetadata](docs/ReleaseWithMetadata.md)
+ - [RetentionPeriod](docs/RetentionPeriod.md)
  - [RollingTimeWindow](docs/RollingTimeWindow.md)
  - [RuleInput](docs/RuleInput.md)
  - [RuleWithThresholdApplicationAlertRule](docs/RuleWithThresholdApplicationAlertRule.md)
@@ -893,7 +841,9 @@ Class | Method | HTTP request | Description
  - [RuleWithThresholdWebsiteAlertRule](docs/RuleWithThresholdWebsiteAlertRule.md)
  - [RunConfiguration](docs/RunConfiguration.md)
  - [SSLCertificateConfiguration](docs/SSLCertificateConfiguration.md)
+ - [SSLCertificateValidation](docs/SSLCertificateValidation.md)
  - [SalesforceIntegration](docs/SalesforceIntegration.md)
+ - [SaturationBlueprintIndicator](docs/SaturationBlueprintIndicator.md)
  - [ScopeBinding](docs/ScopeBinding.md)
  - [SearchFieldResult](docs/SearchFieldResult.md)
  - [Service](docs/Service.md)
@@ -905,7 +855,9 @@ Class | Method | HTTP request | Description
  - [ServiceLevelObjectiveConfiguration](docs/ServiceLevelObjectiveConfiguration.md)
  - [ServiceLevelsAlertConfig](docs/ServiceLevelsAlertConfig.md)
  - [ServiceLevelsAlertRule](docs/ServiceLevelsAlertRule.md)
+ - [ServiceLevelsBurnRateConfig](docs/ServiceLevelsBurnRateConfig.md)
  - [ServiceLevelsBurnRateTimeWindows](docs/ServiceLevelsBurnRateTimeWindows.md)
+ - [ServiceLevelsStaticThresholdConfig](docs/ServiceLevelsStaticThresholdConfig.md)
  - [ServiceLevelsTimeThreshold](docs/ServiceLevelsTimeThreshold.md)
  - [ServiceLevelseAlertConfigWithMetadata](docs/ServiceLevelseAlertConfigWithMetadata.md)
  - [ServiceMap](docs/ServiceMap.md)
@@ -922,6 +874,8 @@ Class | Method | HTTP request | Description
  - [ServiceScopedToWithMetadata](docs/ServiceScopedToWithMetadata.md)
  - [ServiceSimple](docs/ServiceSimple.md)
  - [SessionSettings](docs/SessionSettings.md)
+ - [SimpleMetricConfiguration](docs/SimpleMetricConfiguration.md)
+ - [SingleValue](docs/SingleValue.md)
  - [SlackIntegration](docs/SlackIntegration.md)
  - [SliConfiguration](docs/SliConfiguration.md)
  - [SliConfigurationWithLastUpdated](docs/SliConfigurationWithLastUpdated.md)
@@ -930,6 +884,7 @@ Class | Method | HTTP request | Description
  - [SloEntity](docs/SloEntity.md)
  - [SloReport](docs/SloReport.md)
  - [SlownessApplicationAlertRule](docs/SlownessApplicationAlertRule.md)
+ - [SlownessMobileAppAlertRule](docs/SlownessMobileAppAlertRule.md)
  - [SlownessWebsiteAlertRule](docs/SlownessWebsiteAlertRule.md)
  - [SnapshotItem](docs/SnapshotItem.md)
  - [SnapshotPreview](docs/SnapshotPreview.md)
@@ -939,7 +894,7 @@ Class | Method | HTTP request | Description
  - [SourceMapFileBlob](docs/SourceMapFileBlob.md)
  - [SourceMapFileMeta](docs/SourceMapFileMeta.md)
  - [SourceMapUploadConfig](docs/SourceMapUploadConfig.md)
- - [Span](docs/Span.md)
+ - [SourceMapUploadConfigs](docs/SourceMapUploadConfigs.md)
  - [SpanExcerpt](docs/SpanExcerpt.md)
  - [SpanRelation](docs/SpanRelation.md)
  - [SpecificJsErrorsWebsiteAlertRule](docs/SpecificJsErrorsWebsiteAlertRule.md)
@@ -953,12 +908,14 @@ Class | Method | HTTP request | Description
  - [StatusCodeApplicationAlertRule](docs/StatusCodeApplicationAlertRule.md)
  - [StatusCodeMobileAppAlertRule](docs/StatusCodeMobileAppAlertRule.md)
  - [StatusCodeWebsiteAlertRule](docs/StatusCodeWebsiteAlertRule.md)
+ - [Subtraction](docs/Subtraction.md)
  - [SyntheticAlertConfig](docs/SyntheticAlertConfig.md)
  - [SyntheticAlertConfigWithMetadata](docs/SyntheticAlertConfigWithMetadata.md)
  - [SyntheticAlertRule](docs/SyntheticAlertRule.md)
  - [SyntheticCallConfig](docs/SyntheticCallConfig.md)
  - [SyntheticCallRule](docs/SyntheticCallRule.md)
  - [SyntheticCallWithDefaultsConfig](docs/SyntheticCallWithDefaultsConfig.md)
+ - [SyntheticConfiguration](docs/SyntheticConfiguration.md)
  - [SyntheticCredential](docs/SyntheticCredential.md)
  - [SyntheticDatacenter](docs/SyntheticDatacenter.md)
  - [SyntheticDatacenterConfiguration](docs/SyntheticDatacenterConfiguration.md)
@@ -970,6 +927,10 @@ Class | Method | HTTP request | Description
  - [SyntheticPlaybackCapabilities](docs/SyntheticPlaybackCapabilities.md)
  - [SyntheticSloEntity](docs/SyntheticSloEntity.md)
  - [SyntheticTest](docs/SyntheticTest.md)
+ - [SyntheticTestCICD](docs/SyntheticTestCICD.md)
+ - [SyntheticTestCICDCustomization](docs/SyntheticTestCICDCustomization.md)
+ - [SyntheticTestCICDItem](docs/SyntheticTestCICDItem.md)
+ - [SyntheticTestCICDResponse](docs/SyntheticTestCICDResponse.md)
  - [SyntheticTimeThreshold](docs/SyntheticTimeThreshold.md)
  - [SyntheticTypeConfiguration](docs/SyntheticTypeConfiguration.md)
  - [SyntheticsEventResult](docs/SyntheticsEventResult.md)
@@ -985,6 +946,7 @@ Class | Method | HTTP request | Description
  - [TagTreeNode](docs/TagTreeNode.md)
  - [TagTreeTag](docs/TagTreeTag.md)
  - [TestCommonProperties](docs/TestCommonProperties.md)
+ - [TestLastError](docs/TestLastError.md)
  - [TestResult](docs/TestResult.md)
  - [TestResultCommonProperties](docs/TestResultCommonProperties.md)
  - [TestResultDetailData](docs/TestResultDetailData.md)

@@ -1,11 +1,12 @@
 # ServiceScope
 
+The list of services where the release can be viewed.
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **str** |  | 
+**name** | **str** | Name of the Service. Eg: &#x60;payment&#x60;. | 
 **scoped_to** | [**ServiceScopedTo**](ServiceScopedTo.md) |  | [optional] 
 
 ## Example

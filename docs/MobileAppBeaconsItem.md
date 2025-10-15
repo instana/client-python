@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **beacon** | [**MobileAppMonitoringBeacon**](MobileAppMonitoringBeacon.md) |  | 
 **cursor** | **object** | Cursor to use between successive queries | 
+**impacted_beacon_info** | [**ImpactedBeaconInfo**](ImpactedBeaconInfo.md) |  | [optional] 
 
 ## Example
 

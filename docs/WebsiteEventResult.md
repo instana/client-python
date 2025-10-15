@@ -5,8 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**probable_root_cause** | **Dict[str, object]** |  | [optional] 
-**website_id** | **str** |  | [optional] 
+**website_id** | **str** | ID of the website. | [optional] 
 
 ## Example
 

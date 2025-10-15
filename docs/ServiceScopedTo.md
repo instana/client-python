@@ -1,5 +1,6 @@
 # ServiceScopedTo
 
+The list of application perspectives where the service is present. 
 
 ## Properties
 

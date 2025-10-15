@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **duration** | **int** | Duration of the Time Window | 
 **duration_unit** | **str** | Unit of the Time Window Duration | 
+**timezone** | **str** | Timezone string | [optional] 
 **type** | **str** |  | 
 
 ## Example

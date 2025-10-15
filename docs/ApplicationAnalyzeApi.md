@@ -7,7 +7,6 @@ Method | HTTP request | Description
 [**get_call_details**](ApplicationAnalyzeApi.md#get_call_details) | **GET** /api/application-monitoring/v2/analyze/traces/{traceId}/calls/{callId}/details | Get call detail
 [**get_call_group**](ApplicationAnalyzeApi.md#get_call_group) | **POST** /api/application-monitoring/analyze/call-groups | Get grouped call metrics
 [**get_correlated_traces**](ApplicationAnalyzeApi.md#get_correlated_traces) | **GET** /api/application-monitoring/analyze/backend-correlation | Resolve Trace IDs from Monitoring Beacons.
-[**get_trace**](ApplicationAnalyzeApi.md#get_trace) | **GET** /api/application-monitoring/analyze/traces/{id} | Get trace detail
 [**get_trace_download**](ApplicationAnalyzeApi.md#get_trace_download) | **GET** /api/application-monitoring/v2/analyze/traces/{id} | Get trace detail
 [**get_trace_groups**](ApplicationAnalyzeApi.md#get_trace_groups) | **POST** /api/application-monitoring/analyze/trace-groups | Get grouped trace metrics
 [**get_traces**](ApplicationAnalyzeApi.md#get_traces) | **POST** /api/application-monitoring/analyze/traces | Get all traces
@@ -17,6 +16,10 @@ Method | HTTP request | Description
 > TraceActivityTreeNodeDetails get_call_details(trace_id, call_id)
 
 Get call detail
+
+Use this API endpoint to retrieve a vast information about a call present in a trace.
+
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -97,7 +100,8 @@ Name | Type | Description  | Notes
 
 Get grouped call metrics
 
-This endpoint retrieves the metrics for calls.    ## Deprecated Parameters  **tagFilters:** The list of tag filters. It is replaced by **tagFilterExpression**, **includeInternal** and **includeSynthetic**.
+
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -180,6 +184,7 @@ Name | Type | Description  | Notes
 Resolve Trace IDs from Monitoring Beacons.
 
 Resolves backend trace IDs using correlation IDs from website and mobile app monitoring beacons.
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -253,91 +258,13 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **get_trace**
-> FullTrace get_trace(id)
-
-Get trace detail
-
-Replaced by /api/application-monitoring/v2/analyze/traces/{id}
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.full_trace import FullTrace
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.ApplicationAnalyzeApi(api_client)
-    id = 'id_example' # str | 
-
-    try:
-        # Get trace detail
-        api_response = api_instance.get_trace(id)
-        print("The response of ApplicationAnalyzeApi->get_trace:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling ApplicationAnalyzeApi->get_trace: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **str**|  | 
-
-### Return type
-
-[**FullTrace**](FullTrace.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **get_trace_download**
 > TraceDownloadResult get_trace_download(id, retrieval_size=retrieval_size, offset=offset, ingestion_time=ingestion_time)
 
 Get trace detail
 
- Use this API endpoint if one wants to retrive comprehensive details of a particular trace.
+Use this API endpoint if one wants to retrive comprehensive details of a particular trace.
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -422,7 +349,8 @@ Name | Type | Description  | Notes
 
 Get grouped trace metrics
 
-The API endpoint retrieves metrics for traces that are grouped in the endpoint or service name.  The supported `groupbyTag` are `trace.endpoint.name` and `trace.service.name`.  {: note} 
+In this endpoint, the supported `groupbyTag` are `trace.endpoint.name` and `trace.service.name`. 
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 
@@ -504,7 +432,8 @@ Name | Type | Description  | Notes
 
 Get all traces
 
-This endpoint retrieves the metrics for traces.    **Manditory Paramters:**    **Optional Paramters:**    **Defaults:**    **Limits:**    **Tips:**  
+
+For more information on Application Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-analyze.
 
 ### Example
 

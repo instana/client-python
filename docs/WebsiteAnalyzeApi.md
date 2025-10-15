@@ -14,6 +14,7 @@ Method | HTTP request | Description
 Get grouped beacon metrics
 
 API request to get grouped website monitoring beacon metrics.
+For more information on Website Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Websites+&+Mobile+Apps.
 
 ### Example
 
@@ -98,6 +99,7 @@ Name | Type | Description  | Notes
 Get all beacons
 
 API request to get all website monitoring beacons with matching type.
+For more information on Website Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Websites+&+Mobile+Apps.
 
 ### Example
 

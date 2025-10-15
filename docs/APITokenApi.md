@@ -17,6 +17,7 @@ Method | HTTP request | Description
 Delete API token
 
 Delete the Api Token
+For more information on APIToken please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#apitoken.
 
 ### Example
 
@@ -93,6 +94,7 @@ void (empty response body)
 Get API token
 
 Returns API Token details, including the set of permissions
+For more information on APIToken please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#apitoken.
 
 ### Example
 
@@ -172,6 +174,7 @@ Name | Type | Description  | Notes
 Get all API Tokens
 
 Get the list of API Tokens for this Tenant-Unit
+For more information on APIToken please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#apitoken.
 
 ### Example
 
@@ -248,6 +251,7 @@ This endpoint does not need any parameter.
 Create an API token
 
 Create an API Token on the Tenant-Unit. Each API Token entry also contains a set of permissions
+For more information on APIToken please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#apitoken.
 
 ### Example
 
@@ -338,6 +342,7 @@ Name | Type | Description  | Notes
 Create or update an API token
 
 Update API Token- Change Token name and associated permissions
+For more information on APIToken please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#apitoken.
 
 ### Example
 
