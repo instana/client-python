@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **cross_series_aggregation** | **str** |  | [optional] 
 **granularity** | **int** |    * If granularity is not specified an aggregated value for the selected timeframe is returned.    * If granularity is specified data points are returned with the specified granularity     * The granularity should not be greater than the &#x60;windowSize&#x60; (important: &#x60;windowSize&#x60; is expressed in milliseconds)     * The granularity should not be set too small relative to the &#x60;windowSize&#x60; to avoid creating an excessively large number of data points (max 600)  | [optional] 
 **metric** | **str** |  | 
+**missing_value** | **float** |  | [optional] 
 **regex** | **bool** |  | [optional] 
 **required** | **bool** | When true, metric must be present with values | [optional] 
 

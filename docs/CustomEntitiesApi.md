@@ -8,7 +8,6 @@ Method | HTTP request | Description
 [**delete_custom_entity**](CustomEntitiesApi.md#delete_custom_entity) | **DELETE** /api/custom-entitytypes/{id} | Delete a Custom Entity Type
 [**get_custom_entity**](CustomEntitiesApi.md#get_custom_entity) | **GET** /api/custom-entitytypes/{id} | Get custom Entity Types
 [**list_custom_entities**](CustomEntitiesApi.md#list_custom_entities) | **GET** /api/custom-entitytypes | List custom Entity Type Definition
-[**list_entities_from_infra_entities**](CustomEntitiesApi.md#list_entities_from_infra_entities) | **POST** /api/custom-entitytypes/entities | List all entity types that match the custom entity metadata
 [**update_custom_entity**](CustomEntitiesApi.md#update_custom_entity) | **PUT** /api/custom-entitytypes/{id} | Update a Custom Entity Type
 
 
@@ -318,86 +317,6 @@ This endpoint does not need any parameter.
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **list_entities_from_infra_entities**
-> CustomEntityWithMetadata list_entities_from_infra_entities(get_infrastructure_query)
-
-List all entity types that match the custom entity metadata
-
-List all entity types that match the custom entity metadata
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.custom_entity_with_metadata import CustomEntityWithMetadata
-from instana_client.models.get_infrastructure_query import GetInfrastructureQuery
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.CustomEntitiesApi(api_client)
-    get_infrastructure_query = instana_client.GetInfrastructureQuery() # GetInfrastructureQuery | 
-
-    try:
-        # List all entity types that match the custom entity metadata
-        api_response = api_instance.list_entities_from_infra_entities(get_infrastructure_query)
-        print("The response of CustomEntitiesApi->list_entities_from_infra_entities:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling CustomEntitiesApi->list_entities_from_infra_entities: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **get_infrastructure_query** | [**GetInfrastructureQuery**](GetInfrastructureQuery.md)|  | 
-
-### Return type
-
-[**CustomEntityWithMetadata**](CustomEntityWithMetadata.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details

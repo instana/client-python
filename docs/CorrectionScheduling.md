@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **duration_unit** | **str** | Unit for duration. Supported values: &#x60;MINUTE&#x60;, &#x60;HOUR&#x60;, &#x60;DAY&#x60;. | 
 **recurrent** | **bool** |  | [optional] 
 **recurrent_rule** | **str** | Recurrence Rule defines how the event recurs, using iCalendar RRULE format (e.g., &#x60;FREQ&#x3D;DAILY;INTERVAL&#x3D;1&#x60;).It supports fields like FREQ, INTERVAL, BYDAY, etc. Refer to RFC 5545: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10 | [optional] 
-**start_time** | **datetime** | Start time of the correction window in milliseconds since epoch (UTC) (e.g., &#x60;1706713140000&#x60;). | 
+**start_time** | **datetime** | Start time of the correction window in milliseconds since epoch (UTC) (e.g., &#x60;1706713140000&#x60;). | [optional] 
 
 ## Example
 

@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **group_id** | **str** |  | 
 **message** | **str** |  | [optional] 
 **path** | **str** |  | [optional] 
+**team_id** | **str** |  | [optional] 
 
 ## Example
 

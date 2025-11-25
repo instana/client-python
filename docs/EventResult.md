@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **problem** | **str** | Main problem title of the Event. | [optional] 
 **recent_events** | **List[Dict[str, object]]** | List of related recent events. Only present in case of \&quot;Incident\&quot; type events. | [optional] 
 **severity** | **int** | The severity of the Event when triggered. | [optional] 
+**short_code** | **str** | A short code for the event | [optional] 
 **snapshot_id** | **str** | The snapshot ID of the affected entity of this event. | [optional] 
 **start** | **int** | A Unix timestamp representing the start time of the Event. | [optional] 
 **state** | **str** | The state of the Event, \&quot;open\&quot; or \&quot;close\&quot;.  | [optional] 

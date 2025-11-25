@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**affected_entities** | **List[str]** |  | [optional] 
 **end** | **int** |  | [optional] 
 **endpoint_service_id** | **str** |  | [optional] 
 **entity_id** | **str** |  | 
@@ -17,6 +18,7 @@ Name | Type | Description | Notes
 **plugin** | **str** |  | 
 **problem** | [**Problem**](Problem.md) |  | [optional] 
 **rca** | **Dict[str, object]** |  | [optional] 
+**short_code** | **str** |  | [optional] 
 **start** | **int** |  | [optional] 
 **state** | **str** |  | 
 **type** | **str** |  | 

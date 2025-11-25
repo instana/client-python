@@ -6,9 +6,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**direction** | **str** |  | 
 **groupby_tag** | **str** | The name of the group tag (e.g. &#x60;agent.tag&#x60; or &#x60;docker.label&#x60;). | 
 **groupby_tag_entity** | **str** | The entity by which the data should be grouped. This field supports three possible values: &#x60;NOT_APPLICABLE&#x60;, &#x60;DESTINATION&#x60;, and &#x60;SOURCE&#x60;. &#x60;SOURCE&#x60;: the tag filter should apply to the source entity. &#x60;DESTINATION&#x60;: the tag filter should apply to the destination entity. &#x60;NOT_APPLICABLE&#x60;: some tags are independent of source or destination, such as tags on the call itself, log tags or trace tags (only destination makes sense because the source is unknown for the root call).  | 
 **groupby_tag_second_level_key** | **str** | If present, it&#39;s the 2nd level key part (e.g. &#x60;customKey&#x60; on &#x60;docker.label.customKey&#x60;) | [optional] 
+**include_others** | **bool** |  | [optional] 
+**max_results** | **int** |  | [optional] 
 
 ## Example
 

@@ -10,7 +10,6 @@ Method | HTTP request | Description
 [**get_users_including_invitations**](UserApi.md#get_users_including_invitations) | **GET** /api/settings/users/overview | All users (incl. invitations)
 [**invite_users**](UserApi.md#invite_users) | **POST** /api/settings/invitations | Send user invitations
 [**remove_user_from_tenant**](UserApi.md#remove_user_from_tenant) | **DELETE** /api/settings/users/{userId} | Remove user from tenant
-[**remove_users_from_tenant**](UserApi.md#remove_users_from_tenant) | **PUT** /api/settings/users/delete | Remove users from tenant
 [**revoke_pending_invitation**](UserApi.md#revoke_pending_invitation) | **DELETE** /api/settings/invitations | Revoke pending invitation
 [**share_and_invite_users**](UserApi.md#share_and_invite_users) | **POST** /api/settings/invitation/share | Send user invitations
 [**update_user**](UserApi.md#update_user) | **PUT** /api/settings/users/{email} | Change user name of single user
@@ -457,84 +456,6 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user_id** | **str**| Id of the user for removal | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**204** | Successful - no content to return. |  -  |
-**401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **remove_users_from_tenant**
-> remove_users_from_tenant(request_body)
-
-Remove users from tenant
-
-Remove multiple users access to the tenant. Removing a user from a tenant does not delete their user account.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.UserApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
-
-    try:
-        # Remove users from tenant
-        api_instance.remove_users_from_tenant(request_body)
-    except Exception as e:
-        print("Exception when calling UserApi->remove_users_from_tenant: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request_body** | [**List[str]**](str.md)|  | 
 
 ### Return type
 

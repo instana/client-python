@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **channel_id** | **str** |  | [optional] 
 **channel_name** | **str** |  | [optional] 
 **emoji_rendering** | **bool** |  | [optional] 
+**status** | **str** |  | [optional] 
 **team_id** | **str** |  | [optional] 
 **team_name** | **str** |  | [optional] 
 

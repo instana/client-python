@@ -90,6 +90,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -724,6 +725,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Log Smart Alert successfully updated |  -  |
 **204** | Log Smart Alert did not change |  -  |
+**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

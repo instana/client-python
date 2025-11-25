@@ -245,7 +245,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_slo_configs**
-> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
+> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
 
 Get All SLO Configs
 
@@ -287,16 +287,19 @@ with instana_client.ApiClient(configuration) as api_client:
     query = 'test SLO' # str |  (optional)
     tag = ['Testing'] # List[str] |  (optional)
     entity_type = ['application'] # List[str] |  (optional)
+    infra_entity_types = ['KubernetesCluster'] # List[str] |  (optional)
+    kubernetes_cluster_uuid = '823b8c2e-5bc3-11ee-a0f4-42010a8000ff' # str |  (optional)
     blueprint = ['latency'] # List[str] |  (optional)
     slo_ids = ['SLOdCTspkHlS_OzNOATQWgsuw'] # List[str] |  (optional)
     slo_status = 'green' # str |  (optional)
     entity_ids = ['adsewby312sdfd1'] # List[str] |  (optional)
     grouped = false # bool |  (optional)
     refresh = false # bool |  (optional)
+    rbac_tags = ['Testing'] # List[str] |  (optional)
 
     try:
         # Get All SLO Configs
-        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh)
+        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
         print("The response of ServiceLevelsObjectiveSLOConfigurationsApi->get_all_slo_configs:\n")
         pprint(api_response)
     except Exception as e:
@@ -317,12 +320,15 @@ Name | Type | Description  | Notes
  **query** | **str**|  | [optional] 
  **tag** | [**List[str]**](str.md)|  | [optional] 
  **entity_type** | [**List[str]**](str.md)|  | [optional] 
+ **infra_entity_types** | [**List[str]**](str.md)|  | [optional] 
+ **kubernetes_cluster_uuid** | **str**|  | [optional] 
  **blueprint** | [**List[str]**](str.md)|  | [optional] 
  **slo_ids** | [**List[str]**](str.md)|  | [optional] 
  **slo_status** | **str**|  | [optional] 
  **entity_ids** | [**List[str]**](str.md)|  | [optional] 
  **grouped** | **bool**|  | [optional] 
  **refresh** | **bool**|  | [optional] 
+ **rbac_tags** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 
