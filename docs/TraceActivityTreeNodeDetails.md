@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **logs** | [**List[SpanExcerpt]**](SpanExcerpt.md) | Information about the logs attached to the call, if available. | 
 **min_self_time** | **int** | The smallest self time in the batch. May be null to indicate that &#x60;minSelfTime&#x60; is unknown when this node has only an exit span and no children. The time measured is in milliseconds. | [optional] 
 **network_time** | **int** | The time difference between the Exit Span Time of the caller and the Entry Span Time of the call. This value is measured in milliseconds and may be null if network time is not applicable. | [optional] 
+**raw_span_load_error** | **str** | Whether an error occurred loading raw spans from external storage. | [optional] 
 **source** | [**SpanRelation**](SpanRelation.md) |  | [optional] 
 **spans** | [**List[SpanExcerpt]**](SpanExcerpt.md) | Information about the spans from which the call is composed. | 
 **start** | **int** | The timestamp when the call or request was initiated. For example, Unix epoch time in milliseconds &#x60;1735532879870&#x60; is &#x60;Monday, 30 December 2024 04:27:59.870 GMT&#x60; | [optional] 

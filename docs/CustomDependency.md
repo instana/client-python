@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **entity_type** | **str** | If entityType is set, the dependency will be added to the plugin for that entity type. Otherwise, the dependency will be applied to the custom entity itself. | [optional] 
 **identifiers** | **List[str]** | Will take the identifiers values for building the key of the dependency. | [optional] 
 **name** | **str** |  | [optional] 
+**separator** | **str** | Separator between identifiers for building the key of the dependency. | [optional] 
 **type** | **str** |  | [optional] 
 
 ## Example

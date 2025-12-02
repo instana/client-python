@@ -10,7 +10,6 @@ Method | HTTP request | Description
 [**create_group_mapping**](GroupsApi.md#create_group_mapping) | **POST** /api/settings/rbac/mappings | Create group mapping
 [**delete_group**](GroupsApi.md#delete_group) | **DELETE** /api/settings/rbac/groups/{id} | Delete group
 [**delete_group_mapping**](GroupsApi.md#delete_group_mapping) | **DELETE** /api/settings/rbac/mappings/{id} | Delete group mapping
-[**delete_group_mappings**](GroupsApi.md#delete_group_mappings) | **PUT** /api/settings/rbac/mappings/delete | Delete multiple group mappings
 [**delete_groups**](GroupsApi.md#delete_groups) | **PUT** /api/settings/rbac/groups/delete | Delete groups
 [**get_group**](GroupsApi.md#get_group) | **GET** /api/settings/rbac/groups/{id} | Get group
 [**get_group_mapping**](GroupsApi.md#get_group_mapping) | **GET** /api/settings/rbac/mappings/{id} | Get group mapping
@@ -423,7 +422,8 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**204** | No Content - Group successfully deleted |  -  |
+**412** | Pre-Condition Failed - Returned when attempting to delete protected system groups. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -501,84 +501,6 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | default response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **delete_group_mappings**
-> delete_group_mappings(body)
-
-Delete multiple group mappings
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-    body = ["firstid","secondid"] # str | 
-
-    try:
-        # Delete multiple group mappings
-        api_instance.delete_group_mappings(body)
-    except Exception as e:
-        print("Exception when calling GroupsApi->delete_group_mappings: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **str**|  | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: Not defined
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**204** | OK |  -  |
-**422** | invalid request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1367,6 +1289,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**404** | Not Found - Group with the specified ID does not exist |  -  |
+**412** | Pre-Condition Failed - Returned when attempting to modify protected groups in a forbidden way. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

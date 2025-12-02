@@ -8,14 +8,9 @@ Name | Type | Description | Notes
 **access_token** | **str** |  | [optional] 
 **created_at** | **datetime** |  | [optional] 
 **expires_at** | **datetime** |  | [optional] 
-**failed_refresh_attempts** | **int** |  | [optional] 
-**last_refresh_attempt** | **datetime** |  | [optional] 
-**milliseconds_until_refresh_needed** | **int** |  | [optional] 
 **refresh_token** | **str** |  | [optional] 
-**scope** | **str** |  | [optional] 
 **status** | **str** |  | [optional] 
 **token_type** | **str** |  | [optional] 
-**updated_at** | **datetime** |  | [optional] 
 **valid** | **bool** |  | [optional] 
 
 ## Example

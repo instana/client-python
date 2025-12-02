@@ -139,7 +139,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationMetricsApi(api_client)
     fill_time_series = True # bool | If enabled, fill the missing data points in the metric result with timestamp and value 0. (optional)
-    get_applications = {"metrics":[{"aggregation":"MEAN","metric":"latency"}],"order":{"by":"latency","direction":"DESC"},"pagination":{"page":1,"pageSize":1},"timeFrame":{"to":1646037122400,"windowSize":3600000}} # GetApplications |  (optional)
+    get_applications = {"metrics":[{"aggregation":"MEAN","metric":"latency"}],"order":{"by":"latency.mean","direction":"DESC"},"pagination":{"page":1,"pageSize":1},"timeFrame":{"to":1646037122400,"windowSize":3600000}} # GetApplications |  (optional)
 
     try:
         # Get Application Metrics

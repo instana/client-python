@@ -12,8 +12,8 @@ Name | Type | Description | Notes
 **last_updated** | **datetime** | Last updated date of SLO Correction Window Configuration | [optional] 
 **name** | **str** | Name of the SLO Correction Window Configuration | 
 **scheduling** | [**CorrectionScheduling**](CorrectionScheduling.md) |  | 
-**slo_ids** | **List[str]** | This is the list of SLO configurations related to this Correction Window. | 
-**tags** | **List[str]** | List of tags associated with SLO Correction Window Configuration | 
+**slo_ids** | **List[str]** | This is the list of SLO configurations related to this Correction Window. | [optional] 
+**tags** | **List[str]** | List of tags associated with SLO Correction Window Configuration | [optional] 
 
 ## Example
 
