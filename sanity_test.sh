@@ -75,8 +75,10 @@ REQUIRED_PACKAGES=("setuptools" "pydantic" "python-dateutil" "urllib3")
 for package in "${REQUIRED_PACKAGES[@]}"; do
     if ! python3 -c "import $package" 2>/dev/null; then
         print_warning "$package not found, installing..."
-        python3 -m pip install --break-system-packages "$package" >/dev/null 2>&1
-        if [ $? -eq 0 ]; then
+        # Try with --break-system-packages first (for Homebrew Python), fall back to regular install
+        if python3 -m pip install --break-system-packages "$package" >/dev/null 2>&1; then
+            print_success "$package installed successfully"
+        elif python3 -m pip install "$package" >/dev/null 2>&1; then
             print_success "$package installed successfully"
         else
             print_error "Failed to install $package"
