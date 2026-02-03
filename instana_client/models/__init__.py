@@ -13,7 +13,9 @@
 """  # noqa: E501
 
 
-if __import__("typing").TYPE_CHECKING:
+# Disable lazy loading to avoid dependency on lazy_imports package
+# Always use direct imports for better compatibility
+if True:  # Changed from: if __import__("typing").TYPE_CHECKING:
     # import models into model package
     from instana_client.models.abstract_integration import AbstractIntegration
     from instana_client.models.abstract_rule import AbstractRule
@@ -241,8 +243,8 @@ if __import__("typing").TYPE_CHECKING:
     from instana_client.models.kubernetes_physical_context import KubernetesPhysicalContext
     from instana_client.models.llm_egress_gateway import LLMEgressGateway
     from instana_client.models.latency_blueprint_indicator import LatencyBlueprintIndicator
-    from instana_client.models.llm_model_price import LlmModelPrice
-    from instana_client.models.llm_model_price_metadata import LlmModelPriceMetadata
+    # from instana_client.models.llm_model_price import LlmModelPrice
+    # from instana_client.models.llm_model_price_metadata import LlmModelPriceMetadata
     from instana_client.models.location_status import LocationStatus
     from instana_client.models.log_alert_config import LogAlertConfig
     from instana_client.models.log_alert_config_with_metadata import LogAlertConfigWithMetadata
