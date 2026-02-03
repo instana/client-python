@@ -1,6 +1,6 @@
 [project]
 name = "instana_client"
-version = "1.0.2"
+version = "1.0.3"
 description = "Instana REST API documentation"
 authors = [
   {name = "© Instana",email = "support@instana.com"},
