@@ -116,7 +116,10 @@ fi
 
 # Test 3: Install package
 print_status "Testing package installation..."
-if python3 setup.py install --user >/dev/null 2>&1; then
+# Use pip install instead of setup.py install (modern approach)
+if python3 -m pip install --break-system-packages -e . >/dev/null 2>&1; then
+    print_success "Package installs successfully"
+elif python3 -m pip install -e . >/dev/null 2>&1; then
     print_success "Package installs successfully"
 else
     print_error "Package installation failed"
@@ -132,10 +135,12 @@ echo "------------------------------------------------------"
 
 # Test 4: Basic import
 print_status "Testing basic package import..."
-if python3 -c "import instana_client; print('Basic import: SUCCESS')" 2>/dev/null; then
+if python3 -c "import instana_client; print('Basic import: SUCCESS')" 2>&1; then
     print_success "Basic package import works"
 else
     print_error "Basic package import failed"
+    print_error "Attempting to show import error details..."
+    python3 -c "import instana_client" 2>&1 || true
     exit 1
 fi
 
