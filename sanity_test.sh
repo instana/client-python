@@ -75,8 +75,10 @@ REQUIRED_PACKAGES=("setuptools" "pydantic" "python-dateutil" "urllib3")
 for package in "${REQUIRED_PACKAGES[@]}"; do
     if ! python3 -c "import $package" 2>/dev/null; then
         print_warning "$package not found, installing..."
-        python3 -m pip install --break-system-packages "$package" >/dev/null 2>&1
-        if [ $? -eq 0 ]; then
+        # Try with --break-system-packages first (for Homebrew Python), fall back to regular install
+        if python3 -m pip install --break-system-packages "$package" >/dev/null 2>&1; then
+            print_success "$package installed successfully"
+        elif python3 -m pip install "$package" >/dev/null 2>&1; then
             print_success "$package installed successfully"
         else
             print_error "Failed to install $package"
@@ -114,7 +116,10 @@ fi
 
 # Test 3: Install package
 print_status "Testing package installation..."
-if python3 setup.py install --user >/dev/null 2>&1; then
+# Use pip install instead of setup.py install (modern approach)
+if python3 -m pip install --break-system-packages -e . >/dev/null 2>&1; then
+    print_success "Package installs successfully"
+elif python3 -m pip install -e . >/dev/null 2>&1; then
     print_success "Package installs successfully"
 else
     print_error "Package installation failed"
@@ -130,10 +135,12 @@ echo "------------------------------------------------------"
 
 # Test 4: Basic import
 print_status "Testing basic package import..."
-if python3 -c "import instana_client; print('Basic import: SUCCESS')" 2>/dev/null; then
+if python3 -c "import instana_client; print('Basic import: SUCCESS')" 2>&1; then
     print_success "Basic package import works"
 else
     print_error "Basic package import failed"
+    print_error "Attempting to show import error details..."
+    python3 -c "import instana_client" 2>&1 || true
     exit 1
 fi
 
