@@ -32,6 +32,7 @@ from instana_client.api.infrastructure_catalog_api import InfrastructureCatalogA
 from instana_client.api.infrastructure_metrics_api import InfrastructureMetricsApi
 from instana_client.api.infrastructure_resources_api import InfrastructureResourcesApi
 from instana_client.api.infrastructure_topology_api import InfrastructureTopologyApi
+from instana_client.api.llm_price_configuration_api import LLMPriceConfigurationApi
 from instana_client.api.log_alert_configuration_api import LogAlertConfigurationApi
 from instana_client.api.logging_analyze_api import LoggingAnalyzeApi
 from instana_client.api.maintenance_configuration_api import MaintenanceConfigurationApi
@@ -44,10 +45,10 @@ from instana_client.api.releases_api import ReleasesApi
 from instana_client.api.roles_api import RolesApi
 from instana_client.api.sli_report_api import SLIReportApi
 from instana_client.api.sli_settings_api import SLISettingsApi
+from instana_client.api.slo_configurations_api import SLOConfigurationsApi
 from instana_client.api.slo_correction_configurations_api import SLOCorrectionConfigurationsApi
 from instana_client.api.slo_correction_windows_api import SLOCorrectionWindowsApi
 from instana_client.api.service_levels_alert_configuration_api import ServiceLevelsAlertConfigurationApi
-from instana_client.api.service_levels_objective_slo_configurations_api import ServiceLevelsObjectiveSLOConfigurationsApi
 from instana_client.api.service_levels_objective_slo_report_api import ServiceLevelsObjectiveSLOReportApi
 from instana_client.api.session_settings_api import SessionSettingsApi
 from instana_client.api.synthetic_alert_configuration_api import SyntheticAlertConfigurationApi
@@ -63,4 +64,5 @@ from instana_client.api.website_analyze_api import WebsiteAnalyzeApi
 from instana_client.api.website_catalog_api import WebsiteCatalogApi
 from instana_client.api.website_configuration_api import WebsiteConfigurationApi
 from instana_client.api.website_metrics_api import WebsiteMetricsApi
+from instana_client.api.default_api import DefaultApi
 

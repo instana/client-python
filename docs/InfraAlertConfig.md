@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **group_by** | **List[str]** | The grouping tags used to group the metric results. | 
 **name** | **str** | Name of the Infrastructure Smart Alert. Used as a template for the title of alert/event notifications triggered by this Smart Alert configuration. | 
 **rule** | [**InfraAlertRule**](InfraAlertRule.md) |  | [optional] 
+**rule_logical_operator** | **str** | Set AND / OR | [optional] 
 **rules** | [**List[RuleWithThresholdInfraAlertRule]**](RuleWithThresholdInfraAlertRule.md) | A list of rules where each rule is associated with multiple thresholds and their corresponding severity levels. This enables more complex alert configurations with validations to ensure consistent and logical threshold-severity combinations. | [optional] 
 **severity** | **int** | The severity of the alert when triggered, which is either 5 (Warning), or 10 (Critical). | [optional] 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 

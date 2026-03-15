@@ -106,7 +106,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -213,7 +213,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -294,7 +294,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -377,7 +377,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **201** | Successful - resource created |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -461,7 +461,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -541,7 +541,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -700,7 +700,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -783,7 +783,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -863,7 +863,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -942,7 +942,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1026,7 +1026,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1106,7 +1106,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1360,7 +1360,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1444,7 +1444,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1532,7 +1532,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1627,7 +1627,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1710,7 +1710,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1794,7 +1794,7 @@ void (empty response body)
 **200** | OK |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1877,7 +1877,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **201** | Successful - resource created |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1961,7 +1961,7 @@ void (empty response body)
 **200** | OK |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

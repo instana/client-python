@@ -6,25 +6,20 @@ Custom handler definition.
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ai_model** | **str** |  | [optional] 
-**configurations** | **object** |  | [optional] 
-**created_at** | **str** |  | 
+**capabilities** | [**List[LLMGatewayCapability]**](LLMGatewayCapability.md) |  | 
+**created_at** | **str** |  | [optional] 
 **description** | **str** |  | [optional] 
 **enabled** | **bool** |  | [optional] 
-**endpoint_api_key** | **str** |  | [optional] 
-**endpoint_url** | **str** |  | [optional] 
 **id** | **str** |  | 
 **instana_agents** | **object** |  | [optional] 
 **metadata** | **object** |  | [optional] 
-**modified_at** | **str** |  | 
+**model** | [**LLMGatewayModel**](LLMGatewayModel.md) |  | 
+**modified_at** | **str** |  | [optional] 
 **name** | **str** |  | 
-**prompt** | **str** |  | 
-**supports** | **object** |  | 
+**prompt** | **str** |  | [optional] 
+**service** | [**LLMGatewayService**](LLMGatewayService.md) |  | 
 **system** | **bool** |  | [optional] 
 **tenant_unit_id** | **str** |  | 
-**watsonx_key** | **str** |  | [optional] 
-**watsonx_project** | **str** |  | [optional] 
-**watsonx_url** | **str** |  | [optional] 
 
 ## Example
 

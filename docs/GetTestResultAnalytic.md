@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**analytic_function** | **str** |  | 
+**analytic_function** | **str** |  | [optional] 
 **include_location_id_grouping** | **bool** |  | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
 **pagination** | [**Pagination**](Pagination.md) |  | [optional] 

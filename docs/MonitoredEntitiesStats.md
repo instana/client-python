@@ -7,6 +7,7 @@ Statistics of monitored entities.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **host_count** | **int** |  | [optional] 
+**otel_collector_count** | **int** |  | [optional] 
 **otel_count** | **int** |  | [optional] 
 **serverless_count** | **int** |  | [optional] 
 

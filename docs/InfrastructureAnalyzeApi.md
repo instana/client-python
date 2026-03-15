@@ -212,7 +212,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.InfrastructureAnalyzeApi(api_client)
-    get_infrastructure_query = {"tagFilterExpression":{"type":"TAG_FILTER","entity":"NOT_APPLICABLE","name":"label","operator":"EQUALS","value":"custom-metrics.jar"},"timeFrame":{"to":1673969562715,"windowSize":3600000},"pagination":{"retrievalSize":200},"type":"jvmRuntimePlatform","metrics":[{"metric":"memory.used","granularity":3600000,"aggregation":"MAX"},{"metric":"memory.used","granularity":600000,"aggregation":"MAX"},{"metric":"threads.blocked","granularity":3600000,"aggregation":"MEAN"},{"metric":"threads.blocked","granularity":600000,"aggregation":"MEAN"}]} # GetInfrastructureQuery |  (optional)
+    get_infrastructure_query = {"timeFrame":{"to":1764687385227,"windowSize":3600000},"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"pagination":{"retrievalSize":20},"type":"host","metrics":[{"metric":"cpu.used","aggregation":"MEAN"},{"metric":"memory.used","aggregation":"MEAN"}],"order":{"by":"label","direction":"ASC"}} # GetInfrastructureQuery |  (optional)
 
     try:
         # Get infrastructure entities

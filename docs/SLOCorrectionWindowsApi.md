@@ -91,7 +91,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Fetched SLO Correction Windows Successfully |  -  |
-**404** | There is no SLO Correction Window |  -  |
+**404** | No SLO Correction Windows found for the given parameters in this time range |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

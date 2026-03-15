@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **created_at** | **datetime** |  | [optional] 
 **description** | **str** |  | [optional] 
-**id** | **str** |  | 
+**id** | **str** |  | [optional] 
 **metadata** | [**List[SourceMapFileMeta]**](SourceMapFileMeta.md) |  | 
 **modified_at** | **datetime** |  | [optional] 
 

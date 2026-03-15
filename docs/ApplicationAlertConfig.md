@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **boundary_scope** | **str** | Determines the source of the application alert configuration. An &#x60;INBOUND&#x60; scope refers to consumer-made calls. An &#x60;ALL&#x60; scope refers to both consumer and internally made calls. | 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | 
 **description** | **str** | Description of the application alert configuration. Used as a template for the description of alert/event notifications triggered by this Smart Alert configuration. | 
+**enabled** | **bool** | Flag to indicate whether or not the configuration is enabled. | [optional] 
 **evaluation_type** | **str** | Determines whether calls of the aggregated metrics are grouped by the application, the service, or the endpoint. This also determines whether the resulting events are categorized as an issue on the respective entity of that group. | 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 
 **granularity** | **int** | The evaluation granularity used for detection of violations of the defined threshold. Defines the size of the tumbling window used. | [default to 600000]

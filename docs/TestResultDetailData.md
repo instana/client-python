@@ -6,14 +6,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **har** | **Dict[str, object]** |  | [optional] 
-**image_files** | **Dict[str, List[bytearray]]** |  | [optional] 
+**image_files** | **Dict[str, bytearray]** |  | [optional] 
 **log_files** | **Dict[str, str]** |  | [optional] 
 **logs** | **str** |  | [optional] 
 **subtransaction_avg_metrics** | **Dict[str, object]** |  | [optional] 
 **subtransactions** | [**List[TestResultSubtransaction]**](TestResultSubtransaction.md) |  | [optional] 
 **test_id** | **str** |  | [optional] 
 **test_result_id** | **str** |  | [optional] 
-**videos** | **List[bytearray]** |  | [optional] 
+**videos** | **bytearray** |  | [optional] 
 
 ## Example
 

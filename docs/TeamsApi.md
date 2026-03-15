@@ -323,7 +323,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_team**
-> update_team(id, api_team=api_team)
+> update_team(id, api_team)
 
 Update team
 
@@ -361,11 +361,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.TeamsApi(api_client)
     id = 'teamId' # str | Id of the team to update
-    api_team = instana_client.ApiTeam() # ApiTeam |  (optional)
+    api_team = {"id":"teamId","tag":"teamTag","info":{"description":"description for the team"},"scope":{"accessPermissions":["LIMITED_APPLICATIONS_SCOPE"],"actionFilter":"","applications":["applicationId1","applicationId2"],"restrictedApplicationFilter":{"restrictingApplicationId":"applicationId3","label":"demo","tagFilterExpression":{"type":"TAG_FILTER","name":"service.name","operator":"EQUALS","entity":"DESTINATION","value":"butler"},"scope":"INCLUDE_NO_DOWNSTREAM"}},"members":[{"userId":"userId","email":"username@example.com","name":"userName","roles":[{"roleId":"-3","roleName":"Default","viaIdP":false}]}],"entities":[]} # ApiTeam | 
 
     try:
         # Update team
-        api_instance.update_team(id, api_team=api_team)
+        api_instance.update_team(id, api_team)
     except Exception as e:
         print("Exception when calling TeamsApi->update_team: %s\n" % e)
 ```
@@ -378,7 +378,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| Id of the team to update | 
- **api_team** | [**ApiTeam**](ApiTeam.md)|  | [optional] 
+ **api_team** | [**ApiTeam**](ApiTeam.md)|  | 
 
 ### Return type
 
@@ -398,6 +398,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Team updated successfully |  -  |
+**400** | Bad Request |  -  |
 **404** | Team not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -7,7 +7,7 @@ Scheduling information for a scheduled policy.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **recurrent_rule** | **str** | Recurrent Rule defines how the policy recurs, using iCalendar RRULE format (e.g., &#x60;FREQ&#x3D;DAILY;INTERVAL&#x3D;1&#x60;).It supports fields like FREQ, INTERVAL, BYDAY. Refer to RFC 5545: https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10 | [optional] 
-**start_time** | **datetime** | The time to run the policy action in milliseconds since epoch (UTC) (e.g., &#x60;1706713140000&#x60;). | 
+**start_time** | **datetime** | The time to run the policy action in milliseconds since epoch (UTC) (e.g., &#x60;1706713140000&#x60;). | [optional] 
 
 ## Example
 

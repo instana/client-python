@@ -4,13 +4,13 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_llm_egress_gateway**](AIManagementApi.md#add_llm_egress_gateway) | **POST** /api/llm/egress/handler | Create a new LLM gateway
-[**delete_llm_egress_gateway**](AIManagementApi.md#delete_llm_egress_gateway) | **DELETE** /api/llm/egress/handler/{id} | Delete a LLM egress gateway
-[**enable_llm_egress_gateway**](AIManagementApi.md#enable_llm_egress_gateway) | **PUT** /api/llm/egress/handler/{id}/enable | Set the enabled status of a LLM gateway
+[**add_llm_egress_gateway**](AIManagementApi.md#add_llm_egress_gateway) | **POST** /api/llm/gateways | Create a new LLM gateway
+[**delete_llm_egress_gateway**](AIManagementApi.md#delete_llm_egress_gateway) | **DELETE** /api/llm/gateways/{id} | Delete a LLM egress gateway
+[**enable_llm_egress_gateway**](AIManagementApi.md#enable_llm_egress_gateway) | **PUT** /api/llm/gateways/{id}/enable | Set the enabled status of a LLM gateway
 [**get_llm_capabilities**](AIManagementApi.md#get_llm_capabilities) | **GET** /api/llm/capabilities | Get all LLM capabilities
-[**get_llm_egress_gateway_by_id**](AIManagementApi.md#get_llm_egress_gateway_by_id) | **GET** /api/llm/egress/handler/{id} | Get a LLM gateway by ID
-[**get_llm_egress_gateways**](AIManagementApi.md#get_llm_egress_gateways) | **GET** /api/llm/egress/handler | Get all LLM gateways
-[**update_llm_egress_gateway**](AIManagementApi.md#update_llm_egress_gateway) | **PUT** /api/llm/egress/handler/{id} | Update an existing LLM gateway.
+[**get_llm_egress_gateway_by_id**](AIManagementApi.md#get_llm_egress_gateway_by_id) | **GET** /api/llm/gateways/{id} | Get a LLM gateway by ID
+[**get_llm_egress_gateways**](AIManagementApi.md#get_llm_egress_gateways) | **GET** /api/llm/gateways | Get all LLM gateways
+[**update_llm_egress_gateway**](AIManagementApi.md#update_llm_egress_gateway) | **PUT** /api/llm/gateways/{id} | Update an existing LLM gateway.
 
 
 # **add_llm_egress_gateway**
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -169,7 +169,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -249,7 +249,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -408,7 +408,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -493,7 +493,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -578,7 +578,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 

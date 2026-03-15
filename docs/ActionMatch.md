@@ -6,10 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **action** | [**Action**](Action.md) |  | [optional] 
-**ai_engine** | **str** |  | 
-**confidence** | **str** |  | 
+**ai_engine** | **str** |  | [optional] 
+**confidence** | **str** |  | [optional] 
 **policy** | [**Policy**](Policy.md) |  | [optional] 
-**score** | **float** |  | 
+**score** | **float** |  | [optional] 
 
 ## Example
 

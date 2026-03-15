@@ -252,7 +252,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Automation policy successfully deleted |  -  |
 **403** | Insufficient permissions. |  -  |
-**412** | Automation policy does not exist |  -  |
+**404** | Automation policy not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -503,6 +503,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Automation policy successfully updated. |  -  |
 **403** | Insufficient permissions. |  -  |
+**404** | Automation policy not found. |  -  |
 **412** | Invalid input value. |  -  |
 **500** | Server Error. |  -  |
 

@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**has_entities** | **bool** | Has entities | [optional] 
+**has_entities** | **bool** | Has entities | 
 **host_count** | **int** | Count of hosts | [optional] 
-**monitored_entities_stats** | [**MonitoredEntitiesStats**](MonitoredEntitiesStats.md) |  | [optional] 
+**monitored_entities_stats** | [**MonitoredEntitiesStats**](MonitoredEntitiesStats.md) |  | 
+**open_telemetry_collector_count** | **int** | Count of open telemetry collectors | [optional] 
 **open_telemetry_count** | **int** | Count of open telemetry | [optional] 
 **serverless_count** | **int** | Count of serverless | [optional] 
 

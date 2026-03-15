@@ -43,7 +43,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsObjectiveSLOReportApi(api_client)
-    slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | Service Levels Objective(SLO) Configuration ID
+    slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | SLO Configuration ID
     var_from = '1706713140000' # str | Starting point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds (optional)
     to = '1706813100000' # str | Ending point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds (optional)
     exclude_correction_id = ['N1Xj6q8QTZu_cfJOGqy4mg'] # List[str] | IDs of Correction Configurations to be Excluded from the result (optional)
@@ -65,7 +65,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **slo_id** | **str**| Service Levels Objective(SLO) Configuration ID | 
+ **slo_id** | **str**| SLO Configuration ID | 
  **var_from** | **str**| Starting point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds | [optional] 
  **to** | **str**| Ending point for the data retrieval, specified as 13 digit Unix Timestamp milliseconds | [optional] 
  **exclude_correction_id** | [**List[str]**](str.md)| IDs of Correction Configurations to be Excluded from the result | [optional] 

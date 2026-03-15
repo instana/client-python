@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_infra_alert_configs**](InfrastructureAlertConfigurationApi.md#bulk_delete_infra_alert_configs) | **PUT** /api/events/settings/infra-alert-configs/bulk/delete | Bulk Delete Infra Smart Alert Configs
+[**bulk_disable_infra_alert_configs**](InfrastructureAlertConfigurationApi.md#bulk_disable_infra_alert_configs) | **PUT** /api/events/settings/infra-alert-configs/bulk/disable | Bulk Disable Infra Smart Alert Configs
+[**bulk_enable_infra_alert_configs**](InfrastructureAlertConfigurationApi.md#bulk_enable_infra_alert_configs) | **PUT** /api/events/settings/infra-alert-configs/bulk/enable | Bulk Enable Infra Smart Alert Configs
 [**create_infra_alert_config**](InfrastructureAlertConfigurationApi.md#create_infra_alert_config) | **POST** /api/events/settings/infra-alert-configs | Create Infra Alert Config
 [**delete_infra_alert_config**](InfrastructureAlertConfigurationApi.md#delete_infra_alert_config) | **DELETE** /api/events/settings/infra-alert-configs/{id} | Delete Infra Alert Config
 [**disable_infra_alert_config**](InfrastructureAlertConfigurationApi.md#disable_infra_alert_config) | **PUT** /api/events/settings/infra-alert-configs/{id}/disable | Disable Infra Alert Config
@@ -14,6 +17,240 @@ Method | HTTP request | Description
 [**restore_infra_alert_config**](InfrastructureAlertConfigurationApi.md#restore_infra_alert_config) | **PUT** /api/events/settings/infra-alert-configs/{id}/restore/{created} | Restore Infra Alert Config
 [**update_infra_alert_config**](InfrastructureAlertConfigurationApi.md#update_infra_alert_config) | **POST** /api/events/settings/infra-alert-configs/{id} | Update Infra Alert Config
 
+
+# **bulk_delete_infra_alert_configs**
+> bulk_delete_infra_alert_configs(request_body)
+
+Bulk Delete Infra Smart Alert Configs
+
+Delete multiple Infra Smart Alert configurations in a single operation. Only configs that are not already deleted will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.InfrastructureAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Delete Infra Smart Alert Configs
+        api_instance.bulk_delete_infra_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling InfrastructureAlertConfigurationApi->bulk_delete_infra_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_infra_alert_configs**
+> bulk_disable_infra_alert_configs(request_body)
+
+Bulk Disable Infra Smart Alert Configs
+
+Disable multiple Infra Smart Alert configurations in a single operation. Only configs that are currently enabled will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.InfrastructureAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Disable Infra Smart Alert Configs
+        api_instance.bulk_disable_infra_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling InfrastructureAlertConfigurationApi->bulk_disable_infra_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_infra_alert_configs**
+> bulk_enable_infra_alert_configs(request_body)
+
+Bulk Enable Infra Smart Alert Configs
+
+Enable multiple Infra Smart Alert configurations in a single operation. Only configs that are currently disabled will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.InfrastructureAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Enable Infra Smart Alert Configs
+        api_instance.bulk_enable_infra_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling InfrastructureAlertConfigurationApi->bulk_enable_infra_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_infra_alert_config**
 > InfraAlertConfigWithMetadata create_infra_alert_config(infra_alert_config)
@@ -90,7 +327,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -165,7 +403,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -243,7 +481,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -321,7 +559,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -364,7 +602,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.InfrastructureAlertConfigurationApi(api_client)
-    alert_ids = ['[4kxgJAXdSDiu6swQaKXrJw, ZLo28grvQaiMqIaikJK1RQ]'] # List[str] | List of IDs of Infra Smart Alert configurations (optional)
+    alert_ids = ['[\"4kxgJAXdSDiu6swQaKXrJw\",\"ZLo28grvQaiMqIaikJK1RQ\"]'] # List[str] | List of IDs of Infra Smart Alert configurations (optional)
 
     try:
         # All Infra Alert Configs
@@ -642,7 +880,7 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -725,7 +963,9 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **204** | Infra Smart Alert did not change |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

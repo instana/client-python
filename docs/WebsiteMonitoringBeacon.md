@@ -68,16 +68,16 @@ Name | Type | Description | Notes
 **label** | **str** |  | [optional] 
 **largest_contentful_paint_time** | **int** |  | [optional] 
 **latitude** | **float** |  | [optional] 
-**location_origin** | **str** |  | 
+**location_origin** | **str** |  | [optional] 
 **location_path** | **str** |  | [optional] 
-**location_url** | **str** |  | 
+**location_url** | **str** |  | [optional] 
 **longitude** | **float** |  | [optional] 
 **meta** | **Dict[str, str]** |  | [optional] 
 **on_load_time** | **int** |  | [optional] 
 **os_name** | **str** |  | [optional] 
 **os_version** | **str** |  | [optional] 
 **page** | **str** |  | [optional] 
-**page_load_id** | **str** |  | 
+**page_load_id** | **str** |  | [optional] 
 **parent_beacon_id** | **str** |  | [optional] 
 **parsed_stack_trace** | [**List[JsStackTraceLine]**](JsStackTraceLine.md) |  | [optional] 
 **phase** | **str** |  | [optional] 

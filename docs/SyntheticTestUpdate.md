@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **locations** | [**SyntheticResourceUpdateListStringListString**](SyntheticResourceUpdateListStringListString.md) |  | [optional] 
 **mobile_apps** | [**SyntheticResourceUpdateListStringListString**](SyntheticResourceUpdateListStringListString.md) |  | [optional] 
 **modified_by** | **str** |  | [optional] 
+**rbac_tags** | [**SyntheticResourceUpdateListStringListString**](SyntheticResourceUpdateListStringListString.md) |  | [optional] 
 **shallow_update** | **bool** |  | [optional] 
 **synthetic_update_type** | **str** | Indicates the type of update to apply to a set of tests of same syntheticType (Deep) or a mix of syntheticType values (Shallow). When Shallow is used, only the configuration properties retries, retryInterval and timeout can be updated  | 
 **test_frequency** | **int** |  | [optional] 

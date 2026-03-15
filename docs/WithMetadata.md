@@ -1,4 +1,4 @@
-# WithMetadata
+# WithMetaData
 
 
 ## Properties
@@ -30,19 +30,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from instana_client.models.with_metadata import WithMetadata
+from instana_client.models.with_meta_data import WithMetaData
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of WithMetadata from a JSON string
-with_metadata_instance = WithMetadata.from_json(json)
+# create an instance of WithMetaData from a JSON string
+with_meta_data_instance = WithMetaData.from_json(json)
 # print the JSON string representation of the object
-print(WithMetadata.to_json())
+print(WithMetaData.to_json())
 
 # convert the object into a dict
-with_metadata_dict = with_metadata_instance.to_dict()
-# create an instance of WithMetadata from a dict
-with_metadata_from_dict = WithMetadata.from_dict(with_metadata_dict)
+with_meta_data_dict = with_meta_data_instance.to_dict()
+# create an instance of WithMetaData from a dict
+with_meta_data_from_dict = WithMetaData.from_dict(with_meta_data_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
