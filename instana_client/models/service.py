@@ -31,7 +31,7 @@ class Service(BaseModel):
     id: StrictStr = Field(description="Unique ID of the Service. Eg: `3feb3dcd206c166ef2b41c707e0cd38d7cd325aa`.")
     label: StrictStr = Field(description="Name of the Service. Eg: `payment`.")
     snapshot_ids: List[StrictStr] = Field(description="A unique identifier the metrics are assigned to.", alias="snapshotIds")
-    technologies: List[StrictStr] = Field(description="List of technologies: `Eg:[\"springbootApplicationContainer\"]`")
+    technologies: Optional[List[StrictStr]] = Field(default=None, description="List of technologies: `Eg:[\"springbootApplicationContainer\"]`")
     types: List[StrictStr] = Field(description="Shows types of Endpoints a Service can consist of. It may be one or more. Eg: `HTTP` `OPENTELEMETRY` can be in 1 Service.")
     __properties: ClassVar[List[str]] = ["entityType", "id", "label", "snapshotIds", "technologies", "types"]
 
@@ -112,5 +112,3 @@ class Service(BaseModel):
             "types": obj.get("types")
         })
         return _obj
-
-
