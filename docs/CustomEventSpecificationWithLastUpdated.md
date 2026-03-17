@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **entity_type** | **str** |  | 
 **expiration_time** | **int** |  | [optional] 
 **id** | **str** |  | 
+**infra_alert_config_id** | **str** |  | [optional] 
 **last_updated** | **int** |  | [optional] 
 **migrated** | **bool** |  | [optional] 
 **name** | **str** |  | 

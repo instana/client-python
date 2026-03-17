@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **left** | [**ArithmeticOperand**](ArithmeticOperand.md) |  | 
-**operator** | **str** |  | 
+**operator** | **str** |  | [optional] 
 **right** | [**ArithmeticOperand**](ArithmeticOperand.md) |  | 
 
 ## Example

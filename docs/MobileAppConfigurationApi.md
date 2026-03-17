@@ -101,7 +101,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Sourcemap files in the sourcemap configuration successfully cleared |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -190,7 +190,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Successfully committed sourcemap file upload. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -269,7 +269,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Mobile app successfully removed |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -350,7 +350,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Sourcemap configuration successfully deleted or sourcemap not found |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -509,7 +509,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -589,7 +589,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -672,7 +672,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1005,7 +1005,7 @@ Name | Type | Description  | Notes
 **200** | Mobile App successfully configured |  -  |
 **400** | Missing name query parameter or name already used for a configured mobile app. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1091,7 +1091,7 @@ Name | Type | Description  | Notes
 **200** | Mobile App sourcemap configuration added successfully |  -  |
 **400** | Missing description or description already used for a configuration. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **422** | Unprocessable request - missing/invalid data. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1177,7 +1177,7 @@ Name | Type | Description  | Notes
 **200** | Mobile app successfully renamed |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1258,7 +1258,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **415** | Unsupported Media Type. |  -  |
 **500** | Internal server error. |  -  |
@@ -1344,7 +1344,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1429,7 +1429,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 
@@ -1515,7 +1515,7 @@ Name | Type | Description  | Notes
 **200** | Mobile App successfully configured |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1610,7 +1610,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 **500** | Internal server error. |  -  |
 

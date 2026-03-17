@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**entity_type** | **str** |  | 
 **metric_group_by** | **List[str]** |  | 
 
 ## Example

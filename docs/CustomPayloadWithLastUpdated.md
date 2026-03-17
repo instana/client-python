@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Required parameters for custom payload configuration. | 
-**last_updated** | **int** | Unix timestamp representing the time (in milliseconds) the configuration was last updated. | [optional] 
+**last_updated** | **int** | Unix timestamp representing the time (in milliseconds) the configuration was last updated. | [optional] [readonly] 
 
 ## Example
 

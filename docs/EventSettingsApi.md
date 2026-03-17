@@ -4,6 +4,12 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_mobile_app_alert_configs**](EventSettingsApi.md#bulk_delete_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/delete | Bulk delete Mobile Smart Alert Configs
+[**bulk_delete_website_alert_configs**](EventSettingsApi.md#bulk_delete_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/delete | Bulk Delete Website Smart Alert Configs
+[**bulk_disable_mobile_app_alert_configs**](EventSettingsApi.md#bulk_disable_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/disable | Bulk disable Mobile Smart Alert Configs
+[**bulk_disable_website_alert_configs**](EventSettingsApi.md#bulk_disable_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/disable | Bulk Disable Website Smart Alert Configs
+[**bulk_enable_mobile_app_alert_configs**](EventSettingsApi.md#bulk_enable_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/enable | Bulk enable Mobile Smart Alert Configs
+[**bulk_enable_website_alert_configs**](EventSettingsApi.md#bulk_enable_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/enable | Bulk Enable Website Smart Alert Configs
 [**create_mobile_app_alert_config**](EventSettingsApi.md#create_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs | Create Mobile Smart Alert Config
 [**create_website_alert_config**](EventSettingsApi.md#create_website_alert_config) | **POST** /api/events/settings/website-alert-configs | Create Website Smart Alert Config
 [**delete_alert**](EventSettingsApi.md#delete_alert) | **DELETE** /api/events/settings/alerts/{id} | Delete Alert Configuration
@@ -35,6 +41,7 @@ Method | HTTP request | Description
 [**get_alerts**](EventSettingsApi.md#get_alerts) | **GET** /api/events/settings/alerts | Get all Alert Configurations
 [**get_built_in_event_specification**](EventSettingsApi.md#get_built_in_event_specification) | **GET** /api/events/settings/event-specifications/built-in/{eventSpecificationId} | Built-in event specifications
 [**get_built_in_event_specifications**](EventSettingsApi.md#get_built_in_event_specifications) | **GET** /api/events/settings/event-specifications/built-in | All built-in event specification
+[**get_current_prefix**](EventSettingsApi.md#get_current_prefix) | **GET** /api/events/settings/shortcode/current-prefix | Get current shortcode prefix.
 [**get_custom_event_specification**](EventSettingsApi.md#get_custom_event_specification) | **GET** /api/events/settings/event-specifications/custom/{eventSpecificationId} | Custom event specification
 [**get_custom_event_specifications**](EventSettingsApi.md#get_custom_event_specifications) | **GET** /api/events/settings/event-specifications/custom | All custom event specifications
 [**get_custom_payload_configurations**](EventSettingsApi.md#get_custom_payload_configurations) | **GET** /api/events/settings/custom-payload-configurations | Get All Global Custom Payload Configurations
@@ -55,14 +62,483 @@ Method | HTTP request | Description
 [**send_test_alerting_by_id**](EventSettingsApi.md#send_test_alerting_by_id) | **POST** /api/events/settings/alertingChannels/notify/{id} | Notify manually to Alerting Channel. Requires the permission called CanConfigureIntegrations.
 [**update_mobile_app_alert_config**](EventSettingsApi.md#update_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs/{id} | Update Mobile Smart Alert Config
 [**update_mobile_app_historic_baseline**](EventSettingsApi.md#update_mobile_app_historic_baseline) | **POST** /api/events/settings/mobile-app-alert-configs/{id}/update-baseline | Recalculate Mobile Smart Alert Config Baseline
+[**update_prefix**](EventSettingsApi.md#update_prefix) | **PUT** /api/events/settings/shortcode/current-prefix | Update shortcode prefix.
 [**update_website_alert_config**](EventSettingsApi.md#update_website_alert_config) | **POST** /api/events/settings/website-alert-configs/{id} | Update Website Smart Alert Config
 [**update_website_historic_baseline**](EventSettingsApi.md#update_website_historic_baseline) | **POST** /api/events/settings/website-alert-configs/{id}/update-baseline | Recalculate Website Smart Alert Config Baseline
 [**upsert_custom_payload_configuration**](EventSettingsApi.md#upsert_custom_payload_configuration) | **PUT** /api/events/settings/custom-payload-configurations | Create/Update Global Custom Payload Configuration
 [**upsert_custom_payload_configuration_v2**](EventSettingsApi.md#upsert_custom_payload_configuration_v2) | **PUT** /api/events/settings/custom-payload-configurations/v2 | Create/Update Global Custom Payload Configuration
 
 
+# **bulk_delete_mobile_app_alert_configs**
+> bulk_delete_mobile_app_alert_configs(request_body)
+
+Bulk delete Mobile Smart Alert Configs
+
+Deletes multiple Mobile Smart Alert Configurations in a single request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk delete Mobile Smart Alert Configs
+        api_instance.bulk_delete_mobile_app_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_delete_mobile_app_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_delete_website_alert_configs**
+> bulk_delete_website_alert_configs(body)
+
+Bulk Delete Website Smart Alert Configs
+
+Deletes multiple website alert configurations. Creates new revisions for all specified alerts with deleted=true. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Delete Website Smart Alert Configs
+        api_instance.bulk_delete_website_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_delete_website_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_mobile_app_alert_configs**
+> bulk_disable_mobile_app_alert_configs(request_body)
+
+Bulk disable Mobile Smart Alert Configs
+
+Disables multiple Mobile Smart Alert Configurations in a single request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk disable Mobile Smart Alert Configs
+        api_instance.bulk_disable_mobile_app_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_disable_mobile_app_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_website_alert_configs**
+> bulk_disable_website_alert_configs(body)
+
+Bulk Disable Website Smart Alert Configs
+
+Disables multiple website alert configurations. Creates new revisions for all specified alerts with enabled=false. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Disable Website Smart Alert Configs
+        api_instance.bulk_disable_website_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_disable_website_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_mobile_app_alert_configs**
+> bulk_enable_mobile_app_alert_configs(request_body)
+
+Bulk enable Mobile Smart Alert Configs
+
+Enables multiple Mobile Smart Alert Configurations in a single request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk enable Mobile Smart Alert Configs
+        api_instance.bulk_enable_mobile_app_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_enable_mobile_app_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_website_alert_configs**
+> bulk_enable_website_alert_configs(body)
+
+Bulk Enable Website Smart Alert Configs
+
+Enables multiple website alert configurations. Creates new revisions for all specified alerts with enabled=true. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Enable Website Smart Alert Configs
+        api_instance.bulk_enable_website_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_enable_website_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_mobile_app_alert_config**
-> WithMetadata create_mobile_app_alert_config(mobile_app_alert_config)
+> WithMetaData create_mobile_app_alert_config(mobile_app_alert_config)
 
 Create Mobile Smart Alert Config
 
@@ -75,7 +551,7 @@ Creates a new Mobile Smart Alert Configuration.
 ```python
 import instana_client
 from instana_client.models.mobile_app_alert_config import MobileAppAlertConfig
-from instana_client.models.with_metadata import WithMetadata
+from instana_client.models.with_meta_data import WithMetaData
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -122,7 +598,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**WithMetadata**](WithMetadata.md)
+[**WithMetaData**](WithMetaData.md)
 
 ### Authorization
 
@@ -137,10 +613,10 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration created. |  -  |
-**400** | Invalid Configuration. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -220,10 +696,10 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration created. |  -  |
-**400** | Invalid configuration. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -453,7 +929,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -529,7 +1005,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -603,7 +1079,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -679,9 +1155,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Mobile Smart Alert Configuration deleted. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -757,9 +1233,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Website Smart Alert Configuration deleted. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -840,7 +1316,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Built-in event specification not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -923,7 +1399,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | The event configuration was already migrated |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Custom Event does not exist |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1002,9 +1478,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Mobile Smart Alert Configuration disabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1082,9 +1558,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Website Smart Alert Configuration disabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1165,7 +1641,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Built-in event specification not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1248,7 +1724,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | The event configuration was already migrated |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Custom Event does not exist |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -1327,9 +1803,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Mobile Smart Alert Configuration enabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1407,14 +1883,14 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Website Smart Alert Configuration enabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_active_mobile_app_alert_configs**
-> List[WithMetadata] find_active_mobile_app_alert_configs(mobile_app_id, alert_ids=alert_ids)
+> List[MobileAppAlertConfigWithRBACTag] find_active_mobile_app_alert_configs(mobile_app_id, alert_ids=alert_ids)
 
 Get all Mobile Smart Alert Configs
 
@@ -1426,7 +1902,7 @@ Gets all the Mobile Smart Alert Configuration pertaining to a specific mobile ap
 
 ```python
 import instana_client
-from instana_client.models.with_metadata import WithMetadata
+from instana_client.models.mobile_app_alert_config_with_rbac_tag import MobileAppAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -1452,7 +1928,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     mobile_app_id = 'tk2OLeusR3aQJD5h-rBh2A' # str | The ID of a specific Mobile Application.
-    alert_ids = ['smRTFp08juKWtn8I'] # List[str] | A list of Smart Alert Configuration IDs. This allows Website Smart Alert Configuration of a specific set of Configurations. This query can be repeated to use multiple IDs. (optional)
+    alert_ids = ['smRTFp08juKWtn8I'] # List[str] | A list of Smart Alert Configuration IDs. This allows Mobile Application Smart Alert Configuration of a specific set of Configurations. This query can be repeated to use multiple IDs. (optional)
 
     try:
         # Get all Mobile Smart Alert Configs
@@ -1471,11 +1947,11 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **mobile_app_id** | **str**| The ID of a specific Mobile Application. | 
- **alert_ids** | [**List[str]**](str.md)| A list of Smart Alert Configuration IDs. This allows Website Smart Alert Configuration of a specific set of Configurations. This query can be repeated to use multiple IDs. | [optional] 
+ **alert_ids** | [**List[str]**](str.md)| A list of Smart Alert Configuration IDs. This allows Mobile Application Smart Alert Configuration of a specific set of Configurations. This query can be repeated to use multiple IDs. | [optional] 
 
 ### Return type
 
-[**List[WithMetadata]**](WithMetadata.md)
+[**List[MobileAppAlertConfigWithRBACTag]**](MobileAppAlertConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -1490,13 +1966,12 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success. Returns empty result if mobileAppId is invalid. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | OK |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_active_website_alert_configs**
-> List[WebsiteAlertConfigWithMetadata] find_active_website_alert_configs(website_id, alert_ids=alert_ids)
+> List[WebsiteAlertConfigWithRBACTag] find_active_website_alert_configs(website_id, alert_ids=alert_ids)
 
 Get all Website Smart Alert Configs
 
@@ -1508,7 +1983,7 @@ Gets all the Website Smart Alert Configuration pertaining to a specific website.
 
 ```python
 import instana_client
-from instana_client.models.website_alert_config_with_metadata import WebsiteAlertConfigWithMetadata
+from instana_client.models.website_alert_config_with_rbac_tag import WebsiteAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -1557,7 +2032,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List[WebsiteAlertConfigWithMetadata]**](WebsiteAlertConfigWithMetadata.md)
+[**List[WebsiteAlertConfigWithRBACTag]**](WebsiteAlertConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -1572,13 +2047,12 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Success. Returns empty result if websiteId is invalid. |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | OK |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_mobile_app_alert_config**
-> WithMetadata find_mobile_app_alert_config(id, valid_on=valid_on)
+> MobileAppAlertConfigWithRBACTag find_mobile_app_alert_config(id, valid_on=valid_on)
 
 Get Mobile Smart Alert Config
 
@@ -1590,7 +2064,7 @@ Gets a specific Mobile Smart Alert Configuration. This may return a deleted Conf
 
 ```python
 import instana_client
-from instana_client.models.with_metadata import WithMetadata
+from instana_client.models.mobile_app_alert_config_with_rbac_tag import MobileAppAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -1639,7 +2113,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**WithMetadata**](WithMetadata.md)
+[**MobileAppAlertConfigWithRBACTag**](MobileAppAlertConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -1655,8 +2129,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1736,13 +2210,13 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_website_alert_config**
-> WebsiteAlertConfigWithMetadata find_website_alert_config(id, valid_on=valid_on)
+> WebsiteAlertConfigWithRBACTag find_website_alert_config(id, valid_on=valid_on)
 
 Get Website Smart Alert Config
 
@@ -1754,7 +2228,7 @@ Gets a specific Website Smart Alert Configuration. This may return a deleted Con
 
 ```python
 import instana_client
-from instana_client.models.website_alert_config_with_metadata import WebsiteAlertConfigWithMetadata
+from instana_client.models.website_alert_config_with_rbac_tag import WebsiteAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -1803,7 +2277,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**WebsiteAlertConfigWithMetadata**](WebsiteAlertConfigWithMetadata.md)
+[**WebsiteAlertConfigWithRBACTag**](WebsiteAlertConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -1819,8 +2293,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1900,8 +2374,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1982,7 +2456,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -2104,7 +2578,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    ids = ['[YbcFlaG8k5oIkxD0, OYcbU9gdP6OTBThJ, qbhfsL9vTtlaBOAt]'] # List[str] | List of IDs of alert channels defined in Instana. Can be left empty. (optional)
+    ids = ['[\"YbcFlaG8k5oIkxD0\",\"OYcbU9gdP6OTBThJ\",\"qbhfsL9vTtlaBOAt\"]'] # List[str] | List of IDs of alert channels defined in Instana. Can be left empty. (optional)
 
     try:
         # Get all Alerting Channels
@@ -2183,7 +2657,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    ids = ['[YbcFlaG8k5oIkxD0, OYcbU9gdP6OTBThJ, qbhfsL9vTtlaBOAt]'] # List[str] | List of IDs of alert channels defined in Instana. Can be left empty. (optional)
+    ids = ['[\"YbcFlaG8k5oIkxD0\",\"OYcbU9gdP6OTBThJ\",\"qbhfsL9vTtlaBOAt\"]'] # List[str] | List of IDs of alert channels defined in Instana. Can be left empty. (optional)
 
     try:
         # Get Overview of Alerting Channels
@@ -2301,7 +2775,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2378,7 +2852,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2457,7 +2931,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Built-in event specification not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -2539,7 +3013,81 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_current_prefix**
+> get_current_prefix()
+
+Get current shortcode prefix.
+
+Returns the current shortcode prefix used for events.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+
+    try:
+        # Get current shortcode prefix.
+        api_instance.get_current_prefix()
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->get_current_prefix: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | The current shortcode prefix. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2620,7 +3168,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | Custom Event does not exist |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -2698,12 +3246,12 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_custom_payload_configurations**
-> CustomPayloadWithVersion get_custom_payload_configurations(context=context)
+> CustomPayloadWithVersion get_custom_payload_configurations(context=context, owner_type=owner_type)
 
 Get All Global Custom Payload Configurations
 
@@ -2741,10 +3289,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     context = ALL # str |  (optional) (default to ALL)
+    owner_type = 'owner_type_example' # str |  (optional)
 
     try:
         # Get All Global Custom Payload Configurations
-        api_response = api_instance.get_custom_payload_configurations(context=context)
+        api_response = api_instance.get_custom_payload_configurations(context=context, owner_type=owner_type)
         print("The response of EventSettingsApi->get_custom_payload_configurations:\n")
         pprint(api_response)
     except Exception as e:
@@ -2759,6 +3308,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **context** | **str**|  | [optional] [default to ALL]
+ **owner_type** | **str**|  | [optional] 
 
 ### Return type
 
@@ -2779,7 +3329,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2856,7 +3406,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2933,7 +3483,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3014,7 +3564,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3091,7 +3641,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3176,8 +3726,9 @@ Name | Type | Description  | Notes
 **200** | The event associated with that event id was successfully closed. |  -  |
 **400** | The manual close information is required. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **404** | The event id refers to an event that is not open. |  -  |
+**422** | Validation failed. The request body contains invalid or missing required fields (e.g., blank username or reasonForClosing). |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3259,7 +3810,7 @@ Name | Type | Description  | Notes
 **200** | The multi close operation was successful |  -  |
 **207** | At least one of the manual close operations failed |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **501** | The multi close feature is not enabled. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -3422,7 +3973,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | Invalid request: unsupported entity type or incorrect query. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3506,7 +4057,7 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -3675,7 +4226,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | Invalid request: unsupported entity type, incorrect query, or event is deleted or migrated. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Custom event cannot be updated. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -3756,9 +4307,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Mobile Smart Alert Configuration restored. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3838,9 +4389,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Website Smart Alert Configuration restored. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4001,7 +4552,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_mobile_app_alert_config**
-> WithMetadata update_mobile_app_alert_config(id, mobile_app_alert_config)
+> WithMetaData update_mobile_app_alert_config(id, mobile_app_alert_config)
 
 Update Mobile Smart Alert Config
 
@@ -4014,7 +4565,7 @@ Updates an existing Mobile Smart Alert Configuration.
 ```python
 import instana_client
 from instana_client.models.mobile_app_alert_config import MobileAppAlertConfig
-from instana_client.models.with_metadata import WithMetadata
+from instana_client.models.with_meta_data import WithMetaData
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -4063,7 +4614,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**WithMetadata**](WithMetadata.md)
+[**WithMetaData**](WithMetaData.md)
 
 ### Authorization
 
@@ -4078,17 +4629,18 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration updated. |  -  |
+**200** | OK |  -  |
 **204** | Mobile Smart Alert Configuration did not change. |  -  |
-**400** | Invalid Mobile App ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
-**500** | Internal error. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
+**500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_mobile_app_historic_baseline**
-> update_mobile_app_historic_baseline(id)
+> update_mobile_app_historic_baseline(id, body=body)
 
 Recalculate Mobile Smart Alert Config Baseline
 
@@ -4125,10 +4677,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'qOW5jlR5TQafXKWDIceRkA' # str | ID of a specific Mobile Smart Alert Configuration to recalculate.
+    body = 'body_example' # str |  (optional)
 
     try:
         # Recalculate Mobile Smart Alert Config Baseline
-        api_instance.update_mobile_app_historic_baseline(id)
+        api_instance.update_mobile_app_historic_baseline(id, body=body)
     except Exception as e:
         print("Exception when calling EventSettingsApi->update_mobile_app_historic_baseline: %s\n" % e)
 ```
@@ -4141,6 +4694,84 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| ID of a specific Mobile Smart Alert Configuration to recalculate. | 
+ **body** | **str**|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Mobile Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
+**204** | Baseline recalculation completed with no changes needed. |  -  |
+**400** | Invalid configuration type or configuration is read-only. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**428** | Baseline calculation failed due to insufficient data. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_prefix**
+> update_prefix()
+
+Update shortcode prefix.
+
+Updates the shortcode prefix used for events.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+
+    try:
+        # Update shortcode prefix.
+        api_instance.update_prefix()
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->update_prefix: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
 
 ### Return type
 
@@ -4159,12 +4790,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Mobile Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
-**204** | Baseline recalculation completed with no changes needed. |  -  |
-**400** | Invalid configuration type or configuration is read-only. |  -  |
-**403** | Insufficient permissions to access this configuration. |  -  |
-**404** | Mobile Smart Alert Configuration not found. |  -  |
-**428** | Baseline calculation failed due to insufficient data. |  -  |
+**200** | The result of the update operation. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4246,19 +4874,19 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Website Smart Alert Configuration updated. |  -  |
-**204** | Website Smart Alert Configuration did not change. |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested configuration does not exist. |  -  |
-**422** | Unprocessable entity. |  -  |
+**200** | OK |  -  |
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
-**500** | Internal error. |  -  |
+**500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_website_historic_baseline**
-> update_website_historic_baseline(id)
+> update_website_historic_baseline(id, body=body)
 
 Recalculate Website Smart Alert Config Baseline
 
@@ -4295,10 +4923,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'G-h5p0znTHan2m2U3c-Z1Q' # str | ID of a specific Website Smart Alert Configuration to recalculate.
+    body = 'body_example' # str |  (optional)
 
     try:
         # Recalculate Website Smart Alert Config Baseline
-        api_instance.update_website_historic_baseline(id)
+        api_instance.update_website_historic_baseline(id, body=body)
     except Exception as e:
         print("Exception when calling EventSettingsApi->update_website_historic_baseline: %s\n" % e)
 ```
@@ -4311,6 +4940,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| ID of a specific Website Smart Alert Configuration to recalculate. | 
+ **body** | **str**|  | [optional] 
 
 ### Return type
 
@@ -4322,7 +4952,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
@@ -4332,8 +4962,8 @@ void (empty response body)
 **200** | Website Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
 **204** | Baseline recalculation completed with no changes needed. |  -  |
 **400** | Invalid configuration type or configuration is read-only. |  -  |
-**403** | Insufficient permissions to access this configuration. |  -  |
-**404** | Website Smart Alert Configuration not found. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -4416,13 +5046,13 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **422** | Unable to process request, request data is invalid. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upsert_custom_payload_configuration_v2**
-> List[CustomPayloadWithVersion] upsert_custom_payload_configuration_v2(custom_payload_configuration)
+> List[CustomPayloadWithVersion] upsert_custom_payload_configuration_v2(custom_payload_with_version)
 
 Create/Update Global Custom Payload Configuration
 
@@ -4434,7 +5064,6 @@ Creates or Updates Global Custom Payload Configuration.
 
 ```python
 import instana_client
-from instana_client.models.custom_payload_configuration import CustomPayloadConfiguration
 from instana_client.models.custom_payload_with_version import CustomPayloadWithVersion
 from instana_client.rest import ApiException
 from pprint import pprint
@@ -4460,7 +5089,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    custom_payload_configuration =       "fields":
+    custom_payload_with_version =       "fields":
       [
         {
             "type": "staticString",
@@ -4477,11 +5106,11 @@ with instana_client.ApiClient(configuration) as api_client:
         }
       ],
       "version": 1
- # CustomPayloadConfiguration | 
+ # CustomPayloadWithVersion | 
 
     try:
         # Create/Update Global Custom Payload Configuration
-        api_response = api_instance.upsert_custom_payload_configuration_v2(custom_payload_configuration)
+        api_response = api_instance.upsert_custom_payload_configuration_v2(custom_payload_with_version)
         print("The response of EventSettingsApi->upsert_custom_payload_configuration_v2:\n")
         pprint(api_response)
     except Exception as e:
@@ -4495,7 +5124,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **custom_payload_configuration** | [**CustomPayloadConfiguration**](CustomPayloadConfiguration.md)|  | 
+ **custom_payload_with_version** | [**CustomPayloadWithVersion**](CustomPayloadWithVersion.md)|  | 
 
 ### Return type
 
@@ -4517,7 +5146,7 @@ Name | Type | Description  | Notes
 **200** | OK |  -  |
 **400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **409** | Version conflict. |  -  |
 **422** | Unable to process request, request data is invalid. |  -  |
 

@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **access_rules** | [**List[AccessRule]**](AccessRule.md) |  | 
-**id** | **str** |  | 
+**id** | **str** |  | [optional] 
 **title** | **str** |  | 
 **widgets** | [**List[Widget]**](Widget.md) |  | 
 

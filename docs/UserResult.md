@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **group_count** | **int** |  | [optional] 
 **id** | **str** |  | 
 **last_logged_in** | **int** |  | [optional] 
+**team_names** | **List[str]** |  | [optional] 
 **tfa_enabled** | **bool** |  | [optional] 
 
 ## Example

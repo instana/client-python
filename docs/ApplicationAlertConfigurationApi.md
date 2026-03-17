@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_application_alert_configs**](ApplicationAlertConfigurationApi.md#bulk_delete_application_alert_configs) | **PUT** /api/events/settings/application-alert-configs/bulk/delete | Bulk Delete Application Smart Alert Configs
+[**bulk_disable_application_alert_configs**](ApplicationAlertConfigurationApi.md#bulk_disable_application_alert_configs) | **PUT** /api/events/settings/application-alert-configs/bulk/disable | Bulk Disable Application Smart Alert Configs
+[**bulk_enable_application_alert_configs**](ApplicationAlertConfigurationApi.md#bulk_enable_application_alert_configs) | **PUT** /api/events/settings/application-alert-configs/bulk/enable | Bulk Enable Application Smart Alert Configs
 [**create_application_alert_config**](ApplicationAlertConfigurationApi.md#create_application_alert_config) | **POST** /api/events/settings/application-alert-configs | Create Smart Alert Config
 [**delete_application_alert_config**](ApplicationAlertConfigurationApi.md#delete_application_alert_config) | **DELETE** /api/events/settings/application-alert-configs/{id} | Delete Smart Alert Config
 [**disable_application_alert_config**](ApplicationAlertConfigurationApi.md#disable_application_alert_config) | **PUT** /api/events/settings/application-alert-configs/{id}/disable | Disable Smart Alert Config
@@ -15,6 +18,240 @@ Method | HTTP request | Description
 [**update_application_alert_config**](ApplicationAlertConfigurationApi.md#update_application_alert_config) | **POST** /api/events/settings/application-alert-configs/{id} | Update Smart Alert Config
 [**update_application_historic_baseline**](ApplicationAlertConfigurationApi.md#update_application_historic_baseline) | **POST** /api/events/settings/application-alert-configs/{id}/update-baseline | Recalculate Smart Alert Config Baseline
 
+
+# **bulk_delete_application_alert_configs**
+> bulk_delete_application_alert_configs(body)
+
+Bulk Delete Application Smart Alert Configs
+
+Deletes multiple application alert configurations. Creates new revisions for all specified alerts with deleted=true. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ApplicationAlertConfigurationApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Delete Application Smart Alert Configs
+        api_instance.bulk_delete_application_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling ApplicationAlertConfigurationApi->bulk_delete_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_application_alert_configs**
+> bulk_disable_application_alert_configs(body)
+
+Bulk Disable Application Smart Alert Configs
+
+Disables multiple application alert configurations. Creates new revisions for all specified alerts with enabled=false. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ApplicationAlertConfigurationApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Disable Application Smart Alert Configs
+        api_instance.bulk_disable_application_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling ApplicationAlertConfigurationApi->bulk_disable_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_application_alert_configs**
+> bulk_enable_application_alert_configs(body)
+
+Bulk Enable Application Smart Alert Configs
+
+Enables multiple application alert configurations. Creates new revisions for all specified alerts with enabled=true. All revisions share the same timestamp. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ApplicationAlertConfigurationApi(api_client)
+    body = ["alert-id-1","alert-id-2","alert-id-3"] # str | 
+
+    try:
+        # Bulk Enable Application Smart Alert Configs
+        api_instance.bulk_enable_application_alert_configs(body)
+    except Exception as e:
+        print("Exception when calling ApplicationAlertConfigurationApi->bulk_enable_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_application_alert_config**
 > ApplicationAlertConfigWithMetadata create_application_alert_config(application_alert_config)
@@ -93,10 +330,10 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration created. |  -  |
-**400** | Invalid Configuration. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -174,9 +411,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Smart Alert Configuration deleted. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -255,9 +492,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Smart Alert Configuration disabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -336,9 +573,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Smart Alert Configuration enabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -420,8 +657,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | OK - Returns an empty list if no configurations match the criteria |  -  |
-**403** | Insufficient permissions. |  -  |
+**200** | OK |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -504,8 +740,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -586,8 +822,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -668,9 +904,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Smart Alert Configuration restored. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -753,18 +989,18 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Smart Alert Configuration updated. |  -  |
+**200** | OK |  -  |
 **204** | Smart Alert Configuration did not change. |  -  |
-**400** | Invalid Application ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
-**500** | Internal error. |  -  |
+**500** | Bad request. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_application_historic_baseline**
-> update_application_historic_baseline(id)
+> update_application_historic_baseline(id, body=body)
 
 Recalculate Smart Alert Config Baseline
 
@@ -802,10 +1038,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationAlertConfigurationApi(api_client)
     id = 'DKp0JArJRAiQIav9CoKSWQ' # str | ID of a specific Smart Alert Configuration to recalculate.
+    body = 'body_example' # str |  (optional)
 
     try:
         # Recalculate Smart Alert Config Baseline
-        api_instance.update_application_historic_baseline(id)
+        api_instance.update_application_historic_baseline(id, body=body)
     except Exception as e:
         print("Exception when calling ApplicationAlertConfigurationApi->update_application_historic_baseline: %s\n" % e)
 ```
@@ -818,6 +1055,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| ID of a specific Smart Alert Configuration to recalculate. | 
+ **body** | **str**|  | [optional] 
 
 ### Return type
 
@@ -829,7 +1067,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 ### HTTP response details
@@ -839,8 +1077,8 @@ void (empty response body)
 **200** | Smart Alert Configuration baseline successfully recalculated and updated. |  -  |
 **204** | Baseline recalculation completed with no changes needed. |  -  |
 **400** | Invalid configuration type or configuration is read-only. |  -  |
-**403** | Insufficient permissions to access this configuration. |  -  |
-**404** | Smart Alert Configuration not found. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 **428** | Baseline calculation failed due to insufficient data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

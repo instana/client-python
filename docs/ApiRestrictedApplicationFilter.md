@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**label** | **str** |  | [optional] 
+**label** | **str** |  | 
 **restricting_application_id** | **str** |  | [optional] 
-**scope** | **str** |  | [optional] 
+**scope** | **str** |  | 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | [optional] 
 
 ## Example

@@ -4,14 +4,14 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_application_endpoints**](ApplicationResourcesApi.md#get_application_endpoints) | **GET** /api/application-monitoring/applications/services/endpoints | Get endpoints
-[**get_application_services**](ApplicationResourcesApi.md#get_application_services) | **GET** /api/application-monitoring/applications;id&#x3D;&lt;appId&gt;/services | Get applications/services
+[**get_application_endpoints**](ApplicationResourcesApi.md#get_application_endpoints) | **GET** /api/application-monitoring/applications;id&#x3D;{applicationId}/services;id&#x3D;{serviceId}/endpoints;id&#x3D;{endpointId} | Get endpoints
+[**get_application_services**](ApplicationResourcesApi.md#get_application_services) | **GET** /api/application-monitoring/applications;id&#x3D;{applicationId}/services;id&#x3D;{serviceId} | Get applications/services
 [**get_applications**](ApplicationResourcesApi.md#get_applications) | **GET** /api/application-monitoring/applications | Get applications
 [**get_services**](ApplicationResourcesApi.md#get_services) | **GET** /api/application-monitoring/services | Get services
 
 
 # **get_application_endpoints**
-> EndpointResult get_application_endpoints(name_filter=name_filter, types=types, technologies=technologies, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope)
+> EndpointResult get_application_endpoints(application_id, service_id, endpoint_id, name_filter=name_filter, types=types, technologies=technologies, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope)
 
 Get endpoints
 
@@ -51,6 +51,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationResourcesApi(api_client)
+    application_id = 'application_id_example' # str | 
+    service_id = 'service_id_example' # str | 
+    endpoint_id = 'endpoint_id_example' # str | 
     name_filter = 'name_filter_example' # str | Name of service (optional)
     types = ['types_example'] # List[str] | Type of Endpoint (optional)
     technologies = ['technologies_example'] # List[str] | List of technologies (optional)
@@ -62,7 +65,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # Get endpoints
-        api_response = api_instance.get_application_endpoints(name_filter=name_filter, types=types, technologies=technologies, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope)
+        api_response = api_instance.get_application_endpoints(application_id, service_id, endpoint_id, name_filter=name_filter, types=types, technologies=technologies, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope)
         print("The response of ApplicationResourcesApi->get_application_endpoints:\n")
         pprint(api_response)
     except Exception as e:
@@ -76,6 +79,9 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **application_id** | **str**|  | 
+ **service_id** | **str**|  | 
+ **endpoint_id** | **str**|  | 
  **name_filter** | **str**| Name of service | [optional] 
  **types** | [**List[str]**](str.md)| Type of Endpoint | [optional] 
  **technologies** | [**List[str]**](str.md)| List of technologies | [optional] 
@@ -107,7 +113,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_application_services**
-> ServiceResult get_application_services(name_filter=name_filter, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope, include_snapshot_ids=include_snapshot_ids)
+> ServiceResult get_application_services(application_id, service_id, name_filter=name_filter, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope, include_snapshot_ids=include_snapshot_ids)
 
 Get applications/services
 
@@ -147,6 +153,8 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationResourcesApi(api_client)
+    application_id = 'application_id_example' # str | 
+    service_id = 'service_id_example' # str | 
     name_filter = 'name_filter_example' # str | Name of service (partial match allowed) (optional)
     window_size = 56 # int | Size of time window in milliseconds (optional)
     to = 56 # int | Timestamp since Unix Epoch in milliseconds of the end of the time window (optional)
@@ -157,7 +165,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # Get applications/services
-        api_response = api_instance.get_application_services(name_filter=name_filter, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope, include_snapshot_ids=include_snapshot_ids)
+        api_response = api_instance.get_application_services(application_id, service_id, name_filter=name_filter, window_size=window_size, to=to, page=page, page_size=page_size, application_boundary_scope=application_boundary_scope, include_snapshot_ids=include_snapshot_ids)
         print("The response of ApplicationResourcesApi->get_application_services:\n")
         pprint(api_response)
     except Exception as e:
@@ -171,6 +179,8 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **application_id** | **str**|  | 
+ **service_id** | **str**|  | 
  **name_filter** | **str**| Name of service (partial match allowed) | [optional] 
  **window_size** | **int**| Size of time window in milliseconds | [optional] 
  **to** | **int**| Timestamp since Unix Epoch in milliseconds of the end of the time window | [optional] 

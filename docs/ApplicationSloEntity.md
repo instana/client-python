@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **application_id** | **str** | The ID of the Application | 
 **boundary_scope** | **str** | The Boundary Scope of the Application | 
 **endpoint_id** | **str** | The Endpoint ID of the Application | [optional] 
-**include_internal** | **bool** | A boolean value indicating whether the SLO takes Internal calls into account | [optional] 
-**include_synthetic** | **bool** | A boolean value indicating whether the SLO takes Synthetic calls into account | [optional] 
+**include_internal** | **bool** | A boolean value indicating whether the SLO takes Internal calls into account | 
+**include_synthetic** | **bool** | A boolean value indicating whether the SLO takes Synthetic calls into account | 
 **service_id** | **str** | The Service ID of the Application | [optional] 
 
 ## Example

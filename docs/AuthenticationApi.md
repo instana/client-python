@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**delete_ldap_config**](AuthenticationApi.md#delete_ldap_config) | **DELETE** /api/settings/authentication/ldap | Delete LDAP configuration
 [**delete_oidc_config**](AuthenticationApi.md#delete_oidc_config) | **DELETE** /api/settings/authentication/oidc | Delete OIDC configuration
 [**delete_saml_config**](AuthenticationApi.md#delete_saml_config) | **DELETE** /api/settings/authentication/saml | Delete SAML configuration
+[**set_idp_enabled_status**](AuthenticationApi.md#set_idp_enabled_status) | **PATCH** /api/settings/authentication/idp/status | Enable or disable IdP configuration
 
 
 # **delete_google_sso_config**
@@ -295,6 +296,84 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **set_idp_enabled_status**
+> set_idp_enabled_status(idp_status_update=idp_status_update)
+
+Enable or disable IdP configuration
+
+Enable or disable the identity provider (IdP) configuration for the tenant. This allows temporary deactivation of IdP authentication while preserving the configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.idp_status_update import IdpStatusUpdate
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.AuthenticationApi(api_client)
+    idp_status_update = {"enabled":false} # IdpStatusUpdate |  (optional)
+
+    try:
+        # Enable or disable IdP configuration
+        api_instance.set_idp_enabled_status(idp_status_update=idp_status_update)
+    except Exception as e:
+        print("Exception when calling AuthenticationApi->set_idp_enabled_status: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **idp_status_update** | [**IdpStatusUpdate**](IdpStatusUpdate.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**404** | No IdP configuration found for tenant |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

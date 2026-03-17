@@ -361,7 +361,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsAlertConfigurationApi(api_client)
-    slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | Service Levels Objective(SLO) Configuration ID (optional)
+    slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | SLO Configuration ID (optional)
     alert_ids = ['ln3IGogYS-S7CPqcOQYTNA'] # List[str] | List of Service Levels Alert Configuration IDs (optional)
 
     try:
@@ -380,7 +380,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **slo_id** | **str**| Service Levels Objective(SLO) Configuration ID | [optional] 
+ **slo_id** | **str**| SLO Configuration ID | [optional] 
  **alert_ids** | [**List[str]**](str.md)| List of Service Levels Alert Configuration IDs | [optional] 
 
 ### Return type

@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**aggregation** | **str** | Aggregation to apply on the metric for every member. | [optional] 
+**aggregation** | **str** | Aggregation to apply on the metric for every member. | 
 **category** | **str** | Category of the metric in the catalog | [optional] 
 **description** | **str** | Description to be used in the catalog | [optional] 
 **formatter** | **str** | | * NUMBER: Generic number * BYTES: Number of bytes * KILO_BYTES: Number of kilobytes * MEGA_BYTES: Number of megabytes * PERCENTAGE: Percentage in scale [0,1] * PERCENTAGE_100: Percentage in scale [0,100] * PERCENTAGE_NO_CAPPING: Percentage in scale [0,1] but value could exceed 1 for example when metric is aggregated * PERCENTAGE_100_NO_CAPPING: Percentage in scale [0,100] but value could exceed 100 for example when metric is aggregated * LATENCY: Time in milliseconds, with value of 0 should not be considered a a strict 0, but considered as &lt; 1ms * NANOS: Time in nanoseconds * MILLIS: Time in milliseconds * MICROS: Time in microseconds * SECONDS: Time in seconds * RATE: Number of occurrences per second * BYTE_RATE: Number of bytes per second * UNDEFINED: Metric value unit is not known  | [optional] 
 **label** | **str** | Label to be used in the catalog | [optional] 
 **name** | **str** | Name of the metric | [optional] 
 **section** | **str** | Section of the metric in the catalog | [optional] 
-**source** | **str** | Name of the source metric | [optional] 
+**source** | **str** | Name of the source metric | 
 **type** | **str** | Type of entity for the source metric | [optional] 
 
 ## Example

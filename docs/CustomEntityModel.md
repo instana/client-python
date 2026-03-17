@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **label** | **str** |  | 
 **metrics** | [**List[CustomMetric]**](CustomMetric.md) |  | [optional] 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
+**tags** | [**List[CustomTag]**](CustomTag.md) |  | [optional] 
 
 ## Example
 

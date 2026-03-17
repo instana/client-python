@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **alert_name** | **str** | Name of the Alert Configuration. | 
-**custom_payload_fields** | [**List[StaticStringField]**](StaticStringField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | 
+**custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Supports both static and dynamic fields. Can be left empty. | 
 **event_filtering_configuration** | [**EventFilteringConfiguration**](EventFilteringConfiguration.md) |  | 
 **id** | **str** | ID of the Alert Configuration. | 
 **include_entity_name_in_legacy_alerts** | **bool** | To include the entity name in a legacy alert based on built-in/custom events. | [optional] 

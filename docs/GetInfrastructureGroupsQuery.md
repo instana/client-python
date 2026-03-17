@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **metrics** | [**List[InfraMetricConfiguration]**](InfraMetricConfiguration.md) |  | [optional] 
 **missing_placeholder** | **str** |  | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
-**pagination** | [**CursorPaginationInfraExploreCursor**](CursorPaginationInfraExploreCursor.md) |  | 
+**pagination** | [**CursorPagination**](CursorPagination.md) |  | 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 **time_frame** | [**TimeFrame**](TimeFrame.md) |  | 
 **type** | **str** | Type of entities | [optional] 

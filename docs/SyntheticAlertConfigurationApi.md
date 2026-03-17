@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_synthetic_alert_configs**](SyntheticAlertConfigurationApi.md#bulk_delete_synthetic_alert_configs) | **PUT** /api/events/settings/global-alert-configs/synthetics/bulk/delete | Bulk Delete Synthetic Smart Alert Configs
+[**bulk_disable_synthetic_alert_configs**](SyntheticAlertConfigurationApi.md#bulk_disable_synthetic_alert_configs) | **PUT** /api/events/settings/global-alert-configs/synthetics/bulk/disable | Bulk Disable Synthetic Smart Alert Configs
+[**bulk_enable_synthetic_alert_configs**](SyntheticAlertConfigurationApi.md#bulk_enable_synthetic_alert_configs) | **PUT** /api/events/settings/global-alert-configs/synthetics/bulk/enable | Bulk Enable Synthetic Smart Alert Configs
 [**create_synthetic_alert_config**](SyntheticAlertConfigurationApi.md#create_synthetic_alert_config) | **POST** /api/events/settings/global-alert-configs/synthetics | Create Synthetic Smart Alert Config
 [**delete_synthetic_alert_config**](SyntheticAlertConfigurationApi.md#delete_synthetic_alert_config) | **DELETE** /api/events/settings/global-alert-configs/synthetics/{id} | Delete Synthetic Smart Alert Config
 [**disable_synthetic_alert_config**](SyntheticAlertConfigurationApi.md#disable_synthetic_alert_config) | **PUT** /api/events/settings/global-alert-configs/synthetics/{id}/disable | Disable Synthetic Smart Alert Config
@@ -14,6 +17,243 @@ Method | HTTP request | Description
 [**restore_synthetic_alert_config**](SyntheticAlertConfigurationApi.md#restore_synthetic_alert_config) | **PUT** /api/events/settings/global-alert-configs/synthetics/{id}/restore/{created} | Restore Synthetic Smart Alert Config
 [**update_synthetic_alert_config**](SyntheticAlertConfigurationApi.md#update_synthetic_alert_config) | **POST** /api/events/settings/global-alert-configs/synthetics/{id} | Update Synthetic Smart Alert Config
 
+
+# **bulk_delete_synthetic_alert_configs**
+> bulk_delete_synthetic_alert_configs(request_body)
+
+Bulk Delete Synthetic Smart Alert Configs
+
+Deletes multiple Synthetic Smart Alert Configurations.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Delete Synthetic Smart Alert Configs
+        api_instance.bulk_delete_synthetic_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling SyntheticAlertConfigurationApi->bulk_delete_synthetic_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_synthetic_alert_configs**
+> bulk_disable_synthetic_alert_configs(request_body)
+
+Bulk Disable Synthetic Smart Alert Configs
+
+Disables multiple Synthetic Smart Alert Configurations.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Disable Synthetic Smart Alert Configs
+        api_instance.bulk_disable_synthetic_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling SyntheticAlertConfigurationApi->bulk_disable_synthetic_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_synthetic_alert_configs**
+> bulk_enable_synthetic_alert_configs(request_body)
+
+Bulk Enable Synthetic Smart Alert Configs
+
+Enables multiple Synthetic Smart Alert Configurations.
+For more information on Synthetic Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Synthetic+Monitoring#synthetic-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SyntheticAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Enable Synthetic Smart Alert Configs
+        api_instance.bulk_enable_synthetic_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling SyntheticAlertConfigurationApi->bulk_enable_synthetic_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_synthetic_alert_config**
 > SyntheticAlertConfigWithMetadata create_synthetic_alert_config(synthetic_alert_config)
@@ -92,10 +332,10 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Synthetic Smart Alert Configuration created. |  -  |
-**400** | Invalid configuration. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -172,9 +412,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Synthetic Smart Alert Configuration deleted. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -253,9 +493,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Synthetic Smart Alert Configuration disabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -334,9 +574,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Synthetic Smart Alert Configuration enabled. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration ID provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -419,12 +659,11 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success. Returns empty result if syntheticTestId is invalid. |  -  |
-**403** | Insufficient permissions. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_synthetic_alert_config**
-> SyntheticAlertConfigWithMetadata find_synthetic_alert_config(id, valid_on=valid_on)
+> SyntheticAlertConfigWithRBACTag find_synthetic_alert_config(id, valid_on=valid_on)
 
 Get Synthetic Smart Alert Config
 
@@ -437,7 +676,7 @@ For more information on Synthetic Alert Configuration please access the https://
 
 ```python
 import instana_client
-from instana_client.models.synthetic_alert_config_with_metadata import SyntheticAlertConfigWithMetadata
+from instana_client.models.synthetic_alert_config_with_rbac_tag import SyntheticAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -486,7 +725,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SyntheticAlertConfigWithMetadata**](SyntheticAlertConfigWithMetadata.md)
+[**SyntheticAlertConfigWithRBACTag**](SyntheticAlertConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -502,8 +741,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -584,8 +823,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | The requested Configuration does not exist. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -666,9 +905,9 @@ void (empty response body)
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**204** | Synthetic Smart Alert Configuration restored. |  -  |
-**403** | Insufficient permissions. |  -  |
-**404** | Invalid Configuration provided. |  -  |
+**204** | Successful - no content to return. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -753,10 +992,10 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Synthetic Smart Alert Configuration updated |  -  |
 **204** | Synthetic Smart Alert Configuration did not change |  -  |
-**400** | Invalid Configuration ID provided. |  -  |
-**403** | Insufficient permissions. |  -  |
-**422** | Unprocessable entity. |  -  |
-**500** | Internal error. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
+**500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
