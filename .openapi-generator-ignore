@@ -31,3 +31,4 @@ openapi-generator-config.json
 # application_resources_api.py - No longer needed, new spec fixes the API design
 # tag_filter.py - STILL NEEDED: New spec uses Dict[str, Any] which doesn't support string/int/bool values
 instana_client/models/tag_filter.py
+instana_client/models/service.py
