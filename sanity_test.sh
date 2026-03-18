@@ -283,20 +283,20 @@ echo "------------------------------------"
 print_status "Running complete integration test..."
 if python3 -c "
 import instana_client
-print('✅ 1. Basic import: SUCCESS')
+print('1. Basic import: SUCCESS')
 print(f'   SDK Version: {instana_client.__version__}')
 
 from instana_client.api.ai_management_api import AIManagementApi
 from instana_client.api.teams_api import TeamsApi
-print('✅ 2. New APIs: SUCCESS')
+print('2. New APIs: SUCCESS')
 
 from instana_client.models.application import Application
-print('✅ 3. Models: SUCCESS')
+print('3. Models: SUCCESS')
 
 from instana_client.configuration import Configuration
-print('✅ 4. Configuration: SUCCESS')
+print('4. Configuration: SUCCESS')
 
-print('🎉 ALL SYSTEMS GO!')
+print(' ALL SYSTEMS GO!')
 " 2>/dev/null; then
     print_success "Complete integration test passed"
 else
@@ -345,15 +345,15 @@ print_success "SANITY TESTING COMPLETED SUCCESSFULLY! 🎉"
 echo "=================================================="
 echo ""
 print_success "All tests passed:"
-print_success "  ✅ Package configuration valid"
-print_success "  ✅ Package builds successfully"
-print_success "  ✅ Package installs successfully"
-print_success "  ✅ All imports work correctly"
-print_success "  ✅ New APIs functional"
-print_success "  ✅ Models accessible"
-print_success "  ✅ Configuration works"
-print_success "  ✅ File structure valid"
-print_success "  ✅ Integration test passed"
+print_success "   Package configuration valid"
+print_success "   Package builds successfully"
+print_success "   Package installs successfully"
+print_success "   All imports work correctly"
+print_success "   New APIs functional"
+print_success "   Models accessible"
+print_success "   Configuration works"
+print_success "   File structure valid"
+print_success "   Integration test passed"
 echo ""
 print_success "The Instana Python SDK is ready for production! 🚀"
 echo ""
