@@ -338,7 +338,7 @@ fi
 # =============================================================================
 print_header "Update Summary"
 
-echo -e "${GREEN}✅ SDK Update Complete!${NC}\n"
+echo -e "SDK Update Complete!${NC}\n"
 echo "Previous version: $CURRENT_VERSION"
 echo "New version: $NEW_VERSION"
 echo "OpenAPI spec version: $SPEC_VERSION"
@@ -360,4 +360,4 @@ else
     echo "Run without --dry-run to perform the actual update"
 fi
 
-print_success "SDK update complete! 🎉"
+print_success "SDK update complete!"

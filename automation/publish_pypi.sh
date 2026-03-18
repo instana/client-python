@@ -256,7 +256,7 @@ fi
 print_header "Publishing Summary"
 
 if [ "$DRY_RUN" = false ]; then
-    echo -e "${GREEN}✅ Publishing Complete!${NC}\n"
+    echo -e "Publishing Complete!${NC}\n"
     echo "Package: instana-client"
     echo "Version: $CURRENT_VERSION"
     echo "Repository: $PYPI_REPOSITORY"
@@ -277,4 +277,4 @@ else
     ls -1 dist/
 fi
 
-print_success "Publishing process complete! 🎉"
+print_success "Publishing process complete!"
