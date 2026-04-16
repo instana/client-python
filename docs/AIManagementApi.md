@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**get_llm_capabilities**](AIManagementApi.md#get_llm_capabilities) | **GET** /api/llm/capabilities | Get all LLM capabilities
 [**get_llm_egress_gateway_by_id**](AIManagementApi.md#get_llm_egress_gateway_by_id) | **GET** /api/llm/gateways/{id} | Get a LLM gateway by ID
 [**get_llm_egress_gateways**](AIManagementApi.md#get_llm_egress_gateways) | **GET** /api/llm/gateways | Get all LLM gateways
+[**test_llm_gateway**](AIManagementApi.md#test_llm_gateway) | **POST** /api/llm/gateways/test | Test LLM gateway connection parameters
 [**update_llm_egress_gateway**](AIManagementApi.md#update_llm_egress_gateway) | **PUT** /api/llm/gateways/{id} | Update an existing LLM gateway.
 
 
@@ -485,6 +486,90 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_llm_gateway**
+> TestConnectionResponse test_llm_gateway(llm_gateway_test_connection_request)
+
+Test LLM gateway connection parameters
+
+Test LLM gateway connection parameters
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.llm_gateway_test_connection_request import LLMGatewayTestConnectionRequest
+from instana_client.models.test_connection_response import TestConnectionResponse
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.AIManagementApi(api_client)
+    llm_gateway_test_connection_request = {"id":"WATSONX","connectionParameters":{"url":"https://watsonx.example.com","apiKey":"secret-api-key","project":"project-xyz"}} # LLMGatewayTestConnectionRequest | 
+
+    try:
+        # Test LLM gateway connection parameters
+        api_response = api_instance.test_llm_gateway(llm_gateway_test_connection_request)
+        print("The response of AIManagementApi->test_llm_gateway:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling AIManagementApi->test_llm_gateway: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **llm_gateway_test_connection_request** | [**LLMGatewayTestConnectionRequest**](LLMGatewayTestConnectionRequest.md)|  | 
+
+### Return type
+
+[**TestConnectionResponse**](TestConnectionResponse.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details

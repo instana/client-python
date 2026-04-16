@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **metrics** | [**List[InfraMetricConfiguration]**](InfraMetricConfiguration.md) |  | [optional] 
 **missing_placeholder** | **str** |  | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
-**pagination** | [**CursorPagination**](CursorPagination.md) |  | 
+**pagination** | [**CursorPaginationWithUiCursorInfraExploreCursor**](CursorPaginationWithUiCursorInfraExploreCursor.md) |  | 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 **tags** | **List[str]** |  | [optional] 
 **time_frame** | [**TimeFrame**](TimeFrame.md) |  | 

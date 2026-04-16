@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_service_levels_alert_configs**](ServiceLevelsAlertConfigurationApi.md#bulk_delete_service_levels_alert_configs) | **PUT** /api/events/settings/global-alert-configs/service-levels/bulk/delete | Bulk Delete Service Levels Smart Alert Configs
+[**bulk_disable_service_levels_alert_configs**](ServiceLevelsAlertConfigurationApi.md#bulk_disable_service_levels_alert_configs) | **PUT** /api/events/settings/global-alert-configs/service-levels/bulk/disable | Bulk Disable Service Levels Smart Alert Configs
+[**bulk_enable_service_levels_alert_configs**](ServiceLevelsAlertConfigurationApi.md#bulk_enable_service_levels_alert_configs) | **PUT** /api/events/settings/global-alert-configs/service-levels/bulk/enable | Bulk Enable Service Levels Smart Alert Configs
 [**create_service_levels_alert_config**](ServiceLevelsAlertConfigurationApi.md#create_service_levels_alert_config) | **POST** /api/events/settings/global-alert-configs/service-levels | Create Service levels Alert Config
 [**delete_service_levels_alert_config**](ServiceLevelsAlertConfigurationApi.md#delete_service_levels_alert_config) | **DELETE** /api/events/settings/global-alert-configs/service-levels/{id} | Delete Service levels Alert Config
 [**disable_service_levels_alert_config**](ServiceLevelsAlertConfigurationApi.md#disable_service_levels_alert_config) | **PUT** /api/events/settings/global-alert-configs/service-levels/{id}/disable | Disable Service levels Alert Config
@@ -14,6 +17,240 @@ Method | HTTP request | Description
 [**restore_service_levels_alert_config**](ServiceLevelsAlertConfigurationApi.md#restore_service_levels_alert_config) | **PUT** /api/events/settings/global-alert-configs/service-levels/{id}/restore/{created} | Restore Service levels Alert Config
 [**update_service_levels_alert_config**](ServiceLevelsAlertConfigurationApi.md#update_service_levels_alert_config) | **POST** /api/events/settings/global-alert-configs/service-levels/{id} | Update Service levels Alert Config
 
+
+# **bulk_delete_service_levels_alert_configs**
+> bulk_delete_service_levels_alert_configs(request_body)
+
+Bulk Delete Service Levels Smart Alert Configs
+
+Delete multiple Service Levels Smart Alert configurations in a single operation. Only configs that are not already deleted will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ServiceLevelsAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Delete Service Levels Smart Alert Configs
+        api_instance.bulk_delete_service_levels_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling ServiceLevelsAlertConfigurationApi->bulk_delete_service_levels_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Service Levels Alert Configurations Deleted Successfully |  -  |
+**403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
+**422** | Unprocessable Entity - Invalid request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_service_levels_alert_configs**
+> bulk_disable_service_levels_alert_configs(request_body)
+
+Bulk Disable Service Levels Smart Alert Configs
+
+Disable multiple Service Levels Smart Alert configurations in a single operation. Only configs that are currently enabled will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ServiceLevelsAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Disable Service Levels Smart Alert Configs
+        api_instance.bulk_disable_service_levels_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling ServiceLevelsAlertConfigurationApi->bulk_disable_service_levels_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Service Levels Alert Configurations Disabled Successfully |  -  |
+**403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
+**422** | Unprocessable Entity - Invalid request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_service_levels_alert_configs**
+> bulk_enable_service_levels_alert_configs(request_body)
+
+Bulk Enable Service Levels Smart Alert Configs
+
+Enable multiple Service Levels Smart Alert configurations in a single operation. Only configs that are currently disabled will be updated.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ServiceLevelsAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Enable Service Levels Smart Alert Configs
+        api_instance.bulk_enable_service_levels_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling ServiceLevelsAlertConfigurationApi->bulk_enable_service_levels_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Service Levels Alert Configurations Enabled Successfully |  -  |
+**403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
+**422** | Unprocessable Entity - Invalid request |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_service_levels_alert_config**
 > ServiceLevelseAlertConfigWithMetadata create_service_levels_alert_config(service_levels_alert_config)
@@ -405,7 +642,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_service_levels_alert_config**
-> ServiceLevelseAlertConfigWithMetadata find_service_levels_alert_config(id, valid_on=valid_on)
+> ServiceLevelsAlertConfigWithRBACTag find_service_levels_alert_config(id, valid_on=valid_on)
 
 Get Service levels Alert Config
 
@@ -417,7 +654,7 @@ Find a Service levels Alert Config by ID. This will deliver deleted configs too.
 
 ```python
 import instana_client
-from instana_client.models.service_levelse_alert_config_with_metadata import ServiceLevelseAlertConfigWithMetadata
+from instana_client.models.service_levels_alert_config_with_rbac_tag import ServiceLevelsAlertConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -466,7 +703,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ServiceLevelseAlertConfigWithMetadata**](ServiceLevelseAlertConfigWithMetadata.md)
+[**ServiceLevelsAlertConfigWithRBACTag**](ServiceLevelsAlertConfigWithRBACTag.md)
 
 ### Authorization
 

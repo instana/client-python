@@ -6,9 +6,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **apdex_entity** | [**ApdexEntity**](ApdexEntity.md) |  | 
-**apdex_name** | **str** | Name of the Apdex Configuration | 
-**created_at** | **int** | Created Date of Apdex Configuration | [optional] 
+**apdex_name** | **str** |  | 
+**created_at** | **int** | Created date of Apdex Configuration (Unix timestamp in milliseconds) | [optional] 
 **id** | **str** | Apdex Configuration ID | 
+**last_updated** | **int** | Last updated date of Apdex Configuration (Unix timestamp in milliseconds) | [optional] 
+**tags** | **List[str]** | List of tags associated with Apdex Configuration | [optional] 
 
 ## Example
 

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **id** | **str** | Unique ID of the returned Alert Channel | 
 **kind** | **str** | The type of the Alerting Channel. | 
 **name** | **str** | The name of the Alerting Channel. | 
+**timezone** | **str** | The timezone to be used for DateTime | [optional] 
 
 ## Example
 

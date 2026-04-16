@@ -10,6 +10,7 @@ docs/AccessLogEntry.md
 docs/AccessLogResponse.md
 docs/AccessRule.md
 docs/Action.md
+docs/ActionBeacon.md
 docs/ActionCatalogApi.md
 docs/ActionConfiguration.md
 docs/ActionHistoryApi.md
@@ -31,6 +32,7 @@ docs/AlertingTimeWindow.md
 docs/ApdexConfiguration.md
 docs/ApdexConfigurationInput.md
 docs/ApdexEntity.md
+docs/ApdexLevel.md
 docs/ApdexReport.md
 docs/ApdexReportApi.md
 docs/ApdexSettingsApi.md
@@ -110,6 +112,7 @@ docs/CrashMobileAppAlertRule.md
 docs/CreateWebsiteRequestInner.md
 docs/CursorPaginatedBusinessActivityItem.md
 docs/CursorPagination.md
+docs/CursorPaginationWithUiCursorInfraExploreCursor.md
 docs/CustomBlueprintIndicator.md
 docs/CustomDashboard.md
 docs/CustomDashboardPreview.md
@@ -143,6 +146,7 @@ docs/Duration.md
 docs/DynamicField.md
 docs/DynamicFieldValue.md
 docs/DynamicParameter.md
+docs/DynamicTag.md
 docs/EditUser.md
 docs/EmailIntegration.md
 docs/EmptyConfiguration.md
@@ -176,6 +180,7 @@ docs/GenericInfraAlertRule.md
 docs/GeoLocationConfiguration.md
 docs/GeoMappingRule.md
 docs/GeoSubdivision.md
+docs/GetActionBeaconsResult.md
 docs/GetActivities.md
 docs/GetApplicationMetrics.md
 docs/GetApplications.md
@@ -265,6 +270,7 @@ docs/LLMEgressGateway.md
 docs/LLMGatewayCapability.md
 docs/LLMGatewayModel.md
 docs/LLMGatewayService.md
+docs/LLMGatewayTestConnectionRequest.md
 docs/LLMPriceConfigurationApi.md
 docs/LatencyBlueprintIndicator.md
 docs/LlmModelPrice.md
@@ -359,6 +365,7 @@ docs/PolicyRunnable.md
 docs/PolicyScheduling.md
 docs/PostMobileAppSourceMapConfigRequest.md
 docs/PostSnapshotsResult.md
+docs/PrefixObject.md
 docs/Problem.md
 docs/PrometheusWebhookIntegration.md
 docs/RecurrentMaintenanceWindow.md
@@ -396,6 +403,7 @@ docs/ServiceItem.md
 docs/ServiceLevelIndicator.md
 docs/ServiceLevelObjectiveAlertRule.md
 docs/ServiceLevelsAlertConfig.md
+docs/ServiceLevelsAlertConfigWithRBACTag.md
 docs/ServiceLevelsAlertConfigurationApi.md
 docs/ServiceLevelsAlertRule.md
 docs/ServiceLevelsBurnRateConfig.md
@@ -511,6 +519,7 @@ docs/TagTreeNode.md
 docs/TagTreeTag.md
 docs/TeamsApi.md
 docs/TestCommonProperties.md
+docs/TestConnectionResponse.md
 docs/TestLastError.md
 docs/TestResult.md
 docs/TestResultCommonProperties.md
@@ -678,6 +687,7 @@ instana_client/models/access_log_entry.py
 instana_client/models/access_log_response.py
 instana_client/models/access_rule.py
 instana_client/models/action.py
+instana_client/models/action_beacon.py
 instana_client/models/action_configuration.py
 instana_client/models/action_instance.py
 instana_client/models/action_instance_metadata_entry.py
@@ -697,6 +707,7 @@ instana_client/models/alerting_time_window.py
 instana_client/models/apdex_configuration.py
 instana_client/models/apdex_configuration_input.py
 instana_client/models/apdex_entity.py
+instana_client/models/apdex_level.py
 instana_client/models/apdex_report.py
 instana_client/models/api_create_group.py
 instana_client/models/api_create_role.py
@@ -764,6 +775,7 @@ instana_client/models/crash_mobile_app_alert_rule.py
 instana_client/models/create_website_request_inner.py
 instana_client/models/cursor_paginated_business_activity_item.py
 instana_client/models/cursor_pagination.py
+instana_client/models/cursor_pagination_with_ui_cursor_infra_explore_cursor.py
 instana_client/models/custom_blueprint_indicator.py
 instana_client/models/custom_dashboard.py
 instana_client/models/custom_dashboard_preview.py
@@ -794,6 +806,7 @@ instana_client/models/duration.py
 instana_client/models/dynamic_field.py
 instana_client/models/dynamic_field_value.py
 instana_client/models/dynamic_parameter.py
+instana_client/models/dynamic_tag.py
 instana_client/models/edit_user.py
 instana_client/models/email_integration.py
 instana_client/models/empty_configuration.py
@@ -824,6 +837,7 @@ instana_client/models/generic_infra_alert_rule.py
 instana_client/models/geo_location_configuration.py
 instana_client/models/geo_mapping_rule.py
 instana_client/models/geo_subdivision.py
+instana_client/models/get_action_beacons_result.py
 instana_client/models/get_activities.py
 instana_client/models/get_application_metrics.py
 instana_client/models/get_applications.py
@@ -904,6 +918,7 @@ instana_client/models/llm_egress_gateway.py
 instana_client/models/llm_gateway_capability.py
 instana_client/models/llm_gateway_model.py
 instana_client/models/llm_gateway_service.py
+instana_client/models/llm_gateway_test_connection_request.py
 instana_client/models/llm_model_price.py
 instana_client/models/llm_model_price_metadata.py
 instana_client/models/location_status.py
@@ -988,6 +1003,7 @@ instana_client/models/policy_runnable.py
 instana_client/models/policy_scheduling.py
 instana_client/models/post_mobile_app_source_map_config_request.py
 instana_client/models/post_snapshots_result.py
+instana_client/models/prefix_object.py
 instana_client/models/problem.py
 instana_client/models/prometheus_webhook_integration.py
 instana_client/models/recurrent_maintenance_window.py
@@ -1014,6 +1030,7 @@ instana_client/models/service_item.py
 instana_client/models/service_level_indicator.py
 instana_client/models/service_level_objective_alert_rule.py
 instana_client/models/service_levels_alert_config.py
+instana_client/models/service_levels_alert_config_with_rbac_tag.py
 instana_client/models/service_levels_alert_rule.py
 instana_client/models/service_levels_burn_rate_config.py
 instana_client/models/service_levels_burn_rate_time_windows.py
@@ -1115,7 +1132,6 @@ instana_client/models/system_rule.py
 instana_client/models/system_rule_label.py
 instana_client/models/tag.py
 instana_client/models/tag_catalog.py
-instana_client/models/tag_filter.py
 instana_client/models/tag_filter_expression.py
 instana_client/models/tag_filter_expression_element.py
 instana_client/models/tag_matcher_dto.py
@@ -1123,6 +1139,7 @@ instana_client/models/tag_tree_level.py
 instana_client/models/tag_tree_node.py
 instana_client/models/tag_tree_tag.py
 instana_client/models/test_common_properties.py
+instana_client/models/test_connection_response.py
 instana_client/models/test_last_error.py
 instana_client/models/test_result.py
 instana_client/models/test_result_common_properties.py
@@ -1213,22 +1230,13 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_custom_tag.py
-test/test_default_api.py
-test/test_get_session_replay_metadata_result.py
-test/test_idp_status_update.py
-test/test_llm_gateway_capability.py
-test/test_llm_gateway_model.py
-test/test_llm_gateway_service.py
-test/test_llm_model_price.py
-test/test_llm_model_price_metadata.py
-test/test_llm_price_configuration_api.py
-test/test_mobile_app_alert_config_with_rbac_tag.py
-test/test_ns1_integration.py
-test/test_session_replay_metadata.py
-test/test_session_replay_timestamps.py
-test/test_slo_configurations_api.py
-test/test_synthetic_alert_config_with_rbac_tag.py
-test/test_website_alert_config_with_rbac_tag.py
-test/test_with_meta_data.py
+test/test_action_beacon.py
+test/test_apdex_level.py
+test/test_cursor_pagination_with_ui_cursor_infra_explore_cursor.py
+test/test_dynamic_tag.py
+test/test_get_action_beacons_result.py
+test/test_llm_gateway_test_connection_request.py
+test/test_prefix_object.py
+test/test_service_levels_alert_config_with_rbac_tag.py
+test/test_test_connection_response.py
 tox.ini

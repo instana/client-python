@@ -56,6 +56,7 @@ Name | Type | Description | Notes
 **can_create_thread_dump** | **bool** |  | [optional] 
 **can_delete_automation_action_history** | **bool** |  | [optional] 
 **can_delete_logs** | **bool** |  | [optional] 
+**can_download_agent_configuration** | **bool** |  | [optional] 
 **can_edit_all_accessible_custom_dashboards** | **bool** |  | [optional] 
 **can_install_new_agents** | **bool** |  | [optional] 
 **can_invoke_alert_channel** | **bool** |  | [optional] 

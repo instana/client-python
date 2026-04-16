@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **location_display_label** | **str** |  | [optional] 
 **location_id** | **str** |  | 
+**location_type** | **str** |  | [optional] 
 **success_rate** | **float** |  | [optional] 
 **success_runs** | **int** |  | [optional] 
 **total_test_runs** | **int** |  | [optional] 

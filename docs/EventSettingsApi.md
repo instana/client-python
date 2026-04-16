@@ -4723,11 +4723,11 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_prefix**
-> update_prefix()
+> PrefixObject update_prefix(prefix_object)
 
 Update shortcode prefix.
 
-Updates the shortcode prefix used for events.
+Updates the shortcode prefix used for events. The prefix will be applied to all new incidents created after this update. For example, setting the prefix to 'PROD-' will result in incident codes like 'PROD-1', 'PROD-2', etc.
 
 ### Example
 
@@ -4735,6 +4735,7 @@ Updates the shortcode prefix used for events.
 
 ```python
 import instana_client
+from instana_client.models.prefix_object import PrefixObject
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -4759,10 +4760,13 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
+    prefix_object = {"prefix":"INSTANA-"} # PrefixObject | The new prefix configuration
 
     try:
         # Update shortcode prefix.
-        api_instance.update_prefix()
+        api_response = api_instance.update_prefix(prefix_object)
+        print("The response of EventSettingsApi->update_prefix:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling EventSettingsApi->update_prefix: %s\n" % e)
 ```
@@ -4771,11 +4775,14 @@ with instana_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **prefix_object** | [**PrefixObject**](PrefixObject.md)| The new prefix configuration | 
 
 ### Return type
 
-void (empty response body)
+[**PrefixObject**](PrefixObject.md)
 
 ### Authorization
 
@@ -4783,14 +4790,14 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The result of the update operation. |  -  |
+**200** | The prefix was successfully updated. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 
