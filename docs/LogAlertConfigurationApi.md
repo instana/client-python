@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_log_alert_configs**](LogAlertConfigurationApi.md#bulk_delete_log_alert_configs) | **PUT** /api/events/settings/global-alert-configs/logs/bulk/delete | Bulk Delete Log Alert Configs
+[**bulk_disable_log_alert_configs**](LogAlertConfigurationApi.md#bulk_disable_log_alert_configs) | **PUT** /api/events/settings/global-alert-configs/logs/bulk/disable | Bulk Disable Log Alert Configs
+[**bulk_enable_log_alert_configs**](LogAlertConfigurationApi.md#bulk_enable_log_alert_configs) | **PUT** /api/events/settings/global-alert-configs/logs/bulk/enable | Bulk Enable Log Alert Configs
 [**create_log_alert_config**](LogAlertConfigurationApi.md#create_log_alert_config) | **POST** /api/events/settings/global-alert-configs/logs | Create Log Alert Config
 [**delete_log_alert_config**](LogAlertConfigurationApi.md#delete_log_alert_config) | **DELETE** /api/events/settings/global-alert-configs/logs/{id} | Delete Log Alert Config
 [**disable_log_alert_config**](LogAlertConfigurationApi.md#disable_log_alert_config) | **PUT** /api/events/settings/global-alert-configs/logs/{id}/disable | Disable Log Alert Config
@@ -14,6 +17,240 @@ Method | HTTP request | Description
 [**restore_log_alert_config**](LogAlertConfigurationApi.md#restore_log_alert_config) | **PUT** /api/events/settings/global-alert-configs/logs/{id}/restore/{created} | Restore Log Alert Config
 [**update_log_alert_config**](LogAlertConfigurationApi.md#update_log_alert_config) | **POST** /api/events/settings/global-alert-configs/logs/{id} | Update Log Alert Config
 
+
+# **bulk_delete_log_alert_configs**
+> bulk_delete_log_alert_configs(request_body)
+
+Bulk Delete Log Alert Configs
+
+Delete multiple log alert configurations at once. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LogAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Delete Log Alert Configs
+        api_instance.bulk_delete_log_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling LogAlertConfigurationApi->bulk_delete_log_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_log_alert_configs**
+> bulk_disable_log_alert_configs(request_body)
+
+Bulk Disable Log Alert Configs
+
+Disable multiple log alert configurations at once. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LogAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Disable Log Alert Configs
+        api_instance.bulk_disable_log_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling LogAlertConfigurationApi->bulk_disable_log_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_log_alert_configs**
+> bulk_enable_log_alert_configs(request_body)
+
+Bulk Enable Log Alert Configs
+
+Enable multiple log alert configurations at once. Maximum 1000 IDs per request.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LogAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Enable Log Alert Configs
+        api_instance.bulk_enable_log_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling LogAlertConfigurationApi->bulk_enable_log_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_log_alert_config**
 > LogAlertConfigWithMetadata create_log_alert_config(log_alert_config)

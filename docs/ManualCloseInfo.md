@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **close_timestamp** | **int** | The closing timestamp. | [optional] 
 **disable_event** | **bool** | Flag to indicate whether to disable the event. | [optional] 
 **event_ids** | **List[str]** | The event IDs to manually close, in case of multi close. | [optional] 
+**force_close** | **bool** | Flag to indicate whether to forcefully close issues | [optional] 
 **mute_alerts** | **bool** | Flag to indicate whether to mute alerts. | [optional] 
 **reason_for_closing** | **str** | The reason for manual closing. | 
 **username** | **str** | The user name. | 

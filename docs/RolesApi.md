@@ -50,7 +50,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.RolesApi(api_client)
-    api_create_role = {"name":"New Role","members":[{"userId":"user-5","email":"newuser@example.com","name":"New User"}],"permissions":["CAN_VIEW_APPLICATIONS","CAN_VIEW_EVENTS"]} # ApiCreateRole | Role to create
+    api_create_role = {"name":"New Role","description":"optional attribute","members":[{"userId":"user-5","email":"newuser@example.com","name":"New User"}],"permissions":["CAN_VIEW_APPLICATIONS","CAN_VIEW_EVENTS"]} # ApiCreateRole | Role to create
 
     try:
         # Create role
@@ -367,7 +367,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.RolesApi(api_client)
     id = 'roleId' # str | Id of the role to update
-    api_role = {"id":"role-2","name":"Updated Developer Role","members":[{"userId":"user-3","email":"dev1@example.com","name":"Developer One"},{"userId":"user-4","email":"dev2@example.com","name":"Developer Two"},{"userId":"user-6","email":"dev3@example.com","name":"Developer Three"}],"permissions":["CAN_VIEW_APPLICATIONS","CAN_VIEW_EVENTS","CAN_VIEW_INFRASTRUCTURE","CAN_CONFIGURE_APPLICATIONS"]} # ApiRole | Updated role data
+    api_role = {"id":"role-2","name":"Updated Developer Role","description":"optional attribute","members":[{"userId":"user-3","email":"dev1@example.com","name":"Developer One"},{"userId":"user-4","email":"dev2@example.com","name":"Developer Two"},{"userId":"user-6","email":"dev3@example.com","name":"Developer Three"}],"permissions":["CAN_VIEW_APPLICATIONS","CAN_VIEW_EVENTS","CAN_VIEW_INFRASTRUCTURE","CAN_CONFIGURE_APPLICATIONS"]} # ApiRole | Updated role data
 
     try:
         # Update role

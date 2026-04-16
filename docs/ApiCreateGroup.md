@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**description** | **str** |  | [optional] 
 **members** | [**List[ApiMember]**](ApiMember.md) |  | 
 **name** | **str** |  | 
 **permission_set** | [**ApiPermissionSet**](ApiPermissionSet.md) |  | 

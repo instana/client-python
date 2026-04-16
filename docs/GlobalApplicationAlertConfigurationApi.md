@@ -4,6 +4,9 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_global_application_alert_configs**](GlobalApplicationAlertConfigurationApi.md#bulk_delete_global_application_alert_configs) | **PUT** /api/events/settings/global-alert-configs/applications/bulk/delete | Bulk Delete Global Smart Alert Configs
+[**bulk_disable_global_application_alert_configs**](GlobalApplicationAlertConfigurationApi.md#bulk_disable_global_application_alert_configs) | **PUT** /api/events/settings/global-alert-configs/applications/bulk/disable | Bulk Disable Global Smart Alert Configs
+[**bulk_enable_global_application_alert_configs**](GlobalApplicationAlertConfigurationApi.md#bulk_enable_global_application_alert_configs) | **PUT** /api/events/settings/global-alert-configs/applications/bulk/enable | Bulk Enable Global Smart Alert Configs
 [**create_global_application_alert_config**](GlobalApplicationAlertConfigurationApi.md#create_global_application_alert_config) | **POST** /api/events/settings/global-alert-configs/applications | Create Global Smart Alert Config
 [**delete_global_application_alert_config**](GlobalApplicationAlertConfigurationApi.md#delete_global_application_alert_config) | **DELETE** /api/events/settings/global-alert-configs/applications/{id} | Delete Global Smart Alert Config
 [**disable_global_application_alert_config**](GlobalApplicationAlertConfigurationApi.md#disable_global_application_alert_config) | **PUT** /api/events/settings/global-alert-configs/applications/{id}/disable | Disable Global Smart Alert Config
@@ -14,6 +17,243 @@ Method | HTTP request | Description
 [**restore_global_application_alert_config**](GlobalApplicationAlertConfigurationApi.md#restore_global_application_alert_config) | **PUT** /api/events/settings/global-alert-configs/applications/{id}/restore/{created} | Restore Global Smart Alert Config
 [**update_global_application_alert_config**](GlobalApplicationAlertConfigurationApi.md#update_global_application_alert_config) | **POST** /api/events/settings/global-alert-configs/applications/{id} | Update Global Smart Alert Config
 
+
+# **bulk_delete_global_application_alert_configs**
+> bulk_delete_global_application_alert_configs(request_body)
+
+Bulk Delete Global Smart Alert Configs
+
+Deletes multiple Global Smart Alert Configurations in a single request. Only processes non-deleted configs that the user has access to. Built-in configs cannot be deleted. 
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Delete Global Smart Alert Configs
+        api_instance.bulk_delete_global_application_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling GlobalApplicationAlertConfigurationApi->bulk_delete_global_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_disable_global_application_alert_configs**
+> bulk_disable_global_application_alert_configs(request_body)
+
+Bulk Disable Global Smart Alert Configs
+
+Disables multiple Global Smart Alert Configurations in a single request. Only processes configs that are currently enabled and the user has access to. 
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Disable Global Smart Alert Configs
+        api_instance.bulk_disable_global_application_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling GlobalApplicationAlertConfigurationApi->bulk_disable_global_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_global_application_alert_configs**
+> bulk_enable_global_application_alert_configs(request_body)
+
+Bulk Enable Global Smart Alert Configs
+
+Enables multiple Global Smart Alert Configurations in a single request. Only processes configs that are currently disabled and the user has access to. 
+For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
+    request_body = ['request_body_example'] # List[str] | 
+
+    try:
+        # Bulk Enable Global Smart Alert Configs
+        api_instance.bulk_enable_global_application_alert_configs(request_body)
+    except Exception as e:
+        print("Exception when calling GlobalApplicationAlertConfigurationApi->bulk_enable_global_application_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**List[str]**](str.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_global_application_alert_config**
 > GlobalApplicationAlertConfigWithMetadata create_global_application_alert_config(global_applications_alert_config)
@@ -104,7 +344,7 @@ Name | Type | Description  | Notes
 
 Delete Global Smart Alert Config
 
-Disables a Global Smart Alert Configuration.
+Deletes a Global Smart Alert Configuration.
 For more information on Global Alert Configuration please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#global-application-alert-configuration.
 
 ### Example

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **apdex_entity** | [**ApdexEntity**](ApdexEntity.md) |  | 
 **apdex_name** | **str** | Name of the Apdex Configuration | 
+**tags** | **List[str]** | List of tags associated with Apdex Configuration | [optional] 
 
 ## Example
 

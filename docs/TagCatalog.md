@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**dynamic_tags** | [**List[DynamicTag]**](DynamicTag.md) | Structured dynamic tag prefixes with metadata  | [optional] 
 **tag_tree** | [**List[TagTreeLevel]**](TagTreeLevel.md) | The name of the tag dataset (tagTree) which can contain one or more tags as its attributes or children. Eg: &#x60;Call&#x60;. Consider this as the root of the tree where it has tags as attributes or children.  | 
 **tags** | [**List[Tag]**](Tag.md) | List of queryable tags available in a tagTree. Eg: &#x60;call.erroneous&#x60;. Consider these tags as attributes of a tagTree. Eg: &#x60;Call&#x60; tagTree has have &#x60;Erroneous&#x60;, &#x60;Call name&#x60;, &#x60;Latency&#x60; etc as attributes.  | 
 

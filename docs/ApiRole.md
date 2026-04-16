@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**description** | **str** |  | [optional] 
 **id** | **str** |  | 
 **members** | [**List[ApiMember]**](ApiMember.md) |  | 
 **name** | **str** |  | 

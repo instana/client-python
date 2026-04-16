@@ -15,6 +15,13 @@ Get infrastructure metrics
 
 For more information on Infrastructure Metrics please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-metrics.
 
+**Request Validation Rules:**
+- At least one metric name must be defined in the 'metrics' field
+- Either 'snapshotIds' or 'query' must be provided (both cannot be empty)
+- When using 'query' without 'snapshotIds', the query cannot be empty or a wildcard ('*') unless a 'plugin' is specified
+- The rollup value must be valid for the given time window (see API documentation for valid rollups)
+- The ratio of windowSize to rollup must not exceed 600 data points (windowSize / rollup <= 600)
+
 ### Example
 
 * Api Key Authentication (ApiKeyAuth):
@@ -87,6 +94,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**400** | Bad Request - Invalid request parameters. Possible error messages: |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

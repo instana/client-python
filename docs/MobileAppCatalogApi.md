@@ -4,12 +4,92 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_action_beacons**](MobileAppCatalogApi.md#get_action_beacons) | **GET** /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/action-beacons | Get action beacons for a session
 [**get_all_mobile_app_catalog_tags**](MobileAppCatalogApi.md#get_all_mobile_app_catalog_tags) | **GET** /api/mobile-app-monitoring/catalog/tags | Get all existing mobile app tags
 [**get_mobile_app_metric_catalog**](MobileAppCatalogApi.md#get_mobile_app_metric_catalog) | **GET** /api/mobile-app-monitoring/catalog/metrics | Metric catalog
 [**get_mobile_app_tag_catalog**](MobileAppCatalogApi.md#get_mobile_app_tag_catalog) | **GET** /api/mobile-app-monitoring/catalog | Get mobile app tag catalog
 [**get_session_replay_metadata**](MobileAppCatalogApi.md#get_session_replay_metadata) | **GET** /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-metadata | Get session replay metadata
 [**get_session_replay_timestamps**](MobileAppCatalogApi.md#get_session_replay_timestamps) | **GET** /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-timestamps | Get session replay timestamps
 
+
+# **get_action_beacons**
+> GetActionBeaconsResult get_action_beacons(mobile_app_id, session_id, cursor=cursor, page_size=page_size)
+
+Get action beacons for a session
+
+Retrieves action beacons (user interactions and events) for a mobile app session. Uses cursor-based pagination with offset cursors. Returns beacons starting from the cursor offset. The pageSize parameter controls the number of items returned (default 100, max 1000). Includes event types, view components, frustration signals, orientation changes, and more.
+
+### Example
+
+
+```python
+import instana_client
+from instana_client.models.get_action_beacons_result import GetActionBeaconsResult
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.MobileAppCatalogApi(api_client)
+    mobile_app_id = 'app-456' # str | Mobile app identifier
+    session_id = 'session-123' # str | Session identifier
+    cursor = 100 # int | Offset cursor for pagination (number of items already retrieved). Omit for first page. (optional)
+    page_size = 100 # int | Number of items per page (default: 100, max: 1000) (optional) (default to 100)
+
+    try:
+        # Get action beacons for a session
+        api_response = api_instance.get_action_beacons(mobile_app_id, session_id, cursor=cursor, page_size=page_size)
+        print("The response of MobileAppCatalogApi->get_action_beacons:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling MobileAppCatalogApi->get_action_beacons: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mobile_app_id** | **str**| Mobile app identifier | 
+ **session_id** | **str**| Session identifier | 
+ **cursor** | **int**| Offset cursor for pagination (number of items already retrieved). Omit for first page. | [optional] 
+ **page_size** | **int**| Number of items per page (default: 100, max: 1000) | [optional] [default to 100]
+
+### Return type
+
+[**GetActionBeaconsResult**](GetActionBeaconsResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**400** | Bad Request - Invalid mobile app ID, session ID, or pagination parameters |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Forbidden - User doesn&#39;t have access to this mobile app |  -  |
+**404** | Not Found - Mobile app or session not found |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_mobile_app_catalog_tags**
 > List[Tag] get_all_mobile_app_catalog_tags()
