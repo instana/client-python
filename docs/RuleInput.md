@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **input_kind** | **str** |  | 
 **input_name** | **str** |  | 
+**metric_rollup** | **int** |  | [optional] 
 
 ## Example
 

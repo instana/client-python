@@ -1,6 +1,6 @@
 {
   "packageName": "instana_client",
   "projectName": "instana-client",
-  "packageVersion": "1.0.7",
+  "packageVersion": "1.0.8",
   "packageUrl": "https://github.com/instana/client-python"
 }

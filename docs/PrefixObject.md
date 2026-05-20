@@ -6,6 +6,7 @@ Shortcode prefix configuration
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**enabled** | **bool** | Whether the shortcode prefix feature is enabled | [optional] 
 **prefix** | **str** | The prefix to use for event short codes (e.g., &#39;INSTANA-&#39;, &#39;PROD-&#39;) | [optional] 
 
 ## Example

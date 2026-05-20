@@ -4,10 +4,13 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**bulk_delete_cross_type_alert_configs**](EventSettingsApi.md#bulk_delete_cross_type_alert_configs) | **PUT** /api/events/settings/alert-configs/bulk/delete | Bulk delete alert configurations across multiple types
 [**bulk_delete_mobile_app_alert_configs**](EventSettingsApi.md#bulk_delete_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/delete | Bulk delete Mobile Smart Alert Configs
 [**bulk_delete_website_alert_configs**](EventSettingsApi.md#bulk_delete_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/delete | Bulk Delete Website Smart Alert Configs
+[**bulk_disable_cross_type_alert_configs**](EventSettingsApi.md#bulk_disable_cross_type_alert_configs) | **PUT** /api/events/settings/alert-configs/bulk/disable | Bulk disable alert configurations across multiple types
 [**bulk_disable_mobile_app_alert_configs**](EventSettingsApi.md#bulk_disable_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/disable | Bulk disable Mobile Smart Alert Configs
 [**bulk_disable_website_alert_configs**](EventSettingsApi.md#bulk_disable_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/disable | Bulk Disable Website Smart Alert Configs
+[**bulk_enable_cross_type_alert_configs**](EventSettingsApi.md#bulk_enable_cross_type_alert_configs) | **PUT** /api/events/settings/alert-configs/bulk/enable | Bulk enable alert configurations across multiple types
 [**bulk_enable_mobile_app_alert_configs**](EventSettingsApi.md#bulk_enable_mobile_app_alert_configs) | **PUT** /api/events/settings/mobile-app-alert-configs/bulk/enable | Bulk enable Mobile Smart Alert Configs
 [**bulk_enable_website_alert_configs**](EventSettingsApi.md#bulk_enable_website_alert_configs) | **PUT** /api/events/settings/website-alert-configs/bulk/enable | Bulk Enable Website Smart Alert Configs
 [**create_mobile_app_alert_config**](EventSettingsApi.md#create_mobile_app_alert_config) | **POST** /api/events/settings/mobile-app-alert-configs | Create Mobile Smart Alert Config
@@ -68,6 +71,86 @@ Method | HTTP request | Description
 [**upsert_custom_payload_configuration**](EventSettingsApi.md#upsert_custom_payload_configuration) | **PUT** /api/events/settings/custom-payload-configurations | Create/Update Global Custom Payload Configuration
 [**upsert_custom_payload_configuration_v2**](EventSettingsApi.md#upsert_custom_payload_configuration_v2) | **PUT** /api/events/settings/custom-payload-configurations/v2 | Create/Update Global Custom Payload Configuration
 
+
+# **bulk_delete_cross_type_alert_configs**
+> bulk_delete_cross_type_alert_configs(bulk_alert_config_request)
+
+Bulk delete alert configurations across multiple types
+
+Atomically deletes alert configurations across multiple types. All operations succeed or all fail. Deletion is logical (creates new version with deleted=true) to maintain audit trail. Requires appropriate permissions for each alert config type in the request. For example, deleting WEBSITE and APPLICATION configs requires both CAN_CONFIGURE_WEBSITE_SMART_ALERTS and CAN_CONFIGURE_APPLICATION_SMART_ALERTS permissions.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.bulk_alert_config_request import BulkAlertConfigRequest
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    bulk_alert_config_request = {"configs":{"WEBSITE":["id1","id2"],"APPLICATION":["id3","id4"],"INFRA":["id5"]}} # BulkAlertConfigRequest | Map of alert config types to sets of IDs to delete
+
+    try:
+        # Bulk delete alert configurations across multiple types
+        api_instance.bulk_delete_cross_type_alert_configs(bulk_alert_config_request)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_delete_cross_type_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulk_alert_config_request** | [**BulkAlertConfigRequest**](BulkAlertConfigRequest.md)| Map of alert config types to sets of IDs to delete | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**401** | Unauthorized - No valid authentication provided |  -  |
+**403** | Forbidden - Missing required permissions for one or more alert config types |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **bulk_delete_mobile_app_alert_configs**
 > bulk_delete_mobile_app_alert_configs(request_body)
@@ -225,6 +308,86 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **bulk_disable_cross_type_alert_configs**
+> bulk_disable_cross_type_alert_configs(bulk_alert_config_request)
+
+Bulk disable alert configurations across multiple types
+
+Atomically disables alert configurations across multiple types. All operations succeed or all fail. Requires appropriate permissions for each alert config type in the request. For example, disabling WEBSITE and APPLICATION configs requires both CAN_CONFIGURE_WEBSITE_SMART_ALERTS and CAN_CONFIGURE_APPLICATION_SMART_ALERTS permissions.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.bulk_alert_config_request import BulkAlertConfigRequest
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    bulk_alert_config_request = {"configs":{"WEBSITE":["id1","id2"],"APPLICATION":["id3","id4"],"INFRA":["id5"]}} # BulkAlertConfigRequest | Map of alert config types to sets of IDs to disable
+
+    try:
+        # Bulk disable alert configurations across multiple types
+        api_instance.bulk_disable_cross_type_alert_configs(bulk_alert_config_request)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_disable_cross_type_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulk_alert_config_request** | [**BulkAlertConfigRequest**](BulkAlertConfigRequest.md)| Map of alert config types to sets of IDs to disable | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**401** | Unauthorized - No valid authentication provided |  -  |
+**403** | Forbidden - Missing required permissions for one or more alert config types |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **bulk_disable_mobile_app_alert_configs**
 > bulk_disable_mobile_app_alert_configs(request_body)
 
@@ -378,6 +541,86 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **bulk_enable_cross_type_alert_configs**
+> bulk_enable_cross_type_alert_configs(bulk_alert_config_request)
+
+Bulk enable alert configurations across multiple types
+
+Atomically enables alert configurations across multiple types. All operations succeed or all fail. Requires appropriate permissions for each alert config type in the request. For example, enabling WEBSITE and APPLICATION configs requires both CAN_CONFIGURE_WEBSITE_SMART_ALERTS and CAN_CONFIGURE_APPLICATION_SMART_ALERTS permissions.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.bulk_alert_config_request import BulkAlertConfigRequest
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.EventSettingsApi(api_client)
+    bulk_alert_config_request = {"configs":{"WEBSITE":["id1","id2"],"APPLICATION":["id3","id4"],"INFRA":["id5"]}} # BulkAlertConfigRequest | Map of alert config types to sets of IDs to enable
+
+    try:
+        # Bulk enable alert configurations across multiple types
+        api_instance.bulk_enable_cross_type_alert_configs(bulk_alert_config_request)
+    except Exception as e:
+        print("Exception when calling EventSettingsApi->bulk_enable_cross_type_alert_configs: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **bulk_alert_config_request** | [**BulkAlertConfigRequest**](BulkAlertConfigRequest.md)| Map of alert config types to sets of IDs to enable | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Successful - no content to return. |  -  |
+**400** | Bad request. |  -  |
+**401** | Unauthorized - No valid authentication provided |  -  |
+**403** | Forbidden - Missing required permissions for one or more alert config types |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -2937,11 +3180,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_built_in_event_specifications**
-> List[BuiltInEventSpecificationWithLastUpdated] get_built_in_event_specifications(ids=ids)
+> List[BuiltInEventSpecificationWithLastUpdated] get_built_in_event_specifications(ids=ids, plugins=plugins)
 
 All built-in event specification
 
-Get all built-in event specifications
+Get all built-in event specifications. Can be filtered by event IDs or plugin IDs.
 
 ### Example
 
@@ -2975,10 +3218,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     ids = ['ids_example'] # List[str] |  (optional)
+    plugins = ['plugins_example'] # List[str] |  (optional)
 
     try:
         # All built-in event specification
-        api_response = api_instance.get_built_in_event_specifications(ids=ids)
+        api_response = api_instance.get_built_in_event_specifications(ids=ids, plugins=plugins)
         print("The response of EventSettingsApi->get_built_in_event_specifications:\n")
         pprint(api_response)
     except Exception as e:
@@ -2993,6 +3237,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **ids** | [**List[str]**](str.md)|  | [optional] 
+ **plugins** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 
@@ -3018,11 +3263,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_current_prefix**
-> get_current_prefix()
+> PrefixObject get_current_prefix()
 
 Get current shortcode prefix.
 
-Returns the current shortcode prefix used for events.
+Returns the current shortcode prefix and enabled state used for events.
 
 ### Example
 
@@ -3030,6 +3275,7 @@ Returns the current shortcode prefix used for events.
 
 ```python
 import instana_client
+from instana_client.models.prefix_object import PrefixObject
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -3057,7 +3303,9 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # Get current shortcode prefix.
-        api_instance.get_current_prefix()
+        api_response = api_instance.get_current_prefix()
+        print("The response of EventSettingsApi->get_current_prefix:\n")
+        pprint(api_response)
     except Exception as e:
         print("Exception when calling EventSettingsApi->get_current_prefix: %s\n" % e)
 ```
@@ -3070,7 +3318,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-void (empty response body)
+[**PrefixObject**](PrefixObject.md)
 
 ### Authorization
 
@@ -3079,13 +3327,13 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The current shortcode prefix. |  -  |
+**200** | The current shortcode prefix and enabled state. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 
@@ -4727,7 +4975,7 @@ void (empty response body)
 
 Update shortcode prefix.
 
-Updates the shortcode prefix used for events. The prefix will be applied to all new incidents created after this update. For example, setting the prefix to 'PROD-' will result in incident codes like 'PROD-1', 'PROD-2', etc.
+Updates the shortcode prefix and enabled state used for events. The prefix will be applied to all new incidents created after this update. For example, setting the prefix to 'PROD-' with enabled=true will result in incident codes like 'PROD-1', 'PROD-2', etc. The enabled field allows explicit control over whether the shortcode feature is active.
 
 ### Example
 
@@ -4760,7 +5008,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    prefix_object = {"prefix":"INSTANA-"} # PrefixObject | The new prefix configuration
+    prefix_object = {"prefix":"","enabled":false} # PrefixObject | The new prefix configuration including the enabled state
 
     try:
         # Update shortcode prefix.
@@ -4778,7 +5026,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **prefix_object** | [**PrefixObject**](PrefixObject.md)| The new prefix configuration | 
+ **prefix_object** | [**PrefixObject**](PrefixObject.md)| The new prefix configuration including the enabled state | 
 
 ### Return type
 
@@ -4797,7 +5045,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | The prefix was successfully updated. |  -  |
+**200** | The prefix and enabled state were successfully updated. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 
@@ -5052,6 +5300,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**400** | Bad request. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 **422** | Unable to process request, request data is invalid. |  -  |

@@ -6,7 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **group_by** | **List[str]** | Entity grouping tag. Use the Instana Analyze Infrastructure dashboard to determine the entity grouping tag name. | 
-**metrics** | [**List[InfraMetricConfiguration]**](InfraMetricConfiguration.md) |  | [optional] 
+**metrics** | [**List[SimpleMetricConfiguration]**](SimpleMetricConfiguration.md) |  | [optional] 
 **missing_placeholder** | **str** |  | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
 **pagination** | [**CursorPaginationWithUiCursorInfraExploreCursor**](CursorPaginationWithUiCursorInfraExploreCursor.md) |  | 

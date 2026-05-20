@@ -13,6 +13,8 @@ Method | HTTP request | Description
 [**update_agent**](HostAgentApi.md#update_agent) | **POST** /api/host-agent/{hostId}/update | Agent update
 [**update_configuration_by_host**](HostAgentApi.md#update_configuration_by_host) | **POST** /api/host-agent/{hostId}/configuration | Update agent configuration by host
 [**update_configuration_by_query**](HostAgentApi.md#update_configuration_by_query) | **POST** /api/host-agent/configuration | Update agent configuration by query
+[**update_mode_by_host**](HostAgentApi.md#update_mode_by_host) | **POST** /api/host-agent/{hostId}/mode | Update agent run mode by host
+[**update_mode_by_query**](HostAgentApi.md#update_mode_by_query) | **POST** /api/host-agent/mode | Update agent run mode by query
 
 
 # **get_agent_clr_logs**
@@ -699,6 +701,162 @@ Name | Type | Description  | Notes
  **size** | **int**|  | [optional] 
  **offline** | **bool**|  | [optional] 
  **agent_configuration_update** | [**AgentConfigurationUpdate**](AgentConfigurationUpdate.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | default response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_mode_by_host**
+> update_mode_by_host(host_id, agent_mode_update=agent_mode_update)
+
+Update agent run mode by host
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.agent_mode_update import AgentModeUpdate
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.HostAgentApi(api_client)
+    host_id = 'host_id_example' # str | 
+    agent_mode_update = instana_client.AgentModeUpdate() # AgentModeUpdate |  (optional)
+
+    try:
+        # Update agent run mode by host
+        api_instance.update_mode_by_host(host_id, agent_mode_update=agent_mode_update)
+    except Exception as e:
+        print("Exception when calling HostAgentApi->update_mode_by_host: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **host_id** | **str**|  | 
+ **agent_mode_update** | [**AgentModeUpdate**](AgentModeUpdate.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | default response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_mode_by_query**
+> update_mode_by_query(query, size=size, agent_mode_update=agent_mode_update)
+
+Update agent run mode by query
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.agent_mode_update import AgentModeUpdate
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.HostAgentApi(api_client)
+    query = 'query_example' # str | 
+    size = 56 # int |  (optional)
+    agent_mode_update = instana_client.AgentModeUpdate() # AgentModeUpdate |  (optional)
+
+    try:
+        # Update agent run mode by query
+        api_instance.update_mode_by_query(query, size=size, agent_mode_update=agent_mode_update)
+    except Exception as e:
+        print("Exception when calling HostAgentApi->update_mode_by_query: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **str**|  | 
+ **size** | **int**|  | [optional] 
+ **agent_mode_update** | [**AgentModeUpdate**](AgentModeUpdate.md)|  | [optional] 
 
 ### Return type
 

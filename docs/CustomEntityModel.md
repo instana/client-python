@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **identifiers** | **List[str]** |  | 
 **label** | **str** |  | 
 **metrics** | [**List[CustomMetric]**](CustomMetric.md) |  | [optional] 
+**name** | **str** |  | [optional] 
 **tag_filter_expression** | [**TagFilterExpressionElement**](TagFilterExpressionElement.md) |  | 
 **tags** | [**List[CustomTag]**](CustomTag.md) |  | [optional] 
 
