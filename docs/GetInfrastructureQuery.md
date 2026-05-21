@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**metrics** | [**List[InfraMetricConfiguration]**](InfraMetricConfiguration.md) |  | [optional] 
+**metrics** | [**List[SimpleMetricConfiguration]**](SimpleMetricConfiguration.md) |  | [optional] 
 **missing_placeholder** | **str** |  | [optional] 
 **order** | [**Order**](Order.md) |  | [optional] 
 **pagination** | [**CursorPaginationWithUiCursorInfraExploreCursor**](CursorPaginationWithUiCursorInfraExploreCursor.md) |  | 

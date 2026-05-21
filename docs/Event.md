@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **metric_access_id** | **str** |  | [optional] 
 **plugin** | **str** |  | 
 **problem** | [**Problem**](Problem.md) |  | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) |  | [optional] 
 **rca** | **Dict[str, object]** |  | [optional] 
 **short_code** | **str** |  | [optional] 
 **start** | **int** |  | [optional] 

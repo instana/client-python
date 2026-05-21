@@ -14,6 +14,7 @@ Name | Type | Description | Notes
 **rule_inputs** | [**List[RuleInput]**](RuleInput.md) | List of input rules of the Built-in Event Specification | 
 **severity** | **int** | Severity level of Built-in Event Specification | [optional] 
 **short_plugin_id** | **str** | ID of short plugin of Built-in Event Specification | 
+**supported_poll_rate_seconds** | **int** |  | [optional] 
 **triggering** | **bool** | Flag to show whether the Built-in Event Specification is triggering | [optional] 
 
 ## Example

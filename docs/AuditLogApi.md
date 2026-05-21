@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **get_access_logs**
-> AccessLogResponse get_access_logs(offset=offset, query=query, page_size=page_size)
+> AuditLogUiResponse get_access_logs(offset=offset, query=query, page_size=page_size)
 
 Access log
 
@@ -21,7 +21,7 @@ Retrieve all access logs using defined query.
 
 ```python
 import instana_client
-from instana_client.models.access_log_response import AccessLogResponse
+from instana_client.models.audit_log_ui_response import AuditLogUiResponse
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AccessLogResponse**](AccessLogResponse.md)
+[**AuditLogUiResponse**](AuditLogUiResponse.md)
 
 ### Authorization
 

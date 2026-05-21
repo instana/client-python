@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**entries** | [**List[AuditLogEntry]**](AuditLogEntry.md) |  | [optional] 
+**entries** | **List[object]** |  | [optional] 
 **total** | **int** |  | [optional] 
 
 ## Example

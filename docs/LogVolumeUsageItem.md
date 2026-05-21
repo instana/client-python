@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**log_volume** | **int** |  | 
+**log_volume** | **int** | Log volume in bytes | 
 **number_of_month** | **int** |  | [optional] 
 **retention_periods** | [**List[RetentionPeriod]**](RetentionPeriod.md) |  | 
 

@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 **mobile_application_ids** | **List[str]** |  | [optional] 
 **mobile_application_labels** | **List[str]** |  | [optional] 
 **modified_at** | **int** |  | [optional] 
+**rbac_tags** | [**List[ApiTag]**](ApiTag.md) |  | [optional] 
 **service_id** | **str** |  | [optional] 
 **type** | **str** |  | 
 **website_ids** | **List[str]** |  | [optional] 

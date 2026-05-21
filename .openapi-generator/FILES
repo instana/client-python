@@ -6,11 +6,8 @@ docs/AIManagementApi.md
 docs/APITokenApi.md
 docs/AbstractIntegration.md
 docs/AbstractRule.md
-docs/AccessLogEntry.md
-docs/AccessLogResponse.md
 docs/AccessRule.md
 docs/Action.md
-docs/ActionBeacon.md
 docs/ActionCatalogApi.md
 docs/ActionConfiguration.md
 docs/ActionHistoryApi.md
@@ -23,9 +20,9 @@ docs/ActionMatch.md
 docs/ActionSearchSpace.md
 docs/AdaptiveBaseline.md
 docs/AdaptiveThresholdRule.md
-docs/Addition.md
 docs/AdjustedTimeframe.md
 docs/AgentConfigurationUpdate.md
+docs/AgentModeUpdate.md
 docs/AlertingConfiguration.md
 docs/AlertingConfigurationWithLastUpdated.md
 docs/AlertingTimeWindow.md
@@ -74,11 +71,7 @@ docs/ApplicationSliEntity.md
 docs/ApplicationSloEntity.md
 docs/ApplicationTimeThreshold.md
 docs/ApplicationTopologyApi.md
-docs/ArithmeticConfiguration.md
-docs/ArithmeticOperand.md
-docs/ArithmeticOperation.md
 docs/AuditLogApi.md
-docs/AuditLogEntry.md
 docs/AuditLogUiResponse.md
 docs/AuthenticationApi.md
 docs/Author.md
@@ -94,6 +87,7 @@ docs/BrowserScriptConfiguration.md
 docs/BrowserScriptConfigurationUpdate.md
 docs/BuiltInEventSpecification.md
 docs/BuiltInEventSpecificationWithLastUpdated.md
+docs/BulkAlertConfigRequest.md
 docs/BusinessActivity.md
 docs/BusinessMonitoringApi.md
 docs/BusinessPerspectiveConfig.md
@@ -141,7 +135,6 @@ docs/DashboardApiToken.md
 docs/DatabaseIntegration.md
 docs/DefaultApi.md
 docs/DeprecatedTagFilter.md
-docs/Division.md
 docs/Duration.md
 docs/DynamicField.md
 docs/DynamicFieldValue.md
@@ -180,7 +173,6 @@ docs/GenericInfraAlertRule.md
 docs/GeoLocationConfiguration.md
 docs/GeoMappingRule.md
 docs/GeoSubdivision.md
-docs/GetActionBeaconsResult.md
 docs/GetActivities.md
 docs/GetApplicationMetrics.md
 docs/GetApplications.md
@@ -199,7 +191,6 @@ docs/GetMobileAppMetrics.md
 docs/GetMobileAppMetricsV2.md
 docs/GetPayloadKeysResult.md
 docs/GetServices.md
-docs/GetSessionReplayMetadataResult.md
 docs/GetSnapshotsQuery.md
 docs/GetTestResult.md
 docs/GetTestResultAnalytic.md
@@ -237,6 +228,13 @@ docs/HttpPathSegmentMatchingRule.md
 docs/HttpScriptConfiguration.md
 docs/HttpScriptConfigurationUpdate.md
 docs/HyperParam.md
+docs/ICMPConfiguration.md
+docs/ICMPConfigurationUpdate.md
+docs/ICMPValidation.md
+docs/IPFiltering.md
+docs/IPFilteringApi.md
+docs/IPFilteringRuleDto.md
+docs/IPFilteringUpsert.md
 docs/IdentityProviderPatch.md
 docs/IdpStatusUpdate.md
 docs/ImpactedBeaconInfo.md
@@ -244,7 +242,6 @@ docs/InfraAlertConfig.md
 docs/InfraAlertConfigWithMetadata.md
 docs/InfraAlertRule.md
 docs/InfraEventResult.md
-docs/InfraMetricConfiguration.md
 docs/InfraSloEntity.md
 docs/InfraTimeThreshold.md
 docs/InfrastructureAlertConfigurationApi.md
@@ -281,7 +278,6 @@ docs/LogAlertConfigWithMetadata.md
 docs/LogAlertConfigurationApi.md
 docs/LogAlertRule.md
 docs/LogCountAlertRule.md
-docs/LogEntryActor.md
 docs/LogEventResult.md
 docs/LogTimeThreshold.md
 docs/LogVolumeGroup.md
@@ -306,11 +302,12 @@ docs/MetricAPIResult.md
 docs/MetricConfig.md
 docs/MetricConfiguration.md
 docs/MetricDescription.md
+docs/MetricField.md
+docs/MetricFieldValue.md
 docs/MetricInstance.md
 docs/MetricItem.md
 docs/MetricMetadata.md
 docs/MetricPattern.md
-docs/MetricQuery.md
 docs/MetricsResult.md
 docs/MetricsResultItem.md
 docs/MetricsTestResultItem.md
@@ -337,9 +334,7 @@ docs/ModelField.md
 docs/MonitoredEntitiesStats.md
 docs/MonitoringState.md
 docs/MultipleScriptsConfiguration.md
-docs/Multiplication.md
 docs/NS1Integration.md
-docs/NestedOperation.md
 docs/NewApplicationConfig.md
 docs/NewBusinessPerspectiveConfig.md
 docs/NewManualServiceConfig.md
@@ -425,12 +420,9 @@ docs/ServiceScopeWithMetadata.md
 docs/ServiceScopedTo.md
 docs/ServiceScopedToWithMetadata.md
 docs/ServiceSimple.md
-docs/SessionReplayMetadata.md
-docs/SessionReplayTimestamps.md
 docs/SessionSettings.md
 docs/SessionSettingsApi.md
 docs/SimpleMetricConfiguration.md
-docs/SingleValue.md
 docs/SlackIntegration.md
 docs/SliConfiguration.md
 docs/SliConfigurationWithLastUpdated.md
@@ -463,7 +455,6 @@ docs/StaticThresholdRule.md
 docs/StatusCodeApplicationAlertRule.md
 docs/StatusCodeMobileAppAlertRule.md
 docs/StatusCodeWebsiteAlertRule.md
-docs/Subtraction.md
 docs/SyntheticAlertConfig.md
 docs/SyntheticAlertConfigWithMetadata.md
 docs/SyntheticAlertConfigWithRBACTag.md
@@ -488,6 +479,7 @@ docs/SyntheticMetricTagGroup.md
 docs/SyntheticMetricsApi.md
 docs/SyntheticPlaybackCapabilities.md
 docs/SyntheticResourceUpdateListDNSFilterTargetValueListDNSFilterTargetValue.md
+docs/SyntheticResourceUpdateListICMPValidationListICMPValidation.md
 docs/SyntheticResourceUpdateListSSLCertificateValidationListSSLCertificateValidation.md
 docs/SyntheticResourceUpdateListStringListString.md
 docs/SyntheticResourceUpdateMapStringStringListString.md
@@ -644,6 +636,7 @@ instana_client/api/infrastructure_catalog_api.py
 instana_client/api/infrastructure_metrics_api.py
 instana_client/api/infrastructure_resources_api.py
 instana_client/api/infrastructure_topology_api.py
+instana_client/api/ip_filtering_api.py
 instana_client/api/llm_price_configuration_api.py
 instana_client/api/log_alert_configuration_api.py
 instana_client/api/logging_analyze_api.py
@@ -683,11 +676,8 @@ instana_client/exceptions.py
 instana_client/models/__init__.py
 instana_client/models/abstract_integration.py
 instana_client/models/abstract_rule.py
-instana_client/models/access_log_entry.py
-instana_client/models/access_log_response.py
 instana_client/models/access_rule.py
 instana_client/models/action.py
-instana_client/models/action_beacon.py
 instana_client/models/action_configuration.py
 instana_client/models/action_instance.py
 instana_client/models/action_instance_metadata_entry.py
@@ -698,9 +688,9 @@ instana_client/models/action_match.py
 instana_client/models/action_search_space.py
 instana_client/models/adaptive_baseline.py
 instana_client/models/adaptive_threshold_rule.py
-instana_client/models/addition.py
 instana_client/models/adjusted_timeframe.py
 instana_client/models/agent_configuration_update.py
+instana_client/models/agent_mode_update.py
 instana_client/models/alerting_configuration.py
 instana_client/models/alerting_configuration_with_last_updated.py
 instana_client/models/alerting_time_window.py
@@ -740,10 +730,6 @@ instana_client/models/application_scope_with_metadata.py
 instana_client/models/application_sli_entity.py
 instana_client/models/application_slo_entity.py
 instana_client/models/application_time_threshold.py
-instana_client/models/arithmetic_configuration.py
-instana_client/models/arithmetic_operand.py
-instana_client/models/arithmetic_operation.py
-instana_client/models/audit_log_entry.py
 instana_client/models/audit_log_ui_response.py
 instana_client/models/author.py
 instana_client/models/availability_blueprint_indicator.py
@@ -758,6 +744,7 @@ instana_client/models/browser_script_configuration.py
 instana_client/models/browser_script_configuration_update.py
 instana_client/models/built_in_event_specification.py
 instana_client/models/built_in_event_specification_with_last_updated.py
+instana_client/models/bulk_alert_config_request.py
 instana_client/models/business_activity.py
 instana_client/models/business_perspective_config.py
 instana_client/models/call_groups_item.py
@@ -797,7 +784,6 @@ instana_client/models/custom_tag.py
 instana_client/models/dashboard_api_token.py
 instana_client/models/database_integration.py
 instana_client/models/deprecated_tag_filter.py
-instana_client/models/division.py
 instana_client/models/dns_configuration.py
 instana_client/models/dns_configuration_update.py
 instana_client/models/dns_filter_query_time.py
@@ -837,7 +823,6 @@ instana_client/models/generic_infra_alert_rule.py
 instana_client/models/geo_location_configuration.py
 instana_client/models/geo_mapping_rule.py
 instana_client/models/geo_subdivision.py
-instana_client/models/get_action_beacons_result.py
 instana_client/models/get_activities.py
 instana_client/models/get_application_metrics.py
 instana_client/models/get_applications.py
@@ -856,7 +841,6 @@ instana_client/models/get_mobile_app_metrics.py
 instana_client/models/get_mobile_app_metrics_v2.py
 instana_client/models/get_payload_keys_result.py
 instana_client/models/get_services.py
-instana_client/models/get_session_replay_metadata_result.py
 instana_client/models/get_snapshots_query.py
 instana_client/models/get_test_result.py
 instana_client/models/get_test_result_analytic.py
@@ -890,6 +874,9 @@ instana_client/models/http_path_segment_matching_rule.py
 instana_client/models/http_script_configuration.py
 instana_client/models/http_script_configuration_update.py
 instana_client/models/hyper_param.py
+instana_client/models/icmp_configuration.py
+instana_client/models/icmp_configuration_update.py
+instana_client/models/icmp_validation.py
 instana_client/models/identity_provider_patch.py
 instana_client/models/idp_status_update.py
 instana_client/models/impacted_beacon_info.py
@@ -897,7 +884,6 @@ instana_client/models/infra_alert_config.py
 instana_client/models/infra_alert_config_with_metadata.py
 instana_client/models/infra_alert_rule.py
 instana_client/models/infra_event_result.py
-instana_client/models/infra_metric_configuration.py
 instana_client/models/infra_slo_entity.py
 instana_client/models/infra_time_threshold.py
 instana_client/models/infrastructure_entities_result.py
@@ -910,6 +896,9 @@ instana_client/models/integration_overview.py
 instana_client/models/invitation.py
 instana_client/models/invitation_response.py
 instana_client/models/invitation_result.py
+instana_client/models/ip_filtering.py
+instana_client/models/ip_filtering_rule_dto.py
+instana_client/models/ip_filtering_upsert.py
 instana_client/models/ip_masking_configuration.py
 instana_client/models/js_stack_trace_line.py
 instana_client/models/kubernetes_physical_context.py
@@ -926,7 +915,6 @@ instana_client/models/log_alert_config.py
 instana_client/models/log_alert_config_with_metadata.py
 instana_client/models/log_alert_rule.py
 instana_client/models/log_count_alert_rule.py
-instana_client/models/log_entry_actor.py
 instana_client/models/log_event_result.py
 instana_client/models/log_time_threshold.py
 instana_client/models/log_volume_group.py
@@ -949,11 +937,12 @@ instana_client/models/metric_api_result.py
 instana_client/models/metric_config.py
 instana_client/models/metric_configuration.py
 instana_client/models/metric_description.py
+instana_client/models/metric_field.py
+instana_client/models/metric_field_value.py
 instana_client/models/metric_instance.py
 instana_client/models/metric_item.py
 instana_client/models/metric_metadata.py
 instana_client/models/metric_pattern.py
-instana_client/models/metric_query.py
 instana_client/models/metrics_result.py
 instana_client/models/metrics_result_item.py
 instana_client/models/metrics_test_result_item.py
@@ -976,8 +965,6 @@ instana_client/models/model_field.py
 instana_client/models/monitored_entities_stats.py
 instana_client/models/monitoring_state.py
 instana_client/models/multiple_scripts_configuration.py
-instana_client/models/multiplication.py
-instana_client/models/nested_operation.py
 instana_client/models/new_application_config.py
 instana_client/models/new_business_perspective_config.py
 instana_client/models/new_manual_service_config.py
@@ -1050,11 +1037,8 @@ instana_client/models/service_scope_with_metadata.py
 instana_client/models/service_scoped_to.py
 instana_client/models/service_scoped_to_with_metadata.py
 instana_client/models/service_simple.py
-instana_client/models/session_replay_metadata.py
-instana_client/models/session_replay_timestamps.py
 instana_client/models/session_settings.py
 instana_client/models/simple_metric_configuration.py
-instana_client/models/single_value.py
 instana_client/models/slack_integration.py
 instana_client/models/sli_configuration.py
 instana_client/models/sli_configuration_with_last_updated.py
@@ -1091,7 +1075,6 @@ instana_client/models/static_threshold_rule.py
 instana_client/models/status_code_application_alert_rule.py
 instana_client/models/status_code_mobile_app_alert_rule.py
 instana_client/models/status_code_website_alert_rule.py
-instana_client/models/subtraction.py
 instana_client/models/synthetic_alert_config.py
 instana_client/models/synthetic_alert_config_with_metadata.py
 instana_client/models/synthetic_alert_config_with_rbac_tag.py
@@ -1112,6 +1095,7 @@ instana_client/models/synthetic_metric_configuration.py
 instana_client/models/synthetic_metric_tag_group.py
 instana_client/models/synthetic_playback_capabilities.py
 instana_client/models/synthetic_resource_update_list_dns_filter_target_value_list_dns_filter_target_value.py
+instana_client/models/synthetic_resource_update_list_icmp_validation_list_icmp_validation.py
 instana_client/models/synthetic_resource_update_list_ssl_certificate_validation_list_ssl_certificate_validation.py
 instana_client/models/synthetic_resource_update_list_string_list_string.py
 instana_client/models/synthetic_resource_update_map_string_string_list_string.py
@@ -1230,13 +1214,16 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_action_beacon.py
-test/test_apdex_level.py
-test/test_cursor_pagination_with_ui_cursor_infra_explore_cursor.py
-test/test_dynamic_tag.py
-test/test_get_action_beacons_result.py
-test/test_llm_gateway_test_connection_request.py
-test/test_prefix_object.py
-test/test_service_levels_alert_config_with_rbac_tag.py
-test/test_test_connection_response.py
+test/test_agent_mode_update.py
+test/test_bulk_alert_config_request.py
+test/test_icmp_configuration.py
+test/test_icmp_configuration_update.py
+test/test_icmp_validation.py
+test/test_ip_filtering.py
+test/test_ip_filtering_api.py
+test/test_ip_filtering_rule_dto.py
+test/test_ip_filtering_upsert.py
+test/test_metric_field.py
+test/test_metric_field_value.py
+test/test_synthetic_resource_update_list_icmp_validation_list_icmp_validation.py
 tox.ini

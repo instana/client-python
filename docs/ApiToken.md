@@ -86,6 +86,7 @@ Name | Type | Description | Notes
 **limited_applications_scope** | **bool** |  | [optional] 
 **limited_automation_scope** | **bool** |  | [optional] 
 **limited_biz_ops_scope** | **bool** |  | [optional] 
+**limited_gen_ai_capabilities_scope** | **bool** |  | [optional] 
 **limited_gen_ai_scope** | **bool** |  | [optional] 
 **limited_infrastructure_scope** | **bool** |  | [optional] 
 **limited_kubernetes_scope** | **bool** |  | [optional] 

@@ -12,7 +12,6 @@ Name | Type | Description | Notes
 **missing_value** | **float** |  | [optional] 
 **regex** | **bool** |  | [optional] 
 **required** | **bool** | When true, metric must be present with values | [optional] 
-**operation** | [**ArithmeticOperation**](ArithmeticOperation.md) |  | [optional] 
 
 ## Example
 
