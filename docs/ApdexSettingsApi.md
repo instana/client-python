@@ -553,7 +553,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_apdex_configurations_v2**
-> List[ApdexConfiguration] get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id)
+> List[ApdexConfiguration] get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids)
 
 Get All Apdex Configurations
 
@@ -601,10 +601,11 @@ with instana_client.ApiClient(configuration) as api_client:
     to = 1705414800000 # int |  (optional)
     entity_type = 'APPLICATION' # str |  (optional)
     entity_id = 'XIZGGVT1TX2O-0OFeT2Yig' # str |  (optional)
+    apdex_ids = ['APDWMaA2yKuSS6z50LR0-cGZA'] # List[str] |  (optional)
 
     try:
         # Get All Apdex Configurations
-        api_response = api_instance.get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id)
+        api_response = api_instance.get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids)
         print("The response of ApdexSettingsApi->get_all_apdex_configurations_v2:\n")
         pprint(api_response)
     except Exception as e:
@@ -629,6 +630,7 @@ Name | Type | Description  | Notes
  **to** | **int**|  | [optional] 
  **entity_type** | **str**|  | [optional] 
  **entity_id** | **str**|  | [optional] 
+ **apdex_ids** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 

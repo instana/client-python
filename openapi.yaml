@@ -7,7 +7,7 @@ info:
   description: Documentation for INSTANA REST API
   termsOfService: https://www.instana.com/terms-of-use/
   title: Instana REST API documentation
-  version: 1.319.1109
+  version: 1.320.1414
   x-description: info
   x-ibm-ahub-try: true
   x-logo:
@@ -9055,6 +9055,18 @@ paths:
         name: sloId
         schema:
           type: string
+      - description: Apdex Configuration ID
+        example: APDXEANnWh9tQOa2h88kGxK6wQ
+        in: query
+        name: apdexId
+        schema:
+          type: string
+      - description: Alert Type filter - either 'SLO' or 'APDEX'
+        example: SLO
+        in: query
+        name: alertType
+        schema:
+          type: string
       - description: List of Service Levels Alert Configuration IDs
         example: ln3IGogYS-S7CPqcOQYTNA
         in: query
@@ -16148,6 +16160,227 @@ paths:
       tags:
       - Mobile App Metrics
       x-ibm-ahub-byok: true
+  /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/action-beacons:
+    get:
+      description: Retrieves action beacons (user interactions and events) for a mobile
+        app session. Uses cursor-based pagination with offset cursors. Returns beacons
+        starting from the cursor offset. The pageSize parameter controls the number
+        of items returned (default 100, max 1000). Includes event types, view components,
+        frustration signals, orientation changes, and more.
+      operationId: getActionBeacons
+      parameters:
+      - description: Mobile app identifier
+        example: app-456
+        in: path
+        name: mobileAppId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - description: Session identifier
+        example: session-123
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - description: Offset cursor for pagination (number of items already retrieved).
+          Omit for first page.
+        example: 100
+        in: query
+        name: cursor
+        schema:
+          type: integer
+          format: int64
+      - description: 'Number of items per page (default: 100, max: 1000)'
+        example: 100
+        in: query
+        name: pageSize
+        schema:
+          type: integer
+          format: int32
+          default: 100
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                beacons:
+                - timestamp: 1757339999715
+                  beaconType: ued
+                  sessionId: 24c6c1d4-161f-4243-85eb-3d0f46edbcbf
+                  sessionReplayVersion: 0.0.1
+                  eventType: st
+                  orientationChange: null
+                  viewComponentId: resetDirectory
+                  viewComponentClassName: MaterialButton
+                  mobileAppId: KVJIyIPsTUGfvNORN_07uQ
+                  keyboardOperation: null
+                  frustrationSignal: null
+                  scrollDirection: null
+                  scrollDuration: null
+                  beaconId: ab3d7d1251f75ac5
+                  beaconClockskew: 1234
+                  appState: foreground
+                nextCursor: 100
+                hasMore: true
+              schema:
+                $ref: '#/components/schemas/GetActionBeaconsResult'
+          description: OK
+        '400':
+          description: Bad Request - Invalid mobile app ID, session ID, or pagination
+            parameters
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '403':
+          description: Forbidden - User doesn't have access to this mobile app
+        '404':
+          description: Not Found - Mobile app or session not found
+        '500':
+          description: Internal server error.
+      summary: Get action beacons for a session
+      tags:
+      - Mobile App Catalog
+      x-ibm-ahub-byok: true
+  /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-metadata:
+    get:
+      description: Retrieves detailed metadata for session replay captured during
+        a mobile app session. Uses cursor-based pagination with timestamp cursors.
+        Returns metadata within the time window from cursor to cursor + pageSize.
+        The pageSize represents milliseconds (default 20000ms = 20 seconds). Includes
+        all metadata fields such as event type, view components, orientation changes,
+        etc.
+      operationId: getSessionReplayMetadata
+      parameters:
+      - description: Mobile app identifier
+        example: app-456
+        in: path
+        name: mobileAppId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - description: Session identifier
+        example: session-123
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - description: Timestamp cursor for pagination (epoch milliseconds). Retrieves
+          metadata from this timestamp onwards.
+        example: 1234567890
+        in: query
+        name: cursor
+        schema:
+          type: integer
+          format: int64
+      - description: 'Time window size in milliseconds (default: 20000ms = 20 seconds)'
+        example: 20000
+        in: query
+        name: pageSize
+        schema:
+          type: integer
+          format: int32
+          default: 20000
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                metadata:
+                - id: abc-123
+                  sessionId: session-xyz
+                  timestamp: 1234567890
+                  type: screenshot
+                  imageFormat: png
+                  bytesIngestedImage: 50000
+                  bytesIngestedMetadata: 1024
+                  eventType: click
+                  viewComponentId: button-submit
+                  viewComponentClassName: android.widget.Button
+                  sessionReplayVersion: '2.0'
+                  orientationChange: false
+                  keyboardOperation: true
+                  frustrationSignal: false
+                  scrollDirection: down
+                  scrollDuration: 500
+                nextCursor: 1234567895
+                hasMore: true
+              schema:
+                $ref: '#/components/schemas/GetSessionReplayMetadataResult'
+          description: OK
+        '400':
+          description: Bad Request - Invalid mobile app ID, session ID, or pagination
+            parameters
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '403':
+          description: Forbidden - User doesn't have access to this mobile app
+        '404':
+          description: Not Found - Mobile app or session not found
+        '500':
+          description: Internal server error.
+      summary: Get session replay metadata
+      tags:
+      - Mobile App Catalog
+      x-ibm-ahub-byok: true
+  /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-timestamps:
+    get:
+      description: Retrieves the first and last image timestamps for a mobile app
+        session. Returns null values if the session has no images.
+      operationId: getSessionReplayTimestamps
+      parameters:
+      - description: Mobile app identifier
+        example: app-456
+        in: path
+        name: mobileAppId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      - description: Session identifier
+        example: session-123
+        in: path
+        name: sessionId
+        required: true
+        schema:
+          type: string
+          minLength: 1
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                No images:
+                  description: No images
+                  value:
+                    firstImageTimestamp: null
+                    lastImageTimestamp: null
+                With images:
+                  description: With images
+                  value:
+                    firstImageTimestamp: 1234567890
+                    lastImageTimestamp: 1234567990
+              schema:
+                $ref: '#/components/schemas/SessionReplayTimestamps'
+          description: OK
+        '400':
+          description: Bad Request - Invalid mobile app ID or session ID
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '403':
+          description: Forbidden - User doesn't have access to this mobile app
+        '404':
+          description: Not Found - Mobile app or session not found
+        '500':
+          description: Internal server error.
+      summary: Get session replay timestamps
+      tags:
+      - Mobile App Catalog
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/session{id}{timestamp}:
     get:
       description: API request to get a mobile app monitoring session.
@@ -16693,6 +16926,16 @@ paths:
           type: string
           description: Application or Website ID
           example: XIZGGVT1TX2O-0OFeT2Yig
+      - in: query
+        name: apdexIds
+        schema:
+          type: array
+          description: List of APDEX IDs for which details need to be fetched
+          example: APDWMaA2yKuSS6z50LR0-cGZA
+          items:
+            type: string
+            description: List of APDEX IDs for which details need to be fetched
+            example: APDWMaA2yKuSS6z50LR0-cGZA
       responses:
         '200':
           content:
@@ -20254,6 +20497,34 @@ paths:
       tags:
       - Roles
       x-ibm-ahub-byok: true
+  /api/settings/rbac/roles/{roleId}/mappings:
+    get:
+      description: Retrieve IdP role mappings applicable to a specific role
+      operationId: getRoleMappings
+      parameters:
+      - in: path
+        name: roleId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleMappingOverview'
+          description: OK
+        '404':
+          description: role mapping not found
+      security:
+      - ApiKeyAuth:
+        - CanConfigureTeams
+      summary: Get role mappings
+      tags:
+      - Roles
+      x-ibm-ahub-byok: true
   /api/settings/rbac/teams:
     get:
       description: Retrieve all user teams for the current tenant unit.
@@ -20552,6 +20823,34 @@ paths:
       - ApiKeyAuth:
         - CanConfigureTeams
       summary: Update team
+      tags:
+      - Teams
+      x-ibm-ahub-byok: true
+  /api/settings/rbac/teams/{teamId}/mappings:
+    get:
+      description: Retrieve IdP role mappings applicable to a specific team
+      operationId: getTeamRoleMappings
+      parameters:
+      - in: path
+        name: teamId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RoleMappingOverview'
+          description: OK
+        '404':
+          description: role mapping not found
+      security:
+      - ApiKeyAuth:
+        - CanConfigureTeams
+      summary: Get team role mappings
       tags:
       - Teams
       x-ibm-ahub-byok: true
@@ -22333,6 +22632,574 @@ paths:
         are around one minute.)'
       tags:
       - SLI Report
+      x-ibm-ahub-byok: true
+  /api/slo/catalog/metrics/mobile:
+    get:
+      description: API request to get mobile app SLI metric catalog filtered by golden
+        signal and beacon type.
+      operationId: getMobileAppSliMetricCatalog
+      parameters:
+      - in: query
+        name: sloBlueprint
+        schema:
+          type: string
+      - in: query
+        name: beaconType
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example: |2
+                   [
+                         {
+                           "metricId": "bytesIngestedSum",
+                           "label": "Bytes ingested",
+                           "formatter": "NUMBER",
+                           "description": "Sum of bytes ingested",
+                           "aggregations": [
+                             "SUM"
+                           ],
+                           "defaultAggregation": null,
+                           "beaconTypes": [
+                             "crash",
+                             "dropBeacon",
+                             "viewChange",
+                             "custom",
+                             "perf",
+                             "sessionStart",
+                             "httpRequest"
+                           ],
+                           "pathToValueInBeacon": [
+                             "bytesIngested"
+                           ],
+                           "tagName": "mobileBeacon.bytesIngested",
+                           "secondaryBeaconTypes": [],
+                           "sliDescription": "Monitor data ingestion volume for capacity planning and cost management. Set thresholds to detect unusual data growth."
+                         },
+                         {
+                           "metricId": "androidEnuCount",
+                           "label": "Excessive network usage: Android Occurences",
+                           "formatter": "NUMBER",
+                           "description": "When the mobile OS has detected that there has been excessive network usage in the past 24 hours",
+                           "aggregatio[
+                              {
+                                "metricId": "beaconErrorCount",
+                                "label": "Beacon error count",
+                                "formatter": "NUMBER",
+                                "description": "The number of beacons resulting in error response.",
+                                "aggregations": [
+                                  "SUM"
+                                ],
+                                "sliDescription": "Track absolute number of failed requests. Useful for setting error budgets and alerting on error spikes.",
+                                "supportedSliTypes": [
+                                  "timeBased",
+                                  "eventBased"
+                                ]
+                              },
+                              {
+                                "metricId": "beaconErrorRate",
+                                "label": "Beacon error rate",
+                                "formatter": "PERCENTAGE",
+                                "description": "The percentage of beacons resulting in error response. A value between 0 and 1.",
+                                "aggregations": [
+                                  "MEAN"
+                                ],
+                                "sliDescription": "Measure API reliability by tracking the proportion of failed requests. Classic SLI for service availability.",
+                                "supportedSliTypes": [
+                                  "timeBased",
+                                  "eventBased"
+                                ]
+                              },
+                              {
+                                "metricId": "http4xx",
+                                "label": "HTTP 4XX",
+                                "formatter": "NUMBER",
+                                "description": "Number of HTTP calls with `400 <= status code <= 499`.",
+                                "aggregations": [
+                                  "SUM"
+                                ],
+                                "sliDescription": "Monitor client-side errors like bad requests or authentication failures. Helps identify integration issues.",
+                                "supportedSliTypes": [
+                                  "timeBased",
+                                  "eventBased"
+                                ]
+                              },
+                              {
+                                "metricId": "http5xx",
+                                "label": "HTTP 5XX",
+                                "formatter": "NUMBER",
+                                "description": "HTTP calls with 500 <= status code <= 599",
+                                "aggregations": [
+                                  "SUM"
+                                ],
+                                "sliDescription": "Track server-side errors indicating backend service issues. Critical for measuring service reliability.",
+                                "supportedSliTypes": [
+                                  "timeBased",
+                                  "eventBased"
+                                ]
+                              }
+                            ]
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MobileAppSloMetricCatalog'
+          description: OK
+        '400':
+          description: When the sloGoldenSignal/beaconType combination is unsupported.
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Mobile app SLI metric catalog
+      tags:
+      - SLO Catalog for Mobile App
+      x-ibm-ahub-byok: true
+  /api/slo/catalog/tags/mobile:
+    get:
+      operationId: getMobileAppSloTagCatalog
+      parameters:
+      - in: query
+        name: beaconType
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                tagTree:
+                - label: Commonly Used
+                  description: null
+                  icon: null
+                  children:
+                  - label: HTTP Call URL
+                    description: The fully qualified URL of the executed HTTP request.
+                    tagName: mobileBeacon.http.url
+                    type: TAG
+                  scoreBoost: 10
+                  type: LEVEL
+                  queryable: false
+                - label: HTTP
+                  description: null
+                  icon: null
+                  children:
+                  - label: URL
+                    description: The fully qualified URL of the executed HTTP request.
+                    tagName: mobileBeacon.http.url
+                    type: TAG
+                  - label: Origin
+                    description: The URL path of the executed HTTP request, i.e.,
+                      the combination of scheme, host and (optionally) port.
+                    tagName: mobileBeacon.http.origin
+                    type: TAG
+                  - label: Path
+                    description: The URL path of the executed HTTP request.
+                    tagName: mobileBeacon.http.path
+                    type: TAG
+                  - label: Method
+                    description: The HTTP method used for the request (e.g., GET,
+                      POST, PUT, DELETE)
+                    tagName: mobileBeacon.http.method
+                    type: TAG
+                  - label: Status Code
+                    description: The HTTP status code returned by the server in response
+                      to the mobile app's request
+                    tagName: mobileBeacon.http.status
+                    type: TAG
+                  - label: Backend Trace ID
+                    description: Unique identifier that connects the mobile app beacon
+                      with backend traces
+                    tagName: mobileBeacon.backend.traceId
+                    type: TAG
+                  - label: HTTP Headers
+                    description: HTTP Headers collected via our Mobile App agent.
+                    tagName: mobileBeacon.http.headers
+                    type: TAG
+                  - label: Cache
+                    description: null
+                    icon: null
+                    children:
+                    - label: Encoded Body Size
+                      description: The size in bytes of a response body, e.g. HTTP
+                        entity or cache retrieval, with any content-encoding, e.g.
+                        gzip, still applied.
+                      tagName: mobileBeacon.http.encodedBodySize
+                      type: TAG
+                    - label: Decoded Body Size
+                      description: The size in bytes of a response body, e.g. HTTP
+                        entity or cache retrieval, after content decoding, e.g. after
+                        decompression.
+                      tagName: mobileBeacon.http.decodedBodySize
+                      type: TAG
+                    - label: Transfer Size
+                      description: The size in bytes of HTTP responses.
+                      tagName: mobileBeacon.http.transferSize
+                      type: TAG
+                    scoreBoost: null
+                    type: LEVEL
+                    queryable: false
+                  scoreBoost: null
+                  type: LEVEL
+                  queryable: false
+                - label: Error
+                  description: null
+                  icon: null
+                  children:
+                  - label: Error Count
+                    description: The number of errors recorded for a single beacon.
+                    tagName: mobileBeacon.error.count
+                    type: TAG
+                  - label: Erroneous
+                    description: Whether or not a beacon has an error count > 0.
+                    tagName: mobileBeacon.erroneous
+                    type: TAG
+                  - label: ID
+                    description: A hash over a subset of the error properties.
+                    tagName: mobileBeacon.error.id
+                    type: TAG
+                  - label: Error Type
+                    description: The type or classification of the error that occurred
+                      in the mobile app
+                    tagName: mobileBeacon.error.type
+                    type: TAG
+                  - label: Error Message
+                    description: The detailed error message describing what went wrong
+                      in the mobile app
+                    tagName: mobileBeacon.error.message
+                    type: TAG
+                  - label: Stack Trace
+                    description: null
+                    icon: null
+                    children:
+                    - label: Stack Trace
+                      description: The stack trace of errors passed to our reportEvent
+                        API.
+                      tagName: mobileBeacon.stackTrace
+                      type: TAG
+                    scoreBoost: null
+                    type: LEVEL
+                    queryable: false
+                  scoreBoost: null
+                  type: LEVEL
+                  queryable: false
+                tags:
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.status
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - status
+                  name: mobileBeacon.http.status
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Status Code
+                  description: The HTTP status code returned by the server in response
+                    to the mobile app's request
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.error.type
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - error
+                  - type
+                  name: mobileBeacon.error.type
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Error Type
+                  description: The type or classification of the error that occurred
+                    in the mobile app
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.origin
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - origin
+                  name: mobileBeacon.http.origin
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Origin
+                  description: The URL path of the executed HTTP request, i.e., the
+                    combination of scheme, host and (optionally) port.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.method
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - method
+                  name: mobileBeacon.http.method
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Method
+                  description: The HTTP method used for the request (e.g., GET, POST,
+                    PUT, DELETE)
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.error.id
+                  availability: [
+                    ]
+                  idTag: true
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - error
+                  - id
+                  name: mobileBeacon.error.id
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: ID
+                  description: A hash over a subset of the error properties.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.path
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - path
+                  name: mobileBeacon.http.path
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Path
+                  description: The URL path of the executed HTTP request.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.stackTrace
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - stackTrace
+                  name: mobileBeacon.stackTrace
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Stack Trace
+                  description: The stack trace of errors passed to our reportEvent
+                    API.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.transferSize
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - transferSize
+                  name: mobileBeacon.http.transferSize
+                  type: NUMBER
+                  aliases: [
+                    ]
+                  label: Transfer Size
+                  description: The size in bytes of HTTP responses.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.backend.traceId
+                  availability: [
+                    ]
+                  idTag: true
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - backend
+                  - traceId
+                  name: mobileBeacon.backend.traceId
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Backend Trace ID
+                  description: Unique identifier that connects the mobile app beacon
+                    with backend traces
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.headers
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - headers
+                  name: mobileBeacon.http.headers
+                  type: KEY_VALUE_PAIR
+                  aliases: [
+                    ]
+                  label: HTTP Headers
+                  description: HTTP Headers collected via our Mobile App agent.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.error.count
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - error
+                  - count
+                  name: mobileBeacon.error.count
+                  type: NUMBER
+                  aliases: [
+                    ]
+                  label: Error Count
+                  description: The number of errors recorded for a single beacon.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.encodedBodySize
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - encodedBodySize
+                  name: mobileBeacon.http.encodedBodySize
+                  type: NUMBER
+                  aliases: [
+                    ]
+                  label: Encoded Body Size
+                  description: The size in bytes of a response body, e.g. HTTP entity
+                    or cache retrieval, with any content-encoding, e.g. gzip, still
+                    applied.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.url
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - url
+                  name: mobileBeacon.http.url
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: URL
+                  description: The fully qualified URL of the executed HTTP request.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.erroneous
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - erroneous
+                  name: mobileBeacon.erroneous
+                  type: BOOLEAN
+                  aliases: [
+                    ]
+                  label: Erroneous
+                  description: Whether or not a beacon has an error count > 0.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.http.decodedBodySize
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: HTTP
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - http
+                  - decodedBodySize
+                  name: mobileBeacon.http.decodedBodySize
+                  type: NUMBER
+                  aliases: [
+                    ]
+                  label: Decoded Body Size
+                  description: The size in bytes of a response body, e.g. HTTP entity
+                    or cache retrieval, after content decoding, e.g. after decompression.
+                - canApplyToDestination: false
+                  canApplyToSource: false
+                  nameWithoutCategory: mobileBeacon.error.message
+                  availability: [
+                    ]
+                  idTag: false
+                  level1: Mobile
+                  level2: null
+                  namePartsWithoutCategory:
+                  - mobileBeacon
+                  - error
+                  - message
+                  name: mobileBeacon.error.message
+                  type: STRING
+                  aliases: [
+                    ]
+                  label: Error Message
+                  description: The detailed error message describing what went wrong
+                    in the mobile app
+              schema:
+                $ref: '#/components/schemas/TagCatalog'
+          description: OK
+        '400':
+          description: When the beaconType unsupported/unknown.
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Get mobile app monitoring tag catalog for Mobile App SLOs
+      tags:
+      - SLO Catalog for Mobile App
+      x-description: getMobileAppSloTagCatalog
       x-ibm-ahub-byok: true
   /api/slo/correction:
     get:
@@ -27505,6 +28372,97 @@ components:
       - modifiedAt
       - name
       - type
+    ActionBeacon:
+      type: object
+      description: List of action beacons for the current page
+      properties:
+        appState:
+          type: string
+          description: Application state (e.g., foreground, background)
+          example: foreground
+          nullable: true
+        beaconClockskew:
+          type: integer
+          format: int64
+          description: Clock skew in milliseconds between client and server
+          example: 1234
+          nullable: true
+        beaconId:
+          type: string
+          description: Beacon identifier
+          example: beacon-123
+        beaconType:
+          type: string
+          description: Type of beacon
+          example: ued
+        bytesIngestedMetadata:
+          type: integer
+          format: int64
+          description: Bytes ingested for metadata
+          example: 1024
+          nullable: true
+        eventType:
+          type: string
+          description: Event type (e.g., st=start, fs=frustration signal, oc=orientation
+            change)
+          example: st
+          nullable: true
+        frustrationSignal:
+          type: string
+          description: Frustration signal type (e.g., rt=rage tap)
+          example: rt
+          nullable: true
+        keyboardOperation:
+          type: string
+          description: Keyboard operation indicator
+          nullable: true
+        mobileAppId:
+          type: string
+          description: Mobile app identifier
+          example: KVJIyIPsTUGfvNORN_07uQ
+        orientationChange:
+          type: string
+          description: Orientation change indicator (l=landscape, p=portrait)
+          example: l
+          nullable: true
+        scrollDirection:
+          type: string
+          description: Scroll direction
+          nullable: true
+        scrollDuration:
+          type: string
+          description: Scroll duration in milliseconds
+          nullable: true
+        sessionId:
+          type: string
+          description: Session identifier
+          example: 24c6c1d4-161f-4243-85eb-3d0f46edbcbf
+        sessionReplayVersion:
+          type: string
+          description: Session replay version
+          example: 0.0.1
+          nullable: true
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp when the action was captured (epoch milliseconds)
+          example: 1757339999715
+        viewComponentClassName:
+          type: string
+          description: View component class name
+          example: MaterialButton
+          nullable: true
+        viewComponentId:
+          type: string
+          description: View component identifier
+          example: resetDirectory
+          nullable: true
+      required:
+      - beaconId
+      - beaconType
+      - mobileAppId
+      - sessionId
+      - timestamp
     ActionConfiguration:
       type: object
       description: List of action configurations.
@@ -27984,6 +28942,20 @@ components:
       required:
       - duration
       - durationType
+    ApdexAlertRule:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/ServiceLevelsAlertRule'
+      - type: object
+        properties:
+          metric:
+            type: string
+            description: This is the Apdex metric type. Apdex alert uses <b>SCORE</b>
+              metric.
+            enum:
+            - SCORE
+      required:
+      - metric
     ApdexConfiguration:
       type: object
       properties:
@@ -29652,6 +30624,8 @@ components:
             - firefox
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           recordVideo:
             type: boolean
           script:
@@ -29681,6 +30655,8 @@ components:
             - firefox
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           recordVideo:
             type: boolean
           script:
@@ -31823,6 +32799,12 @@ components:
           type: string
           deprecated: true
           description: Details of the event.
+        metadata:
+          type: object
+          additionalProperties:
+            type: object
+            description: Additional event meta data.
+          description: Additional event meta data.
         metrics:
           type: array
           description: List of metrics associated with the Event.
@@ -31873,6 +32855,9 @@ components:
         state:
           type: string
           description: 'The state of the Event, "open" or "close". '
+        triggeringEventId:
+          type: string
+          description: The triggering event ID in case of an incident.
         type:
           type: string
           description: The type of Event.
@@ -32136,6 +33121,29 @@ components:
           minLength: 0
       required:
       - name
+    GetActionBeaconsResult:
+      type: object
+      properties:
+        beacons:
+          type: array
+          description: List of action beacons for the current page
+          items:
+            $ref: '#/components/schemas/ActionBeacon'
+        hasMore:
+          type: boolean
+          description: Indicates whether more beacons are available beyond the current
+            page
+          example: true
+        nextCursor:
+          type: integer
+          format: int64
+          description: Cursor for the next page (timestamp). Use this value in the
+            next request to fetch more beacons.
+          example: 1757340000000
+          nullable: true
+      required:
+      - beacons
+      - hasMore
     GetActivities:
       type: object
       properties:
@@ -32795,6 +33803,27 @@ components:
           $ref: '#/components/schemas/TimeFrame'
       required:
       - metrics
+    GetSessionReplayMetadataResult:
+      type: object
+      properties:
+        hasMore:
+          type: boolean
+          description: Whether there are more records to fetch beyond this page
+          example: true
+        metadata:
+          type: array
+          description: List of session replay metadata records
+          items:
+            $ref: '#/components/schemas/SessionReplayMetadata'
+        nextCursor:
+          type: integer
+          format: int64
+          description: Cursor for the next page (timestamp of last record)
+          example: 1234587890
+          nullable: true
+      required:
+      - hasMore
+      - metadata
     GetSnapshotsQuery:
       type: object
       properties:
@@ -33172,6 +34201,20 @@ components:
       required:
       - metrics
       - type
+    GitHubConfiguration:
+      type: object
+      properties:
+        branchName:
+          type: string
+        credentialName:
+          type: string
+        scriptFile:
+          type: string
+        url:
+          type: string
+      required:
+      - branchName
+      - url
     GlobalApplicationAlertConfigWithMetadata:
       type: object
       properties:
@@ -33905,6 +34948,8 @@ components:
         properties:
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           script:
             type: string
             maxLength: 1048576
@@ -33927,6 +34972,8 @@ components:
         properties:
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           script:
             type: string
           scriptType:
@@ -34591,6 +35638,13 @@ components:
       type: object
       description: group of infrastructure entities
       properties:
+        adjustedGranularities:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            description: map of metric keys to their adjusted granularity (in milliseconds)
+          description: map of metric keys to their adjusted granularity (in milliseconds)
         count:
           type: integer
           format: int64
@@ -34640,6 +35694,13 @@ components:
     InfrastructureItem:
       type: object
       properties:
+        adjustedGranularities:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int64
+            description: map of metric keys to their adjusted granularity (in milliseconds)
+          description: map of metric keys to their adjusted granularity (in milliseconds)
         entityHealthInfo:
           $ref: '#/components/schemas/EntityHealthInfo'
         label:
@@ -35892,6 +36953,11 @@ components:
             type: string
           metricId:
             type: string
+          source:
+            type: string
+            enum:
+            - INFRA
+            - APPLICATION
           timeWindow:
             type: object
           value:
@@ -35916,6 +36982,12 @@ components:
         metricId:
           type: string
           description: The metric ID to retrieve
+        source:
+          type: string
+          description: The source catalog the metric was selected from
+          enum:
+          - INFRA
+          - APPLICATION
         timeWindow:
           type: object
           description: The time window in milliseconds for metric aggregation
@@ -37010,6 +38082,9 @@ components:
           type: string
           maxLength: 128
           minLength: 0
+        sessionReplayStatus:
+          type: integer
+          format: int64
         stackTrace:
           type: string
           maxLength: 16384
@@ -37273,6 +38348,8 @@ components:
       required:
       - aggregation
       - metric
+    MobileAppSloMetricCatalog:
+      type: object
     MobileAppTimeThreshold:
       type: object
       description: The type of threshold to define the criteria when the event and
@@ -38010,6 +39087,29 @@ components:
           minimum: 7
       required:
       - logVolume
+    RoleMappingOverview:
+      type: object
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        role:
+          type: string
+        roleId:
+          type: string
+        team:
+          type: string
+        teamId:
+          type: string
+        value:
+          type: string
+      required:
+      - id
+      - key
+      - role
+      - roleId
+      - value
     RollingTimeWindow:
       type: object
       allOf:
@@ -38601,6 +39701,18 @@ components:
           maxItems: 1024
           minItems: 0
           uniqueItems: true
+        apdexIds:
+          type: array
+          description: This is the list of Apdex configurations related to this alert
+            (mutually exclusive with sloIds).
+          items:
+            type: string
+            description: This is the list of Apdex configurations related to this
+              alert (mutually exclusive with sloIds).
+            minLength: 1
+          maxItems: 1024
+          minItems: 0
+          uniqueItems: true
         burnRateConfig:
           type: array
           description: This is the burn rate alert configuration which defines alerting
@@ -38657,6 +39769,7 @@ components:
             accident.
       required:
       - alertChannelIds
+      - apdexIds
       - customPayloadFields
       - description
       - name
@@ -38675,6 +39788,18 @@ components:
             type: string
             description: This is the list of channel IDs when alert triggered and
               sent to.
+            minLength: 1
+          maxItems: 1024
+          minItems: 0
+          uniqueItems: true
+        apdexIds:
+          type: array
+          description: This is the list of Apdex configurations related to this alert
+            (mutually exclusive with sloIds).
+          items:
+            type: string
+            description: This is the list of Apdex configurations related to this
+              alert (mutually exclusive with sloIds).
             minLength: 1
           maxItems: 1024
           minItems: 0
@@ -38766,6 +39891,7 @@ components:
             accident.
       required:
       - alertChannelIds
+      - apdexIds
       - customPayloadFields
       - description
       - id
@@ -38777,9 +39903,10 @@ components:
     ServiceLevelsAlertRule:
       type: object
       description: This is the service levels alert type. It could be error budget
-        alert or service levels object alert.
+        alert, service levels object alert, or Apdex alert.
       discriminator:
         mapping:
+          APDEX: '#/components/schemas/ApdexAlertRule'
           ERROR_BUDGET: '#/components/schemas/ErrorBudgetAlertRule'
           SERVICE_LEVELS_OBJECTIVE: '#/components/schemas/ServiceLevelObjectiveAlertRule'
         propertyName: alertType
@@ -38889,6 +40016,18 @@ components:
           maxItems: 1024
           minItems: 0
           uniqueItems: true
+        apdexIds:
+          type: array
+          description: This is the list of Apdex configurations related to this alert
+            (mutually exclusive with sloIds).
+          items:
+            type: string
+            description: This is the list of Apdex configurations related to this
+              alert (mutually exclusive with sloIds).
+            minLength: 1
+          maxItems: 1024
+          minItems: 0
+          uniqueItems: true
         burnRateConfig:
           type: array
           description: This is the burn rate alert configuration which defines alerting
@@ -38970,6 +40109,7 @@ components:
             accident.
       required:
       - alertChannelIds
+      - apdexIds
       - customPayloadFields
       - description
       - id
@@ -39265,6 +40405,63 @@ components:
         label:
           type: string
           description: 'Name of the Service. Eg: `payment`.'
+    SessionReplayMetadata:
+      type: object
+      description: List of session replay metadata records
+      properties:
+        bytesIngestedImage:
+          type: integer
+          format: int64
+          description: Size of the image in bytes
+          example: 50000
+        id:
+          type: string
+          description: Unique identifier for the metadata record
+          example: image-123
+        imageData:
+          type: string
+          description: Base64-encoded image data loaded from external storage
+          example: iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==
+          nullable: true
+        imageFormat:
+          type: string
+          description: Image format
+          example: png
+        sessionId:
+          type: string
+          description: Session identifier
+          example: session-xyz
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp when the record was captured (epoch milliseconds)
+          example: 1234567890
+        type:
+          type: string
+          description: Type of record
+          example: screenshot
+      required:
+      - bytesIngestedImage
+      - id
+      - imageFormat
+      - sessionId
+      - timestamp
+      - type
+    SessionReplayTimestamps:
+      type: object
+      properties:
+        firstImageTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the first image in the session (epoch milliseconds).
+            Null if no images exist.
+          example: 1234567890
+        lastImageTimestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the last image in the session (epoch milliseconds).
+            Null if no images exist.
+          example: 1234567990
     SessionSettings:
       type: object
       properties:
@@ -41865,9 +43062,13 @@ components:
           type: object
           additionalProperties:
             type: string
+        dnsLookup:
+          type: string
         dnsQueryType:
           type: string
         dnsServerName:
+          type: string
+        dnsTransport:
           type: string
         errors:
           type: array
@@ -42792,6 +43993,7 @@ components:
           - SyntheticSmartAlert
           - InfraSmartAlert
           - ServiceLevelSmartAlert
+          - ApdexSmartAlert
           - LogSmartAlert
       required:
       - id
@@ -43176,6 +44378,8 @@ components:
             - firefox
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           recordVideo:
             type: boolean
           script:
@@ -43184,7 +44388,6 @@ components:
             minLength: 0
       required:
       - markSyntheticCall
-      - script
       - syntheticType
     WebpageScriptConfigurationUpdate:
       type: object
@@ -43199,6 +44402,8 @@ components:
             - firefox
           fileName:
             type: string
+          github:
+            $ref: '#/components/schemas/GitHubConfiguration'
           recordVideo:
             type: boolean
           script:
@@ -44685,6 +45890,7 @@ x-tagGroups:
   - Service Levels Alert Configuration
   - SLO Correction Configurations
   - SLO Correction Windows
+  - SLO Catalog for Mobile App
 - name: AI Management
   tags:
   - AI Management

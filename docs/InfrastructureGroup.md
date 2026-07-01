@@ -6,6 +6,7 @@ group of infrastructure entities
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**adjusted_granularities** | **Dict[str, int]** | map of metric keys to their adjusted granularity (in milliseconds) | [optional] 
 **count** | **int** | number of entities in this group | [optional] 
 **metrics** | **Dict[str, List[List[float]]]** | map of metric keys to array of timestamp,value pairs | [optional] 
 **poll_rate** | **int** | max poll rate across this group | [optional] 

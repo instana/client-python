@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **alert_channel_ids** | **List[str]** | This is the list of channel IDs when alert triggered and sent to. | 
+**apdex_ids** | **List[str]** | This is the list of Apdex configurations related to this alert (mutually exclusive with sloIds). | 
 **burn_rate_config** | [**List[ServiceLevelsBurnRateConfig]**](ServiceLevelsBurnRateConfig.md) | This is the burn rate alert configuration which defines alerting windows and corresponding thresholds. This configuration must to specified for BURN_RATE_V2 Alerts. | [optional] 
 **burn_rate_time_windows** | [**ServiceLevelsBurnRateTimeWindows**](ServiceLevelsBurnRateTimeWindows.md) |  | [optional] 
 **created** | **int** | Created Date of the version of Service Levels Smart Alerts Configuration. | [optional] 

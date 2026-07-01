@@ -72,6 +72,7 @@ Name | Type | Description | Notes
 **region** | **str** |  | [optional] 
 **rooted** | **bool** |  | [optional] 
 **session_id** | **str** |  | [optional] 
+**session_replay_status** | **int** |  | [optional] 
 **stack_trace** | **str** |  | [optional] 
 **stack_trace_key_checksum** | **str** |  | [optional] 
 **stack_trace_key_information** | **str** |  | [optional] 

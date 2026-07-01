@@ -561,7 +561,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **find_active_service_levels_alert_configs**
-> List[ServiceLevelseAlertConfigWithMetadata] find_active_service_levels_alert_configs(slo_id=slo_id, alert_ids=alert_ids)
+> List[ServiceLevelseAlertConfigWithMetadata] find_active_service_levels_alert_configs(slo_id=slo_id, apdex_id=apdex_id, alert_type=alert_type, alert_ids=alert_ids)
 
 All Service levels Alert Configs
 
@@ -599,11 +599,13 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ServiceLevelsAlertConfigurationApi(api_client)
     slo_id = 'SLOEANnWh9tQOa2h88kGxK6wQ' # str | SLO Configuration ID (optional)
+    apdex_id = 'APDXEANnWh9tQOa2h88kGxK6wQ' # str | Apdex Configuration ID (optional)
+    alert_type = 'SLO' # str | Alert Type filter - either 'SLO' or 'APDEX' (optional)
     alert_ids = ['ln3IGogYS-S7CPqcOQYTNA'] # List[str] | List of Service Levels Alert Configuration IDs (optional)
 
     try:
         # All Service levels Alert Configs
-        api_response = api_instance.find_active_service_levels_alert_configs(slo_id=slo_id, alert_ids=alert_ids)
+        api_response = api_instance.find_active_service_levels_alert_configs(slo_id=slo_id, apdex_id=apdex_id, alert_type=alert_type, alert_ids=alert_ids)
         print("The response of ServiceLevelsAlertConfigurationApi->find_active_service_levels_alert_configs:\n")
         pprint(api_response)
     except Exception as e:
@@ -618,6 +620,8 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **slo_id** | **str**| SLO Configuration ID | [optional] 
+ **apdex_id** | **str**| Apdex Configuration ID | [optional] 
+ **alert_type** | **str**| Alert Type filter - either &#39;SLO&#39; or &#39;APDEX&#39; | [optional] 
  **alert_ids** | [**List[str]**](str.md)| List of Service Levels Alert Configuration IDs | [optional] 
 
 ### Return type

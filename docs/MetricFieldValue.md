@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **aggregation** | **str** | The aggregation type to apply to the metric | 
 **entity_type** | **str** | The entity type for the metric query | [optional] 
 **metric_id** | **str** | The metric ID to retrieve | 
+**source** | **str** | The source catalog the metric was selected from | [optional] 
 **time_window** | **object** | The time window in milliseconds for metric aggregation | [optional] 
 
 ## Example

@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **aggregation** | **str** |  | [optional] 
 **entity_type** | **str** |  | [optional] 
 **metric_id** | **str** |  | [optional] 
+**source** | **str** |  | [optional] 
 **time_window** | **object** |  | [optional] 
 **value** | [**MetricFieldValue**](MetricFieldValue.md) |  | [optional] 
 

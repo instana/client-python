@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **file_name** | **str** |  | [optional] 
+**github** | [**GitHubConfiguration**](GitHubConfiguration.md) |  | [optional] 
 **script** | **str** |  | [optional] 
 **script_type** | **str** |  | [optional] 
 **scripts** | [**MultipleScriptsConfiguration**](MultipleScriptsConfiguration.md) |  | [optional] 

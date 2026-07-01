@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **browser** | **str** |  | [optional] 
 **file_name** | **str** |  | [optional] 
+**github** | [**GitHubConfiguration**](GitHubConfiguration.md) |  | [optional] 
 **record_video** | **bool** |  | [optional] 
 **script** | **str** |  | [optional] 
 
