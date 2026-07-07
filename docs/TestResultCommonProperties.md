@@ -7,8 +7,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **client_id** | **str** |  | 
 **custom_tags** | **Dict[str, str]** |  | [optional] 
+**dns_lookup** | **str** |  | [optional] 
 **dns_query_type** | **str** |  | [optional] 
 **dns_server_name** | **str** |  | [optional] 
+**dns_transport** | **str** |  | [optional] 
 **errors** | **List[str]** |  | [optional] 
 **id** | **str** |  | [optional] 
 **ism_details** | **Dict[str, str]** |  | [optional] 

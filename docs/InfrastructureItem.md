@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**adjusted_granularities** | **Dict[str, int]** | map of metric keys to their adjusted granularity (in milliseconds) | [optional] 
 **entity_health_info** | [**EntityHealthInfo**](EntityHealthInfo.md) |  | [optional] 
 **label** | **str** |  | [optional] 
 **metrics** | **Dict[str, List[List[float]]]** |  | [optional] 

@@ -6,6 +6,9 @@ List of action beacons for the current page
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**app_state** | **str** | Application state (e.g., foreground, background) | [optional] 
+**beacon_clockskew** | **int** | Clock skew in milliseconds between client and server | [optional] 
+**beacon_id** | **str** | Beacon identifier | 
 **beacon_type** | **str** | Type of beacon | 
 **bytes_ingested_metadata** | **int** | Bytes ingested for metadata | [optional] 
 **event_type** | **str** | Event type (e.g., st&#x3D;start, fs&#x3D;frustration signal, oc&#x3D;orientation change) | [optional] 

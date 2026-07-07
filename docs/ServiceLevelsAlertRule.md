@@ -1,6 +1,6 @@
 # ServiceLevelsAlertRule
 
-This is the service levels alert type. It could be error budget alert or service levels object alert.
+This is the service levels alert type. It could be error budget alert, service levels object alert, or Apdex alert.
 
 ## Properties
 

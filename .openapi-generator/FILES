@@ -8,6 +8,7 @@ docs/AbstractIntegration.md
 docs/AbstractRule.md
 docs/AccessRule.md
 docs/Action.md
+docs/ActionBeacon.md
 docs/ActionCatalogApi.md
 docs/ActionConfiguration.md
 docs/ActionHistoryApi.md
@@ -26,6 +27,7 @@ docs/AgentModeUpdate.md
 docs/AlertingConfiguration.md
 docs/AlertingConfigurationWithLastUpdated.md
 docs/AlertingTimeWindow.md
+docs/ApdexAlertRule.md
 docs/ApdexConfiguration.md
 docs/ApdexConfigurationInput.md
 docs/ApdexEntity.md
@@ -173,6 +175,7 @@ docs/GenericInfraAlertRule.md
 docs/GeoLocationConfiguration.md
 docs/GeoMappingRule.md
 docs/GeoSubdivision.md
+docs/GetActionBeaconsResult.md
 docs/GetActivities.md
 docs/GetApplicationMetrics.md
 docs/GetApplications.md
@@ -191,6 +194,7 @@ docs/GetMobileAppMetrics.md
 docs/GetMobileAppMetricsV2.md
 docs/GetPayloadKeysResult.md
 docs/GetServices.md
+docs/GetSessionReplayMetadataResult.md
 docs/GetSnapshotsQuery.md
 docs/GetTestResult.md
 docs/GetTestResultAnalytic.md
@@ -204,6 +208,7 @@ docs/GetWebsiteBeaconGroups.md
 docs/GetWebsiteBeacons.md
 docs/GetWebsiteMetrics.md
 docs/GetWebsiteMetricsV2.md
+docs/GitHubConfiguration.md
 docs/GlobalApplicationAlertConfigWithMetadata.md
 docs/GlobalApplicationAlertConfigurationApi.md
 docs/GlobalApplicationsAlertConfig.md
@@ -369,6 +374,7 @@ docs/ReleaseScope.md
 docs/ReleaseWithMetadata.md
 docs/ReleasesApi.md
 docs/RetentionPeriod.md
+docs/RoleMappingOverview.md
 docs/RolesApi.md
 docs/RollingTimeWindow.md
 docs/RuleInput.md
@@ -380,6 +386,7 @@ docs/RuleWithThresholdWebsiteAlertRule.md
 docs/RunConfiguration.md
 docs/SLIReportApi.md
 docs/SLISettingsApi.md
+docs/SLOCatalogForMobileAppApi.md
 docs/SLOConfigWithRBACTag.md
 docs/SLOConfigurationsApi.md
 docs/SLOCorrectionConfigurationsApi.md
@@ -420,6 +427,8 @@ docs/ServiceScopeWithMetadata.md
 docs/ServiceScopedTo.md
 docs/ServiceScopedToWithMetadata.md
 docs/ServiceSimple.md
+docs/SessionReplayMetadata.md
+docs/SessionReplayTimestamps.md
 docs/SessionSettings.md
 docs/SessionSettingsApi.md
 docs/SimpleMetricConfiguration.md
@@ -653,6 +662,7 @@ instana_client/api/service_levels_objective_slo_report_api.py
 instana_client/api/session_settings_api.py
 instana_client/api/sli_report_api.py
 instana_client/api/sli_settings_api.py
+instana_client/api/slo_catalog_for_mobile_app_api.py
 instana_client/api/slo_configurations_api.py
 instana_client/api/slo_correction_configurations_api.py
 instana_client/api/slo_correction_windows_api.py
@@ -678,6 +688,7 @@ instana_client/models/abstract_integration.py
 instana_client/models/abstract_rule.py
 instana_client/models/access_rule.py
 instana_client/models/action.py
+instana_client/models/action_beacon.py
 instana_client/models/action_configuration.py
 instana_client/models/action_instance.py
 instana_client/models/action_instance_metadata_entry.py
@@ -694,6 +705,7 @@ instana_client/models/agent_mode_update.py
 instana_client/models/alerting_configuration.py
 instana_client/models/alerting_configuration_with_last_updated.py
 instana_client/models/alerting_time_window.py
+instana_client/models/apdex_alert_rule.py
 instana_client/models/apdex_configuration.py
 instana_client/models/apdex_configuration_input.py
 instana_client/models/apdex_entity.py
@@ -823,6 +835,7 @@ instana_client/models/generic_infra_alert_rule.py
 instana_client/models/geo_location_configuration.py
 instana_client/models/geo_mapping_rule.py
 instana_client/models/geo_subdivision.py
+instana_client/models/get_action_beacons_result.py
 instana_client/models/get_activities.py
 instana_client/models/get_application_metrics.py
 instana_client/models/get_applications.py
@@ -841,6 +854,7 @@ instana_client/models/get_mobile_app_metrics.py
 instana_client/models/get_mobile_app_metrics_v2.py
 instana_client/models/get_payload_keys_result.py
 instana_client/models/get_services.py
+instana_client/models/get_session_replay_metadata_result.py
 instana_client/models/get_snapshots_query.py
 instana_client/models/get_test_result.py
 instana_client/models/get_test_result_analytic.py
@@ -854,6 +868,7 @@ instana_client/models/get_website_beacon_groups.py
 instana_client/models/get_website_beacons.py
 instana_client/models/get_website_metrics.py
 instana_client/models/get_website_metrics_v2.py
+instana_client/models/git_hub_configuration.py
 instana_client/models/global_application_alert_config_with_metadata.py
 instana_client/models/global_applications_alert_config.py
 instana_client/models/google_chat_integration.py
@@ -998,6 +1013,7 @@ instana_client/models/release.py
 instana_client/models/release_scope.py
 instana_client/models/release_with_metadata.py
 instana_client/models/retention_period.py
+instana_client/models/role_mapping_overview.py
 instana_client/models/rolling_time_window.py
 instana_client/models/rule_input.py
 instana_client/models/rule_with_threshold_application_alert_rule.py
@@ -1037,6 +1053,8 @@ instana_client/models/service_scope_with_metadata.py
 instana_client/models/service_scoped_to.py
 instana_client/models/service_scoped_to_with_metadata.py
 instana_client/models/service_simple.py
+instana_client/models/session_replay_metadata.py
+instana_client/models/session_replay_timestamps.py
 instana_client/models/session_settings.py
 instana_client/models/simple_metric_configuration.py
 instana_client/models/slack_integration.py
@@ -1214,16 +1232,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_agent_mode_update.py
-test/test_bulk_alert_config_request.py
-test/test_icmp_configuration.py
-test/test_icmp_configuration_update.py
-test/test_icmp_validation.py
-test/test_ip_filtering.py
-test/test_ip_filtering_api.py
-test/test_ip_filtering_rule_dto.py
-test/test_ip_filtering_upsert.py
-test/test_metric_field.py
-test/test_metric_field_value.py
-test/test_synthetic_resource_update_list_icmp_validation_list_icmp_validation.py
 tox.ini

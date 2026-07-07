@@ -46,6 +46,7 @@ from instana_client.api.releases_api import ReleasesApi
 from instana_client.api.roles_api import RolesApi
 from instana_client.api.sli_report_api import SLIReportApi
 from instana_client.api.sli_settings_api import SLISettingsApi
+from instana_client.api.slo_catalog_for_mobile_app_api import SLOCatalogForMobileAppApi
 from instana_client.api.slo_configurations_api import SLOConfigurationsApi
 from instana_client.api.slo_correction_configurations_api import SLOCorrectionConfigurationsApi
 from instana_client.api.slo_correction_windows_api import SLOCorrectionWindowsApi

@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**create_role**](RolesApi.md#create_role) | **POST** /api/settings/rbac/roles | Create role
 [**delete_role**](RolesApi.md#delete_role) | **DELETE** /api/settings/rbac/roles/{id} | Delete role
 [**get_role**](RolesApi.md#get_role) | **GET** /api/settings/rbac/roles/{id} | Get role by ID
+[**get_role_mappings**](RolesApi.md#get_role_mappings) | **GET** /api/settings/rbac/roles/{roleId}/mappings | Get role mappings
 [**get_roles**](RolesApi.md#get_roles) | **GET** /api/settings/rbac/roles | Get all roles
 [**update_role**](RolesApi.md#update_role) | **PUT** /api/settings/rbac/roles/{id} | Update role
 
@@ -249,6 +250,86 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **404** | Role not found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_role_mappings**
+> List[RoleMappingOverview] get_role_mappings(role_id)
+
+Get role mappings
+
+Retrieve IdP role mappings applicable to a specific role
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.role_mapping_overview import RoleMappingOverview
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.RolesApi(api_client)
+    role_id = 'role_id_example' # str | 
+
+    try:
+        # Get role mappings
+        api_response = api_instance.get_role_mappings(role_id)
+        print("The response of RolesApi->get_role_mappings:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling RolesApi->get_role_mappings: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **role_id** | **str**|  | 
+
+### Return type
+
+[**List[RoleMappingOverview]**](RoleMappingOverview.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | role mapping not found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

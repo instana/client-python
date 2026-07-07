@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **event_id** | **str** | ID of this Event. | [optional] 
 **event_specification_id** | **str** | ID of the configuration that created this event. | [optional] 
 **fix_suggestion** | **str** | Details of the event. | [optional] 
+**metadata** | **Dict[str, object]** | Additional event meta data. | [optional] 
 **metrics** | **List[Dict[str, object]]** | List of metrics associated with the Event. | [optional] 
 **probable_cause** | **Dict[str, object]** | Metadata of the probable root cause for this event. Only present in case of specific \&quot;Incident\&quot; type events. | [optional] 
 **problem** | **str** | Main problem title of the Event. | [optional] 
@@ -22,6 +23,7 @@ Name | Type | Description | Notes
 **snapshot_id** | **str** | The snapshot ID of the affected entity of this event. | [optional] 
 **start** | **int** | A Unix timestamp representing the start time of the Event. | [optional] 
 **state** | **str** | The state of the Event, \&quot;open\&quot; or \&quot;close\&quot;.  | [optional] 
+**triggering_event_id** | **str** | The triggering event ID in case of an incident. | [optional] 
 **type** | **str** | The type of Event. | [optional] 
 
 ## Example
