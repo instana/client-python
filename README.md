@@ -397,6 +397,7 @@ Class | Method | HTTP request | Description
 *LogAlertConfigurationApi* | [**restore_log_alert_config**](docs/LogAlertConfigurationApi.md#restore_log_alert_config) | **PUT** /api/events/settings/global-alert-configs/logs/{id}/restore/{created} | Restore Log Alert Config
 *LogAlertConfigurationApi* | [**update_log_alert_config**](docs/LogAlertConfigurationApi.md#update_log_alert_config) | **POST** /api/events/settings/global-alert-configs/logs/{id} | Update Log Alert Config
 *LoggingAnalyzeApi* | [**get_log_volume_usage**](docs/LoggingAnalyzeApi.md#get_log_volume_usage) | **GET** /api/logging/logs/getLogVolumeUsage | Get Log Volume Usage
+*LoggingAnalyzeApi* | [**search_logs**](docs/LoggingAnalyzeApi.md#search_logs) | **POST** /api/logging/logs/getLogs/v1 | Search logs
 *MaintenanceConfigurationApi* | [**delete_maintenance_config**](docs/MaintenanceConfigurationApi.md#delete_maintenance_config) | **DELETE** /api/settings/maintenance/{id} | Delete maintenance configuration
 *MaintenanceConfigurationApi* | [**delete_maintenance_config_v2**](docs/MaintenanceConfigurationApi.md#delete_maintenance_config_v2) | **DELETE** /api/settings/v2/maintenance/{id} | Delete maintenance configuration
 *MaintenanceConfigurationApi* | [**get_maintenance_config**](docs/MaintenanceConfigurationApi.md#get_maintenance_config) | **GET** /api/settings/maintenance/{id} | Maintenance configuration
@@ -1159,5 +1160,4 @@ Authentication schemes defined for the API:
 ## Author
 
 support@instana.com
-
 

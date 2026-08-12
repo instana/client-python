@@ -14890,6 +14890,36 @@ paths:
       tags:
       - AI Management
       x-ibm-ahub-byok: true
+  /api/logging/logs/getLogs/v1:
+    post:
+      description: Search logs using a time range, requested tags, optional tag-filter expression, and pagination settings.
+      operationId: searchLogs
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+          description: Log search results.
+        '400':
+          description: Invalid log search request.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth: []
+      summary: Search logs
+      tags:
+      - Logging Analyze
   /api/logging/logs/getLogVolumeUsage:
     get:
       description: |

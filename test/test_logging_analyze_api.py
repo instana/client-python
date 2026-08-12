@@ -15,7 +15,9 @@
 
 import unittest
 
+from instana_client.api_client import ApiClient
 from instana_client.api.logging_analyze_api import LoggingAnalyzeApi
+from instana_client.configuration import Configuration
 
 
 class TestLoggingAnalyzeApi(unittest.TestCase):
@@ -33,6 +35,32 @@ class TestLoggingAnalyzeApi(unittest.TestCase):
         Get Log Volume Usage
         """
         pass
+
+    def test_search_logs_serializes_payload_and_api_token_auth(self) -> None:
+        configuration = Configuration()
+        configuration.api_key['ApiKeyAuth'] = 'token'
+        configuration.api_key_prefix['ApiKeyAuth'] = 'apiToken'
+        api = LoggingAnalyzeApi(api_client=ApiClient(configuration=configuration))
+        payload = {
+            'timeConfig': {'to': 1_700_000_000_000, 'windowSize': 3_600_000},
+            'requestedTags': ['log.message'],
+            'retrievalSize': 10,
+        }
+
+        method, url, headers, body, post_params = api._search_logs_serialize(
+            request_body=payload,
+            _request_auth=None,
+            _content_type=None,
+            _headers=None,
+            _host_index=0,
+        )
+
+        self.assertEqual('POST', method)
+        self.assertEqual('https://unit-tenant.instana.io/api/logging/logs/getLogs/v1', url)
+        self.assertEqual('apiToken token', headers['authorization'])
+        self.assertEqual('application/json', headers['Content-Type'])
+        self.assertEqual(payload, body)
+        self.assertEqual([], post_params)
 
 
 if __name__ == '__main__':
