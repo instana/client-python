@@ -92,7 +92,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Service Levels Alert Configurations Deleted Successfully |  -  |
 **403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
-**422** | Unprocessable Entity - Invalid request |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -170,7 +170,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Service Levels Alert Configurations Disabled Successfully |  -  |
 **403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
-**422** | Unprocessable Entity - Invalid request |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -248,7 +248,7 @@ void (empty response body)
 |-------------|-------------|------------------|
 **204** | Service Levels Alert Configurations Enabled Successfully |  -  |
 **403** | Forbidden - User does not have permission to configure Service Levels Smart Alerts |  -  |
-**422** | Unprocessable Entity - Invalid request |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

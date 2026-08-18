@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**metric** | [**EntityMetric**](EntityMetric.md) |  | [optional] 
 **threshold** | **float** | Threshold Value for the Blueprint | [optional] 
 
 ## Example

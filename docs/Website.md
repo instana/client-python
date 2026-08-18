@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **app_name** | **str** |  | [optional] 
+**business_criticality** | **int** |  | [optional] 
 **id** | **str** |  | 
 **name** | **str** |  | 
 

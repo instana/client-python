@@ -1427,7 +1427,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.WebsiteConfigurationApi(api_client)
     website_id = 'UhzF-fWORlyVLHDlvutYYQ' # str | Website ID
     source_map_config_id = '97e0ad312110d3ad' # str | Source Map Config ID
-    source_map = None # bytearray | Local Source Map file path
+    source_map = None # bytes | Local Source Map file path
     url = 'url_example' # str | URL of the website
     file_format = 'file_format_example' # str |  (optional)
 
@@ -1449,7 +1449,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **website_id** | **str**| Website ID | 
  **source_map_config_id** | **str**| Source Map Config ID | 
- **source_map** | **bytearray**| Local Source Map file path | 
+ **source_map** | **bytes**| Local Source Map file path | 
  **url** | **str**| URL of the website | 
  **file_format** | **str**|  | [optional] 
 

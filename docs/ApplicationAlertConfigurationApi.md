@@ -94,6 +94,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -172,6 +173,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -250,6 +252,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

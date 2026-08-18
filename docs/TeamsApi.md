@@ -442,7 +442,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.TeamsApi(api_client)
     id = 'teamId' # str | Id of the team to update
-    api_team = {"id":"teamId","tag":"teamTag","info":{"description":"description for the team"},"scope":{"accessPermissions":["LIMITED_APPLICATIONS_SCOPE"],"actionFilter":"","applications":["applicationId1","applicationId2"],"restrictedApplicationFilter":{"restrictingApplicationId":"applicationId3","label":"demo","tagFilterExpression":{"type":"TAG_FILTER","name":"service.name","operator":"EQUALS","entity":"DESTINATION","value":"butler"},"scope":"INCLUDE_NO_DOWNSTREAM"}},"members":[{"userId":"userId","email":"username@example.com","name":"userName","roles":[{"roleId":"-3","roleName":"Default","viaIdP":false}]}],"entities":[]} # ApiTeam | 
+    api_team = instana_client.ApiTeam() # ApiTeam | Team to update
 
     try:
         # Update team
@@ -459,7 +459,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **str**| Id of the team to update | 
- **api_team** | [**ApiTeam**](ApiTeam.md)|  | 
+ **api_team** | [**ApiTeam**](ApiTeam.md)| Team to update | 
 
 ### Return type
 

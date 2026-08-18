@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**metric_name** | **str** |  | 
 
 ## Example
 

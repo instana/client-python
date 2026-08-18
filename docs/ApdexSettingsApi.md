@@ -97,7 +97,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_apdex_configuration_v2**
-> ApdexConfiguration create_apdex_configuration_v2(apdex_configuration_input)
+> ApdexConfigWithRBACTag create_apdex_configuration_v2(apdex_configuration_input)
 
 Create Apdex Configuration
 
@@ -107,7 +107,7 @@ Create Apdex Configuration
 
 ```python
 import instana_client
-from instana_client.models.apdex_configuration import ApdexConfiguration
+from instana_client.models.apdex_config_with_rbac_tag import ApdexConfigWithRBACTag
 from instana_client.models.apdex_configuration_input import ApdexConfigurationInput
 from instana_client.rest import ApiException
 from pprint import pprint
@@ -155,7 +155,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApdexConfiguration**](ApdexConfiguration.md)
+[**ApdexConfigWithRBACTag**](ApdexConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -434,7 +434,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.ApdexSettingsApi(api_client)
     query = 'test Apdex' # str |  (optional)
     tag = ['Testing'] # List[str] |  (optional)
-    entity_type = 'APPLICATION' # str |  (optional)
+    entity_type = ['APPLICATION'] # List[str] |  (optional)
 
     try:
         # Get All Apdex Config tags
@@ -454,7 +454,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **str**|  | [optional] 
  **tag** | [**List[str]**](str.md)|  | [optional] 
- **entity_type** | **str**|  | [optional] 
+ **entity_type** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 
@@ -553,7 +553,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_apdex_configurations_v2**
-> List[ApdexConfiguration] get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids)
+> List[ApdexConfigWithRBACTag] get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids, tag=tag, rbac_tags=rbac_tags)
 
 Get All Apdex Configurations
 
@@ -565,7 +565,7 @@ API to Get All Apdex Configurations.
 
 ```python
 import instana_client
-from instana_client.models.apdex_configuration import ApdexConfiguration
+from instana_client.models.apdex_config_with_rbac_tag import ApdexConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -599,13 +599,15 @@ with instana_client.ApiClient(configuration) as api_client:
     refresh = false # bool |  (optional)
     var_from = 1705411200000 # int |  (optional)
     to = 1705414800000 # int |  (optional)
-    entity_type = 'APPLICATION' # str |  (optional)
+    entity_type = ['APPLICATION'] # List[str] |  (optional)
     entity_id = 'XIZGGVT1TX2O-0OFeT2Yig' # str |  (optional)
     apdex_ids = ['APDWMaA2yKuSS6z50LR0-cGZA'] # List[str] |  (optional)
+    tag = ['Testing'] # List[str] |  (optional)
+    rbac_tags = ['team-123'] # List[str] |  (optional)
 
     try:
         # Get All Apdex Configurations
-        api_response = api_instance.get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids)
+        api_response = api_instance.get_all_apdex_configurations_v2(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, grouped=grouped, refresh=refresh, var_from=var_from, to=to, entity_type=entity_type, entity_id=entity_id, apdex_ids=apdex_ids, tag=tag, rbac_tags=rbac_tags)
         print("The response of ApdexSettingsApi->get_all_apdex_configurations_v2:\n")
         pprint(api_response)
     except Exception as e:
@@ -628,13 +630,15 @@ Name | Type | Description  | Notes
  **refresh** | **bool**|  | [optional] 
  **var_from** | **int**|  | [optional] 
  **to** | **int**|  | [optional] 
- **entity_type** | **str**|  | [optional] 
+ **entity_type** | [**List[str]**](str.md)|  | [optional] 
  **entity_id** | **str**|  | [optional] 
  **apdex_ids** | [**List[str]**](str.md)|  | [optional] 
+ **tag** | [**List[str]**](str.md)|  | [optional] 
+ **rbac_tags** | [**List[str]**](str.md)|  | [optional] 
 
 ### Return type
 
-[**List[ApdexConfiguration]**](ApdexConfiguration.md)
+[**List[ApdexConfigWithRBACTag]**](ApdexConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -734,7 +738,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_apdex_configuration_v2**
-> ApdexConfiguration get_apdex_configuration_v2(id)
+> ApdexConfigWithRBACTag get_apdex_configuration_v2(id)
 
 Get Apdex Configuration
 
@@ -746,7 +750,7 @@ API to Get Apdex Configuration for specified ID.
 
 ```python
 import instana_client
-from instana_client.models.apdex_configuration import ApdexConfiguration
+from instana_client.models.apdex_config_with_rbac_tag import ApdexConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -793,7 +797,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApdexConfiguration**](ApdexConfiguration.md)
+[**ApdexConfigWithRBACTag**](ApdexConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -896,7 +900,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_apdex_config_v2**
-> SLOConfigWithRBACTag update_apdex_config_v2(id, apdex_configuration)
+> ApdexConfigWithRBACTag update_apdex_config_v2(id, apdex_configuration)
 
 Update an existing Apdex Config
 
@@ -906,8 +910,8 @@ Update an existing Apdex Config
 
 ```python
 import instana_client
+from instana_client.models.apdex_config_with_rbac_tag import ApdexConfigWithRBACTag
 from instana_client.models.apdex_configuration import ApdexConfiguration
-from instana_client.models.slo_config_with_rbac_tag import SLOConfigWithRBACTag
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -956,7 +960,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SLOConfigWithRBACTag**](SLOConfigWithRBACTag.md)
+[**ApdexConfigWithRBACTag**](ApdexConfigWithRBACTag.md)
 
 ### Authorization
 
@@ -971,7 +975,7 @@ Name | Type | Description  | Notes
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | Updated SLO Configuration Successfully |  -  |
+**200** | Updated Apdex Configuration Successfully |  -  |
 **400** | Bad Request |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
