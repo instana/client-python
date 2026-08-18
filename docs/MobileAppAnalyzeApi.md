@@ -131,7 +131,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.MobileAppAnalyzeApi(api_client)
-    get_mobile_app_beacons = {"tagFilterExpression":{"entity":"NOT_APPLICABLE","name":"mobileBeacon.mobileApp.name","operator":"EQUALS","value":"robot-warehouse"},"timeFrame":{"to":null,"windowSize":60000},"type":"SESSION_START"} # GetMobileAppBeacons |  (optional)
+    get_mobile_app_beacons = {"tagFilters":[{"entity":"NOT_APPLICABLE","name":"mobileBeacon.mobileApp.name","operator":"EQUALS","value":"robot-warehouse"}],"timeFrame":{"to":null,"windowSize":60000},"type":"SESSION_START"} # GetMobileAppBeacons |  (optional)
 
     try:
         # Get all beacons

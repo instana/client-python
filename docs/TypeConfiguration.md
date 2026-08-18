@@ -7,6 +7,7 @@ List of configurations that contains the list of actions to run and the mode (au
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **condition** | [**Condition**](Condition.md) |  | [optional] 
+**maintenance_window_ids** | **List[str]** | Optional list of maintenance window identifiers. When set, the policy will only run outside of the specified maintenance windows. | [optional] 
 **name** | **str** | The policy type determines how a policy is run. Value must be one of the enum values. Value &#x60;manual&#x60; means the policy is run manually when an event is raised. Value &#x60;automatic&#x60; means policy is run automatically when an event is raised. | 
 **runnable** | [**PolicyRunnable**](PolicyRunnable.md) |  | 
 

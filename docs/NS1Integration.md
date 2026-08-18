@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**feed_label** | **str** |  | [optional] 
 **headers** | **List[str]** |  | [optional] 
 **webhook_urls** | **List[str]** |  | 
 

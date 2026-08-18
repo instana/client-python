@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **custom_email_subject_prefix** | [**CustomEmailSubjectPrefix**](CustomEmailSubjectPrefix.md) |  | [optional] 
 **emails** | **List[str]** |  | 
+**transformation_expression** | **str** |  | [optional] 
 
 ## Example
 

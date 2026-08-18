@@ -94,6 +94,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -173,6 +174,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -252,6 +254,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -295,7 +298,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
-    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
+    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
 
     try:
         # Create Global Smart Alert Config
@@ -952,7 +955,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GlobalApplicationAlertConfigurationApi(api_client)
     id = 'vlFnxhVTS3KVb-wsN26PeQ' # str | ID of a specific Global Smart Alert Configuration to update.
-    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
+    global_applications_alert_config = {"name":"Slow calls than usual","description":"Calls are slower or equal to 2 ms based on latency (90th).","boundaryScope":"INBOUND","applications":{"j02SxMRTSf-NCBXf5IdsjQ":{"applicationId":"j02SxMRTSf-NCBXf5IdsjQ","inclusive":true,"services":{}}},"applicationIds":["j02SxMRTSf-NCBXf5IdsjQ"],"severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"includeInternal":false,"includeSynthetic":false,"rule":{"alertType":"slowness","aggregation":"P90","metricName":"latency"},"threshold":{"type":"staticThreshold","operator":">=","value":2,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"evaluationType":"PER_AP","customPayloadFields":[]} # GlobalApplicationsAlertConfig | 
 
     try:
         # Update Global Smart Alert Config

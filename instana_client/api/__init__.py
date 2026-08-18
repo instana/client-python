@@ -22,6 +22,7 @@ from instana_client.api.custom_entities_api import CustomEntitiesApi
 from instana_client.api.end_user_monitoring_api import EndUserMonitoringApi
 from instana_client.api.event_settings_api import EventSettingsApi
 from instana_client.api.events_api import EventsApi
+from instana_client.api.fleet_management_api import FleetManagementApi
 from instana_client.api.global_application_alert_configuration_api import GlobalApplicationAlertConfigurationApi
 from instana_client.api.groups_api import GroupsApi
 from instana_client.api.health_api import HealthApi
@@ -33,6 +34,7 @@ from instana_client.api.infrastructure_catalog_api import InfrastructureCatalogA
 from instana_client.api.infrastructure_metrics_api import InfrastructureMetricsApi
 from instana_client.api.infrastructure_resources_api import InfrastructureResourcesApi
 from instana_client.api.infrastructure_topology_api import InfrastructureTopologyApi
+from instana_client.api.llm_evaluation_api import LLMEvaluationApi
 from instana_client.api.llm_price_configuration_api import LLMPriceConfigurationApi
 from instana_client.api.log_alert_configuration_api import LogAlertConfigurationApi
 from instana_client.api.logging_analyze_api import LoggingAnalyzeApi
@@ -41,6 +43,7 @@ from instana_client.api.mobile_app_analyze_api import MobileAppAnalyzeApi
 from instana_client.api.mobile_app_catalog_api import MobileAppCatalogApi
 from instana_client.api.mobile_app_configuration_api import MobileAppConfigurationApi
 from instana_client.api.mobile_app_metrics_api import MobileAppMetricsApi
+from instana_client.api.mobile_app_session_replay_api import MobileAppSessionReplayApi
 from instana_client.api.policies_api import PoliciesApi
 from instana_client.api.releases_api import ReleasesApi
 from instana_client.api.roles_api import RolesApi

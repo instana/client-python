@@ -4,8 +4,76 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_cassandra_metrics**](InfrastructureMetricsApi.md#get_cassandra_metrics) | **POST** /api/cassandra/metrics | Cassandra metrics
 [**get_infrastructure_metrics**](InfrastructureMetricsApi.md#get_infrastructure_metrics) | **POST** /api/infrastructure-monitoring/metrics | Get infrastructure metrics
 
+
+# **get_cassandra_metrics**
+> InfrastructureMetricResult get_cassandra_metrics(get_combined_metrics)
+
+Cassandra metrics
+
+### Example
+
+
+```python
+import instana_client
+from instana_client.models.get_combined_metrics import GetCombinedMetrics
+from instana_client.models.infrastructure_metric_result import InfrastructureMetricResult
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.InfrastructureMetricsApi(api_client)
+    get_combined_metrics = instana_client.GetCombinedMetrics() # GetCombinedMetrics | 
+
+    try:
+        # Cassandra metrics
+        api_response = api_instance.get_cassandra_metrics(get_combined_metrics)
+        print("The response of InfrastructureMetricsApi->get_cassandra_metrics:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling InfrastructureMetricsApi->get_cassandra_metrics: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **get_combined_metrics** | [**GetCombinedMetrics**](GetCombinedMetrics.md)|  | 
+
+### Return type
+
+[**InfrastructureMetricResult**](InfrastructureMetricResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_infrastructure_metrics**
 > InfrastructureMetricResult get_infrastructure_metrics(offline=offline, get_combined_metrics=get_combined_metrics)

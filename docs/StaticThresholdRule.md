@@ -5,6 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**lower_bound** | **float** |  | [optional] 
+**upper_bound** | **float** |  | [optional] 
 **value** | **float** |  | [optional] 
 
 ## Example

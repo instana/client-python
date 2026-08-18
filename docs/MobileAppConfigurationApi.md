@@ -1564,7 +1564,7 @@ with instana_client.ApiClient(configuration) as api_client:
     file_format = 'file_format_example' # str | File format. Example tgz
     file_id = 'file_id_example' # str | Identifier of your app. For example, com.instana.ios.InstanaExampleApp
     file_type = 'file_type_example' # str | dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file
-    source_map = None # bytearray | Path to your local symbol file
+    source_map = None # bytes | Path to your local symbol file
 
     try:
         # Upload sourcemap file for mobile app
@@ -1588,7 +1588,7 @@ Name | Type | Description  | Notes
  **file_format** | **str**| File format. Example tgz | 
  **file_id** | **str**| Identifier of your app. For example, com.instana.ios.InstanaExampleApp | 
  **file_type** | **str**| dSYM stands for iOS symbol file, R8PG_MAP stands for Android java mapping file | 
- **source_map** | **bytearray**| Path to your local symbol file | 
+ **source_map** | **bytes**| Path to your local symbol file | 
 
 ### Return type
 

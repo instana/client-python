@@ -7,6 +7,7 @@ Returns a list of Application Perspectives.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **boundary_scope** | **str** | Here, &#x60;ALL&#x60; Application Boundary Scope is considered. | 
+**business_criticality** | **str** | Business criticality level of the application | [optional] 
 **entity_type** | **str** | Since, this is an Application Perspective, it will be of type &#x60;APPLICATION&#x60;. | [optional] 
 **id** | **str** | Unique ID of the Application Perspective. Eg: &#x60;Av62RoIKQv-A3n6DbMQh9g&#x60;. | 
 **label** | **str** | Name of the Application Perspective. Eg: &#x60;app1&#x60;. | 

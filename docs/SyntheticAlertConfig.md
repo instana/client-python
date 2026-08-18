@@ -5,10 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**affected_locations_count** | **int** | Number of locations encounters failure | [optional] 
 **alert_channel_ids** | **List[str]** | List of IDs of alert channels defined in Instana. Can be left empty. | 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | 
 **description** | **str** | Description of the synthetic alert configuration. Used as a template for the description of alert/event notifications triggered by this Smart Alert configuration. | 
+**evaluation_type** | **str** | Determines whether synthetic test results are evaluated per location independently or grouped across all locations. | [optional] 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 
+**include_on_demand** | **bool** | Controls whether on-demand synthetic test runs should be included in alert evaluation. When true, both scheduled and on-demand test runs are evaluated. When false, only scheduled test runs are evaluated. Default behavior when not provided: (1) If tagFilterExpression contains RUN_TYPE filter that is NOT &#39;Scheduled&#39; → defaults to true; (2) If tagFilterExpression contains RUN_TYPE EQUALS &#39;Scheduled&#39; → defaults to false; (3) If no RUN_TYPE filter exists → defaults to false. | [optional] 
 **name** | **str** | Name of the synthetic alert configuration. Used as a template for the title of alert/event notifications triggered by this Smart Alert configuration. | 
 **rule** | [**SyntheticAlertRule**](SyntheticAlertRule.md) |  | 
 **severity** | **int** | The severity of the alert when triggered, which is either 5 (Warning), or 10 (Critical). | [optional] 

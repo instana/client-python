@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**branch_name** | **str** |  | 
+**allowed_credentials** | **List[str]** |  | [optional] 
 **credential_name** | **str** |  | [optional] 
 **script_file** | **str** |  | [optional] 
 **url** | **str** |  | 

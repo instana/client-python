@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **created_at** | **str** |  | [optional] 
 **description** | **str** |  | [optional] 
 **enabled** | **bool** |  | [optional] 
-**id** | **str** |  | 
+**id** | **UUID** |  | 
 **instana_agents** | **object** |  | [optional] 
 **metadata** | **object** |  | [optional] 
 **model** | [**LLMGatewayModel**](LLMGatewayModel.md) |  | 

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **count** | **int** | number of entities in this group | [optional] 
 **metrics** | **Dict[str, List[List[float]]]** | map of metric keys to array of timestamp,value pairs | [optional] 
 **poll_rate** | **int** | max poll rate across this group | [optional] 
+**sampling_metadata** | [**SamplingMetadata**](SamplingMetadata.md) |  | [optional] 
 **tags** | **Dict[str, object]** | tag keys and values for this group | [optional] 
 
 ## Example
