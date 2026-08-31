@@ -1,6 +1,6 @@
 # 🤖 Automated Sanity Testing for Instana Python SDK
 
-This document explains the automated sanity testing system implemented to address PR review requirements for the Instana Python SDK update from v291 to v304.
+This document explains the automated sanity testing system implemented to address PR review requirements for the Instana Python SDK.
 
 ## 📋 Overview
 
@@ -28,7 +28,7 @@ The workflow automatically runs sanity tests on:
 - **Pull requests** to main/master/develop branches
 - **Manual trigger** via GitHub Actions UI
 
-**Multi-Python testing**: Tests Python 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
+**Multi-Python testing**: Tests Python 3.11
 
 ## 🔧 What Gets Tested
 
@@ -48,7 +48,7 @@ The workflow automatically runs sanity tests on:
 - ✅ Core module imports (api_client, configuration, etc.)
 
 ### Phase 4: API Module Testing
-- ✅ New v304 APIs (ai_management_api, teams_api, etc.)
+- ✅ New APIs (ai_management_api, teams_api, etc.)
 - ✅ Legacy API compatibility
 - ✅ Backward compatibility verification
 
@@ -63,7 +63,7 @@ The workflow automatically runs sanity tests on:
 - ✅ Connection setup
 
 ### Phase 7: File Structure Validation
-- ✅ File count verification (501 models, 63 APIs, 570 total)
+- ✅ File count verification (561 models, 67 APIs, 633 total)
 - ✅ Directory structure integrity
 - ✅ File permissions
 
@@ -169,9 +169,9 @@ The workflow automatically runs sanity tests on:
 
 ### ✅ "Investigate root cause in OpenAPI specification"
 **Answer: DONE** - Analysis shows:
-- 39,696 lines in OpenAPI spec
-- 941 schemas → 501 Python model files
-- 286 endpoints → 63 API files
+- 50,318 lines in OpenAPI spec
+- 593 schemas → 561 Python model files
+- 549 endpoints → 67 API files
 - 2400+ file changes are **EXPECTED and CORRECT**
 
 ### ✅ "2400+ file changes are too many to review"

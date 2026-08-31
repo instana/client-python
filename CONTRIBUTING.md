@@ -2,10 +2,10 @@
 Our project welcomes external contributions. If you have an itch, please feel
 free to scratch it.
 
-To contribute code or documentation, please submit a **FIXME** [pull request](https://github.com/instana/repository-template/pulls).
+To contribute code or documentation, please submit a [pull request](https://github.com/instana/client-python/pulls).
 
 A good way to familiarize yourself with the codebase and contribution process is
-to look for and tackle low-hanging fruit in the **FIXME** [issue tracker](https://github.com/instana/repository-template/issues).
+to look for and tackle low-hanging fruit in the [issue tracker](https://github.com/instana/client-python/issues).
 Before embarking on a more ambitious contribution, please quickly [get in touch](#communication) with us.
 
 **Note: We appreciate your effort, and want to avoid a situation where a contribution
@@ -14,14 +14,14 @@ cannot be accepted at all!**
 
 ### Proposing new features
 
-If you would like to implement a new feature, please **FIXME** [raise an issue](https://github.com/instana/repository-template/issues)
+If you would like to implement a new feature, please [raise an issue](https://github.com/instana/client-python/issues)
 before sending a pull request so the feature can be discussed. This is to avoid
 you wasting your valuable time working on a feature that the project developers
 are not interested in accepting into the code base.
 
 ### Fixing bugs
 
-If you would like to fix a bug, please **FIXME** [raise an issue](https://github.com/instana/repository-template/issues) before sending a
+If you would like to fix a bug, please [raise an issue](https://github.com/instana/client-python/issues) before sending a
 pull request so it can be tracked.
 
 ### Merge approval
@@ -30,7 +30,7 @@ The project maintainers use LGTM (Looks Good To Me) in comments on the code
 review to indicate acceptance. A change requires LGTMs from two of the
 maintainers of each component affected.
 
-For a list of the maintainers, see the [MAINTAINERS.md](MAINTAINERS.md) page.
+For a list of the maintainers, see the [CODEOWNERS](https://github.com/instana/client-python/blob/main/.github/CODEOWNERS) file or contact support@instana.com.
 
 ## Legal
 
@@ -38,12 +38,10 @@ Each source file must include a license header for the Apache
 Software License 2.0. Using the SPDX format is the simplest approach.
 e.g.
 
-```
-/*
-Copyright <holder> All Rights Reserved.
-
-SPDX-License-Identifier: Apache-2.0
-*/
+```python
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
 ```
 
 We have tried to make it as easy as possible to make contributions. This
@@ -69,16 +67,34 @@ git commit -s
 ```
 
 ## Communication
-**FIXME** Please feel free to connect with us on our [Slack channel](link).
+Please feel free to connect with us by opening an issue on [GitHub](https://github.com/instana/client-python/issues) or by emailing support@instana.com.
 
 ## Setup
-**FIXME** Please add any special setup instructions for your project to help the developer
-become productive quickly.
+
+1. Clone the repository: `git clone git@github.com:instana/client-python.git`
+2. Install dependencies: `pip install -r requirements.txt`
+3. Install the package in editable mode: `pip install -e .`
 
 ## Testing
-**FIXME** Please provide information that helps the developer test any changes they make
-before submitting.
+
+Run the sanity test script to verify everything works before submitting:
+
+```bash
+./sanity_test.sh
+```
+
+To also generate a test report:
+
+```bash
+./sanity_test.sh --report
+```
+
+See [AUTOMATED_TESTING.md](AUTOMATED_TESTING.md) for full details on what is tested.
 
 ## Coding style guidelines
-**FIXME** Optional, but recommended: please share any specific style guidelines you might
-have for your project.
+
+This project follows standard Python conventions:
+
+- **PEP 8** for code style
+- Type hints where applicable
+- Docstrings for public methods and classes
