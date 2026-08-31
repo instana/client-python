@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_invitations**](UserApi.md#get_invitations) | **GET** /api/settings/invitations | All pending invitations
 [**get_user_by_id**](UserApi.md#get_user_by_id) | **GET** /api/settings/users/{userId} | Get single user
+[**get_user_mappings**](UserApi.md#get_user_mappings) | **GET** /api/settings/users/{userId}/mappings | Get user role mappings
 [**get_users**](UserApi.md#get_users) | **GET** /api/settings/users | All users (without invitations)
 [**get_users_including_invitations**](UserApi.md#get_users_including_invitations) | **GET** /api/settings/users/overview | All users (incl. invitations)
 [**invite_users**](UserApi.md#invite_users) | **POST** /api/settings/invitations | Send user invitations
@@ -149,6 +150,87 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**List[UserResult]**](UserResult.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_user_mappings**
+> List[RoleMappingOverview] get_user_mappings(user_id)
+
+Get user role mappings
+
+Retrieves all IdP role mappings applicable to the specified user.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.role_mapping_overview import RoleMappingOverview
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.UserApi(api_client)
+    user_id = 'userId' # str | Id of the user
+
+    try:
+        # Get user role mappings
+        api_response = api_instance.get_user_mappings(user_id)
+        print("The response of UserApi->get_user_mappings:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling UserApi->get_user_mappings: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **user_id** | **str**| Id of the user | 
+
+### Return type
+
+[**List[RoleMappingOverview]**](RoleMappingOverview.md)
 
 ### Authorization
 

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ibm_mq_file_transfer** | **List[Dict[str, object]]** | IBM MQ file transfer information, if relevant for this entity and event. | [optional] 
 **snapshot_id** | **str** | ID of the snapshot. | [optional] 
+**snapshot_ids** | **List[str]** | IDs of all affected snapshots. Only present for Infra Smart Alert events. | [optional] 
 
 ## Example
 

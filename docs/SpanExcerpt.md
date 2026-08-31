@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **kind** | **str** | There are 4 types of span kind: 1. &#x60;ENTRY&#x60;: An entry span represents an incoming request into a traced service. 2. &#x60;EXIT&#x60;: An exit span represents an outgoing request that a service makes to some other service. 3. &#x60;INTERMEDIATE&#x60;: An intermediate span represents anything that happens inside a traced service where the flow of control neither enters nor leaves that service, but stays inside it. 4. &#x60;UNKNOWN&#x60;: Instana can&#39;t determine the span kind.  | 
 **name** | **str** | The technical type of the span. For example, &#x60;node.http.client&#x60; or &#x60;jdbc&#x60;. | 
 **parent_id** | **str** | The parent call id, referring to another call in the same trace which triggered the processing associated with this call. | [optional] 
+**sampling_rate** | **float** | The probability at which this span was sampled by the tracer. Only present if the span was subjected to sampling. | [optional] 
 **stack_trace** | [**List[StackTraceItem]**](StackTraceItem.md) | For an erroneous call, if stack trace is available it will show a list of items containing file, method and line number of the code. | 
 **start** | **int** | The timestamp when the call or request was initiated. For example, Unix epoch time in milliseconds &#x60;1735532879870&#x60; is &#x60;Monday, 30 December 2024 04:27:59.870 GMT&#x60; | [optional] 
 

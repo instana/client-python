@@ -55,7 +55,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.LogAlertConfigurationApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = ["alert-id-1","alert-id-2","alert-id-3"] # List[str] | 
 
     try:
         # Bulk Delete Log Alert Configs
@@ -91,8 +91,9 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -133,7 +134,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.LogAlertConfigurationApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = ["alert-id-1","alert-id-2","alert-id-3"] # List[str] | 
 
     try:
         # Bulk Disable Log Alert Configs
@@ -169,8 +170,9 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -211,7 +213,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.LogAlertConfigurationApi(api_client)
-    request_body = ['request_body_example'] # List[str] | 
+    request_body = ["alert-id-1","alert-id-2","alert-id-3"] # List[str] | 
 
     try:
         # Bulk Enable Log Alert Configs
@@ -247,8 +249,9 @@ void (empty response body)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Successful - no content to return. |  -  |
-**400** | Invalid request - empty list or exceeds maximum size |  -  |
+**400** | Bad request. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**422** | A non-empty ids set containing 1 to 1000 items is required |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

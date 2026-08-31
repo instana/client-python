@@ -258,7 +258,7 @@ Name | Type | Description  | Notes
 
 Get grouped infrastructure entities with aggregated metrics
 
-This endpoint groups entities for a given entity type and aggregates metrics for these groups.
+This endpoint groups entities for a given entity type and aggregates metrics for these groups. Optional group sampling can be enabled to reduce BeeInstana load by fetching metrics for only 50% of groups, providing faster response times with representative data.
 For more information on Infrastructure Analyze please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Infrastructure#infrastructure-analyze.
 
 ### Example

@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **action_filter** | [**ScopeBinding**](ScopeBinding.md) |  | [optional] 
+**apdex_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **application_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **business_perspective_ids** | [**List[ScopeBinding]**](ScopeBinding.md) |  | 
 **infra_dfq_filter** | [**ScopeBinding**](ScopeBinding.md) |  | 

@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**metric_name** | **str** |  | 
 **status_code_end** | **int** |  | [optional] 
 **status_code_start** | **int** |  | [optional] 
 

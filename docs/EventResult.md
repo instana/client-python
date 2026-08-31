@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**aggregated** | **bool** | Whether this event is aggregated across multiple entities. | [optional] 
 **detail** | **str** | Details of the event. | [optional] 
 **end** | **int** | A Unix timestamp representing the end time of the Event. | [optional] 
 **entity_label** | **str** | The label of the affected entity of the event. | [optional] 

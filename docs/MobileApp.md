@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**business_criticality** | **int** |  | [optional] 
 **id** | **str** |  | 
 **name** | **str** |  | 
 

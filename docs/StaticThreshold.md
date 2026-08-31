@@ -7,6 +7,8 @@ This threshold defines a static value to be evaluated with a specific operator.
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **last_updated** | **int** |  | [optional] 
+**lower_bound** | **float** |  | [optional] 
+**upper_bound** | **float** |  | [optional] 
 **value** | **float** |  | [optional] 
 
 ## Example

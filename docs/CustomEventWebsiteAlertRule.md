@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **custom_event_name** | **str** |  | 
+**metric_name** | **str** |  | 
 
 ## Example
 

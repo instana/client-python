@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **action** | [**Action**](Action.md) |  | 
 **agent_id** | **str** | Identifier of the agent host on which to run the action. | [optional] 
 **input_parameter_values** | [**List[ParameterValue]**](ParameterValue.md) | List of action input parameters. | [optional] 
+**notifications** | [**List[Notification]**](Notification.md) | Optional notifications configuration for action execution events. Each notification specifies a condition (started, fail, success) and associated alert channels. | [optional] 
 
 ## Example
 

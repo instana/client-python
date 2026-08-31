@@ -343,7 +343,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_event**
-> EventResult get_event(event_id)
+> EventResult get_event(event_id, include_metadata=include_metadata)
 
 Get Event
 
@@ -381,10 +381,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventsApi(api_client)
     event_id = 'LZOGo1lXR4WeCB2ftgtGGQ' # str | ID of a specific Event to retrieve.
+    include_metadata = true # bool | Option to include event metadata (optional)
 
     try:
         # Get Event
-        api_response = api_instance.get_event(event_id)
+        api_response = api_instance.get_event(event_id, include_metadata=include_metadata)
         print("The response of EventsApi->get_event:\n")
         pprint(api_response)
     except Exception as e:
@@ -399,6 +400,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **event_id** | **str**| ID of a specific Event to retrieve. | 
+ **include_metadata** | **bool**| Option to include event metadata | [optional] 
 
 ### Return type
 
@@ -423,7 +425,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_events**
-> List[EventResult] get_events(to=to, window_size=window_size, var_from=var_from, filter_event_updates=filter_event_updates, exclude_triggered_before=exclude_triggered_before, include_agent_monitoring_issues=include_agent_monitoring_issues, include_kubernetes_info_events=include_kubernetes_info_events, event_type_filters=event_type_filters)
+> List[EventResult] get_events(to=to, window_size=window_size, var_from=var_from, filter_event_updates=filter_event_updates, exclude_triggered_before=exclude_triggered_before, include_agent_monitoring_issues=include_agent_monitoring_issues, include_kubernetes_info_events=include_kubernetes_info_events, event_type_filters=event_type_filters, include_metadata=include_metadata)
 
 Get all Events
 
@@ -468,10 +470,11 @@ with instana_client.ApiClient(configuration) as api_client:
     include_agent_monitoring_issues = true # bool | Flag to filter the results to include Agent Monitoring Issues. (optional)
     include_kubernetes_info_events = true # bool | Flag to filter the results to include Kubernetes Info Events. (optional)
     event_type_filters = ['INCIDENT'] # List[str] | A string representing an event type - an INCIDENT, ISSUE, or CHANGE. This query can be repeated to use multiple filters. (optional)
+    include_metadata = true # bool | Option to include event metadata (optional)
 
     try:
         # Get all Events
-        api_response = api_instance.get_events(to=to, window_size=window_size, var_from=var_from, filter_event_updates=filter_event_updates, exclude_triggered_before=exclude_triggered_before, include_agent_monitoring_issues=include_agent_monitoring_issues, include_kubernetes_info_events=include_kubernetes_info_events, event_type_filters=event_type_filters)
+        api_response = api_instance.get_events(to=to, window_size=window_size, var_from=var_from, filter_event_updates=filter_event_updates, exclude_triggered_before=exclude_triggered_before, include_agent_monitoring_issues=include_agent_monitoring_issues, include_kubernetes_info_events=include_kubernetes_info_events, event_type_filters=event_type_filters, include_metadata=include_metadata)
         print("The response of EventsApi->get_events:\n")
         pprint(api_response)
     except Exception as e:
@@ -493,6 +496,7 @@ Name | Type | Description  | Notes
  **include_agent_monitoring_issues** | **bool**| Flag to filter the results to include Agent Monitoring Issues. | [optional] 
  **include_kubernetes_info_events** | **bool**| Flag to filter the results to include Kubernetes Info Events. | [optional] 
  **event_type_filters** | [**List[str]**](str.md)| A string representing an event type - an INCIDENT, ISSUE, or CHANGE. This query can be repeated to use multiple filters. | [optional] 
+ **include_metadata** | **bool**| Option to include event metadata | [optional] 
 
 ### Return type
 
@@ -517,7 +521,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_events_by_ids**
-> List[EventResult] get_events_by_ids(request_body)
+> List[EventResult] get_events_by_ids(request_body, include_metadata=include_metadata)
 
 Get Events by IDs
 
@@ -555,10 +559,11 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventsApi(api_client)
     request_body = ["VOMNl0OgRv2HXlsR0iUYGg","h66yezD9Sfi5YNh_cmeG7Q"] # List[str] | 
+    include_metadata = true # bool | Option to include event metadata (optional)
 
     try:
         # Get Events by IDs
-        api_response = api_instance.get_events_by_ids(request_body)
+        api_response = api_instance.get_events_by_ids(request_body, include_metadata=include_metadata)
         print("The response of EventsApi->get_events_by_ids:\n")
         pprint(api_response)
     except Exception as e:
@@ -573,6 +578,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_body** | [**List[str]**](str.md)|  | 
+ **include_metadata** | **bool**| Option to include event metadata | [optional] 
 
 ### Return type
 
