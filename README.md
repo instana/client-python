@@ -52,6 +52,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 
+import os
 import instana_client
 from instana_client.rest import ApiException
 from pprint import pprint
@@ -59,7 +60,7 @@ from pprint import pprint
 # Defining the host is optional and defaults to https://unit-tenant.instana.io
 # See configuration.py for a list of all supported configuration parameters.
 configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
+    host = "https://{unit}-{tenant}.instana.io"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -252,7 +253,7 @@ Class | Method | HTTP request | Description
 *EventSettingsApi* | [**find_mobile_app_alert_config**](docs/EventSettingsApi.md#find_mobile_app_alert_config) | **GET** /api/events/settings/mobile-app-alert-configs/{id} | Get Mobile Smart Alert Config
 *EventSettingsApi* | [**find_mobile_app_alert_config_versions**](docs/EventSettingsApi.md#find_mobile_app_alert_config_versions) | **GET** /api/events/settings/mobile-app-alert-configs/{id}/versions | Get Mobile Smart Alert Config Versions
 *EventSettingsApi* | [**find_website_alert_config**](docs/EventSettingsApi.md#find_website_alert_config) | **GET** /api/events/settings/website-alert-configs/{id} | Get Website Smart Alert Config
-*EventSettingsApi* | [**find_website_alert_config_versions**](docs/EventSettingsApi.md#find_website_alert_config_versions) | **GET** /api/events/settings/website-alert-configs/{id}/versions | Get Website Smart Alert Config Versions. 
+*EventSettingsApi* | [**find_website_alert_config_versions**](docs/EventSettingsApi.md#find_website_alert_config_versions) | **GET** /api/events/settings/website-alert-configs/{id}/versions | Get Website Smart Alert Config Versions
 *EventSettingsApi* | [**get_alert**](docs/EventSettingsApi.md#get_alert) | **GET** /api/events/settings/alerts/{id} | Get Alert Configuration
 *EventSettingsApi* | [**get_alerting_channel**](docs/EventSettingsApi.md#get_alerting_channel) | **GET** /api/events/settings/alertingChannels/{id} | Get Alerting Channel
 *EventSettingsApi* | [**get_alerting_channels**](docs/EventSettingsApi.md#get_alerting_channels) | **GET** /api/events/settings/alertingChannels | Get all Alerting Channels
