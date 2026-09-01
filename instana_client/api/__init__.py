@@ -22,7 +22,6 @@ from instana_client.api.custom_entities_api import CustomEntitiesApi
 from instana_client.api.end_user_monitoring_api import EndUserMonitoringApi
 from instana_client.api.event_settings_api import EventSettingsApi
 from instana_client.api.events_api import EventsApi
-from instana_client.api.fleet_management_api import FleetManagementApi
 from instana_client.api.global_application_alert_configuration_api import GlobalApplicationAlertConfigurationApi
 from instana_client.api.groups_api import GroupsApi
 from instana_client.api.health_api import HealthApi

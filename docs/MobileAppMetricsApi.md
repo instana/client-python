@@ -6,7 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**get_mobile_app_beacon_metrics**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics) | **POST** /api/mobile-app-monitoring/metrics | Get mobile app beacon metrics
 [**get_mobile_app_beacon_metrics_v2**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics_v2) | **POST** /api/mobile-app-monitoring/v2/metrics | Get beacon metrics
-[**get_session**](MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session{id}{timestamp} | Get mobile app session
+[**get_session**](MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session;id&#x3D;{id};timestamp&#x3D;{timestamp} | Get mobile app session
 
 
 # **get_mobile_app_beacon_metrics**

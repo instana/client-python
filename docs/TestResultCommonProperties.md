@@ -12,6 +12,8 @@ Name | Type | Description | Notes
 **dns_server_name** | **str** |  | [optional] 
 **dns_transport** | **str** |  | [optional] 
 **errors** | **List[str]** |  | [optional] 
+**git_commit** | **str** |  | [optional] 
+**git_hub_url** | **str** |  | [optional] 
 **icmp_packet_count** | **int** |  | [optional] 
 **icmp_packet_interval** | **str** |  | [optional] 
 **icmp_packet_size** | **int** |  | [optional] 
