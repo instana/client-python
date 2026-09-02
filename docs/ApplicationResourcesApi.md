@@ -251,7 +251,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationResourcesApi(api_client)
-    name_filter = 'name_filter_example' # str | Name of application (optional)
+    name_filter = 'name_filter_example' # str | Name of application (partial match allowed) (optional)
     window_size = 56 # int | Size of time window in milliseconds (optional)
     to = 56 # int | Timestamp since Unix Epoch in milliseconds of the end of the time window (optional)
     page = 56 # int | Page number from results (optional)
@@ -274,7 +274,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name_filter** | **str**| Name of application | [optional] 
+ **name_filter** | **str**| Name of application (partial match allowed) | [optional] 
  **window_size** | **int**| Size of time window in milliseconds | [optional] 
  **to** | **int**| Timestamp since Unix Epoch in milliseconds of the end of the time window | [optional] 
  **page** | **int**| Page number from results | [optional] 
@@ -343,7 +343,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ApplicationResourcesApi(api_client)
-    name_filter = 'name_filter_example' # str | Name of service (optional)
+    name_filter = 'name_filter_example' # str | Name of service (partial match allowed) (optional)
     window_size = 56 # int | Size of time window in milliseconds (optional)
     to = 56 # int | Timestamp since Unix Epoch in milliseconds of the end of the time window (optional)
     page = 56 # int | Page number from results (optional)
@@ -366,7 +366,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **name_filter** | **str**| Name of service | [optional] 
+ **name_filter** | **str**| Name of service (partial match allowed) | [optional] 
  **window_size** | **int**| Size of time window in milliseconds | [optional] 
  **to** | **int**| Timestamp since Unix Epoch in milliseconds of the end of the time window | [optional] 
  **page** | **int**| Page number from results | [optional] 

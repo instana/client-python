@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **last_changed_at** | **int** | When the configuration was last changed. | [optional] 
 **last_verified_at** | **int** | When the configuration was last verified. Can be used to assume if a configuration needs to be verified. | [optional] 
 **rules** | [**List[IPFilteringRuleDto]**](IPFilteringRuleDto.md) | Actual traffic rules. Enforcing allow / block based on incoming IP address. Are evaluated in given order. | 
-**support_access_enabled** | **bool** | If Instana support should be able to access your environment. Instana support is still able to to deactivate the configuration for you (manual process). | [optional] 
+**support_access_enabled** | **bool** | Optional flag for future support access functionality. Currently has no effect and defaults to false if not provided. Instana support is still able to deactivate the configuration for you (manual process). | [optional] 
 
 ## Example
 

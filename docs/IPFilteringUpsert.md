@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **deny_all** | **bool** | Fallback configuration, if unmatched requests should be denied. | 
 **enabled** | **bool** | If the configuration should be enforced. See active status if it is actually enforced. | 
 **rules** | [**List[IPFilteringRuleDto]**](IPFilteringRuleDto.md) | Actual traffic rules. Enforcing allow / block based on incoming IP address. Are evaluated in given order. | 
-**support_access_enabled** | **bool** | If Instana support should be able to access your environment. Instana support is still able to to deactivate the configuration for you (manual process). | 
+**support_access_enabled** | **bool** | Optional flag for future support access functionality. Currently has no effect and defaults to false if not provided. Instana support is still able to deactivate the configuration for you (manual process). | [optional] 
 
 ## Example
 
