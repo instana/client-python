@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **access_rules** | [**List[AccessRule]**](AccessRule.md) | Defines permissions and access relationships.  | 
 **boundary_scope** | **str** | **INBOUND**: Inbound calls are calls initiated from outside the application and where the destination service is part of the selected application perspective.  **ALL**: Results and metrics for not only calls at the application perspective boundary, but also those occurring within the application perspective.  **DEFAULT**: Default value, for Application Perspectives created before the introduction of &#x60;ALL&#x60; and &#x60;INBOUND&#x60;. At present, whenever new Application Perspectives are created, there are only 2 options to select: &#x60;ALL&#x60; or &#x60;INBOUND&#x60;. It is recommended to use either &#x60;ALL&#x60; or &#x60;INBOUND&#x60; as &#x60;DEFAULT&#x60; is deprecated. &#x60;DEFAULT&#x60; is treated as &#x60;INBOUND&#x60;.  | 
-**business_criticality** | **str** | Business criticality level of the application | 
+**business_criticality** | **int** | Business criticality of an application (0-5) | [optional] 
 **created_at** | **int** |  | [optional] 
 **created_by** | **str** |  | [optional] 
 **id** | **str** | Unique ID of the Application Perspective. Eg: &#x60;Av62RoIKQv-A3n6DbMQh9g&#x60;. | 

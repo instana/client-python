@@ -825,7 +825,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
+    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
 
     try:
         # Create Mobile Smart Alert Config
@@ -908,7 +908,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
+    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
 
     try:
         # Create Website Smart Alert Config
@@ -3583,7 +3583,6 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -3660,7 +3659,6 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 **200** | OK |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
-**403** | Insufficient permissions or limited in access. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -4845,7 +4843,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'qOW5jlR5TQafXKWDIceRkA' # str | ID of a specific Mobile Smart Alert Configuration to update.
-    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
+    mobile_app_alert_config = {"name":"HTTP Status Code(s): 5XX","description":"Occurrences of HTTP Status Code 5XX (Server Error) is above the expectation.","mobileAppId":"tk2OLeusR3aQJD5h-rBh2A","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"statusCode","metricName":"httpxxx","operator":"STARTS_WITH","value":"5","aggregation":"SUM"},"threshold":{"type":"staticThreshold","operator":">=","value":5,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[]} # MobileAppAlertConfig | 
 
     try:
         # Update Mobile Smart Alert Config
@@ -4981,7 +4979,7 @@ void (empty response body)
 
 Update shortcode prefix.
 
-Updates the shortcode prefix and enabled state used for events. The prefix will be applied to all new incidents created after this update. For example, setting the prefix to 'PROD-' with enabled=true will result in incident codes like 'PROD-1', 'PROD-2', etc. The enabled field allows explicit control over whether the shortcode feature is active.
+Updates the shortcode prefix and enabled state used for events. The prefix will be applied to all new incidents created after this update. For example, setting the prefix to 'PROD-' with enabled=true will result in incident codes like 'PROD-1', 'PROD-2', etc. The enabled field allows explicit control over whether the shortcode feature is active. If the provided prefix is longer than 6 characters, the request returns HTTP 400 with the message 'Prefix length exceeds maximum length'.
 
 ### Example
 
@@ -5014,7 +5012,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
-    prefix_object = {"prefix":"","enabled":false} # PrefixObject | The new prefix configuration including the enabled state
+    prefix_object = {"prefix":"","enabled":false,"includeInTitle":false} # PrefixObject | The new prefix configuration including the enabled state
 
     try:
         # Update shortcode prefix.
@@ -5052,6 +5050,7 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The prefix and enabled state were successfully updated. |  -  |
+**400** | The provided prefix is longer than 6 characters. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 
@@ -5097,7 +5096,7 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.EventSettingsApi(api_client)
     id = 'G-h5p0znTHan2m2U3c-Z1Q' # str | ID of a specific Website Smart Alert Configuration to update.
-    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3.0,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
+    website_alert_config = {"name":"onLoad Time (90th) is too high","description":"The onLoad Time (90th) is above the expectation.","websiteId":"XIZGGVT1TX2O-0OFeT2Yig","severity":5,"triggering":false,"tagFilterExpression":{"type":"EXPRESSION","logicalOperator":"AND","elements":[]},"rule":{"alertType":"slowness","metricName":"onLoadTime","aggregation":"P90"},"threshold":{"type":"historicBaseline","operator":">=","seasonality":"DAILY","baseline":[[0,239.164,6.1026],[600000,240.0013,7.4109],[85200000,241.3653,3],[85800000,239.4759,3.9012]],"deviationFactor":3,"lastUpdated":0},"alertChannelIds":[],"granularity":600000,"timeThreshold":{"type":"violationsInSequence","timeWindow":600000},"customPayloadFields":[{"type":"staticString","key":"1","value":"2"},{"type":"dynamic","key":"2","value":{"tagName":"beacon.website.name","key":null}}]} # WebsiteAlertConfig | 
 
     try:
         # Update Website Smart Alert Config

@@ -21592,7 +21592,7 @@ paths:
                     maxSeverity: 0
                     openIssues: [
                       ]
-                  popVersion: 1.1.1
+                  popVersion: 1.1.2
                 - id: c7sXV7jZcuiD2ewGAjYI
                   label: Aggie
                   displayLabel: Aggie popLoc
@@ -22487,7 +22487,7 @@ paths:
               - id: OjJPXWHmsE9deLzanNAW
                 label: Dallas
                 displayLabel: AUTOscaling
-                popVersion: 1.1.1
+                popVersion: 1.1.2
                 description: My Location 101
                 locationType: Private
                 playbackCapabilities:
@@ -22580,7 +22580,7 @@ paths:
                 id: OjJPXWHmsE9deLzanNAW
                 label: Austin
                 displayLabel: AUTOscaling
-                popVersion: 1.1.1
+                popVersion: 1.1.2
                 description: Test Location 101
                 locationType: Private
                 playbackCapabilities:

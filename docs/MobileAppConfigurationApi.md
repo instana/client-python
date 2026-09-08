@@ -12,6 +12,7 @@ Method | HTTP request | Description
 [**get_mobile_app_geo_location_configuration**](MobileAppConfigurationApi.md#get_mobile_app_geo_location_configuration) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/geo-location | Get geo location configuration for mobile app
 [**get_mobile_app_geo_mapping_rules**](MobileAppConfigurationApi.md#get_mobile_app_geo_mapping_rules) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/geo-mapping-rules | Get custom geo mapping rules for mobile app
 [**get_mobile_app_ip_masking_configuration**](MobileAppConfigurationApi.md#get_mobile_app_ip_masking_configuration) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking | Get IP masking configuration for mobile app
+[**get_mobile_app_session_replay**](MobileAppConfigurationApi.md#get_mobile_app_session_replay) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/session-replay-config | Get session replay config for mobile app
 [**get_mobile_app_source_map_file**](MobileAppConfigurationApi.md#get_mobile_app_source_map_file) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId} | Get sourcemap configuration for mobile app
 [**get_mobile_app_source_map_files**](MobileAppConfigurationApi.md#get_mobile_app_source_map_files) | **GET** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload | Get all sourcemap configurations for mobile app
 [**get_single_mobile_app_config**](MobileAppConfigurationApi.md#get_single_mobile_app_config) | **GET** /api/mobile-app-monitoring/config/{mobileAppId} | Get mobile app configuration by ID
@@ -21,6 +22,7 @@ Method | HTTP request | Description
 [**set_mobile_app_geo_mapping_rules**](MobileAppConfigurationApi.md#set_mobile_app_geo_mapping_rules) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/geo-mapping-rules | Set custom geo mapping rules for mobile app
 [**update_mobile_app_geo_location_configuration**](MobileAppConfigurationApi.md#update_mobile_app_geo_location_configuration) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/geo-location | Update geo location configuration for mobile app
 [**update_mobile_app_ip_masking_configuration**](MobileAppConfigurationApi.md#update_mobile_app_ip_masking_configuration) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking | Update IP masking configuration for mobile app
+[**update_mobile_app_session_replay**](MobileAppConfigurationApi.md#update_mobile_app_session_replay) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/session-replay-config | Configure session replay for mobile app
 [**update_mobile_app_teams**](MobileAppConfigurationApi.md#update_mobile_app_teams) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/teams | Update teams assigned to the mobile app
 [**upload_mobile_app_source_map_file**](MobileAppConfigurationApi.md#upload_mobile_app_source_map_file) | **PUT** /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/form | Upload sourcemap file for mobile app
 
@@ -678,6 +680,85 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **get_mobile_app_session_replay**
+> get_mobile_app_session_replay(mobile_app_id)
+
+Get session replay config for mobile app
+
+API request to get the session replay configuration for a mobile app.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.MobileAppConfigurationApi(api_client)
+    mobile_app_id = 'K3bP-bmCRkyimNai9vvq8o' # str | Mobile App ID
+
+    try:
+        # Get session replay config for mobile app
+        api_instance.get_mobile_app_session_replay(mobile_app_id)
+    except Exception as e:
+        print("Exception when calling MobileAppConfigurationApi->get_mobile_app_session_replay: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mobile_app_id** | **str**| Mobile App ID | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Session replay configuration |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **get_mobile_app_source_map_file**
 > SourceMapUploadConfig get_mobile_app_source_map_file(mobile_app_id, source_map_config_id)
 
@@ -925,7 +1006,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **post_mobile_app_config**
-> MobileApp post_mobile_app_config(name=name, api_tag=api_tag)
+> MobileApp post_mobile_app_config(name=name, business_criticality=business_criticality, api_tag=api_tag)
 
 Configure new mobile app
 
@@ -964,11 +1045,12 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.MobileAppConfigurationApi(api_client)
     name = 'name_example' # str | Name of the mobile app (optional)
+    business_criticality = 56 # int |  (optional)
     api_tag = [{"id":"test","displayName":"test"}] # List[ApiTag] |  (optional)
 
     try:
         # Configure new mobile app
-        api_response = api_instance.post_mobile_app_config(name=name, api_tag=api_tag)
+        api_response = api_instance.post_mobile_app_config(name=name, business_criticality=business_criticality, api_tag=api_tag)
         print("The response of MobileAppConfigurationApi->post_mobile_app_config:\n")
         pprint(api_response)
     except Exception as e:
@@ -983,6 +1065,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**| Name of the mobile app | [optional] 
+ **business_criticality** | **int**|  | [optional] 
  **api_tag** | [**List[ApiTag]**](ApiTag.md)|  | [optional] 
 
 ### Return type
@@ -1431,6 +1514,86 @@ Name | Type | Description  | Notes
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
 **404** | Resource not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_mobile_app_session_replay**
+> update_mobile_app_session_replay(mobile_app_id)
+
+Configure session replay for mobile app
+
+API request to configure session replay for a mobile app.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.MobileAppConfigurationApi(api_client)
+    mobile_app_id = 'K3bP-bmCRkyimNai9vvq8o' # str | Mobile App ID
+
+    try:
+        # Configure session replay for mobile app
+        api_instance.update_mobile_app_session_replay(mobile_app_id)
+    except Exception as e:
+        print("Exception when calling MobileAppConfigurationApi->update_mobile_app_session_replay: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mobile_app_id** | **str**| Mobile App ID | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Session replay configuration successfully updated |  -  |
+**400** | Invalid or missing request body |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
 **500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
