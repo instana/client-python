@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **evaluation_type** | **str** | Determines whether calls of the aggregated metrics are grouped by the application, the service, or the endpoint. This also determines whether the resulting events are categorized as an issue on the respective entity of that group. | 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 
 **granularity** | **int** | The evaluation granularity used for detection of violations of the defined threshold. Defines the size of the tumbling window used. | [default to 600000]
+**group_by** | [**List[GroupByTag]**](GroupByTag.md) | The grouping tags used to group the metric results. Only applicable when evaluationType is CUSTOM. | [optional] 
 **include_internal** | **bool** | Flag to include Internal Calls. These calls are work done inside a service and correspond to intermediate spans in custom tracing. | [optional] 
 **include_synthetic** | **bool** | Flag to include Synthetic Calls. These calls have a synthetic endpoint as their destination, such as calls to health-check endpoints.  | [optional] 
 **name** | **str** | Name of the application alert configuration. Used as a template for the title of alert/event notifications triggered by this Smart Alert configuration. | 

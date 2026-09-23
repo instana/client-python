@@ -515,6 +515,7 @@ docs/SyntheticMetricsApi.md
 docs/SyntheticPlaybackCapabilities.md
 docs/SyntheticResourceUpdateListDNSFilterTargetValueListDNSFilterTargetValue.md
 docs/SyntheticResourceUpdateListICMPValidationListICMPValidation.md
+docs/SyntheticResourceUpdateListNetworkProfileListNetworkProfile.md
 docs/SyntheticResourceUpdateListSSLCertificateValidationListSSLCertificateValidation.md
 docs/SyntheticResourceUpdateListStringListString.md
 docs/SyntheticResourceUpdateMapStringStringListString.md
@@ -578,6 +579,7 @@ docs/TraceSamplingConfig.md
 docs/TrafficBlueprintIndicator.md
 docs/Trigger.md
 docs/TypeConfiguration.md
+docs/UnifiedBeacon.md
 docs/UnsupportedHttpPathSegmentMatchingRule.md
 docs/UpdateEvaluationRequest.md
 docs/UpdatedBusinessPerspectiveConfig.md
@@ -1169,6 +1171,7 @@ instana_client/models/synthetic_metric_tag_group.py
 instana_client/models/synthetic_playback_capabilities.py
 instana_client/models/synthetic_resource_update_list_dns_filter_target_value_list_dns_filter_target_value.py
 instana_client/models/synthetic_resource_update_list_icmp_validation_list_icmp_validation.py
+instana_client/models/synthetic_resource_update_list_network_profile_list_network_profile.py
 instana_client/models/synthetic_resource_update_list_ssl_certificate_validation_list_ssl_certificate_validation.py
 instana_client/models/synthetic_resource_update_list_string_list_string.py
 instana_client/models/synthetic_resource_update_map_string_string_list_string.py
@@ -1228,6 +1231,7 @@ instana_client/models/trace_sampling_config.py
 instana_client/models/traffic_blueprint_indicator.py
 instana_client/models/trigger.py
 instana_client/models/type_configuration.py
+instana_client/models/unified_beacon.py
 instana_client/models/unsupported_http_path_segment_matching_rule.py
 instana_client/models/update_evaluation_request.py
 instana_client/models/updated_business_perspective_config.py
@@ -1290,4 +1294,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_synthetic_resource_update_list_network_profile_list_network_profile.py
+test/test_unified_beacon.py
 tox.ini

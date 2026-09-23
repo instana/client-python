@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **description** | **str** |  | [optional] 
+**display_url** | **str** | Absolute URL of this configuration in the Instana UI. | [optional] [readonly] 
 **enabled** | **bool** |  | [optional] 
 **entity_type** | **str** |  | 
 **id** | **str** |  | 

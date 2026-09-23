@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **created** | **int** |  | [optional] 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | 
 **description** | **str** | Description of the Infrastructure Smart Alert. Used as a template for the description of alert/event notifications triggered by this Smart Alert configuration. | 
+**display_url** | **str** | Absolute URL of this configuration in the Instana UI. | [optional] [readonly] 
 **enabled** | **bool** |  | [optional] 
 **evaluation_type** | **str** | Determines whether we evaluate each infra entity independently or group of entities will be evaluated together. | [optional] 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 

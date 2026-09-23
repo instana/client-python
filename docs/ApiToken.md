@@ -40,6 +40,7 @@ Name | Type | Description | Notes
 **can_configure_logging_perspectives** | **bool** |  | [optional] 
 **can_configure_maintenance_windows** | **bool** |  | [optional] 
 **can_configure_mobile_app_business_criticality** | **bool** |  | [optional] 
+**can_configure_mobile_app_conversions** | **bool** |  | [optional] 
 **can_configure_mobile_app_monitoring** | **bool** |  | [optional] 
 **can_configure_mobile_app_smart_alerts** | **bool** |  | [optional] 
 **can_configure_network_integrations** | **bool** |  | [optional] 

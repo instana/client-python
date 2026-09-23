@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **application_alert_config_id** | **str** |  | [optional] 
 **deleted** | **bool** |  | [optional] 
 **description** | **str** |  | [optional] 
+**display_url** | **str** | Absolute URL of this configuration in the Instana UI. | [optional] [readonly] 
 **enabled** | **bool** |  | [optional] 
 **entity_type** | **str** |  | 
 **expiration_time** | **int** |  | [optional] 

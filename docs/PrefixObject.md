@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **enabled** | **bool** | Whether the shortcode prefix feature is enabled | [optional] 
 **include_in_title** | **bool** | Whether the short code should be included in the incident title | [optional] 
-**prefix** | **str** | The prefix to use for event short codes (e.g., &#39;INSTA-&#39;, &#39;PROD-&#39;) | [optional] 
+**prefix** | **str** | The prefix to use for event short codes (e.g., &#39;INSTA-&#39;, &#39;PROD-&#39;). Must not exceed 6 characters. | [optional] 
 
 ## Example
 
