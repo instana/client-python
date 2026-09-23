@@ -107,7 +107,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_website**
-> Website create_website(name=name, create_website_request_inner=create_website_request_inner)
+> Website create_website(name=name, business_criticality=business_criticality, create_website_request_inner=create_website_request_inner)
 
 Configure new website
 
@@ -146,11 +146,12 @@ with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.WebsiteConfigurationApi(api_client)
     name = 'name_example' # str |  (optional)
+    business_criticality = 56 # int |  (optional)
     create_website_request_inner = [{"id":"test","displayName":"test"}] # List[CreateWebsiteRequestInner] |  (optional)
 
     try:
         # Configure new website
-        api_response = api_instance.create_website(name=name, create_website_request_inner=create_website_request_inner)
+        api_response = api_instance.create_website(name=name, business_criticality=business_criticality, create_website_request_inner=create_website_request_inner)
         print("The response of WebsiteConfigurationApi->create_website:\n")
         pprint(api_response)
     except Exception as e:
@@ -165,6 +166,7 @@ with instana_client.ApiClient(configuration) as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **str**|  | [optional] 
+ **business_criticality** | **int**|  | [optional] 
  **create_website_request_inner** | [**List[CreateWebsiteRequestInner]**](CreateWebsiteRequestInner.md)|  | [optional] 
 
 ### Return type

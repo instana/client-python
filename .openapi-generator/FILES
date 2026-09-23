@@ -1290,5 +1290,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_custom_metric_application_alert_rule.py
 tox.ini
