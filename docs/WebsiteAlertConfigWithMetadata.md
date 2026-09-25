@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **created** | **int** | Unix timestamp representing the creation time of this revision. | [optional] 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | Custom payload fields to send additional information in the alert notifications. Can be left empty. | 
 **description** | **str** | Description of the website alert configuration. Used as a template for the description of alert/event notifications triggered by this Smart Alert configuration. | 
+**display_url** | **str** | Absolute URL of this configuration in the Instana UI. | [optional] [readonly] 
 **enabled** | **bool** | Flag to indicate whether or not the configuration is enabled. | [optional] 
 **grace_period** | **int** | The duration for which an alert remains open after conditions are no longer violated, with the alert auto-closing once the grace period expires. | [optional] 
 **granularity** | **int** | The evaluation granularity used for detection of violations of the defined threshold. Defines the size of the tumbling window used. | [default to 600000]

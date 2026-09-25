@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **created** | **int** | Created Date of the version of Service Levels Smart Alerts Configuration. | [optional] 
 **custom_payload_fields** | [**List[CustomPayloadField]**](CustomPayloadField.md) | This is the custom name and value pairs to be sent along with the alert to the alert channels. | 
 **description** | **str** | The description of the alert. It is also the alert message content. | 
+**display_url** | **str** | Absolute URL of this configuration in the Instana UI. | [optional] [readonly] 
 **enabled** | **bool** | Boolean Parameter specifying the enabled state of Service Levels Smart Alerts Configuration. | [optional] 
 **id** | **str** | Unique ID of the Service Levels Smart Alerts Configuration. | 
 **initial_created** | **int** | Created Date of the Initial version of Service Levels Smart Alerts Configuration. | [optional] 

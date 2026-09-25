@@ -121,9 +121,9 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.ReleasesApi(api_client)
-    var_from = 56 # int |  (optional)
-    to = 56 # int |  (optional)
-    max_results = 56 # int |  (optional)
+    var_from = 56 # int | The timestamp from where one wants to fetch the release markers. (optional)
+    to = 56 # int | The timestamp till where one wants to fetch the release markers. (optional)
+    max_results = 56 # int | The maximum number of release markers to be fetched (optional)
 
     try:
         # Get all releases
@@ -141,9 +141,9 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **var_from** | **int**|  | [optional] 
- **to** | **int**|  | [optional] 
- **max_results** | **int**|  | [optional] 
+ **var_from** | **int**| The timestamp from where one wants to fetch the release markers. | [optional] 
+ **to** | **int**| The timestamp till where one wants to fetch the release markers. | [optional] 
+ **max_results** | **int**| The maximum number of release markers to be fetched | [optional] 
 
 ### Return type
 

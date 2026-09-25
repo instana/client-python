@@ -24,6 +24,7 @@ Name | Type | Description | Notes
 **last_errors** | [**TestLastError**](TestLastError.md) |  | [optional] 
 **location_display_label** | **str** |  | [optional] 
 **location_id** | **str** |  | [optional] 
+**profile** | **str** |  | [optional] 
 **run_type** | **str** |  | [optional] 
 **ssl_days_remaining** | **str** |  | [optional] 
 **ssl_hostname** | **str** |  | [optional] 

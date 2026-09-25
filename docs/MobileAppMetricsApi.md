@@ -4,10 +4,98 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**get_merged_session_beacons**](MobileAppMetricsApi.md#get_merged_session_beacons) | **GET** /api/mobile-app-monitoring/session-merged | Download merged session beacons
 [**get_mobile_app_beacon_metrics**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics) | **POST** /api/mobile-app-monitoring/metrics | Get mobile app beacon metrics
 [**get_mobile_app_beacon_metrics_v2**](MobileAppMetricsApi.md#get_mobile_app_beacon_metrics_v2) | **POST** /api/mobile-app-monitoring/v2/metrics | Get beacon metrics
 [**get_session**](MobileAppMetricsApi.md#get_session) | **GET** /api/mobile-app-monitoring/session;id&#x3D;{id};timestamp&#x3D;{timestamp} | Get mobile app session
 
+
+# **get_merged_session_beacons**
+> List[UnifiedBeacon] get_merged_session_beacons(id, timestamp, mobile_app_id)
+
+Download merged session beacons
+
+Returns a merged JSON array of all legacy beacons and action beacons for a session, sorted by timestamp ascending. Each entry includes a 'beaconSource' field ('LEGACY' or 'ACTION') and the corresponding beacon payload.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.unified_beacon import UnifiedBeacon
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.MobileAppMetricsApi(api_client)
+    id = '9CA9E31D-B0F7-40EC-8D32-FE163A6557AE' # str | Session identifier
+    timestamp = 1730595029980 # int | Beacon timestamp (partition hint for legacy query)
+    mobile_app_id = 'KVJIyIPsTUGfvNORN_07uQ' # str | Mobile app identifier (required for action beacons)
+
+    try:
+        # Download merged session beacons
+        api_response = api_instance.get_merged_session_beacons(id, timestamp, mobile_app_id)
+        print("The response of MobileAppMetricsApi->get_merged_session_beacons:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling MobileAppMetricsApi->get_merged_session_beacons: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Session identifier | 
+ **timestamp** | **int**| Beacon timestamp (partition hint for legacy query) | 
+ **mobile_app_id** | **str**| Mobile app identifier (required for action beacons) | 
+
+### Return type
+
+[**List[UnifiedBeacon]**](UnifiedBeacon.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**400** | Bad request. |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**404** | Resource not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_mobile_app_beacon_metrics**
 > MobileAppMetricResult get_mobile_app_beacon_metrics(get_mobile_app_metrics=get_mobile_app_metrics)
