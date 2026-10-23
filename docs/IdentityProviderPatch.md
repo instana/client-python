@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**restrict_empty_idp_groups** | **bool** |  | [optional] 
+**restrict_empty_idp_groups** | **bool** | If IdP users need to be mapped to at least one group before being allowed to access Instana. | [optional] 
 
 ## Example
 

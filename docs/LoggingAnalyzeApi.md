@@ -4,9 +4,264 @@ All URIs are relative to *https://unit-tenant.instana.io*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**create_logging_perspective**](LoggingAnalyzeApi.md#create_logging_perspective) | **POST** /api/logging/perspective/v1 | Create Log Perspective
+[**delete_logging_perspective**](LoggingAnalyzeApi.md#delete_logging_perspective) | **DELETE** /api/logging/perspective/v1/{perspectiveId} | Delete Log Perspective
+[**get_all_logging_perspectives**](LoggingAnalyzeApi.md#get_all_logging_perspectives) | **GET** /api/logging/perspective/v1 | Get All Log Perspectives
 [**get_log_volume_usage**](LoggingAnalyzeApi.md#get_log_volume_usage) | **GET** /api/logging/logs/getLogVolumeUsage | Get Log Volume Usage
+[**get_logging_perspective**](LoggingAnalyzeApi.md#get_logging_perspective) | **GET** /api/logging/perspective/v1/{perspectiveId} | Get Log Perspective
 [**get_logs**](LoggingAnalyzeApi.md#get_logs) | **POST** /api/logging/logs/getLogs/v1 | Retrieve logs via REST API
+[**update_logging_perspective**](LoggingAnalyzeApi.md#update_logging_perspective) | **PUT** /api/logging/perspective/v1/{perspectiveId} | Update Log Perspective
 
+
+# **create_logging_perspective**
+> LoggingPerspective create_logging_perspective(logging_perspective)
+
+Create Log Perspective
+
+Creates a new log perspective for the caller's tenant unit.
+
+- `perspectiveId` is **not** required — the server assigns it automatically.
+- `perspectiveName` must be unique.
+- `filter` accepts at least 1 and at most 10 elements. The `REGEX_MATCH` operator is not supported.
+
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.logging_perspective import LoggingPerspective
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LoggingAnalyzeApi(api_client)
+    logging_perspective = {"perspectiveName":"Production Errors (k8s)","description":"ERROR logs scoped to the production Kubernetes namespace","filter":{"type":"EXPRESSION","logicalOperator":"AND","elements":[{"type":"TAG_FILTER","name":"log.level","operator":"EQUALS","entity":"NOT_APPLICABLE","value":"ERROR"},{"type":"TAG_FILTER","name":"kubernetes.namespace.name","operator":"EQUALS","entity":"NOT_APPLICABLE","value":"production"}]}} # LoggingPerspective | The log perspective to create.
+
+    try:
+        # Create Log Perspective
+        api_response = api_instance.create_logging_perspective(logging_perspective)
+        print("The response of LoggingAnalyzeApi->create_logging_perspective:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LoggingAnalyzeApi->create_logging_perspective: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **logging_perspective** | [**LoggingPerspective**](LoggingPerspective.md)| The log perspective to create. | 
+
+### Return type
+
+[**LoggingPerspective**](LoggingPerspective.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**201** | Perspective created successfully. Returns the persisted perspective including the server-assigned &#x60;perspectiveId&#x60;. |  -  |
+**400** | Validation failed. Possible reasons: - &#x60;perspectiveName&#x60; is missing or blank. - &#x60;perspectiveName&#x60; is &#x60;\&quot;All logs\&quot;&#x60; — this is a reserved name. - &#x60;filter&#x60; is missing, empty, or cannot be parsed. - The filter contains more than 10 elements. - The filter contains a &#x60;REGEX_MATCH&#x60; operator. - A perspective with the same name already exists. - The reserved ID &#x60;\&quot;0\&quot;&#x60; (\&quot;All logs\&quot;) was provided.  |  -  |
+**403** | Possible reasons: - Insufficient permissions to configure log perspectives. - The tenant unit has reached its maximum number of allowed perspectives.  |  -  |
+**404** | Tenant unit not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_logging_perspective**
+> delete_logging_perspective(perspective_id)
+
+Delete Log Perspective
+
+Deletes an existing log perspective by its ID.
+
+The reserved **"All logs"** perspective (id=`"0"`) cannot be deleted.
+
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LoggingAnalyzeApi(api_client)
+    perspective_id = 'perspective_id_example' # str | 
+
+    try:
+        # Delete Log Perspective
+        api_instance.delete_logging_perspective(perspective_id)
+    except Exception as e:
+        print("Exception when calling LoggingAnalyzeApi->delete_logging_perspective: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perspective_id** | **str**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | Perspective deleted successfully. |  -  |
+**400** | Attempted to delete the reserved perspective \&quot;0\&quot; (\&quot;All logs\&quot;). |  -  |
+**403** | Insufficient permissions to delete this perspective. |  -  |
+**404** | Tenant unit not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_all_logging_perspectives**
+> List[LoggingPerspective] get_all_logging_perspectives()
+
+Get All Log Perspectives
+
+Returns all log perspectives that belong to the authenticated caller's tenant unit.
+
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.logging_perspective import LoggingPerspective
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LoggingAnalyzeApi(api_client)
+
+    try:
+        # Get All Log Perspectives
+        api_response = api_instance.get_all_logging_perspectives()
+        print("The response of LoggingAnalyzeApi->get_all_logging_perspectives:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LoggingAnalyzeApi->get_all_logging_perspectives: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[LoggingPerspective]**](LoggingPerspective.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successfully retrieved all log perspectives for the tenant unit. |  -  |
+**403** | Insufficient permissions to view logs. |  -  |
+**404** | Tenant unit not found. |  -  |
+**500** | Internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_log_volume_usage**
 > LogVolumeUsageResult get_log_volume_usage(from_ts, to_ts, grouping_tag=grouping_tag)
@@ -51,7 +306,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.LoggingAnalyzeApi(api_client)
     from_ts = 1682899200 # int | Start timestamp in seconds. Must be <= `toTs`.
     to_ts = 1682899201 # int | End timestamp in seconds. Must be >= `fromTs`.
-    grouping_tag = 'zone' # str | Optional tag to group volume usage by. Valid groupingTag values are: `kubernetes_cluster_name`, `kubernetes_daemonset_name`, `kubernetes_namespace_name`, `kubernetes_deployment_name`, `host_name`, `zone`.  (optional)
+    grouping_tag = 'zone' # str | Optional tag to group volume usage by. Valid groupingTag values are: `kubernetes_cluster_name`, `kubernetes_daemonset_name`, `kubernetes_namespace_name`, `kubernetes_deployment_name`, `host_name`, `zone`, `perspective_id`.  (optional)
 
     try:
         # Get Log Volume Usage
@@ -71,7 +326,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **from_ts** | **int**| Start timestamp in seconds. Must be &lt;&#x3D; &#x60;toTs&#x60;. | 
  **to_ts** | **int**| End timestamp in seconds. Must be &gt;&#x3D; &#x60;fromTs&#x60;. | 
- **grouping_tag** | **str**| Optional tag to group volume usage by. Valid groupingTag values are: &#x60;kubernetes_cluster_name&#x60;, &#x60;kubernetes_daemonset_name&#x60;, &#x60;kubernetes_namespace_name&#x60;, &#x60;kubernetes_deployment_name&#x60;, &#x60;host_name&#x60;, &#x60;zone&#x60;.  | [optional] 
+ **grouping_tag** | **str**| Optional tag to group volume usage by. Valid groupingTag values are: &#x60;kubernetes_cluster_name&#x60;, &#x60;kubernetes_daemonset_name&#x60;, &#x60;kubernetes_namespace_name&#x60;, &#x60;kubernetes_deployment_name&#x60;, &#x60;host_name&#x60;, &#x60;zone&#x60;, &#x60;perspective_id&#x60;.  | [optional] 
 
 ### Return type
 
@@ -93,6 +348,89 @@ Name | Type | Description  | Notes
 **200** | Successfully retrieved log volume usage data |  -  |
 **400** | Invalid request (e.g., missing or incorrect time parameters) |  -  |
 **500** | Unexpected server error |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_logging_perspective**
+> LoggingPerspective get_logging_perspective(perspective_id)
+
+Get Log Perspective
+
+Retrieves a single log perspective by its ID.
+
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.logging_perspective import LoggingPerspective
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LoggingAnalyzeApi(api_client)
+    perspective_id = 'perspective_id_example' # str | 
+
+    try:
+        # Get Log Perspective
+        api_response = api_instance.get_logging_perspective(perspective_id)
+        print("The response of LoggingAnalyzeApi->get_logging_perspective:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LoggingAnalyzeApi->get_logging_perspective: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perspective_id** | **str**|  | 
+
+### Return type
+
+[**LoggingPerspective**](LoggingPerspective.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Successfully retrieved the log perspective. |  -  |
+**403** | Insufficient permissions to view this perspective. |  -  |
+**404** | Logging perspective not found or tenant unit not found. |  -  |
+**500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -297,6 +635,101 @@ Name | Type | Description  | Notes
 **200** | Successfully retrieved logs matching the query criteria. Returns an array of log items with metadata and pagination information. |  -  |
 **500** | Unexpected server error - An internal error occurred while processing the request. |  -  |
 **503** | Service unavailable - The logging service is temporarily unavailable. Please retry after some time. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_logging_perspective**
+> LoggingPerspective update_logging_perspective(perspective_id, logging_perspective)
+
+Update Log Perspective
+
+Replaces an existing log perspective with the provided values.
+
+**Updatable fields:**
+- `perspectiveName` — new display name; must be unique within the tenant unit.
+- `description` — free-text description shown in the UI. Set to `null` to clear.
+- `filter` — accepts at most 10 elements; the `REGEX_MATCH` operator is not supported.
+
+**Rules:**
+- `perspectiveId` in the request body must match the `{perspectiveId}` path parameter.
+- The reserved perspective `"0"` ("All logs") cannot be updated.
+
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.logging_perspective import LoggingPerspective
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.LoggingAnalyzeApi(api_client)
+    perspective_id = 'perspective_id_example' # str | 
+    logging_perspective = {"perspectiveId":"RuuEJgfYQ3qF_Ma9IcEV4g","perspectiveName":"Production Errors (Updated)","description":"ERROR-level logs scoped to the production Kubernetes namespace","filter":{"type":"EXPRESSION","logicalOperator":"AND","elements":[{"type":"TAG_FILTER","name":"log.level","operator":"EQUALS","entity":"NOT_APPLICABLE","value":"ERROR"},{"type":"TAG_FILTER","name":"kubernetes.namespace.name","operator":"EQUALS","entity":"NOT_APPLICABLE","value":"production"}]}} # LoggingPerspective | Full log perspective object. `perspectiveId` must be present and match the path parameter.
+
+    try:
+        # Update Log Perspective
+        api_response = api_instance.update_logging_perspective(perspective_id, logging_perspective)
+        print("The response of LoggingAnalyzeApi->update_logging_perspective:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling LoggingAnalyzeApi->update_logging_perspective: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **perspective_id** | **str**|  | 
+ **logging_perspective** | [**LoggingPerspective**](LoggingPerspective.md)| Full log perspective object. &#x60;perspectiveId&#x60; must be present and match the path parameter. | 
+
+### Return type
+
+[**LoggingPerspective**](LoggingPerspective.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Perspective updated successfully. Returns the persisted perspective. |  -  |
+**400** | Validation failed. Possible reasons: - &#x60;perspectiveId&#x60; in the body does not match the path parameter. - &#x60;perspectiveName&#x60; is missing or blank. - &#x60;perspectiveName&#x60; is &#x60;\&quot;All logs\&quot;&#x60; — this is a reserved name. - &#x60;filter&#x60; is missing, empty, or cannot be parsed. - The filter contains more than 10 elements. - The filter contains a &#x60;REGEX_MATCH&#x60; operator. - A different perspective with the same name already exists in this tenant unit. - Attempted to update the reserved perspective &#x60;\&quot;0\&quot;&#x60; (\&quot;All logs\&quot;).  |  -  |
+**403** | Insufficient permissions to update this perspective. |  -  |
+**404** | Perspective not found or tenant unit not found. |  -  |
+**500** | Internal server error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

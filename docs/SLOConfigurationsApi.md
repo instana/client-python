@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**get_all_slo_config_tags**](SLOConfigurationsApi.md#get_all_slo_config_tags) | **GET** /api/settings/slo/tags | Get All SLO Config tags
 [**get_all_slo_configs**](SLOConfigurationsApi.md#get_all_slo_configs) | **GET** /api/settings/slo | Get All SLO Configs
 [**get_slo_config_by_id**](SLOConfigurationsApi.md#get_slo_config_by_id) | **GET** /api/settings/slo/{id} | Get an existing SLO Config
+[**get_slo_health_snapshot**](SLOConfigurationsApi.md#get_slo_health_snapshot) | **GET** /api/settings/slo/health-snapshot | Get SLO Health Snapshot
 [**update_slo_config**](SLOConfigurationsApi.md#update_slo_config) | **PUT** /api/settings/slo/{id} | Update an existing SLO Config
 
 
@@ -245,7 +246,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_all_slo_configs**
-> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
+> PaginatedResult get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, slo_health_state=slo_health_state, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
 
 Get All SLO Configs
 
@@ -292,6 +293,7 @@ with instana_client.ApiClient(configuration) as api_client:
     blueprint = ['latency'] # List[str] |  (optional)
     slo_ids = ['SLOdCTspkHlS_OzNOATQWgsuw'] # List[str] |  (optional)
     slo_status = 'green' # str |  (optional)
+    slo_health_state = 'HEALTHY' # str |  (optional)
     entity_ids = ['adsewby312sdfd1'] # List[str] |  (optional)
     grouped = false # bool |  (optional)
     refresh = false # bool |  (optional)
@@ -299,7 +301,7 @@ with instana_client.ApiClient(configuration) as api_client:
 
     try:
         # Get All SLO Configs
-        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
+        api_response = api_instance.get_all_slo_configs(page_size=page_size, page=page, order_by=order_by, order_direction=order_direction, query=query, tag=tag, entity_type=entity_type, infra_entity_types=infra_entity_types, kubernetes_cluster_uuid=kubernetes_cluster_uuid, blueprint=blueprint, slo_ids=slo_ids, slo_status=slo_status, slo_health_state=slo_health_state, entity_ids=entity_ids, grouped=grouped, refresh=refresh, rbac_tags=rbac_tags)
         print("The response of SLOConfigurationsApi->get_all_slo_configs:\n")
         pprint(api_response)
     except Exception as e:
@@ -325,6 +327,7 @@ Name | Type | Description  | Notes
  **blueprint** | [**List[str]**](str.md)|  | [optional] 
  **slo_ids** | [**List[str]**](str.md)|  | [optional] 
  **slo_status** | **str**|  | [optional] 
+ **slo_health_state** | **str**|  | [optional] 
  **entity_ids** | [**List[str]**](str.md)|  | [optional] 
  **grouped** | **bool**|  | [optional] 
  **refresh** | **bool**|  | [optional] 
@@ -428,6 +431,96 @@ Name | Type | Description  | Notes
 |-------------|-------------|------------------|
 **200** | Fetched SLO Configuration Successfully |  -  |
 **404** | SLO Configuration Not Found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_slo_health_snapshot**
+> SloHealthSnapshot get_slo_health_snapshot(query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_health_state=slo_health_state, slo_ids=slo_ids, rbac_tags=rbac_tags)
+
+Get SLO Health Snapshot
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.slo_health_snapshot import SloHealthSnapshot
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.SLOConfigurationsApi(api_client)
+    query = 'checkout' # str |  (optional)
+    tag = ['team:payments'] # List[str] |  (optional)
+    entity_type = ['application'] # List[str] |  (optional)
+    blueprint = ['latency'] # List[str] |  (optional)
+    slo_health_state = 'AT_RISK' # str |  (optional)
+    slo_ids = ['SLOdCTspkHlS_OzNOATQWgsuw'] # List[str] |  (optional)
+    rbac_tags = ['team:payments'] # List[str] |  (optional)
+
+    try:
+        # Get SLO Health Snapshot
+        api_response = api_instance.get_slo_health_snapshot(query=query, tag=tag, entity_type=entity_type, blueprint=blueprint, slo_health_state=slo_health_state, slo_ids=slo_ids, rbac_tags=rbac_tags)
+        print("The response of SLOConfigurationsApi->get_slo_health_snapshot:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling SLOConfigurationsApi->get_slo_health_snapshot: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **str**|  | [optional] 
+ **tag** | [**List[str]**](str.md)|  | [optional] 
+ **entity_type** | [**List[str]**](str.md)|  | [optional] 
+ **blueprint** | [**List[str]**](str.md)|  | [optional] 
+ **slo_health_state** | **str**|  | [optional] 
+ **slo_ids** | [**List[str]**](str.md)|  | [optional] 
+ **rbac_tags** | [**List[str]**](str.md)|  | [optional] 
+
+### Return type
+
+[**SloHealthSnapshot**](SloHealthSnapshot.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Health snapshot for all matching SLOs |  -  |
+**503** | Health metrics temporarily unavailable |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

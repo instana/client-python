@@ -7,21 +7,22 @@ Method | HTTP request | Description
 [**add_permissions_on_group**](GroupsApi.md#add_permissions_on_group) | **PUT** /api/settings/rbac/groups/{groupId}/permissions | Add permissions to group
 [**add_users_to_group**](GroupsApi.md#add_users_to_group) | **PUT** /api/settings/rbac/groups/{groupId}/users | Add users to group
 [**create_group**](GroupsApi.md#create_group) | **POST** /api/settings/rbac/groups | Create group
-[**create_group_mapping**](GroupsApi.md#create_group_mapping) | **POST** /api/settings/rbac/mappings | Create group mapping
+[**create_mapping**](GroupsApi.md#create_mapping) | **POST** /api/settings/rbac/mappings | Create mapping
 [**delete_group**](GroupsApi.md#delete_group) | **DELETE** /api/settings/rbac/groups/{id} | Delete group
-[**delete_group_mapping**](GroupsApi.md#delete_group_mapping) | **DELETE** /api/settings/rbac/mappings/{id} | Delete group mapping
 [**delete_groups**](GroupsApi.md#delete_groups) | **PUT** /api/settings/rbac/groups/delete | Delete groups
+[**delete_mapping**](GroupsApi.md#delete_mapping) | **DELETE** /api/settings/rbac/mappings/{id} | Delete mapping
 [**get_group**](GroupsApi.md#get_group) | **GET** /api/settings/rbac/groups/{id} | Get group
-[**get_group_mapping**](GroupsApi.md#get_group_mapping) | **GET** /api/settings/rbac/mappings/{id} | Get group mapping
-[**get_group_mappings**](GroupsApi.md#get_group_mappings) | **GET** /api/settings/rbac/mappings | Get all group mappings
-[**get_group_mappings_overview**](GroupsApi.md#get_group_mappings_overview) | **GET** /api/settings/rbac/mappings/overview | Get all group mappings overview
 [**get_groups**](GroupsApi.md#get_groups) | **GET** /api/settings/rbac/groups | Get groups
 [**get_groups_by_user**](GroupsApi.md#get_groups_by_user) | **GET** /api/settings/rbac/groups/user/{email} | Get groups of a single user
-[**get_identity_provider_patch**](GroupsApi.md#get_identity_provider_patch) | **GET** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Check user restrictions for empty Idp group mapping
+[**get_identity_provider_patch**](GroupsApi.md#get_identity_provider_patch) | **GET** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Check user restrictions for empty Idp mapping
+[**get_mapping**](GroupsApi.md#get_mapping) | **GET** /api/settings/rbac/mappings/{id} | Get mapping
+[**get_mappings**](GroupsApi.md#get_mappings) | **GET** /api/settings/rbac/mappings | Get all mappings
+[**get_mappings_overview**](GroupsApi.md#get_mappings_overview) | **GET** /api/settings/rbac/mappings/overview | Get all mappings overview
+[**migrate_group_to_team_and_role**](GroupsApi.md#migrate_group_to_team_and_role) | **PUT** /api/settings/rbac/groups/{id}/migrateToTeams | Migrate a legacy RBAC group to the Team and Role model
 [**remove_user_from_group**](GroupsApi.md#remove_user_from_group) | **DELETE** /api/settings/rbac/groups/{id}/user/{userId} | Remove user from group
 [**update_group**](GroupsApi.md#update_group) | **PUT** /api/settings/rbac/groups/{id} | Update group
-[**update_group_mapping**](GroupsApi.md#update_group_mapping) | **PUT** /api/settings/rbac/mappings/{id} | Update group mapping
 [**update_identity_provider**](GroupsApi.md#update_identity_provider) | **PUT** /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups | Allow/Restrict users with empty Idp group mapping
+[**update_mapping**](GroupsApi.md#update_mapping) | **PUT** /api/settings/rbac/mappings/{id} | Update mapping
 
 
 # **add_permissions_on_group**
@@ -269,10 +270,10 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **create_group_mapping**
-> GroupMapping create_group_mapping(group_mapping)
+# **create_mapping**
+> Mapping create_mapping(mapping)
 
-Create group mapping
+Create mapping
 
 
 For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
@@ -283,7 +284,7 @@ For more information on groups please access the https://developer.ibm.com/apis/
 
 ```python
 import instana_client
-from instana_client.models.group_mapping import GroupMapping
+from instana_client.models.mapping import Mapping
 from instana_client.rest import ApiException
 from pprint import pprint
 
@@ -308,15 +309,15 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GroupsApi(api_client)
-    group_mapping = {"key":"roles","value":"analyst","groupId":"-3"} # GroupMapping | 
+    mapping = {"id":"mappingId","key":"roles","value":"analyst","groupId":"-3","teamId":null} # Mapping | 
 
     try:
-        # Create group mapping
-        api_response = api_instance.create_group_mapping(group_mapping)
-        print("The response of GroupsApi->create_group_mapping:\n")
+        # Create mapping
+        api_response = api_instance.create_mapping(mapping)
+        print("The response of GroupsApi->create_mapping:\n")
         pprint(api_response)
     except Exception as e:
-        print("Exception when calling GroupsApi->create_group_mapping: %s\n" % e)
+        print("Exception when calling GroupsApi->create_mapping: %s\n" % e)
 ```
 
 
@@ -326,11 +327,11 @@ with instana_client.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **group_mapping** | [**GroupMapping**](GroupMapping.md)|  | 
+ **mapping** | [**Mapping**](Mapping.md)|  | 
 
 ### Return type
 
-[**GroupMapping**](GroupMapping.md)
+[**Mapping**](Mapping.md)
 
 ### Authorization
 
@@ -346,6 +347,8 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+**412** | Attempting to upsert a mapping containing a teamId - without teams being available |  -  |
+**422** | invalid request body |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -427,83 +430,6 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **delete_group_mapping**
-> delete_group_mapping(id)
-
-Delete group mapping
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-    id = 'mappingId' # str | Id of the group mapping to delete
-
-    try:
-        # Delete group mapping
-        api_instance.delete_group_mapping(id)
-    except Exception as e:
-        print("Exception when calling GroupsApi->delete_group_mapping: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **str**| Id of the group mapping to delete | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**0** | default response |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **delete_groups**
 > delete_groups(request_body)
 
@@ -571,6 +497,83 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**0** | default response |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **delete_mapping**
+> delete_mapping(id)
+
+Delete mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    id = 'mappingId' # str | Id of the mapping to delete
+
+    try:
+        # Delete mapping
+        api_instance.delete_mapping(id)
+    except Exception as e:
+        print("Exception when calling GroupsApi->delete_mapping: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id of the mapping to delete | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 ### HTTP response details
@@ -658,241 +661,6 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **get_group_mapping**
-> GroupMapping get_group_mapping(id)
-
-Get group mapping
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.group_mapping import GroupMapping
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-    id = 'id_example' # str | 
-
-    try:
-        # Get group mapping
-        api_response = api_instance.get_group_mapping(id)
-        print("The response of GroupsApi->get_group_mapping:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling GroupsApi->get_group_mapping: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **str**|  | 
-
-### Return type
-
-[**GroupMapping**](GroupMapping.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-**404** | No group mapping found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **get_group_mappings**
-> List[GroupMapping] get_group_mappings()
-
-Get all group mappings
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.group_mapping import GroupMapping
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-
-    try:
-        # Get all group mappings
-        api_response = api_instance.get_group_mappings()
-        print("The response of GroupsApi->get_group_mappings:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling GroupsApi->get_group_mappings: %s\n" % e)
-```
-
-
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**List[GroupMapping]**](GroupMapping.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-**404** | No group mapping found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **get_group_mappings_overview**
-> List[GroupMappingOverview] get_group_mappings_overview()
-
-Get all group mappings overview
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.group_mapping_overview import GroupMappingOverview
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-
-    try:
-        # Get all group mappings overview
-        api_response = api_instance.get_group_mappings_overview()
-        print("The response of GroupsApi->get_group_mappings_overview:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling GroupsApi->get_group_mappings_overview: %s\n" % e)
-```
-
-
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-[**List[GroupMappingOverview]**](GroupMappingOverview.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-**404** | No group mapping overviews found |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1057,7 +825,7 @@ Name | Type | Description  | Notes
 # **get_identity_provider_patch**
 > IdentityProviderPatch get_identity_provider_patch()
 
-Check user restrictions for empty Idp group mapping
+Check user restrictions for empty Idp mapping
 
 
 For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
@@ -1095,7 +863,7 @@ with instana_client.ApiClient(configuration) as api_client:
     api_instance = instana_client.GroupsApi(api_client)
 
     try:
-        # Check user restrictions for empty Idp group mapping
+        # Check user restrictions for empty Idp mapping
         api_response = api_instance.get_identity_provider_patch()
         print("The response of GroupsApi->get_identity_provider_patch:\n")
         pprint(api_response)
@@ -1127,7 +895,325 @@ This endpoint does not need any parameter.
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
-**404** | No group mapping restriction found |  -  |
+**404** | No  mapping restriction found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_mapping**
+> Mapping get_mapping(id)
+
+Get mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.mapping import Mapping
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    id = 'id_example' # str | 
+
+    try:
+        # Get mapping
+        api_response = api_instance.get_mapping(id)
+        print("The response of GroupsApi->get_mapping:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->get_mapping: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**|  | 
+
+### Return type
+
+[**Mapping**](Mapping.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | No mapping found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_mappings**
+> List[Mapping] get_mappings()
+
+Get all mappings
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.mapping import Mapping
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+
+    try:
+        # Get all mappings
+        api_response = api_instance.get_mappings()
+        print("The response of GroupsApi->get_mappings:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->get_mappings: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[Mapping]**](Mapping.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | No mapping found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get_mappings_overview**
+> List[MappingOverview] get_mappings_overview()
+
+Get all mappings overview
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.mapping_overview import MappingOverview
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+
+    try:
+        # Get all mappings overview
+        api_response = api_instance.get_mappings_overview()
+        print("The response of GroupsApi->get_mappings_overview:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->get_mappings_overview: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[MappingOverview]**](MappingOverview.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+**404** | No group mapping overviews found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **migrate_group_to_team_and_role**
+> migrate_group_to_team_and_role(id, api_group_to_team_role_migration)
+
+Migrate a legacy RBAC group to the Team and Role model
+
+Migrates a legacy RBAC group to a team preserving the access scope, assigning all non-IdP members the specified target role. IdP group mappings are automatically converted to team mappings with the migrated team and target role. This is a tenant-wide, **irreversible** operation — the original group is permanently deleted on success.
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.api_group_to_team_role_migration import ApiGroupToTeamRoleMigration
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    id = 'aGzFe3kLp9qR' # str | The ID of the legacy RBAC group to migrate.
+    api_group_to_team_role_migration = {"targetRoleId":"bXt7mNpQ2wYs"} # ApiGroupToTeamRoleMigration | 
+
+    try:
+        # Migrate a legacy RBAC group to the Team and Role model
+        api_instance.migrate_group_to_team_and_role(id, api_group_to_team_role_migration)
+    except Exception as e:
+        print("Exception when calling GroupsApi->migrate_group_to_team_and_role: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| The ID of the legacy RBAC group to migrate. | 
+ **api_group_to_team_role_migration** | [**ApiGroupToTeamRoleMigration**](ApiGroupToTeamRoleMigration.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Migration completed successfully. The group has been converted to a team, all eligible members have been assigned the target role, and the original group has been permanently deleted. |  -  |
+**400** | Bad request. Possible reasons: (1) the groupId refers to a protected system group which cannot be migrated; (2) the groupId and targetRoleId refer to the same entity; (3) the targetRoleId does not refer to an existing role. |  -  |
+**404** | No group found for the given groupId in this tenant. |  -  |
+**500** | An unexpected error occurred.  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1294,88 +1380,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **update_group_mapping**
-> GroupMapping update_group_mapping(id, group_mapping)
-
-Update group mapping
-
-
-For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-
-### Example
-
-* Api Key Authentication (ApiKeyAuth):
-
-```python
-import instana_client
-from instana_client.models.group_mapping import GroupMapping
-from instana_client.rest import ApiException
-from pprint import pprint
-
-# Defining the host is optional and defaults to https://unit-tenant.instana.io
-# See configuration.py for a list of all supported configuration parameters.
-configuration = instana_client.Configuration(
-    host = "https://unit-tenant.instana.io"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: ApiKeyAuth
-configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
-
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
-
-# Enter a context with an instance of the API client
-with instana_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = instana_client.GroupsApi(api_client)
-    id = 'mappingId' # str | Id of the group mapping to update
-    group_mapping = {"id":"mappingId","key":"roles","value":"analyst","groupId":"-3"} # GroupMapping | 
-
-    try:
-        # Update group mapping
-        api_response = api_instance.update_group_mapping(id, group_mapping)
-        print("The response of GroupsApi->update_group_mapping:\n")
-        pprint(api_response)
-    except Exception as e:
-        print("Exception when calling GroupsApi->update_group_mapping: %s\n" % e)
-```
-
-
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **str**| Id of the group mapping to update | 
- **group_mapping** | [**GroupMapping**](GroupMapping.md)|  | 
-
-### Return type
-
-[**GroupMapping**](GroupMapping.md)
-
-### Authorization
-
-[ApiKeyAuth](../README.md#ApiKeyAuth)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-### HTTP response details
-
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **update_identity_provider**
 > update_identity_provider(identity_provider_patch)
 
@@ -1415,7 +1419,7 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.GroupsApi(api_client)
-    identity_provider_patch = {"restrictEmptyIdpGroups":true} # IdentityProviderPatch | 
+    identity_provider_patch = {"restrictEmptyIdpGroups":false} # IdentityProviderPatch | 
 
     try:
         # Allow/Restrict users with empty Idp group mapping
@@ -1444,13 +1448,98 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**412** | An IdP must be configured before this can be changed. |  -  |
+**422** | Invalid request body. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update_mapping**
+> Mapping update_mapping(id, mapping)
+
+Update mapping
+
+
+For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.mapping import Mapping
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.GroupsApi(api_client)
+    id = 'mappingId' # str | Id of the mapping to update
+    mapping = {"id":"mappingId","key":"roles","value":"analyst","groupId":"-3","teamId":null} # Mapping | 
+
+    try:
+        # Update mapping
+        api_response = api_instance.update_mapping(id, mapping)
+        print("The response of GroupsApi->update_mapping:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling GroupsApi->update_mapping: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Id of the mapping to update | 
+ **mapping** | [**Mapping**](Mapping.md)|  | 
+
+### Return type
+
+[**Mapping**](Mapping.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
 
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | default response |  -  |
+**200** | OK |  -  |
+**412** | Attempting to upsert a mapping containing a teamId - without teams being available |  -  |
+**422** | invalid request body |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

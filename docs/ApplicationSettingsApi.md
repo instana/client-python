@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**add_application_config**](ApplicationSettingsApi.md#add_application_config) | **POST** /api/application-monitoring/settings/application | Add application configuration
 [**add_manual_service_config**](ApplicationSettingsApi.md#add_manual_service_config) | **POST** /api/application-monitoring/settings/manual-service | Add manual service configuration
 [**add_service_config**](ApplicationSettingsApi.md#add_service_config) | **POST** /api/application-monitoring/settings/service | Add service configuration
+[**batch_update_application_business_criticality**](ApplicationSettingsApi.md#batch_update_application_business_criticality) | **PATCH** /api/application-monitoring/settings/application/batch-business-criticality | Batch update application business criticality
 [**create_endpoint_config**](ApplicationSettingsApi.md#create_endpoint_config) | **POST** /api/application-monitoring/settings/endpoint | Create endpoint configuration
 [**create_http_endpoint_config**](ApplicationSettingsApi.md#create_http_endpoint_config) | **POST** /api/application-monitoring/settings/http-endpoint | Create HTTP endpoint configuration
 [**delete_application_config**](ApplicationSettingsApi.md#delete_application_config) | **DELETE** /api/application-monitoring/settings/application/{id} | Delete application configuration
@@ -38,7 +39,7 @@ Method | HTTP request | Description
 
 Add application configuration
 
-
+Ignores the provided business criticality of the application; business criticality can only be set with the "Batch update application business criticality" API, which requires different permissions. 
 For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
@@ -283,6 +284,87 @@ Name | Type | Description  | Notes
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **batch_update_application_business_criticality**
+> batch_update_application_business_criticality(application_batch_business_criticality_update)
+
+Batch update application business criticality
+
+Updates the business criticality of one or more Application Perspectives to a new value.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.application_batch_business_criticality_update import ApplicationBatchBusinessCriticalityUpdate
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.ApplicationSettingsApi(api_client)
+    application_batch_business_criticality_update = {"ids":["CxJ55sRbQwqBIfw5DzpRmQ","oLyuFtIfQ3eKzAqM5vBGkQ"],"businessCriticality":"HIGH"} # ApplicationBatchBusinessCriticalityUpdate | 
+
+    try:
+        # Batch update application business criticality
+        api_instance.batch_update_application_business_criticality(application_batch_business_criticality_update)
+    except Exception as e:
+        print("Exception when calling ApplicationSettingsApi->batch_update_application_business_criticality: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **application_batch_business_criticality_update** | [**ApplicationBatchBusinessCriticalityUpdate**](ApplicationBatchBusinessCriticalityUpdate.md)|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**204** | No Content |  -  |
+**401** | Unauthorized access - requires user authentication. |  -  |
+**403** | Insufficient permissions or limited in access. |  -  |
+**404** | Resource not found. |  -  |
+**422** | Unprocessable request - missing/invalid data. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -1710,7 +1792,7 @@ void (empty response body)
 
 Update application configuration
 
-
+Does not allow changing the business criticality of an application; this must be done with the "Batch update application business criticality" API, which requires different permissions. 
 For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
 
 ### Example
