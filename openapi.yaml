@@ -7,7 +7,7 @@ info:
   description: Documentation for INSTANA REST API
   termsOfService: https://www.instana.com/terms-of-use/
   title: Instana REST API documentation
-  version: 1.326.1571
+  version: 1.328.1128
   x-description: info
   x-ibm-ahub-try: true
   x-logo:
@@ -1288,6 +1288,7 @@ paths:
                     entity: DESTINATION
                 scope: INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING
                 boundaryScope: INBOUND
+                businessCriticality: 0
                 accessRules:
                 - accessType: READ_WRITE
                   relationType: GLOBAL
@@ -1304,9 +1305,10 @@ paths:
       tags:
       - Application Settings
     post:
-      description: |2-
-
-        For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
+      description: "Ignores the provided business criticality of the application;\
+        \ business criticality can only be set with the \"Batch update application\
+        \ business criticality\" API, which requires different permissions. \nFor\
+        \ more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings."
       operationId: addApplicationConfig
       requestBody:
         content:
@@ -1408,6 +1410,39 @@ paths:
       tags:
       - Application Settings
       x-description: addApplicationConfig
+  /api/application-monitoring/settings/application/batch-business-criticality:
+    patch:
+      description: Updates the business criticality of one or more Application Perspectives
+        to a new value.
+      operationId: batchUpdateApplicationBusinessCriticality
+      requestBody:
+        content:
+          application/json:
+            example:
+              ids:
+              - CxJ55sRbQwqBIfw5DzpRmQ
+              - oLyuFtIfQ3eKzAqM5vBGkQ
+              businessCriticality: HIGH
+            schema:
+              $ref: '#/components/schemas/ApplicationBatchBusinessCriticalityUpdate'
+        required: true
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized access - requires user authentication.
+        '403':
+          description: Insufficient permissions or limited in access.
+        '404':
+          description: Resource not found.
+        '422':
+          description: Unprocessable request - missing/invalid data.
+      security:
+      - ApiKeyAuth:
+        - ConfigureServiceMapping
+      summary: Batch update application business criticality
+      tags:
+      - Application Settings
   /api/application-monitoring/settings/application/{id}:
     delete:
       description: |-
@@ -1500,6 +1535,7 @@ paths:
                     entity: DESTINATION
                 scope: INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING
                 boundaryScope: INBOUND
+                businessCriticality: 0
                 accessRules:
                 - accessType: READ_WRITE
                   relationType: GLOBAL
@@ -1518,9 +1554,10 @@ paths:
       tags:
       - Application Settings
     put:
-      description: |2-
-
-        For more information on Application Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings.
+      description: "Does not allow changing the business criticality of an application;\
+        \ this must be done with the \"Batch update application business criticality\"\
+        \ API, which requires different permissions. \nFor more information on Application\
+        \ Settings please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Applications#application-settings."
       operationId: putApplicationConfig
       parameters:
       - in: path
@@ -15228,7 +15265,7 @@ paths:
       - description: |
           Optional tag to group volume usage by. Valid groupingTag values are:
           `kubernetes_cluster_name`, `kubernetes_daemonset_name`, `kubernetes_namespace_name`,
-          `kubernetes_deployment_name`, `host_name`, `zone`.
+          `kubernetes_deployment_name`, `host_name`, `zone`, `perspective_id`.
         example: zone
         in: query
         name: groupingTag
@@ -15508,6 +15545,408 @@ paths:
       - ApiKeyAuth:
         - Default
       summary: Retrieve logs via REST API
+      tags:
+      - Logging Analyze
+  /api/logging/perspective/v1:
+    get:
+      description: |
+        Returns all log perspectives that belong to the authenticated caller's tenant unit.
+      operationId: getAllLoggingPerspectives
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                List of perspectives:
+                  description: List of perspectives
+                  value:
+                  - perspectiveId: '0'
+                    perspectiveName: All logs
+                    description: null
+                    filter: null
+                  - perspectiveId: RuuEJgfYQ3qF_Ma9IcEV4g
+                    perspectiveName: Production Errors
+                    description: Shows only ERROR-level logs from the production environment
+                    filter:
+                      type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: ERROR
+                  - perspectiveId: Ab1CdEfGhIjKlMnOpQrStU
+                    perspectiveName: Staging Warnings
+                    description: null
+                    filter:
+                      type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: WARN
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoggingPerspective'
+          description: Successfully retrieved all log perspectives for the tenant
+            unit.
+        '403':
+          description: Insufficient permissions to view logs.
+        '404':
+          description: Tenant unit not found.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Get All Log Perspectives
+      tags:
+      - Logging Analyze
+    post:
+      description: |
+        Creates a new log perspective for the caller's tenant unit.
+
+        - `perspectiveId` is **not** required — the server assigns it automatically.
+        - `perspectiveName` must be unique.
+        - `filter` accepts at least 1 and at most 10 elements. The `REGEX_MATCH` operator is not supported.
+      operationId: createLoggingPerspective
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Compound filter (AND expression):
+                description: Compound filter (AND expression)
+                summary: Match ERROR logs in a specific Kubernetes namespace
+                value:
+                  perspectiveName: Production Errors (k8s)
+                  description: ERROR logs scoped to the production Kubernetes namespace
+                  filter:
+                    type: EXPRESSION
+                    logicalOperator: AND
+                    elements:
+                    - type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: ERROR
+                    - type: TAG_FILTER
+                      name: kubernetes.namespace.name
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: production
+              Single filter (EQUALS):
+                description: Single filter (EQUALS)
+                summary: Match logs where log.level = ERROR
+                value:
+                  perspectiveName: Production Errors
+                  description: Shows only ERROR-level logs from the production environment
+                  filter:
+                    type: TAG_FILTER
+                    name: log.level
+                    operator: EQUALS
+                    entity: NOT_APPLICABLE
+                    value: ERROR
+              curl — AND expression:
+                description: curl — AND expression
+                summary: 'curl example: create with a compound AND filter'
+                value: |-
+                  curl -X POST 'https://<host>/api/logging/perspective/v1' \
+                    -H 'authorization: apiToken <your-api-token>' \
+                    -H 'content-type: application/json' \
+                    -d '{
+                      "perspectiveName": "Production Errors (k8s)",
+                      "description": "ERROR logs scoped to the production Kubernetes namespace",
+                      "filter": {
+                        "type": "EXPRESSION",
+                        "logicalOperator": "AND",
+                        "elements": [
+                          {
+                            "type": "TAG_FILTER",
+                            "name": "log.level",
+                            "operator": "EQUALS",
+                            "entity": "NOT_APPLICABLE",
+                            "value": "ERROR"
+                          },
+                          {
+                            "type": "TAG_FILTER",
+                            "name": "kubernetes.namespace.name",
+                            "operator": "EQUALS",
+                            "entity": "NOT_APPLICABLE",
+                            "value": "production"
+                          }
+                        ]
+                      }
+                    }'
+              curl — single filter:
+                description: curl — single filter
+                summary: 'curl example: create with a single EQUALS filter'
+                value: |-
+                  curl -X POST 'https://<host>/api/logging/perspective/v1' \
+                    -H 'authorization: apiToken <your-api-token>' \
+                    -H 'content-type: application/json' \
+                    -d '{
+                      "perspectiveName": "Production Errors",
+                      "description": "Shows only ERROR-level logs from the production environment",
+                      "filter": {
+                        "type": "TAG_FILTER",
+                        "name": "log.level",
+                        "operator": "EQUALS",
+                        "entity": "NOT_APPLICABLE",
+                        "value": "ERROR"
+                      }
+                    }'
+            schema:
+              $ref: '#/components/schemas/LoggingPerspective'
+        description: The log perspective to create.
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              examples:
+                Created perspective:
+                  description: Created perspective
+                  value:
+                    perspectiveId: RuuEJgfYQ3qF_Ma9IcEV4g
+                    perspectiveName: Production Errors
+                    description: Shows only ERROR-level logs from the production environment
+                    filter:
+                      type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: ERROR
+              schema:
+                $ref: '#/components/schemas/LoggingPerspective'
+          description: Perspective created successfully. Returns the persisted perspective
+            including the server-assigned `perspectiveId`.
+        '400':
+          description: |
+            Validation failed. Possible reasons:
+            - `perspectiveName` is missing or blank.
+            - `perspectiveName` is `"All logs"` — this is a reserved name.
+            - `filter` is missing, empty, or cannot be parsed.
+            - The filter contains more than 10 elements.
+            - The filter contains a `REGEX_MATCH` operator.
+            - A perspective with the same name already exists.
+            - The reserved ID `"0"` ("All logs") was provided.
+        '403':
+          description: |
+            Possible reasons:
+            - Insufficient permissions to configure log perspectives.
+            - The tenant unit has reached its maximum number of allowed perspectives.
+        '404':
+          description: Tenant unit not found.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Create Log Perspective
+      tags:
+      - Logging Analyze
+  /api/logging/perspective/v1/{perspectiveId}:
+    delete:
+      description: |
+        Deletes an existing log perspective by its ID.
+
+        The reserved **"All logs"** perspective (id=`"0"`) cannot be deleted.
+      operationId: deleteLoggingPerspective
+      parameters:
+      - in: path
+        name: perspectiveId
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Perspective deleted successfully.
+        '400':
+          description: Attempted to delete the reserved perspective "0" ("All logs").
+        '403':
+          description: Insufficient permissions to delete this perspective.
+        '404':
+          description: Tenant unit not found.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Delete Log Perspective
+      tags:
+      - Logging Analyze
+    get:
+      description: |
+        Retrieves a single log perspective by its ID.
+      operationId: getLoggingPerspective
+      parameters:
+      - in: path
+        name: perspectiveId
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Perspective with filter:
+                  description: Perspective with filter
+                  value:
+                    perspectiveId: RuuEJgfYQ3qF_Ma9IcEV4g
+                    perspectiveName: Production Errors
+                    description: Shows only ERROR-level logs from the production environment
+                    filter:
+                      type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: ERROR
+              schema:
+                $ref: '#/components/schemas/LoggingPerspective'
+          description: Successfully retrieved the log perspective.
+        '403':
+          description: Insufficient permissions to view this perspective.
+        '404':
+          description: Logging perspective not found or tenant unit not found.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Get Log Perspective
+      tags:
+      - Logging Analyze
+    put:
+      description: |
+        Replaces an existing log perspective with the provided values.
+
+        **Updatable fields:**
+        - `perspectiveName` — new display name; must be unique within the tenant unit.
+        - `description` — free-text description shown in the UI. Set to `null` to clear.
+        - `filter` — accepts at most 10 elements; the `REGEX_MATCH` operator is not supported.
+
+        **Rules:**
+        - `perspectiveId` in the request body must match the `{perspectiveId}` path parameter.
+        - The reserved perspective `"0"` ("All logs") cannot be updated.
+      operationId: updateLoggingPerspective
+      parameters:
+      - in: path
+        name: perspectiveId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            examples:
+              Updated perspective:
+                description: Updated perspective
+                summary: Update name, description, and filter using an AND expression
+                value:
+                  perspectiveId: RuuEJgfYQ3qF_Ma9IcEV4g
+                  perspectiveName: Production Errors (Updated)
+                  description: ERROR-level logs scoped to the production Kubernetes
+                    namespace
+                  filter:
+                    type: EXPRESSION
+                    logicalOperator: AND
+                    elements:
+                    - type: TAG_FILTER
+                      name: log.level
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: ERROR
+                    - type: TAG_FILTER
+                      name: kubernetes.namespace.name
+                      operator: EQUALS
+                      entity: NOT_APPLICABLE
+                      value: production
+              curl — update perspective:
+                description: curl — update perspective
+                summary: 'curl example: update an existing perspective'
+                value: |-
+                  curl -X PUT 'https://<host>/api/logging/perspective/v1/RuuEJgfYQ3qF_Ma9IcEV4g' \
+                    -H 'authorization: apiToken <your-api-token>' \
+                    -H 'content-type: application/json' \
+                    -d '{
+                      "perspectiveId": "RuuEJgfYQ3qF_Ma9IcEV4g",
+                      "perspectiveName": "Production Errors (Updated)",
+                      "description": "ERROR-level logs scoped to the production Kubernetes namespace",
+                      "filter": {
+                        "type": "EXPRESSION",
+                        "logicalOperator": "AND",
+                        "elements": [
+                          {
+                            "type": "TAG_FILTER",
+                            "name": "log.level",
+                            "operator": "EQUALS",
+                            "entity": "NOT_APPLICABLE",
+                            "value": "ERROR"
+                          },
+                          {
+                            "type": "TAG_FILTER",
+                            "name": "kubernetes.namespace.name",
+                            "operator": "EQUALS",
+                            "entity": "NOT_APPLICABLE",
+                            "value": "production"
+                          }
+                        ]
+                      }
+                    }'
+            schema:
+              $ref: '#/components/schemas/LoggingPerspective'
+        description: Full log perspective object. `perspectiveId` must be present
+          and match the path parameter.
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                Updated perspective:
+                  description: Updated perspective
+                  value:
+                    perspectiveId: RuuEJgfYQ3qF_Ma9IcEV4g
+                    perspectiveName: Production Errors (Updated)
+                    description: ERROR-level logs scoped to the production Kubernetes
+                      namespace
+                    filter:
+                      type: EXPRESSION
+                      logicalOperator: AND
+                      elements:
+                      - type: TAG_FILTER
+                        name: log.level
+                        operator: EQUALS
+                        entity: NOT_APPLICABLE
+                        value: ERROR
+                      - type: TAG_FILTER
+                        name: kubernetes.namespace.name
+                        operator: EQUALS
+                        entity: NOT_APPLICABLE
+                        value: production
+              schema:
+                $ref: '#/components/schemas/LoggingPerspective'
+          description: Perspective updated successfully. Returns the persisted perspective.
+        '400':
+          description: |
+            Validation failed. Possible reasons:
+            - `perspectiveId` in the body does not match the path parameter.
+            - `perspectiveName` is missing or blank.
+            - `perspectiveName` is `"All logs"` — this is a reserved name.
+            - `filter` is missing, empty, or cannot be parsed.
+            - The filter contains more than 10 elements.
+            - The filter contains a `REGEX_MATCH` operator.
+            - A different perspective with the same name already exists in this tenant unit.
+            - Attempted to update the reserved perspective `"0"` ("All logs").
+        '403':
+          description: Insufficient permissions to update this perspective.
+        '404':
+          description: Perspective not found or tenant unit not found.
+        '500':
+          description: Internal server error.
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Update Log Perspective
       tags:
       - Logging Analyze
   /api/mobile-app-monitoring/analyze/beacon-groups:
@@ -18113,7 +18552,8 @@ paths:
                       "canConfigureGlobalLogSmartAlerts": true,
                       "canManuallyCloseIssue": true,
                       "canViewLogVolume": true,
-                      "canConfigureLogRetentionPeriod": true
+                      "canConfigureLogRetentionPeriod": true,
+                      "canConfigureLoggingPerspectives": true
                     },
                     {
                       "id": "tokenId-2(masked)",
@@ -18192,7 +18632,8 @@ paths:
                       "canConfigureGlobalLogSmartAlerts": false,
                       "canManuallyCloseIssue": false,
                       "canViewLogVolume": false,
-                      "canConfigureLogRetentionPeriod": false
+                      "canConfigureLogRetentionPeriod": false,
+                      "canConfigureLoggingPerspectives": false
                     }
                 ]
               schema:
@@ -18313,6 +18754,7 @@ paths:
                 canManuallyCloseIssue: false
                 canViewLogVolume: false
                 canConfigureLogRetentionPeriod: false
+                canConfigureLoggingPerspectives: false
               schema:
                 $ref: '#/components/schemas/ApiToken'
           description: OK
@@ -18437,7 +18879,8 @@ paths:
                       "canConfigureGlobalLogSmartAlerts": true,
                       "canManuallyCloseIssue": true,
                       "canViewLogVolume": true,
-                      "canConfigureLogRetentionPeriod": true
+                      "canConfigureLogRetentionPeriod": true,
+                      "canConfigureLoggingPerspectives": true
                     }
               schema:
                 $ref: '#/components/schemas/ApiToken'
@@ -18561,6 +19004,7 @@ paths:
                 canManuallyCloseIssue: false
                 canViewLogVolume: false
                 canConfigureLogRetentionPeriod: false
+                canConfigureLoggingPerspectives: false
               schema:
                 $ref: '#/components/schemas/ApiToken'
           description: OK
@@ -19405,8 +19849,16 @@ paths:
   /api/settings/ip-filtering/disable:
     patch:
       description: Disable and retrieve the currently configured ip-filtering for
-        the current tenant unit.
+        the current tenant unit. Request body is ignored, but required by some clients.
       operationId: disableIPFiltering
+      requestBody:
+        content:
+          application/json:
+            example:
+              key: null
+            schema:
+              type: object
+        required: true
       responses:
         '200':
           content:
@@ -19455,8 +19907,17 @@ paths:
       description: Verify and retrieve the currently configured ip-filtering for the
         current tenant unit. This action is required to promote a configuration from
         temporary active to permanently active. This action can only be performed
-        whilst the configuration is temporary active.
+        whilst the configuration is temporary active. Request body is ignored, but
+        required by some clients.
       operationId: verifyIPFiltering
+      requestBody:
+        content:
+          application/json:
+            example:
+              key: null
+            schema:
+              type: object
+        required: true
       responses:
         '200':
           content:
@@ -20596,6 +21057,49 @@ paths:
       tags:
       - Groups
       x-description: updateGroup
+  /api/settings/rbac/groups/{id}/migrateToTeams:
+    put:
+      description: |-
+        Migrates a legacy RBAC group to a team preserving the access scope, assigning all non-IdP members the specified target role. IdP group mappings are automatically converted to team mappings with the migrated team and target role. This is a tenant-wide, **irreversible** operation — the original group is permanently deleted on success.
+        For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
+      operationId: migrateGroupToTeamAndRole
+      parameters:
+      - description: The ID of the legacy RBAC group to migrate.
+        example: aGzFe3kLp9qR
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            example:
+              targetRoleId: bXt7mNpQ2wYs
+            schema:
+              $ref: '#/components/schemas/ApiGroupToTeamRoleMigration'
+        required: true
+      responses:
+        '200':
+          description: Migration completed successfully. The group has been converted
+            to a team, all eligible members have been assigned the target role, and
+            the original group has been permanently deleted.
+        '400':
+          description: 'Bad request. Possible reasons: (1) the groupId refers to a
+            protected system group which cannot be migrated; (2) the groupId and targetRoleId
+            refer to the same entity; (3) the targetRoleId does not refer to an existing
+            role.'
+        '404':
+          description: No group found for the given groupId in this tenant.
+        '500':
+          description: 'An unexpected error occurred. '
+      security:
+      - ApiKeyAuth:
+        - CanConfigureTeams
+      summary: Migrate a legacy RBAC group to the Team and Role model
+      tags:
+      - Groups
+      x-description: migrateGroup
   /api/settings/rbac/groups/{id}/user/{userId}:
     delete:
       description: |-
@@ -20634,7 +21138,7 @@ paths:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: getGroupMappings
+      operationId: getMappings
       responses:
         '200':
           content:
@@ -20644,34 +21148,39 @@ paths:
                 key: roles
                 value: analyst
                 groupId: '-3'
+                teamId: null
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GroupMapping'
+                  $ref: '#/components/schemas/Mapping'
           description: OK
         '404':
-          description: No group mapping found
+          description: No mapping found
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Get all group mappings
+      summary: Get all mappings
       tags:
       - Groups
-      x-description: getGroupMappings
+      - Roles
+      - Teams
+      x-description: getMappings
     post:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: createGroupMapping
+      operationId: createMapping
       requestBody:
         content:
           application/json:
             example:
+              id: mappingId
               key: roles
               value: analyst
               groupId: '-3'
+              teamId: null
             schema:
-              $ref: '#/components/schemas/GroupMapping'
+              $ref: '#/components/schemas/Mapping'
         required: true
       responses:
         '200':
@@ -20682,16 +21191,30 @@ paths:
                 key: roles
                 value: analyst
                 groupId: '-3'
+                teamId: null
               schema:
-                $ref: '#/components/schemas/GroupMapping'
+                $ref: '#/components/schemas/Mapping'
           description: OK
+        '412':
+          content:
+            application/json:
+              example:
+                errors:
+                - attempting to create team-mapping whilst teams is disabled
+              schema:
+                type: string
+          description: Attempting to upsert a mapping containing a teamId - without
+            teams being available
+        '422':
+          description: invalid request body
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Create group mapping
+      summary: Create mapping
       tags:
       - Groups
-      x-description: createGroupMapping
+      - Roles
+      - Teams
   /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups:
     get:
       description: |2-
@@ -20708,14 +21231,15 @@ paths:
                 $ref: '#/components/schemas/IdentityProviderPatch'
           description: OK
         '404':
-          description: No group mapping restriction found
+          description: No  mapping restriction found
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Check user restrictions for empty Idp group mapping
+      summary: Check user restrictions for empty Idp mapping
       tags:
       - Groups
-      x-description: getIdentityProviderPatch
+      - Roles
+      - Teams
     put:
       description: |2-
 
@@ -20725,29 +21249,27 @@ paths:
         content:
           application/json:
             example:
-              restrictEmptyIdpGroups: true
+              restrictEmptyIdpGroups: false
             schema:
               $ref: '#/components/schemas/IdentityProviderPatch'
         required: true
       responses:
-        default:
-          content:
-            application/json: {
-              }
-          description: default response
+        '412':
+          description: An IdP must be configured before this can be changed.
+        '422':
+          description: Invalid request body.
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
       summary: Allow/Restrict users with empty Idp group mapping
       tags:
       - Groups
-      x-description: updateIdentityProvider
   /api/settings/rbac/mappings/overview:
     get:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: getGroupMappingsOverview
+      operationId: getMappingsOverview
       responses:
         '200':
           content:
@@ -20761,25 +21283,26 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/GroupMappingOverview'
+                  $ref: '#/components/schemas/MappingOverview'
           description: OK
         '404':
           description: No group mapping overviews found
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Get all group mappings overview
+      summary: Get all mappings overview
       tags:
       - Groups
-      x-description: getGroupMappingsOverview
+      - Roles
+      - Teams
   /api/settings/rbac/mappings/{id}:
     delete:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: deleteGroupMapping
+      operationId: deleteMapping
       parameters:
-      - description: Id of the group mapping to delete
+      - description: Id of the mapping to delete
         example: mappingId
         in: path
         name: id
@@ -20795,15 +21318,16 @@ paths:
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Delete group mapping
+      summary: Delete mapping
       tags:
       - Groups
-      x-description: deleteGroupMapping
+      - Roles
+      - Teams
     get:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: getGroupMapping
+      operationId: getMapping
       parameters:
       - in: path
         name: id
@@ -20819,25 +21343,27 @@ paths:
                 key: roles
                 value: analyst
                 groupId: '-3'
+                teamId: null
               schema:
-                $ref: '#/components/schemas/GroupMapping'
+                $ref: '#/components/schemas/Mapping'
           description: OK
         '404':
-          description: No group mapping found
+          description: No mapping found
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Get group mapping
+      summary: Get mapping
       tags:
       - Groups
-      x-description: getGroupMapping
+      - Roles
+      - Teams
     put:
       description: |2-
 
         For more information on groups please access the https://developer.ibm.com/apis/catalog/instana--instana-rest-api/Settings#groups.
-      operationId: updateGroupMapping
+      operationId: updateMapping
       parameters:
-      - description: Id of the group mapping to update
+      - description: Id of the mapping to update
         example: mappingId
         in: path
         name: id
@@ -20852,8 +21378,9 @@ paths:
               key: roles
               value: analyst
               groupId: '-3'
+              teamId: null
             schema:
-              $ref: '#/components/schemas/GroupMapping'
+              $ref: '#/components/schemas/Mapping'
         required: true
       responses:
         '200':
@@ -20864,16 +21391,30 @@ paths:
                 key: roles
                 value: analyst
                 groupId: '-3'
+                teamId: null
               schema:
-                $ref: '#/components/schemas/GroupMapping'
+                $ref: '#/components/schemas/Mapping'
           description: OK
+        '412':
+          content:
+            application/json:
+              example:
+                errors:
+                - attempting to create team-mapping whilst teams is disabled
+              schema:
+                type: string
+          description: Attempting to upsert a mapping containing a teamId - without
+            teams being available
+        '422':
+          description: invalid request body
       security:
       - ApiKeyAuth:
         - CanConfigureAuthenticationMethods
-      summary: Update group mapping
+      summary: Update mapping
       tags:
       - Groups
-      x-description: updateGroupMapping
+      - Roles
+      - Teams
   /api/settings/rbac/roles:
     get:
       description: Retrieve all roles for the current tenant unit.
@@ -21752,6 +22293,7 @@ paths:
           - blueprint
           - sloStatus
           - sloWindowRemain
+          - sloHealthState
           - timeWindow
           - 'null'
           example: name
@@ -21856,6 +22398,18 @@ paths:
           type: string
           description: Filter by the SLO status
           example: green
+      - in: query
+        name: sloHealthState
+        schema:
+          type: string
+          description: Filter by the SLO health state
+          enum:
+          - HEALTHY
+          - AT_RISK
+          - BREACHED
+          - INSUFFICIENT_DATA
+          - NOT_EVALUATED
+          example: HEALTHY
       - in: query
         name: entityIds
         schema:
@@ -22053,6 +22607,180 @@ paths:
       tags:
       - SLO Configurations
       x-description: createSloConfiguration
+  /api/settings/slo/health-snapshot:
+    get:
+      operationId: getSloHealthSnapshot
+      parameters:
+      - in: query
+        name: query
+        schema:
+          type: string
+          description: Keyword or query to filter by SLO name
+          example: checkout
+      - in: query
+        name: tag
+        schema:
+          type: array
+          description: Filter by config-level tag (repeatable)
+          example: team:payments
+          items:
+            type: string
+            description: Filter by config-level tag (repeatable)
+            example: team:payments
+          uniqueItems: true
+      - in: query
+        name: entityType
+        schema:
+          type: array
+          description: Filter by SLO entity type (repeatable)
+          example: application
+          items:
+            type: string
+            description: Filter by SLO entity type (repeatable)
+            enum:
+            - application
+            - website
+            - synthetic
+            - infrastructure
+            - mobile
+            example: application
+          uniqueItems: true
+      - in: query
+        name: blueprint
+        schema:
+          type: array
+          description: Filter by blueprint type (repeatable)
+          example: latency
+          items:
+            type: string
+            description: Filter by blueprint type (repeatable)
+            enum:
+            - latency
+            - availability
+            - traffic
+            - saturation
+            - custom
+            - advanced-custom
+            example: latency
+          uniqueItems: true
+      - in: query
+        name: sloHealthState
+        schema:
+          type: string
+          description: Filter by SLO health state
+          enum:
+          - HEALTHY
+          - AT_RISK
+          - BREACHED
+          - INSUFFICIENT_DATA
+          - NOT_EVALUATED
+          example: AT_RISK
+      - in: query
+        name: sloIds
+        schema:
+          type: array
+          description: Fetch specific SLO IDs only (repeatable)
+          example: SLOdCTspkHlS_OzNOATQWgsuw
+          items:
+            type: string
+            description: Fetch specific SLO IDs only (repeatable)
+            example: SLOdCTspkHlS_OzNOATQWgsuw
+      - in: query
+        name: rbacTags
+        schema:
+          type: array
+          description: Filter by RBAC team tags (repeatable)
+          example: team:payments
+          items:
+            type: string
+            description: Filter by RBAC team tags (repeatable)
+            example: team:payments
+          uniqueItems: true
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                totalCount: 4
+                stateCounts:
+                  HEALTHY: 1
+                  AT_RISK: 1
+                  BREACHED: 1
+                  INSUFFICIENT_DATA: 1
+                items:
+                - id: SLOdCTspkHlS_OzNOATQWgsuw
+                  name: Checkout API latency
+                  healthState: AT_RISK
+                  healthScore: 42
+                  primaryReason: FAST_BURN_ACTIVE
+                  trend: DEGRADING
+                  entityType: application
+                  blueprint: latency
+                  windowType: rolling
+                  windowDuration: 30
+                  windowDurationUnit: day
+                  target: 0.99
+                  tags:
+                  - team:payments
+                  - tier:critical
+                - id: SLOsmbQLI8ORcuhF_L-QquFWQ
+                  name: Homepage availability
+                  healthState: HEALTHY
+                  healthScore: 87
+                  primaryReason: NO_SIGNIFICANT_RISK
+                  trend: CONSTANT
+                  entityType: website
+                  blueprint: availability
+                  windowType: fixed
+                  windowDuration: 1
+                  windowDurationUnit: day
+                  target: 0.999
+                  tags:
+                  - team:frontend
+                - id: SLOffwtrVkfRmCjOZbdv3Ls9g
+                  name: K8s CPU saturation
+                  healthState: BREACHED
+                  healthScore: 4
+                  primaryReason: BUDGET_EXHAUSTED_STILL_BURNING
+                  trend: IMPROVING_NOT_RECOVERED
+                  entityType: infrastructure
+                  blueprint: saturation
+                  windowType: rolling
+                  windowDuration: 7
+                  windowDurationUnit: day
+                  target: 0.95
+                  tags:
+                  - team:platform
+                - id: SLOBL-EmhZZQRy-19JVEivEdg
+                  name: Login synthetic check
+                  healthState: INSUFFICIENT_DATA
+                  healthScore: null
+                  primaryReason: STALE_DATA
+                  trend: UNKNOWN
+                  entityType: synthetic
+                  blueprint: availability
+                  windowType: rolling
+                  windowDuration: 1
+                  windowDurationUnit: day
+                  target: 0.999
+                  tags: [
+                    ]
+              schema:
+                $ref: '#/components/schemas/SloHealthSnapshot'
+          description: Health snapshot for all matching SLOs
+        '503':
+          content:
+            application/json:
+              example:
+                errors:
+                - Unable to fetch health score metrics
+          description: Health metrics temporarily unavailable
+      security:
+      - ApiKeyAuth:
+        - Default
+      summary: Get SLO Health Snapshot
+      tags:
+      - SLO Configurations
   /api/settings/slo/tags:
     get:
       operationId: getAllSloConfigTags
@@ -25665,7 +26393,7 @@ paths:
                   clusterName: test101-pop
                   description: PoP in region test101 for my-kedatest
                   popSnapshotId: null
-                  popVersion: 1.1.3
+                  popVersion: 1.1.2
                 - id: 0po5d5MxSZx91moqCbri
                   label: apminstana-pop
                   displayLabel: apminstana-pop
@@ -26535,7 +27263,7 @@ paths:
               - id: 55bzhnXQ9uqwld4Ha3bD
                 label: Austin
                 displayLabel: AUTO
-                popVersion: 1.1.3
+                popVersion: 1.1.2
                 description: My Location 101
                 locationType: Private
                 playbackCapabilities:
@@ -28934,24 +29662,6 @@ components:
         name:
           type: string
           description: The name of the Alerting Channel.
-        testEventType:
-          type: string
-          enum:
-          - INFRA_SMART_ALERT
-          - LOG_SMART_ALERT
-          - APPLICATION_SMART_ALERT
-          - BUILT_IN_EVENT
-          - CUSTOM_EVENT
-        testSeverity:
-          type: string
-          enum:
-          - WARNING
-          - CRITICAL
-        testState:
-          type: string
-          enum:
-          - OPEN
-          - CLOSE
         timezone:
           type: string
           description: The timezone to be used for DateTime
@@ -29980,6 +30690,16 @@ components:
       - members
       - name
       - permissionSet
+    ApiGroupToTeamRoleMigration:
+      type: object
+      properties:
+        targetRoleId:
+          type: string
+          description: The ID of the pre-existing role to assign to all migrated team
+            members
+          minLength: 1
+      required:
+      - targetRoleId
     ApiLogItem:
       type: object
       properties:
@@ -31144,6 +31864,26 @@ components:
       - boundaryScope
       - entityId
       - tagFilterExpression
+    ApplicationBatchBusinessCriticalityUpdate:
+      type: object
+      properties:
+        businessCriticality:
+          type: integer
+          format: int32
+          maximum: 5
+          minimum: 0
+        ids:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          maxItems: 100
+          minItems: 0
+        idsUnique:
+          type: boolean
+      required:
+      - businessCriticality
+      - ids
     ApplicationConfig:
       type: object
       properties:
@@ -31175,6 +31915,7 @@ components:
           description: Business criticality of an application (0-5)
           maximum: 5
           minimum: 0
+          nullable: true
         createdAt:
           type: integer
           format: int64
@@ -31995,6 +32736,10 @@ components:
           items:
             type: string
             description: 'List of technologies: `Eg:["springbootApplicationContainer"]`'
+    CallsEventResult:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/EventResult'
     ChangeSummary:
       type: object
       description: Brief summary of changes made in this config version.
@@ -32866,6 +33611,7 @@ components:
           description: Section of the metric in the catalog
           enum:
           - ACE
+          - AI
           - ALICLOUD
           - AWS
           - AZURE
@@ -32877,32 +33623,45 @@ components:
           - CONTAINER
           - COUCHBASE
           - DFQ
+          - DIRECTORY
           - ELASTICSEARCH
           - GCP
           - HADOOP_YARN
+          - HOST
           - HAZELCAST
           - IBM_CLOUD
           - IBM_DATAPOWER
           - IBM_I_SERIES
-          - IBM_MQ
           - IBM_MQMFT
           - IBM_OPENSTACK
-          - KAFKA_CONNECT
+          - IBM_Z
+          - MESSAGING
+          - OPENTELEMETRY
+          - WEB_SERVER
+          - APP_SERVER
+          - RUNTIME
+          - DATABASE
           - KUBERNETES
           - MONGO_DB
           - MSSQL
           - ORACLE_DB
           - OTHERS
           - POSTGRESQL
-          - REDIS
           - SAP
           - SELF_MONITORING
           - SOLR
           - SPARK
           - TIBCOBW
           - TUXEDO
-          - VSHPERE
           - WEBSPHERE
+          - IBM_POWER
+          - MAPR
+          - VIRTUALIZATION
+          - APPLICATION
+          - API_GATEWAY
+          - LOAD_BALANCER
+          - IBM_API_CONNECT
+          - IBM_INFOSPHERE
           - CUSTOM_ENTITY
           nullable: true
         source:
@@ -33032,6 +33791,7 @@ components:
           description: Section of the tag in the catalog
           enum:
           - ACE
+          - AI
           - ALICLOUD
           - AWS
           - AZURE
@@ -33043,32 +33803,45 @@ components:
           - CONTAINER
           - COUCHBASE
           - DFQ
+          - DIRECTORY
           - ELASTICSEARCH
           - GCP
           - HADOOP_YARN
+          - HOST
           - HAZELCAST
           - IBM_CLOUD
           - IBM_DATAPOWER
           - IBM_I_SERIES
-          - IBM_MQ
           - IBM_MQMFT
           - IBM_OPENSTACK
-          - KAFKA_CONNECT
+          - IBM_Z
+          - MESSAGING
+          - OPENTELEMETRY
+          - WEB_SERVER
+          - APP_SERVER
+          - RUNTIME
+          - DATABASE
           - KUBERNETES
           - MONGO_DB
           - MSSQL
           - ORACLE_DB
           - OTHERS
           - POSTGRESQL
-          - REDIS
           - SAP
           - SELF_MONITORING
           - SOLR
           - SPARK
           - TIBCOBW
           - TUXEDO
-          - VSHPERE
           - WEBSPHERE
+          - IBM_POWER
+          - MAPR
+          - VIRTUALIZATION
+          - APPLICATION
+          - API_GATEWAY
+          - LOAD_BALANCER
+          - IBM_API_CONNECT
+          - IBM_INFOSPHERE
           - CUSTOM_ENTITY
         source:
           type: string
@@ -34059,6 +34832,7 @@ components:
           - Synthetic
           - MobileApp
           - Log
+          - Calls
         eventConfigurationType:
           type: string
         id:
@@ -34166,6 +34940,7 @@ components:
       discriminator:
         mapping:
           APPLICATION: '#/components/schemas/ApplicationEventResult'
+          CALLS: '#/components/schemas/CallsEventResult'
           ENDPOINT: '#/components/schemas/EndpointEventResult'
           INFRASTRUCTURE: '#/components/schemas/InfraEventResult'
           LOG: '#/components/schemas/LogEventResult'
@@ -36124,47 +36899,6 @@ components:
           minLength: 1
       required:
       - tagName
-    GroupMapping:
-      type: object
-      properties:
-        groupId:
-          type: string
-          minLength: 1
-        id:
-          type: string
-          maxLength: 64
-          minLength: 0
-          nullable: true
-        key:
-          type: string
-          maxLength: 65536
-          minLength: 0
-        teamId:
-          type: string
-          maxLength: 64
-          minLength: 5
-          nullable: true
-        value:
-          type: string
-          maxLength: 65536
-          minLength: 0
-      required:
-      - groupId
-      - key
-      - value
-    GroupMappingOverview:
-      type: object
-      properties:
-        id:
-          type: string
-        key:
-          type: string
-        role:
-          type: string
-        team:
-          type: string
-        value:
-          type: string
     HealthState:
       type: object
       properties:
@@ -36705,6 +37439,8 @@ components:
       properties:
         restrictEmptyIdpGroups:
           type: boolean
+          description: If IdP users need to be mapped to at least one group before
+            being allowed to access Instana.
     IdpStatusUpdate:
       type: object
       properties:
@@ -37901,6 +38637,29 @@ components:
             $ref: '#/components/schemas/LogVolumeUsageItem'
       required:
       - logVolumeUsageItems
+    LoggingPerspective:
+      type: object
+      description: A filtered view of logs defined by a tag filter expression. Referred
+        to as a Log Perspective in the UI.
+      properties:
+        description:
+          type: string
+          description: Optional free-text description shown in the UI. Set to null
+            to clear.
+          nullable: true
+        filter:
+          $ref: '#/components/schemas/TagFilterExpressionElement'
+        perspectiveId:
+          type: string
+          description: "Server-assigned unique identifier.  \nOmit on create (POST).\
+            \  \nMust match the path parameter on update (PUT)."
+        perspectiveName:
+          type: string
+          description: Display name of the perspective. Must be unique. `Required`.
+          minLength: 1
+      required:
+      - filter
+      - perspectiveName
     LogsApiResponse:
       type: object
       properties:
@@ -37989,7 +38748,7 @@ components:
         retrievalSize:
           type: integer
           format: int32
-          maximum: 200
+          maximum: 2000
           minimum: 1
         tagFilterExpression:
           $ref: '#/components/schemas/TagFilterExpressionElement'
@@ -38286,6 +39045,61 @@ components:
       required:
       - id
       - tagFilterExpression
+    Mapping:
+      type: object
+      properties:
+        groupId:
+          type: string
+          description: ID of role or group to be assigned if the mapping is matched.
+          minLength: 1
+        id:
+          type: string
+          description: ID of the current mapping.
+          maxLength: 64
+          minLength: 0
+          nullable: true
+        key:
+          type: string
+          description: Key (in the IdPs "user-profile" to be checked for mapping.
+          maxLength: 65536
+          minLength: 0
+        teamId:
+          type: string
+          description: Optional, ID of team, to which the role assignment is scoped.
+            If absent mapping is unit scoped.
+          maxLength: 64
+          minLength: 5
+          nullable: true
+        value:
+          type: string
+          description: Value (of the key in the IdPs "user-profile" to be compared
+            for mapping.
+          maxLength: 65536
+          minLength: 0
+      required:
+      - groupId
+      - key
+      - value
+    MappingOverview:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID of the current mapping.
+        key:
+          type: string
+          description: Key (in the IdPs "user-profile" to be checked for mapping.
+        role:
+          type: string
+          description: Name of role or group to be assigned if the mapping is matched.
+        team:
+          type: string
+          description: Optional, Name of team, to which the role assignment is scoped.
+            If absent mapping is unit scoped.
+        value:
+          type: string
+          description: Value (of the key in the IdPs "user-profile" to be compared
+            for mapping.
     MatchAllHttpPathSegmentMatchingRule:
       type: object
       allOf:
@@ -38768,6 +39582,7 @@ components:
           description: Category of the entity
           enum:
           - ACE
+          - AI
           - ALICLOUD
           - AWS
           - AZURE
@@ -38779,32 +39594,45 @@ components:
           - CONTAINER
           - COUCHBASE
           - DFQ
+          - DIRECTORY
           - ELASTICSEARCH
           - GCP
           - HADOOP_YARN
+          - HOST
           - HAZELCAST
           - IBM_CLOUD
           - IBM_DATAPOWER
           - IBM_I_SERIES
-          - IBM_MQ
           - IBM_MQMFT
           - IBM_OPENSTACK
-          - KAFKA_CONNECT
+          - IBM_Z
+          - MESSAGING
+          - OPENTELEMETRY
+          - WEB_SERVER
+          - APP_SERVER
+          - RUNTIME
+          - DATABASE
           - KUBERNETES
           - MONGO_DB
           - MSSQL
           - ORACLE_DB
           - OTHERS
           - POSTGRESQL
-          - REDIS
           - SAP
           - SELF_MONITORING
           - SOLR
           - SPARK
           - TIBCOBW
           - TUXEDO
-          - VSHPERE
           - WEBSPHERE
+          - IBM_POWER
+          - MAPR
+          - VIRTUALIZATION
+          - APPLICATION
+          - API_GATEWAY
+          - LOAD_BALANCER
+          - IBM_API_CONNECT
+          - IBM_INFOSPHERE
           - CUSTOM_ENTITY
         label:
           type: string
@@ -40160,6 +40988,7 @@ components:
           description: Business criticality of an application (0-5)
           maximum: 5
           minimum: 0
+          nullable: true
         label:
           type: string
           description: 'Name of the Application Perspective. Eg: `app1`.'
@@ -42598,6 +43427,56 @@ components:
           type: string
       required:
       - type
+    SloHealthSnapshot:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SloHealthSnapshotItem'
+        stateCounts:
+          type: object
+          additionalProperties:
+            type: integer
+            format: int32
+        totalCount:
+          type: integer
+          format: int32
+    SloHealthSnapshotItem:
+      type: object
+      properties:
+        blueprint:
+          type: string
+        entityType:
+          type: string
+        healthScore:
+          type: integer
+          format: int32
+          nullable: true
+        healthState:
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        primaryReason:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        target:
+          type: number
+          format: double
+        trend:
+          type: string
+        windowDuration:
+          type: integer
+          format: int32
+        windowDurationUnit:
+          type: string
+        windowType:
+          type: string
     SloReport:
       type: object
       properties:
@@ -42654,6 +43533,22 @@ components:
           format: int64
           description: Starting point of the data retrieval, specified as 13 digit
             Unix Timestamp milliseconds
+        healthScore:
+          type: integer
+          format: int32
+          description: Health score of the SLO (0–100), null when state is INSUFFICIENT_DATA
+            or NOT_EVALUATED
+        healthScorePrimaryReason:
+          type: string
+          description: Primary reason code driving the current health state
+        healthScoreTrend:
+          type: string
+          description: Burn rate trend direction (IMPROVING, CONSTANT, DEGRADING,
+            UNKNOWN)
+        healthState:
+          type: string
+          description: Health state of the SLO (HEALTHY, AT_RISK, BREACHED, INSUFFICIENT_DATA,
+            NOT_EVALUATED)
         sli:
           type: number
           format: double
@@ -44117,6 +45012,7 @@ components:
           items:
             type: string
             enum:
+            - CNP
             - GitHub
             - PW
         syntheticType:
@@ -45077,6 +45973,10 @@ components:
           type: integer
           format: int64
           nullable: true
+        profiles:
+          type: array
+          items:
+            type: string
         rbacTags:
           type: array
           items:
@@ -46607,6 +47507,7 @@ components:
           - ServiceLevelSmartAlert
           - ApdexSmartAlert
           - LogSmartAlert
+          - GenAISmartAlert
       required:
       - id
       - label
@@ -47996,6 +48897,9 @@ components:
         sessionId:
           type: string
           nullable: true
+        sessionReplayStatus:
+          type: integer
+          format: int64
         snippetVersion:
           type: string
         sslTime:

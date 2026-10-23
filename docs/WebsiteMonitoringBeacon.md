@@ -87,6 +87,7 @@ Name | Type | Description | Notes
 **resource_type** | **str** |  | [optional] 
 **response_time** | **int** |  | [optional] 
 **session_id** | **str** |  | [optional] 
+**session_replay_status** | **int** |  | [optional] 
 **snippet_version** | **str** |  | [optional] 
 **ssl_time** | **int** |  | [optional] 
 **stack_trace** | **str** |  | [optional] 

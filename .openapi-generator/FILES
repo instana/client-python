@@ -41,6 +41,7 @@ docs/ApdexSettingsApi.md
 docs/ApiCreateGroup.md
 docs/ApiCreateRole.md
 docs/ApiGroup.md
+docs/ApiGroupToTeamRoleMigration.md
 docs/ApiLogItem.md
 docs/ApiLogTag.md
 docs/ApiMember.md
@@ -62,6 +63,7 @@ docs/ApplicationAlertConfigurationApi.md
 docs/ApplicationAlertRule.md
 docs/ApplicationAnalyzeApi.md
 docs/ApplicationApdexEntity.md
+docs/ApplicationBatchBusinessCriticalityUpdate.md
 docs/ApplicationCatalogApi.md
 docs/ApplicationConfig.md
 docs/ApplicationEventResult.md
@@ -101,6 +103,7 @@ docs/BusinessPerspectiveConfig.md
 docs/CallGroupsItem.md
 docs/CallGroupsResult.md
 docs/CallRelation.md
+docs/CallsEventResult.md
 docs/ChangeSummary.md
 docs/CloudfoundryPhysicalContext.md
 docs/Condition.md
@@ -234,8 +237,6 @@ docs/GraphEdge.md
 docs/GraphNode.md
 docs/Group.md
 docs/GroupByTag.md
-docs/GroupMapping.md
-docs/GroupMappingOverview.md
 docs/GroupsApi.md
 docs/HealthApi.md
 docs/HealthState.md
@@ -307,6 +308,7 @@ docs/LogVolumeGroup.md
 docs/LogVolumeUsageItem.md
 docs/LogVolumeUsageResult.md
 docs/LoggingAnalyzeApi.md
+docs/LoggingPerspective.md
 docs/LogsApiResponse.md
 docs/LogsApplicationAlertRule.md
 docs/LogsQuery.md
@@ -320,6 +322,8 @@ docs/MaintenanceWindow.md
 docs/ManualAlertingChannelConfiguration.md
 docs/ManualCloseInfo.md
 docs/ManualServiceConfig.md
+docs/Mapping.md
+docs/MappingOverview.md
 docs/MatchAllHttpPathSegmentMatchingRule.md
 docs/MatchExpressionDTO.md
 docs/MetaData.md
@@ -464,6 +468,8 @@ docs/SliConfigurationWithLastUpdated.md
 docs/SliEntity.md
 docs/SliReport.md
 docs/SloEntity.md
+docs/SloHealthSnapshot.md
+docs/SloHealthSnapshotItem.md
 docs/SloReport.md
 docs/SlownessApplicationAlertRule.md
 docs/SlownessMobileAppAlertRule.md
@@ -750,6 +756,7 @@ instana_client/models/apdex_report.py
 instana_client/models/api_create_group.py
 instana_client/models/api_create_role.py
 instana_client/models/api_group.py
+instana_client/models/api_group_to_team_role_migration.py
 instana_client/models/api_log_item.py
 instana_client/models/api_log_tag.py
 instana_client/models/api_member.py
@@ -769,6 +776,7 @@ instana_client/models/application_alert_config.py
 instana_client/models/application_alert_config_with_metadata.py
 instana_client/models/application_alert_rule.py
 instana_client/models/application_apdex_entity.py
+instana_client/models/application_batch_business_criticality_update.py
 instana_client/models/application_config.py
 instana_client/models/application_event_result.py
 instana_client/models/application_item.py
@@ -800,6 +808,7 @@ instana_client/models/business_perspective_config.py
 instana_client/models/call_groups_item.py
 instana_client/models/call_groups_result.py
 instana_client/models/call_relation.py
+instana_client/models/calls_event_result.py
 instana_client/models/change_summary.py
 instana_client/models/cloudfoundry_physical_context.py
 instana_client/models/condition.py
@@ -926,8 +935,6 @@ instana_client/models/graph_edge.py
 instana_client/models/graph_node.py
 instana_client/models/group.py
 instana_client/models/group_by_tag.py
-instana_client/models/group_mapping.py
-instana_client/models/group_mapping_overview.py
 instana_client/models/health_state.py
 instana_client/models/historic_baseline.py
 instana_client/models/host_availability_rule.py
@@ -985,6 +992,7 @@ instana_client/models/log_time_threshold.py
 instana_client/models/log_volume_group.py
 instana_client/models/log_volume_usage_item.py
 instana_client/models/log_volume_usage_result.py
+instana_client/models/logging_perspective.py
 instana_client/models/logs_api_response.py
 instana_client/models/logs_application_alert_rule.py
 instana_client/models/logs_query.py
@@ -997,6 +1005,8 @@ instana_client/models/maintenance_window.py
 instana_client/models/manual_alerting_channel_configuration.py
 instana_client/models/manual_close_info.py
 instana_client/models/manual_service_config.py
+instana_client/models/mapping.py
+instana_client/models/mapping_overview.py
 instana_client/models/match_all_http_path_segment_matching_rule.py
 instana_client/models/match_expression_dto.py
 instana_client/models/meta_data.py
@@ -1121,6 +1131,8 @@ instana_client/models/sli_entity.py
 instana_client/models/sli_report.py
 instana_client/models/slo_config_with_rbac_tag.py
 instana_client/models/slo_entity.py
+instana_client/models/slo_health_snapshot.py
+instana_client/models/slo_health_snapshot_item.py
 instana_client/models/slo_report.py
 instana_client/models/slowness_application_alert_rule.py
 instana_client/models/slowness_mobile_app_alert_rule.py
@@ -1294,6 +1306,12 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_synthetic_resource_update_list_network_profile_list_network_profile.py
-test/test_unified_beacon.py
+test/test_api_group_to_team_role_migration.py
+test/test_application_batch_business_criticality_update.py
+test/test_calls_event_result.py
+test/test_logging_perspective.py
+test/test_mapping.py
+test/test_mapping_overview.py
+test/test_slo_health_snapshot.py
+test/test_slo_health_snapshot_item.py
 tox.ini

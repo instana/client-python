@@ -86,11 +86,11 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **disable_ip_filtering**
-> IPFiltering disable_ip_filtering()
+> IPFiltering disable_ip_filtering(body)
 
 Disable the current ip-filtering
 
-Disable and retrieve the currently configured ip-filtering for the current tenant unit.
+Disable and retrieve the currently configured ip-filtering for the current tenant unit. Request body is ignored, but required by some clients.
 
 ### Example
 
@@ -123,10 +123,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.IPFilteringApi(api_client)
+    body = {"key":null} # object | 
 
     try:
         # Disable the current ip-filtering
-        api_response = api_instance.disable_ip_filtering()
+        api_response = api_instance.disable_ip_filtering(body)
         print("The response of IPFilteringApi->disable_ip_filtering:\n")
         pprint(api_response)
     except Exception as e:
@@ -137,7 +138,10 @@ with instana_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **object**|  | 
 
 ### Return type
 
@@ -149,7 +153,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
@@ -323,11 +327,11 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **verify_ip_filtering**
-> IPFiltering verify_ip_filtering()
+> IPFiltering verify_ip_filtering(body)
 
 Verify current ip-filtering
 
-Verify and retrieve the currently configured ip-filtering for the current tenant unit. This action is required to promote a configuration from temporary active to permanently active. This action can only be performed whilst the configuration is temporary active.
+Verify and retrieve the currently configured ip-filtering for the current tenant unit. This action is required to promote a configuration from temporary active to permanently active. This action can only be performed whilst the configuration is temporary active. Request body is ignored, but required by some clients.
 
 ### Example
 
@@ -360,10 +364,11 @@ configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
 with instana_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = instana_client.IPFilteringApi(api_client)
+    body = {"key":null} # object | 
 
     try:
         # Verify current ip-filtering
-        api_response = api_instance.verify_ip_filtering()
+        api_response = api_instance.verify_ip_filtering(body)
         print("The response of IPFilteringApi->verify_ip_filtering:\n")
         pprint(api_response)
     except Exception as e:
@@ -374,7 +379,10 @@ with instana_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **object**|  | 
 
 ### Return type
 
@@ -386,7 +394,7 @@ This endpoint does not need any parameter.
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
 ### HTTP response details
