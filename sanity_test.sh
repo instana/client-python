@@ -116,6 +116,10 @@ fi
 
 # Test 3: Install package
 print_status "Testing package installation..."
+# Remove any previous (editable) install first; a leftover editable install
+# breaks pip's isolated build step on re-runs
+python3 -m pip uninstall --break-system-packages -y instana_client >/dev/null 2>&1 || \
+    python3 -m pip uninstall -y instana_client >/dev/null 2>&1 || true
 # Use pip install instead of setup.py install (modern approach)
 if python3 -m pip install --break-system-packages -e . >/dev/null 2>&1; then
     print_success "Package installs successfully"

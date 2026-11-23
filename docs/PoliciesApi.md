@@ -7,6 +7,8 @@ Method | HTTP request | Description
 [**add_policies**](PoliciesApi.md#add_policies) | **POST** /api/automation/policies/bulk | Create automation policies.
 [**add_policy**](PoliciesApi.md#add_policy) | **POST** /api/automation/policies | Create an automation policy.
 [**delete_policy**](PoliciesApi.md#delete_policy) | **DELETE** /api/automation/policies/{id} | Deletes an automation policy by identifier.
+[**disable_policy**](PoliciesApi.md#disable_policy) | **PUT** /api/automation/policies/{id}/disable | Disables an automation policy by identifier.
+[**enable_policy**](PoliciesApi.md#enable_policy) | **PUT** /api/automation/policies/{id}/enable | Enables an automation policy by identifier.
 [**get_policies**](PoliciesApi.md#get_policies) | **GET** /api/automation/policies | Get all automation policies.
 [**get_policy_by_id**](PoliciesApi.md#get_policy_by_id) | **GET** /api/automation/policies/{id} | Get an automation policy by ID.
 [**update_policy**](PoliciesApi.md#update_policy) | **PUT** /api/automation/policies/{id} | Updates an automation policy by identifier.
@@ -253,6 +255,170 @@ void (empty response body)
 **204** | Automation policy successfully deleted |  -  |
 **403** | Insufficient permissions. |  -  |
 **404** | Automation policy not found. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **disable_policy**
+> Policy disable_policy(id)
+
+Disables an automation policy by identifier.
+
+Disables an automation policy by identifier. Policy updates require `Configuration of automation policies` permission. When using personal tokens the automation policies updated are based on the access set in `Limited access` permission settings.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.policy import Policy
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.PoliciesApi(api_client)
+    id = 'a14700b0-401b-47eb-a751-deda0035fde3' # str | Automation policy ID to disable
+
+    try:
+        # Disables an automation policy by identifier.
+        api_response = api_instance.disable_policy(id)
+        print("The response of PoliciesApi->disable_policy:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PoliciesApi->disable_policy: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Automation policy ID to disable | 
+
+### Return type
+
+[**Policy**](Policy.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Automation policy successfully disabled. |  -  |
+**403** | Insufficient permissions. |  -  |
+**404** | Automation policy not found. |  -  |
+**500** | Server Error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **enable_policy**
+> Policy enable_policy(id)
+
+Enables an automation policy by identifier.
+
+Enables an automation policy by identifier. Policy updates require `Configuration of automation policies` permission. When using personal tokens the automation policies updated are based on the access set in `Limited access` permission settings.
+
+### Example
+
+* Api Key Authentication (ApiKeyAuth):
+
+```python
+import instana_client
+from instana_client.models.policy import Policy
+from instana_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to https://unit-tenant.instana.io
+# See configuration.py for a list of all supported configuration parameters.
+configuration = instana_client.Configuration(
+    host = "https://unit-tenant.instana.io"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure API key authorization: ApiKeyAuth
+configuration.api_key['ApiKeyAuth'] = os.environ["API_KEY"]
+
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# configuration.api_key_prefix['ApiKeyAuth'] = 'Bearer'
+
+# Enter a context with an instance of the API client
+with instana_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = instana_client.PoliciesApi(api_client)
+    id = 'a14700b0-401b-47eb-a751-deda0035fde3' # str | Automation policy ID to enable
+
+    try:
+        # Enables an automation policy by identifier.
+        api_response = api_instance.enable_policy(id)
+        print("The response of PoliciesApi->enable_policy:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling PoliciesApi->enable_policy: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **str**| Automation policy ID to enable | 
+
+### Return type
+
+[**Policy**](Policy.md)
+
+### Authorization
+
+[ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Automation policy successfully enabled. |  -  |
+**403** | Insufficient permissions. |  -  |
+**404** | Automation policy not found. |  -  |
+**500** | Server Error. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -620,6 +620,7 @@ void (empty response body)
 **204** | Successful - no content to return. |  -  |
 **401** | Unauthorized access - requires user authentication. |  -  |
 **403** | Insufficient permissions or limited in access. |  -  |
+**412** | Pre-Condition Failed — the targeted AP is a ContributionFilter AP managed by a group or team and cannot be deleted directly. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
