@@ -1306,12 +1306,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_api_group_to_team_role_migration.py
-test/test_application_batch_business_criticality_update.py
-test/test_calls_event_result.py
-test/test_logging_perspective.py
-test/test_mapping.py
-test/test_mapping_overview.py
-test/test_slo_health_snapshot.py
-test/test_slo_health_snapshot_item.py
 tox.ini

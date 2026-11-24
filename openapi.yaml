@@ -7,7 +7,7 @@ info:
   description: Documentation for INSTANA REST API
   termsOfService: https://www.instana.com/terms-of-use/
   title: Instana REST API documentation
-  version: 1.328.1128
+  version: 1.329.1386
   x-description: info
   x-ibm-ahub-try: true
   x-logo:
@@ -199,6 +199,7 @@ paths:
       summary: Generate Apdex report
       tags:
       - Apdex Report
+      x-ibm-ahub-byok: true
   /api/application-monitoring/analyze/backend-correlation:
     get:
       description: |-
@@ -234,6 +235,7 @@ paths:
       summary: Resolve Trace IDs from Monitoring Beacons.
       tags:
       - Application Analyze
+      x-ibm-ahub-byok: true
   /api/application-monitoring/analyze/call-groups:
     post:
       description: |2-
@@ -320,6 +322,7 @@ paths:
       tags:
       - Application Analyze
       x-description: getCallGroup
+      x-ibm-ahub-byok: true
   /api/application-monitoring/analyze/trace-groups:
     post:
       description: "In this endpoint, the supported `groupbyTag` are `trace.endpoint.name`\
@@ -398,6 +401,7 @@ paths:
       tags:
       - Application Analyze
       x-description: getTraceGroups
+      x-ibm-ahub-byok: true
   /api/application-monitoring/analyze/traces:
     post:
       description: |2-
@@ -480,6 +484,7 @@ paths:
       tags:
       - Application Analyze
       x-description: getTraces
+      x-ibm-ahub-byok: true
   /api/application-monitoring/applications:
     get:
       description: |-
@@ -549,6 +554,7 @@ paths:
       summary: Get applications
       tags:
       - Application Resources
+      x-ibm-ahub-byok: true
   /api/application-monitoring/applications;id={applicationId}/services;id={serviceId}:
     get:
       description: |-
@@ -638,6 +644,7 @@ paths:
       summary: Get applications/services
       tags:
       - Application Resources
+      x-ibm-ahub-byok: true
   /api/application-monitoring/applications;id={applicationId}/services;id={serviceId}/endpoints;id={endpointId}:
     get:
       description: |-
@@ -743,6 +750,7 @@ paths:
       summary: Get endpoints
       tags:
       - Application Resources
+      x-ibm-ahub-byok: true
   /api/application-monitoring/catalog:
     get:
       description: |2-
@@ -836,6 +844,7 @@ paths:
       tags:
       - Application Catalog
       x-description: getApplicationTagsCatalog
+      x-ibm-ahub-byok: true
   /api/application-monitoring/catalog/metrics:
     get:
       description: |2-
@@ -867,6 +876,7 @@ paths:
       tags:
       - Application Catalog
       x-description: getApplicationCatalogMetrics
+      x-ibm-ahub-byok: true
   /api/application-monitoring/catalog/tags:
     get:
       deprecated: true
@@ -931,6 +941,7 @@ paths:
       tags:
       - Application Catalog
       x-description: getApplicationCatalogTags
+      x-ibm-ahub-byok: true
   /api/application-monitoring/metrics/applications:
     post:
       description: |-
@@ -1001,6 +1012,7 @@ paths:
       summary: Get Application Metrics
       tags:
       - Application Metrics
+      x-ibm-ahub-byok: true
   /api/application-monitoring/metrics/endpoints:
     post:
       description: |-
@@ -1079,6 +1091,7 @@ paths:
       summary: Get Endpoint metrics
       tags:
       - Application Metrics
+      x-ibm-ahub-byok: true
   /api/application-monitoring/metrics/services:
     post:
       description: |-
@@ -1163,6 +1176,7 @@ paths:
       summary: Get Service metrics
       tags:
       - Application Metrics
+      x-ibm-ahub-byok: true
   /api/application-monitoring/services:
     get:
       description: |-
@@ -1234,6 +1248,7 @@ paths:
       summary: Get services
       tags:
       - Application Resources
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/application:
     get:
       description: |-
@@ -1304,6 +1319,7 @@ paths:
       summary: All Application configurations
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     post:
       description: "Ignores the provided business criticality of the application;\
         \ business criticality can only be set with the \"Batch update application\
@@ -1410,6 +1426,7 @@ paths:
       tags:
       - Application Settings
       x-description: addApplicationConfig
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/application/batch-business-criticality:
     patch:
       description: Updates the business criticality of one or more Application Perspectives
@@ -1443,6 +1460,7 @@ paths:
       summary: Batch update application business criticality
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/application/{id}:
     delete:
       description: |-
@@ -1469,12 +1487,16 @@ paths:
           description: Unauthorized access - requires user authentication.
         '403':
           description: Insufficient permissions or limited in access.
+        '412':
+          description: Pre-Condition Failed — the targeted AP is a ContributionFilter
+            AP managed by a group or team and cannot be deleted directly.
       security:
       - ApiKeyAuth:
         - ConfigureServiceMapping
       summary: Delete application configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Use this API endpoint if one wants to retrieve an Application Perspective with its configuration setting.
@@ -1553,6 +1575,7 @@ paths:
       summary: Application configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     put:
       description: "Does not allow changing the business criticality of an application;\
         \ this must be done with the \"Batch update application business criticality\"\
@@ -1666,6 +1689,7 @@ paths:
       tags:
       - Application Settings
       x-description: updateApplicationConfig
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/endpoint:
     get:
       description: |-
@@ -1703,6 +1727,7 @@ paths:
       summary: All Endpoint configurations
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Use this API endpoint if one wants to create an endpoint configuration of a service.
@@ -1745,6 +1770,7 @@ paths:
       summary: Create endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/endpoint/{id}:
     delete:
       description: |-
@@ -1779,6 +1805,7 @@ paths:
       summary: Delete endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Use this API endpoint if one wants to retrieve the endpoint configuration of a service.
@@ -1822,6 +1849,7 @@ paths:
       summary: Endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     put:
       description: |-
         Use this API endpoint if one wants to update an existing endpoint configuration of a service.
@@ -1890,6 +1918,7 @@ paths:
       summary: Update endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/http-endpoint:
     get:
       deprecated: true
@@ -1931,6 +1960,7 @@ paths:
       summary: All HTTP endpoint configurations
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     post:
       deprecated: true
       description: |-
@@ -1982,6 +2012,7 @@ paths:
       summary: Create HTTP endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/http-endpoint/{id}:
     delete:
       deprecated: true
@@ -2016,6 +2047,7 @@ paths:
       summary: Delete HTTP endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     get:
       deprecated: true
       description: |-
@@ -2064,6 +2096,7 @@ paths:
       summary: HTTP Endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     put:
       deprecated: true
       description: |-
@@ -2133,6 +2166,7 @@ paths:
       summary: Update HTTP endpoint configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/manual-service:
     get:
       description: |2-
@@ -2171,6 +2205,7 @@ paths:
       tags:
       - Application Settings
       x-description: getAllManualServiceConfigs
+      x-ibm-ahub-byok: true
     post:
       description: |2-
 
@@ -2227,6 +2262,7 @@ paths:
       tags:
       - Application Settings
       x-description: addManualServiceConfigs
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -2287,6 +2323,7 @@ paths:
       tags:
       - Application Settings
       x-description: replaceAllManualServiceConfigs
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/manual-service/{id}:
     delete:
       description: |2-
@@ -2313,6 +2350,7 @@ paths:
       tags:
       - Application Settings
       x-description: deleteManualServiceConfigs
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -2377,6 +2415,7 @@ paths:
       tags:
       - Application Settings
       x-description: updateManualServiceConfigs
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/service:
     get:
       description: |-
@@ -2412,6 +2451,7 @@ paths:
       summary: All service configurations
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Use this API endpoint if one wants to create a custom service rule.
@@ -2469,6 +2509,7 @@ paths:
       summary: Add service configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     put:
       description: |-
         Use this API endpoint if one wants to modify 1 or more existing service configuration.
@@ -2520,6 +2561,7 @@ paths:
       summary: Replace all service configurations
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/service/order:
     put:
       description: |-
@@ -2558,6 +2600,7 @@ paths:
       summary: Order of service configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/settings/service/{id}:
     delete:
       description: |-
@@ -2588,6 +2631,7 @@ paths:
       summary: Delete service configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Use this API endpoint if one wants to retrieve a particular custom service rule.
@@ -2633,6 +2677,7 @@ paths:
       summary: Service configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
     put:
       description: |-
         Use this API endpoint if one wants to update a particular custom service rule.
@@ -2691,6 +2736,7 @@ paths:
       summary: Update service configuration
       tags:
       - Application Settings
+      x-ibm-ahub-byok: true
   /api/application-monitoring/topology/services:
     get:
       description: |
@@ -2767,6 +2813,7 @@ paths:
       summary: Gets the service topology
       tags:
       - Application Topology
+      x-ibm-ahub-byok: true
   /api/application-monitoring/v2/analyze/traces/{id}:
     get:
       description: |-
@@ -2853,6 +2900,7 @@ paths:
       summary: Get trace detail
       tags:
       - Application Analyze
+      x-ibm-ahub-byok: true
   /api/application-monitoring/v2/analyze/traces/{traceId}/calls/{callId}/details:
     get:
       description: |-
@@ -2952,6 +3000,7 @@ paths:
       summary: Get call detail
       tags:
       - Application Analyze
+      x-ibm-ahub-byok: true
   /api/application-monitoring/v2/metrics:
     post:
       description: |-
@@ -3003,6 +3052,7 @@ paths:
       summary: Get Application Data Metrics
       tags:
       - Application Metrics
+      x-ibm-ahub-byok: true
   /api/automation/actioninstances:
     delete:
       description: Deletes the automation action run results from the action run history.
@@ -3108,6 +3158,7 @@ paths:
       summary: Delete automation action run results.
       tags:
       - Action History
+      x-ibm-ahub-byok: true
     get:
       description: Get the details of automation action run results from action run
         history. The results are filtered by the filters in the query parameters.
@@ -3261,6 +3312,7 @@ paths:
       summary: Get the details of automation action run results from action run history.
       tags:
       - Action History
+      x-ibm-ahub-byok: true
     post:
       description: Submits the automation action for execution on an agent. The automation
         action to execute and the agent on which to execute the action must be specified
@@ -3328,6 +3380,7 @@ paths:
       summary: Run an automation action.
       tags:
       - Action History
+      x-ibm-ahub-byok: true
   /api/automation/actioninstances/{actionInstanceId}:
     delete:
       description: Deletes the automation action run result specified in the request
@@ -3385,6 +3438,7 @@ paths:
         by ID.
       tags:
       - Action History
+      x-ibm-ahub-byok: true
     get:
       description: Get the details of automation action run result specified in the
         request path from action run history. The automation action run result will
@@ -3471,6 +3525,7 @@ paths:
         run history.
       tags:
       - Action History
+      x-ibm-ahub-byok: true
   /api/automation/actions:
     get:
       description: Get all automation actions. When using personal access tokens,
@@ -3524,6 +3579,7 @@ paths:
       summary: Get all automation actions.
       tags:
       - Action Catalog
+      x-ibm-ahub-byok: true
   /api/automation/actions/{id}:
     get:
       description: Get an automation action by ID specified in the request path. When
@@ -3583,6 +3639,7 @@ paths:
       summary: Get an automation action by ID.
       tags:
       - Action Catalog
+      x-ibm-ahub-byok: true
   /api/automation/ai/action/match:
     get:
       description: Get automation actions that match based on application ID or snapshot
@@ -3629,6 +3686,7 @@ paths:
       summary: Get action matches by application ID or snapshot ID.
       tags:
       - Action Catalog
+      x-ibm-ahub-byok: true
     post:
       description: Get automation actions that match the incident or issue data in
         the request body.
@@ -3699,6 +3757,7 @@ paths:
       summary: Get automation actions that match the incidents or issues.
       tags:
       - Action Catalog
+      x-ibm-ahub-byok: true
   /api/automation/parameters/dynamic:
     put:
       operationId: resolve
@@ -3736,6 +3795,7 @@ paths:
       summary: Resolve dynamic parameter values
       tags:
       - Action Catalog
+      x-ibm-ahub-byok: true
   /api/automation/parameters/dynamic/catalog:
     get:
       operationId: getDynamicParametersTagCatalog
@@ -3776,6 +3836,7 @@ paths:
       tags:
       - Action Catalog
       x-description: getDynamicParametersTagCatalog
+      x-ibm-ahub-byok: true
   /api/automation/policies:
     get:
       description: Returns all the automation policies filtered by the values in optional
@@ -3870,6 +3931,7 @@ paths:
       summary: Get all automation policies.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
     post:
       description: Creates a new automation policy. Policy creation requires `Configuration
         of automation policies` permission.
@@ -3958,6 +4020,7 @@ paths:
       summary: Create an automation policy.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
   /api/automation/policies/bulk:
     post:
       description: Creates a list of automation policies. Policy creation requires
@@ -3994,6 +4057,7 @@ paths:
       summary: Create automation policies.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
   /api/automation/policies/{id}:
     delete:
       description: Deletes an automation policy by identifier. Policy deletion requires
@@ -4022,6 +4086,7 @@ paths:
       summary: Deletes an automation policy by identifier.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
     get:
       description: Returns the automation policy filtered by the ID in request parameter.
         When using personal access tokens, the user must have at least `Viewer` access
@@ -4095,6 +4160,7 @@ paths:
       summary: Get an automation policy by ID.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
     put:
       description: Updates an automation policy by identifier. Policy updates requires
         `Configuration of automation policies` permission. When using personal tokens
@@ -4191,6 +4257,161 @@ paths:
       summary: Updates an automation policy by identifier.
       tags:
       - Policies
+      x-ibm-ahub-byok: true
+  /api/automation/policies/{id}/disable:
+    put:
+      description: Disables an automation policy by identifier. Policy updates require
+        `Configuration of automation policies` permission. When using personal tokens
+        the automation policies updated are based on the access set in `Limited access`
+        permission settings.
+      operationId: disablePolicy
+      parameters:
+      - description: Automation policy ID to disable
+        example: a14700b0-401b-47eb-a751-deda0035fde3
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                id: a14700b0-401b-47eb-a751-deda0035fde3
+                name: Policy for test
+                description: Policy for test
+                trigger:
+                  type: customEvent
+                  id: C3Ha8PffQHfJ0Hk6
+                  name: Test Event
+                typeConfigurations:
+                - name: manual
+                  runnable:
+                    type: action
+                    id: d473c1b0-0740-4d08-95fe-31e5d0a9faff
+                    runConfiguration:
+                      actions:
+                      - action:
+                          id: d473c1b0-0740-4d08-95fe-31e5d0a9faff
+                          name: Hello World
+                          description: Simple script action for testing
+                          type: SCRIPT
+                          fields:
+                          - name: subtype
+                            description: script subtype
+                            encoding: base64
+                            value: YmFzaA==
+                            secured: false
+                          - name: script_ssh
+                            description: script content
+                            encoding: base64
+                            value: ZWNobyBoZWxsbyB3b3JsZA==
+                            secured: false
+                          - name: timeout
+                            description: timeout of the action execution in seconds
+                            encoding: ascii
+                            value: ''
+                            secured: false
+                          inputParameters: [
+                            ]
+                          tags:
+                          - Test
+                          createdAt: 1.694442511129923E9
+                          modifiedAt: 1.703191040321448E9
+              schema:
+                $ref: '#/components/schemas/Policy'
+          description: Automation policy successfully disabled.
+        '403':
+          description: Insufficient permissions.
+        '404':
+          description: Automation policy not found.
+        '500':
+          description: Server Error.
+      security:
+      - ApiKeyAuth:
+        - canConfigureAutomationPolicies
+      summary: Disables an automation policy by identifier.
+      tags:
+      - Policies
+      x-ibm-ahub-byok: true
+  /api/automation/policies/{id}/enable:
+    put:
+      description: Enables an automation policy by identifier. Policy updates require
+        `Configuration of automation policies` permission. When using personal tokens
+        the automation policies updated are based on the access set in `Limited access`
+        permission settings.
+      operationId: enablePolicy
+      parameters:
+      - description: Automation policy ID to enable
+        example: a14700b0-401b-47eb-a751-deda0035fde3
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                id: a14700b0-401b-47eb-a751-deda0035fde3
+                name: Policy for test
+                description: Policy for test
+                trigger:
+                  type: customEvent
+                  id: C3Ha8PffQHfJ0Hk6
+                  name: Test Event
+                typeConfigurations:
+                - name: manual
+                  runnable:
+                    type: action
+                    id: d473c1b0-0740-4d08-95fe-31e5d0a9faff
+                    runConfiguration:
+                      actions:
+                      - action:
+                          id: d473c1b0-0740-4d08-95fe-31e5d0a9faff
+                          name: Hello World
+                          description: Simple script action for testing
+                          type: SCRIPT
+                          fields:
+                          - name: subtype
+                            description: script subtype
+                            encoding: base64
+                            value: YmFzaA==
+                            secured: false
+                          - name: script_ssh
+                            description: script content
+                            encoding: base64
+                            value: ZWNobyBoZWxsbyB3b3JsZA==
+                            secured: false
+                          - name: timeout
+                            description: timeout of the action execution in seconds
+                            encoding: ascii
+                            value: ''
+                            secured: false
+                          inputParameters: [
+                            ]
+                          tags:
+                          - Test
+                          createdAt: 1.694442511129923E9
+                          modifiedAt: 1.703191040321448E9
+              schema:
+                $ref: '#/components/schemas/Policy'
+          description: Automation policy successfully enabled.
+        '403':
+          description: Insufficient permissions.
+        '404':
+          description: Automation policy not found.
+        '500':
+          description: Server Error.
+      security:
+      - ApiKeyAuth:
+        - canConfigureAutomationPolicies
+      summary: Enables an automation policy by identifier.
+      tags:
+      - Policies
+      x-ibm-ahub-byok: true
   /api/business-monitoring/activities:
     post:
       operationId: getActivities
@@ -4213,6 +4434,7 @@ paths:
       summary: Get Business Activities
       tags:
       - Business Monitoring
+      x-ibm-ahub-byok: true
   /api/business-monitoring/activities/csv:
     post:
       operationId: getActivitiesCsv
@@ -4235,6 +4457,7 @@ paths:
       summary: Download Business Activities
       tags:
       - Business Monitoring
+      x-ibm-ahub-byok: true
   /api/business-monitoring/business-perspectives:
     get:
       operationId: getBusinessPerspectives
@@ -4287,6 +4510,7 @@ paths:
       summary: Get all business perspectives
       tags:
       - Business Monitoring
+      x-ibm-ahub-byok: true
     post:
       operationId: createBusinessPerspective
       requestBody:
@@ -4381,6 +4605,7 @@ paths:
       tags:
       - Business Monitoring
       x-description: createBusinessPerspective
+      x-ibm-ahub-byok: true
   /api/business-monitoring/business-perspectives/{id}:
     delete:
       operationId: deleteBusinessPerspective
@@ -4402,6 +4627,7 @@ paths:
       summary: Delete business perspective
       tags:
       - Business Monitoring
+      x-ibm-ahub-byok: true
     get:
       operationId: getBusinessPerspective
       parameters:
@@ -4459,6 +4685,7 @@ paths:
       summary: Get business perspective
       tags:
       - Business Monitoring
+      x-ibm-ahub-byok: true
     put:
       operationId: updateBusinessPerspective
       parameters:
@@ -4558,6 +4785,7 @@ paths:
       tags:
       - Business Monitoring
       x-description: updateBusinessPerspective
+      x-ibm-ahub-byok: true
   /api/business-monitoring/catalog:
     get:
       operationId: getBusinessTagCatalog
@@ -4747,6 +4975,7 @@ paths:
       tags:
       - Business Monitoring
       x-description: getBusinessTagCatalog
+      x-ibm-ahub-byok: true
   /api/cassandra/metrics:
     post:
       operationId: getCassandraMetrics
@@ -4767,6 +4996,7 @@ paths:
       tags:
       - Infrastructure Metrics
       x-description: getCassandraMetrics
+      x-ibm-ahub-byok: true
   /api/custom-dashboard:
     get:
       description: |-
@@ -4824,6 +5054,7 @@ paths:
       summary: Get accessible custom dashboards
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
     post:
       description: |2-
 
@@ -4853,6 +5084,7 @@ paths:
       summary: Add custom dashboard
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
   /api/custom-dashboard/shareable-api-tokens:
     get:
       description: |-
@@ -4883,6 +5115,7 @@ paths:
       summary: Get all API tokens.
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
   /api/custom-dashboard/shareable-users:
     get:
       description: |-
@@ -4913,6 +5146,7 @@ paths:
       summary: Get all users (without invitations).
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
   /api/custom-dashboard/{customDashboardId}:
     delete:
       description: |2-
@@ -4934,6 +5168,7 @@ paths:
       summary: Remove custom dashboard
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Get all Custom Dashboard Info for specified customDashboardId.
@@ -5011,6 +5246,7 @@ paths:
       summary: Get custom dashboard
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -5046,6 +5282,7 @@ paths:
       summary: Update custom dashboard
       tags:
       - Custom Dashboards
+      x-ibm-ahub-byok: true
   /api/custom-entitytypes:
     get:
       description: This end point lists custom Entity Type Definition
@@ -5063,6 +5300,7 @@ paths:
       summary: List custom Entity Type Definition
       tags:
       - Custom Entities
+      x-ibm-ahub-byok: true
     post:
       description: This end point creates a custom entity type
       operationId: createCustomEntities
@@ -5087,6 +5325,7 @@ paths:
       summary: Create a Custom Entity type
       tags:
       - Custom Entities
+      x-ibm-ahub-byok: true
   /api/custom-entitytypes/{id}:
     delete:
       description: This end point deletes a custom Entity type definition
@@ -5118,6 +5357,7 @@ paths:
       summary: Delete a Custom Entity Type
       tags:
       - Custom Entities
+      x-ibm-ahub-byok: true
     get:
       description: This endpoint gets custom Entity Type by ID
       operationId: getCustomEntity
@@ -5140,6 +5380,7 @@ paths:
       summary: Get custom Entity Types
       tags:
       - Custom Entities
+      x-ibm-ahub-byok: true
     put:
       description: This end points updates the definition of a custom entity type
       operationId: updateCustomEntity
@@ -5170,6 +5411,7 @@ paths:
       summary: Update a Custom Entity Type
       tags:
       - Custom Entities
+      x-ibm-ahub-byok: true
   /api/encrypt:
     post:
       operationId: encrypt
@@ -5185,6 +5427,7 @@ paths:
               schema:
                 type: string
           description: default response
+      x-ibm-ahub-byok: true
   /api/eum/impact/report/{eventId}:
     get:
       description: Gets a report of users impacted by an event which was created from
@@ -5216,6 +5459,7 @@ paths:
       summary: Get impacted users report
       tags:
       - End User Monitoring
+      x-ibm-ahub-byok: true
   /api/evaluator:
     get:
       description: Fetch all evaluator configurations for the current tenant unit.
@@ -5233,6 +5477,7 @@ paths:
       summary: Get all evaluators
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
     put:
       description: Create a new evaluator or update an existing one. Returns the evaluator
         ID.
@@ -5253,12 +5498,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/Evaluator'
           description: OK
+        '400':
+          description: Bad Request - Name is blank, reserved, already in use, or a
+            built-in evaluator is being renamed
       security:
       - ApiKeyAuth:
         - CanConfigureGenAiEvaluations
       summary: Create or update evaluator
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/evaluator/{evaluatorId}:
     delete:
       description: Delete an evaluator configuration by its ID.
@@ -5284,6 +5533,7 @@ paths:
       summary: Delete evaluator
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
     get:
       description: Fetch a specific evaluator by its ID.
       operationId: getEvaluator
@@ -5310,6 +5560,7 @@ paths:
       summary: Get evaluator by ID
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/evaluator/{evaluatorId}/reset:
     post:
       description: Reset a built-in evaluator to its system default configuration
@@ -5335,6 +5586,7 @@ paths:
       summary: Reset built-in evaluator
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/events:
     get:
       description: 'Get all Events within a timeframe. The timeframe is defined as
@@ -5474,6 +5726,7 @@ paths:
       summary: Get all Events
       tags:
       - Events
+      x-ibm-ahub-byok: true
     post:
       description: 'Gets a set of events by their IDs. '
       operationId: getEventsByIds
@@ -5556,6 +5809,7 @@ paths:
       summary: Get Events by IDs
       tags:
       - Events
+      x-ibm-ahub-byok: true
   /api/events/agent-monitoring-events:
     get:
       description: 'Gets all Agent Monitoring Events within a timeframe. The timeframe
@@ -5640,6 +5894,7 @@ paths:
       summary: Get Agent Monitoring Events
       tags:
       - Events
+      x-ibm-ahub-byok: true
   /api/events/kubernetes-info-events:
     get:
       description: 'Gets all Kubernetes Info Events within a timeframe. The timeframe
@@ -5720,6 +5975,7 @@ paths:
       summary: Get Kubernetes Info Events
       tags:
       - Events
+      x-ibm-ahub-byok: true
   /api/events/settings/alert-configs/bulk/delete:
     put:
       description: Atomically deletes alert configurations across multiple types.
@@ -5763,6 +6019,7 @@ paths:
       tags:
       - Event Settings
       - Events
+      x-ibm-ahub-byok: true
   /api/events/settings/alert-configs/bulk/disable:
     put:
       description: Atomically disables alert configurations across multiple types.
@@ -5805,6 +6062,7 @@ paths:
       tags:
       - Event Settings
       - Events
+      x-ibm-ahub-byok: true
   /api/events/settings/alert-configs/bulk/enable:
     put:
       description: Atomically enables alert configurations across multiple types.
@@ -5847,6 +6105,7 @@ paths:
       tags:
       - Event Settings
       - Events
+      x-ibm-ahub-byok: true
   /api/events/settings/alertingChannels:
     get:
       description: Gets all the alerting channels. Requires the permission called
@@ -5895,6 +6154,7 @@ paths:
       summary: Get all Alerting Channels
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: Creates an alerting channel. Requires the permission called CanConfigureIntegrations.
       operationId: postAlertingChannel
@@ -5933,6 +6193,7 @@ paths:
       summary: Create Alert Channel
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alertingChannels/infos:
     get:
       description: Gets the overview information of all alerting channels. Requires
@@ -5979,6 +6240,7 @@ paths:
       summary: Get Overview of Alerting Channels
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alertingChannels/notify/{id}:
     post:
       description: Sends alert for a specific event to an alerting channel.  Provided
@@ -6012,6 +6274,7 @@ paths:
         CanConfigureIntegrations.
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alertingChannels/test:
     put:
       description: Sends a test alert to an alert channel. This is for testing if
@@ -6048,6 +6311,7 @@ paths:
       summary: Test Alerting Channel
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alertingChannels/{id}:
     delete:
       description: Deletes an alert channel. Requires the permission called CanConfigureIntegrations.
@@ -6069,6 +6333,7 @@ paths:
       summary: Delete Alerting Channel
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       description: Gets an alerting channel. Requires the permission called CanConfigureIntegrations.
       operationId: getAlertingChannel
@@ -6100,6 +6365,7 @@ paths:
       summary: Get Alerting Channel
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     put:
       description: Updates an alerting channel. Requires the permission called CanConfigureIntegrations.
       operationId: putAlertingChannel
@@ -6146,6 +6412,7 @@ paths:
       summary: Update Alert Channel
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alerts:
     get:
       description: Gets all Alert Configurations
@@ -6238,6 +6505,7 @@ paths:
       summary: Get all Alert Configurations
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alerts/infos:
     get:
       description: Gets all alert configurations that relate to the given alert channel.
@@ -6289,6 +6557,7 @@ paths:
       summary: All alerting configuration info
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/alerts/{id}:
     delete:
       description: Delete a specific Alert Configuration by ID
@@ -6312,6 +6581,7 @@ paths:
       summary: Delete Alert Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       description: Get a specific Alert Configuration by ID.
       operationId: getAlert
@@ -6362,6 +6632,7 @@ paths:
       summary: Get Alert Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     put:
       description: Create or update a specific Alert configuration by ID
       operationId: putAlert
@@ -6470,6 +6741,7 @@ paths:
       summary: Create or update Alert Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs:
     get:
       description: |-
@@ -6557,6 +6829,7 @@ paths:
       summary: Get all Smart Alert Configs
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Creates a new Smart Alert Configuration.
@@ -6596,17 +6869,11 @@ paths:
                 aggregation: P90
                 metricName: latency
               threshold:
-                type: historicBaseline
+                type: adaptiveBaseline
                 operator: '>='
-                seasonality: DAILY
-                baseline:
-                - - 0
-                  - 1
-                  - 3
-                - - 600000
-                  - 1
-                  - 3
-                deviationFactor: 3
+                sensitivityMode: STANDARD_DEVIATIONS
+                sensitivityValue: 3.0
+                minimumAbsoluteDelta: 0.0
                 lastUpdated: 0
               alertChannelIds: [
                 ]
@@ -6655,17 +6922,11 @@ paths:
                   aggregation: P90
                   metricName: latency
                 threshold:
-                  type: historicBaseline
+                  type: adaptiveBaseline
                   operator: '>='
-                  seasonality: DAILY
-                  baseline:
-                  - - 0
-                    - 1
-                    - 3
-                  - - 600000
-                    - 1
-                    - 3
-                  deviationFactor: 3
+                  sensitivityMode: STANDARD_DEVIATIONS
+                  sensitivityValue: 3.0
+                  minimumAbsoluteDelta: 0.0
                   lastUpdated: 0
                 alertChannelIds: [
                   ]
@@ -6699,6 +6960,7 @@ paths:
       summary: Create Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/bulk/delete:
     put:
       description: Deletes multiple application alert configurations. Creates new
@@ -6730,6 +6992,7 @@ paths:
       summary: Bulk Delete Application Smart Alert Configs
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/bulk/disable:
     put:
       description: Disables multiple application alert configurations. Creates new
@@ -6761,6 +7024,7 @@ paths:
       summary: Bulk Disable Application Smart Alert Configs
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/bulk/enable:
     put:
       description: Enables multiple application alert configurations. Creates new
@@ -6792,6 +7056,7 @@ paths:
       summary: Bulk Enable Application Smart Alert Configs
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}:
     delete:
       description: |-
@@ -6819,6 +7084,7 @@ paths:
       summary: Delete Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Gets a specific Smart Alert Configuration. This may return a deleted Configuration.
@@ -6876,17 +7142,11 @@ paths:
                   aggregation: P90
                   metricName: latency
                 threshold:
-                  type: historicBaseline
+                  type: adaptiveBaseline
                   operator: '>='
-                  seasonality: DAILY
-                  baseline:
-                  - - 0
-                    - 1
-                    - 3
-                  - - 600000
-                    - 1
-                    - 3
-                  deviationFactor: 3
+                  sensitivityMode: STANDARD_DEVIATIONS
+                  sensitivityValue: 3.0
+                  minimumAbsoluteDelta: 0.0
                   lastUpdated: 0
                 alertChannelIds: [
                   ]
@@ -6916,6 +7176,7 @@ paths:
       summary: Get Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Updates an existing Smart Alert Configuration.
@@ -6963,17 +7224,11 @@ paths:
                 aggregation: P90
                 metricName: latency
               threshold:
-                type: historicBaseline
+                type: adaptiveBaseline
                 operator: '>='
-                seasonality: DAILY
-                baseline:
-                - - 0
-                  - 1
-                  - 3
-                - - 600000
-                  - 1
-                  - 3
-                deviationFactor: 3
+                sensitivityMode: STANDARD_DEVIATIONS
+                sensitivityValue: 3.0
+                minimumAbsoluteDelta: 0.0
                 lastUpdated: 0
               alertChannelIds: [
                 ]
@@ -7022,17 +7277,11 @@ paths:
                   aggregation: P90
                   metricName: latency
                 threshold:
-                  type: historicBaseline
+                  type: adaptiveBaseline
                   operator: '>='
-                  seasonality: DAILY
-                  baseline:
-                  - - 0
-                    - 1
-                    - 3
-                  - - 600000
-                    - 1
-                    - 3
-                  deviationFactor: 3
+                  sensitivityMode: STANDARD_DEVIATIONS
+                  sensitivityValue: 3.0
+                  minimumAbsoluteDelta: 0.0
                   lastUpdated: 0
                 alertChannelIds: [
                   ]
@@ -7070,6 +7319,7 @@ paths:
       summary: Update Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}/disable:
     put:
       description: |-
@@ -7103,6 +7353,7 @@ paths:
       summary: Disable Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}/enable:
     put:
       description: |-
@@ -7136,6 +7387,7 @@ paths:
       summary: Enable Application Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}/restore/{created}:
     put:
       description: |-
@@ -7178,6 +7430,7 @@ paths:
       summary: Restore Smart Alert Config
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}/update-baseline:
     post:
       description: |-
@@ -7218,6 +7471,7 @@ paths:
       summary: Recalculate Smart Alert Config Baseline
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/application-alert-configs/{id}/versions:
     get:
       description: |-
@@ -7262,6 +7516,7 @@ paths:
       summary: Get Smart Alert Config Versions
       tags:
       - Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/custom-payload-configurations:
     delete:
       description: Deletes a Global Custom Payload Configuration.
@@ -7279,6 +7534,7 @@ paths:
       summary: Delete Custom Payload Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       description: Gets All Global Custom Payload Configurations.
       operationId: getCustomPayloadConfigurations
@@ -7329,6 +7585,7 @@ paths:
       summary: Get All Global Custom Payload Configurations
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     put:
       description: Creates or Updates Global Custom Payload Configuration.
       operationId: upsertCustomPayloadConfiguration
@@ -7382,6 +7639,7 @@ paths:
       summary: Create/Update Global Custom Payload Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/custom-payload-configurations/catalog:
     get:
       description: Custom payload tags used to filter, extract and aggregate specific
@@ -7425,6 +7683,7 @@ paths:
       summary: Get Tag Catalog for Custom Payload
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/custom-payload-configurations/v2:
     put:
       description: Creates or Updates Global Custom Payload Configuration.
@@ -7490,6 +7749,7 @@ paths:
       summary: Create/Update Global Custom Payload Configuration
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/built-in:
     get:
       description: Get all built-in event specifications. Can be filtered by event
@@ -7596,6 +7856,7 @@ paths:
       summary: All built-in event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/built-in/{eventSpecificationId}:
     delete:
       operationId: deleteBuiltInEventSpecification
@@ -7618,6 +7879,7 @@ paths:
       summary: Delete built-in event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       operationId: getBuiltInEventSpecification
       parameters:
@@ -7645,6 +7907,7 @@ paths:
       summary: Built-in event specifications
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/built-in/{eventSpecificationId}/disable:
     post:
       operationId: disableBuiltInEventSpecification
@@ -7679,6 +7942,7 @@ paths:
       summary: Disable built-in event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/built-in/{eventSpecificationId}/enable:
     post:
       operationId: enableBuiltInEventSpecification
@@ -7713,6 +7977,7 @@ paths:
       summary: Enable built-in event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/custom:
     get:
       description: ' This API helps in getting all the custom event specifications.'
@@ -7762,6 +8027,7 @@ paths:
       summary: All custom event specifications
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       operationId: postCustomEventSpecification
       requestBody:
@@ -7790,6 +8056,7 @@ paths:
       tags:
       - Event Settings
       x-description: postCustomEventSpecification
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/custom/systemRules:
     get:
       description: This API helps to get all the system rules for custom event specifications.
@@ -7816,6 +8083,7 @@ paths:
       summary: All system rules for custom event specifications
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/custom/{eventSpecificationId}:
     delete:
       operationId: deleteCustomEventSpecification
@@ -7839,6 +8107,7 @@ paths:
       tags:
       - Event Settings
       x-description: deleteCustomEventSpecification
+      x-ibm-ahub-byok: true
     get:
       description: This API helps to get the Custom Event specification for the given
         ID.
@@ -7898,6 +8167,7 @@ paths:
       summary: Custom event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     put:
       operationId: putCustomEventSpecification
       parameters:
@@ -7939,6 +8209,7 @@ paths:
       tags:
       - Event Settings
       x-description: putCustomEventSpecification
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/custom/{eventSpecificationId}/disable:
     post:
       operationId: disableCustomEventSpecification
@@ -7975,6 +8246,7 @@ paths:
       summary: Disable custom event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/custom/{eventSpecificationId}/enable:
     post:
       operationId: enableCustomEventSpecification
@@ -8011,6 +8283,7 @@ paths:
       summary: Enable custom event specification
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/event-specifications/infos:
     get:
       description: This API helps to get the summary of all build-in and custom event
@@ -8047,6 +8320,7 @@ paths:
       summary: Summary of all built-in and custom event specifications
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: Summary of all built-in and custom event specifications by IDs
       operationId: getEventSpecificationInfosByIds
@@ -8077,6 +8351,7 @@ paths:
       summary: All built-in and custom event specifications
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications:
     get:
       description: |-
@@ -8164,6 +8439,7 @@ paths:
       summary: Get all Global Smart Alert Configs
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Creates a new Global Smart Alert Configuration.
@@ -8278,6 +8554,7 @@ paths:
       summary: Create Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/bulk/delete:
     put:
       description: "Deletes multiple Global Smart Alert Configurations in a single\
@@ -8308,6 +8585,7 @@ paths:
       summary: Bulk Delete Global Smart Alert Configs
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/bulk/disable:
     put:
       description: "Disables multiple Global Smart Alert Configurations in a single\
@@ -8338,6 +8616,7 @@ paths:
       summary: Bulk Disable Global Smart Alert Configs
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/bulk/enable:
     put:
       description: "Enables multiple Global Smart Alert Configurations in a single\
@@ -8368,6 +8647,7 @@ paths:
       summary: Bulk Enable Global Smart Alert Configs
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/{id}:
     delete:
       description: |-
@@ -8395,6 +8675,7 @@ paths:
       summary: Delete Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Gets a specific Global Smart Alert Configuration. This may return a deleted Configuration.
@@ -8479,6 +8760,7 @@ paths:
       summary: Get Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Updates an existing Global Smart Alert Configuration.
@@ -8607,6 +8889,7 @@ paths:
       summary: Update Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/{id}/disable:
     put:
       description: |-
@@ -8640,6 +8923,7 @@ paths:
       summary: Disable Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/{id}/enable:
     put:
       description: |-
@@ -8673,6 +8957,7 @@ paths:
       summary: Enable Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/{id}/restore/{created}:
     put:
       description: |-
@@ -8715,6 +9000,7 @@ paths:
       summary: Restore Global Smart Alert Config
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/applications/{id}/versions:
     get:
       description: |-
@@ -8759,6 +9045,7 @@ paths:
       summary: Get Global Smart Alert Config Versions
       tags:
       - Global Application Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs:
     get:
       description: Configs are sorted descending by their created date.
@@ -8788,6 +9075,7 @@ paths:
       summary: All Log Alert Configs
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: createLogAlertConfig
       requestBody:
@@ -8812,6 +9100,7 @@ paths:
       tags:
       - Log Alert Configuration
       x-description: createLogAlertConfig
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/bulk/delete:
     put:
       description: Delete multiple log alert configurations at once. Maximum 1000
@@ -8847,6 +9136,7 @@ paths:
       summary: Bulk Delete Log Alert Configs
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/bulk/disable:
     put:
       description: Disable multiple log alert configurations at once. Maximum 1000
@@ -8882,6 +9172,7 @@ paths:
       summary: Bulk Disable Log Alert Configs
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/bulk/enable:
     put:
       description: Enable multiple log alert configurations at once. Maximum 1000
@@ -8917,6 +9208,7 @@ paths:
       summary: Bulk Enable Log Alert Configs
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/{id}:
     delete:
       operationId: deleteLogAlertConfig
@@ -8939,6 +9231,7 @@ paths:
       summary: Delete Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Find a Log Alert Config by ID. This will deliver deleted configs
         too.
@@ -8969,6 +9262,7 @@ paths:
       summary: Get Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: updateLogAlertConfig
       parameters:
@@ -9001,6 +9295,7 @@ paths:
       tags:
       - Log Alert Configuration
       x-description: updateLogAlertConfig
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/{id}/disable:
     put:
       operationId: disableLogAlertConfig
@@ -9029,6 +9324,7 @@ paths:
       summary: Disable Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/{id}/enable:
     put:
       operationId: enableLogAlertConfig
@@ -9057,6 +9353,7 @@ paths:
       summary: Enable Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/{id}/restore/{created}:
     put:
       operationId: restoreLogAlertConfig
@@ -9091,6 +9388,7 @@ paths:
       summary: Restore Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/logs/{id}/versions:
     get:
       description: Find all versions of a Log Alert Config by ID. This will deliver
@@ -9119,6 +9417,7 @@ paths:
       summary: Get versions of Log Alert Config
       tags:
       - Log Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels:
     get:
       description: Configs are sorted descending by their created date.
@@ -9200,6 +9499,7 @@ paths:
       summary: All Service levels Alert Configs
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: createServiceLevelsAlertConfig
       requestBody:
@@ -9288,6 +9588,7 @@ paths:
       tags:
       - Service Levels Alert Configuration
       x-description: createServiceLevelsAlertConfig
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/bulk/delete:
     put:
       description: Delete multiple Service Levels Smart Alert configurations in a
@@ -9315,6 +9616,7 @@ paths:
       summary: Bulk Delete Service Levels Smart Alert Configs
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/bulk/disable:
     put:
       description: Disable multiple Service Levels Smart Alert configurations in a
@@ -9342,6 +9644,7 @@ paths:
       summary: Bulk Disable Service Levels Smart Alert Configs
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/bulk/enable:
     put:
       description: Enable multiple Service Levels Smart Alert configurations in a
@@ -9369,6 +9672,7 @@ paths:
       summary: Bulk Enable Service Levels Smart Alert Configs
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/{id}:
     delete:
       operationId: deleteServiceLevelsAlertConfig
@@ -9397,6 +9701,7 @@ paths:
       summary: Delete Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Find a Service levels Alert Config by ID. This will deliver deleted
         configs too.
@@ -9469,6 +9774,7 @@ paths:
       summary: Get Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: updateServiceLevelsAlertConfig
       parameters:
@@ -9567,6 +9873,7 @@ paths:
       tags:
       - Service Levels Alert Configuration
       x-description: updateServiceLevelsAlertConfig
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/{id}/disable:
     put:
       operationId: disableServiceLevelsAlertConfig
@@ -9601,6 +9908,7 @@ paths:
       summary: Disable Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/{id}/enable:
     put:
       operationId: enableServiceLevelsAlertConfig
@@ -9635,6 +9943,7 @@ paths:
       summary: Enable Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/{id}/restore/{created}:
     put:
       operationId: restoreServiceLevelsAlertConfig
@@ -9677,6 +9986,7 @@ paths:
       summary: Restore Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/service-levels/{id}/versions:
     get:
       description: Find all versions of a Service levels Alert Config by ID. This
@@ -9736,6 +10046,7 @@ paths:
       summary: Get versions of Service levels Alert Config
       tags:
       - Service Levels Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics:
     get:
       description: |-
@@ -9826,6 +10137,7 @@ paths:
       summary: Get all Synthetic Smart Alert Configs
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Creates a new Synthetic Smart Alert Configuration.
@@ -9919,6 +10231,7 @@ paths:
       summary: Create Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/bulk/delete:
     put:
       description: |-
@@ -9955,6 +10268,7 @@ paths:
       summary: Bulk Delete Synthetic Smart Alert Configs
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/bulk/disable:
     put:
       description: |-
@@ -9991,6 +10305,7 @@ paths:
       summary: Bulk Disable Synthetic Smart Alert Configs
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/bulk/enable:
     put:
       description: |-
@@ -10027,6 +10342,7 @@ paths:
       summary: Bulk Enable Synthetic Smart Alert Configs
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/{id}:
     delete:
       description: |-
@@ -10054,6 +10370,7 @@ paths:
       summary: Delete Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Gets a specific Synthetic Smart Alert Configuration. This may return a deleted Configuration.
@@ -10130,6 +10447,7 @@ paths:
       summary: Get Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Updates an existing Synthetic Smart Alert Configuration.
@@ -10235,6 +10553,7 @@ paths:
       summary: Update Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/{id}/disable:
     put:
       description: |-
@@ -10268,6 +10587,7 @@ paths:
       summary: Disable Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/{id}/enable:
     put:
       description: |-
@@ -10301,6 +10621,7 @@ paths:
       summary: Enable Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/{id}/restore/{created}:
     put:
       description: |-
@@ -10343,6 +10664,7 @@ paths:
       summary: Restore Synthetic Smart Alert Config
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/global-alert-configs/synthetics/{id}/versions:
     get:
       description: |-
@@ -10397,6 +10719,7 @@ paths:
       summary: Get Synthetic Smart Alert Config Versions
       tags:
       - Synthetic Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs:
     get:
       description: Configs are sorted descending by their created date.
@@ -10496,6 +10819,7 @@ paths:
       summary: All Infra Alert Configs
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: createInfraAlertConfig
       requestBody:
@@ -10587,6 +10911,7 @@ paths:
       summary: Create Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/bulk/delete:
     put:
       description: Delete multiple Infra Smart Alert configurations in a single operation.
@@ -10613,6 +10938,7 @@ paths:
       summary: Bulk Delete Infra Smart Alert Configs
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/bulk/disable:
     put:
       description: Disable multiple Infra Smart Alert configurations in a single operation.
@@ -10639,6 +10965,7 @@ paths:
       summary: Bulk Disable Infra Smart Alert Configs
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/bulk/enable:
     put:
       description: Enable multiple Infra Smart Alert configurations in a single operation.
@@ -10665,6 +10992,7 @@ paths:
       summary: Bulk Enable Infra Smart Alert Configs
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/{id}:
     delete:
       operationId: deleteInfraAlertConfig
@@ -10689,6 +11017,7 @@ paths:
       summary: Delete Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Find a Infra Alert Config by ID. This will deliver deleted configs
         too.
@@ -10790,6 +11119,7 @@ paths:
       summary: Get Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
     post:
       operationId: updateInfraAlertConfig
       parameters:
@@ -10893,6 +11223,7 @@ paths:
       summary: Update Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/{id}/disable:
     put:
       operationId: disableInfraAlertConfig
@@ -10923,6 +11254,7 @@ paths:
       summary: Disable Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/{id}/enable:
     put:
       operationId: enableInfraAlertConfig
@@ -10953,6 +11285,7 @@ paths:
       summary: Enable Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/{id}/restore/{created}:
     put:
       operationId: restoreInfraAlertConfig
@@ -10991,6 +11324,7 @@ paths:
       summary: Restore Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/infra-alert-configs/{id}/versions:
     get:
       description: Find all versions of a Infra Alert Config by ID. This will deliver
@@ -11032,6 +11366,7 @@ paths:
       summary: Get versions of Infra Alert Config
       tags:
       - Infrastructure Alert Configuration
+      x-ibm-ahub-byok: true
   /api/events/settings/manual-close:
     post:
       description: Manually close a set of events. A close notification will be sent
@@ -11078,6 +11413,7 @@ paths:
       summary: Manually closing multiple events
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/manual-close/{eventId}:
     post:
       description: Manually close an event (issue or incident). A close notification
@@ -11188,6 +11524,7 @@ paths:
       summary: Manually close an event.
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs:
     get:
       description: Gets all the Mobile Smart Alert Configuration pertaining to a specific
@@ -11291,6 +11628,7 @@ paths:
       summary: Get all Mobile Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: 'Creates a new Mobile Smart Alert Configuration. '
       operationId: createMobileAppAlertConfig
@@ -11408,6 +11746,7 @@ paths:
       summary: Create Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/bulk/delete:
     put:
       description: Deletes multiple Mobile Smart Alert Configurations in a single
@@ -11437,6 +11776,7 @@ paths:
       summary: Bulk delete Mobile Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/bulk/disable:
     put:
       description: Disables multiple Mobile Smart Alert Configurations in a single
@@ -11466,6 +11806,7 @@ paths:
       summary: Bulk disable Mobile Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/bulk/enable:
     put:
       description: Enables multiple Mobile Smart Alert Configurations in a single
@@ -11495,6 +11836,7 @@ paths:
       summary: Bulk enable Mobile Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}:
     delete:
       description: Deletes a Mobile Smart Alert Configuration
@@ -11520,6 +11862,7 @@ paths:
       summary: Delete Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       description: Gets a specific Mobile Smart Alert Configuration. This may return
         a deleted Configuration.
@@ -11619,6 +11962,7 @@ paths:
       summary: Get Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: 'Updates an existing Mobile Smart Alert Configuration. '
       operationId: updateMobileAppAlertConfig
@@ -11750,6 +12094,7 @@ paths:
       summary: Update Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}/disable:
     put:
       description: Disables a Mobile Smart Alert Configuration.
@@ -11781,6 +12126,7 @@ paths:
       summary: Disable Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}/enable:
     put:
       description: Enables a Mobile Smart Alert Configuration.
@@ -11812,6 +12158,7 @@ paths:
       summary: Enable Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}/restore/{created}:
     put:
       description: Restores a Mobile Smart Alert Configuration.
@@ -11852,6 +12199,7 @@ paths:
       summary: Restore Mobile Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}/update-baseline:
     post:
       description: Recalculates and updates the historic baseline (static seasonal
@@ -11892,6 +12240,7 @@ paths:
       summary: Recalculate Mobile Smart Alert Config Baseline
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/mobile-app-alert-configs/{id}/versions:
     get:
       description: Gets all versions of a Mobile Smart Alert Configuration. This may
@@ -11936,6 +12285,7 @@ paths:
       summary: Get Mobile Smart Alert Config Versions
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/shortcode/current-prefix:
     get:
       description: Returns the current shortcode prefix and enabled state used for
@@ -11962,6 +12312,7 @@ paths:
       summary: Get current shortcode prefix.
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     put:
       description: Updates the shortcode prefix and enabled state used for events.
         The prefix will be applied to all new incidents created after this update.
@@ -12025,6 +12376,7 @@ paths:
       summary: Update shortcode prefix.
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs:
     get:
       description: Gets all the Website Smart Alert Configuration pertaining to a
@@ -12125,6 +12477,7 @@ paths:
       summary: Get all Website Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: Creates a new Website Smart Alert Configuration.
       operationId: createWebsiteAlertConfig
@@ -12258,6 +12611,7 @@ paths:
       summary: Create Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/bulk/delete:
     put:
       description: Deletes multiple website alert configurations. Creates new revisions
@@ -12289,6 +12643,7 @@ paths:
       summary: Bulk Delete Website Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/bulk/disable:
     put:
       description: Disables multiple website alert configurations. Creates new revisions
@@ -12320,6 +12675,7 @@ paths:
       summary: Bulk Disable Website Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/bulk/enable:
     put:
       description: Enables multiple website alert configurations. Creates new revisions
@@ -12351,6 +12707,7 @@ paths:
       summary: Bulk Enable Website Smart Alert Configs
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}:
     delete:
       description: Deletes a Website Smart Alert Configuration.
@@ -12376,6 +12733,7 @@ paths:
       summary: Delete Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     get:
       description: Gets a specific Website Smart Alert Configuration. This may return
         a deleted Configuration.
@@ -12470,6 +12828,7 @@ paths:
       summary: Get Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
     post:
       description: Updates an existing Website Smart Alert Configuration.
       operationId: updateWebsiteAlertConfig
@@ -12617,6 +12976,7 @@ paths:
       summary: Update Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}/disable:
     put:
       description: Disables a Website Smart Alert Configuration.
@@ -12648,6 +13008,7 @@ paths:
       summary: Disable Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}/enable:
     put:
       description: Enables a website alert configuration.
@@ -12679,6 +13040,7 @@ paths:
       summary: Enable Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}/restore/{created}:
     put:
       description: Restores a deleted Website Smart Alert Configuration.
@@ -12719,6 +13081,7 @@ paths:
       summary: Restore Website Smart Alert Config
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}/update-baseline:
     post:
       description: Recalculates and updates the historic baseline (static seasonal
@@ -12759,6 +13122,7 @@ paths:
       summary: Recalculate Website Smart Alert Config Baseline
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/settings/website-alert-configs/{id}/versions:
     get:
       description: Gets all versions of a Website Smart Alert Configuration. This
@@ -12803,6 +13167,7 @@ paths:
       summary: 'Get Website Smart Alert Config Versions. '
       tags:
       - Event Settings
+      x-ibm-ahub-byok: true
   /api/events/{eventId}:
     get:
       description: Gets a specific event.
@@ -12852,6 +13217,7 @@ paths:
       summary: Get Event
       tags:
       - Events
+      x-ibm-ahub-byok: true
   /api/filters:
     get:
       operationId: get
@@ -12861,6 +13227,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
     post:
       operationId: post
       responses:
@@ -12869,6 +13236,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/filters/{id}:
     delete:
       operationId: delete
@@ -12884,6 +13252,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
     put:
       operationId: put
       parameters:
@@ -12898,6 +13267,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/analyze/tasks/{rootId}:
     get:
       operationId: getTaskFlowsByRootId
@@ -12921,6 +13291,7 @@ paths:
       summary: Get task flow hierarchy by root ID (built in genai-analytics-reader)
       tags:
       - Application Analyze
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/evaluations:
     get:
       operationId: getEvaluations
@@ -12944,6 +13315,7 @@ paths:
       summary: Get all evaluations
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
     post:
       operationId: createEvaluation
       requestBody:
@@ -12968,6 +13340,7 @@ paths:
       summary: Create a new evaluation definition
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/evaluations/gateway-status:
     get:
       operationId: getGatewayStatus
@@ -12986,6 +13359,7 @@ paths:
       summary: Check gateway status for evaluation capability
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/evaluations/runs:
     get:
       operationId: getEvaluationRuns
@@ -13019,6 +13393,7 @@ paths:
       summary: Get all evaluation runs
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/evaluations/{evaluationId}:
     delete:
       operationId: deleteEvaluation
@@ -13041,6 +13416,7 @@ paths:
       summary: Delete an evaluation
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
     get:
       operationId: getEvaluation
       parameters:
@@ -13066,6 +13442,7 @@ paths:
       summary: Get evaluation details by ID
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
     put:
       operationId: updateEvaluation
       parameters:
@@ -13092,6 +13469,7 @@ paths:
       summary: Update an evaluation
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/genai-monitoring/evaluations/{evaluationId}/run:
     post:
       operationId: runEvaluation
@@ -13120,6 +13498,7 @@ paths:
       summary: Run an evaluation
       tags:
       - LLM Evaluation
+      x-ibm-ahub-byok: true
   /api/host-agent:
     get:
       operationId: searchHostAgents
@@ -13174,6 +13553,7 @@ paths:
       summary: Query host agent snapshots
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/host-agent/configuration:
     post:
       operationId: updateConfigurationByQuery
@@ -13222,6 +13602,7 @@ paths:
       tags:
       - Host Agent
       x-description: updateConfigurationByQuery
+      x-ibm-ahub-byok: true
   /api/host-agent/mode:
     post:
       operationId: updateModeByQuery
@@ -13258,6 +13639,7 @@ paths:
       tags:
       - Host Agent
       x-description: updateModeByQuery
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/clr-logs:
     get:
       operationId: getAgentClrLogs
@@ -13286,6 +13668,7 @@ paths:
       summary: Agent CLR download logs
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/configuration:
     get:
       operationId: getAgentConfigurationByHost
@@ -13310,6 +13693,7 @@ paths:
       summary: Get effective Agent configuration
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
     post:
       operationId: updateConfigurationByHost
       parameters:
@@ -13340,6 +13724,7 @@ paths:
       tags:
       - Host Agent
       x-description: updateConfigurationByHost
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/logs:
     get:
       operationId: getAgentLogs
@@ -13376,6 +13761,7 @@ paths:
       summary: Agent download logs
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/mode:
     post:
       operationId: updateModeByHost
@@ -13407,6 +13793,7 @@ paths:
       tags:
       - Host Agent
       x-description: updateModeByHost
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/support-info:
     get:
       operationId: getAgentSupportInformation
@@ -13437,6 +13824,7 @@ paths:
       summary: Agent download support information
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/host-agent/{hostId}/update:
     post:
       operationId: updateAgent
@@ -13461,6 +13849,7 @@ paths:
       summary: Agent update
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/host-agent/{id}:
     get:
       operationId: getAgentSnapshot
@@ -13574,6 +13963,7 @@ paths:
       summary: Get host agent snapshot details
       tags:
       - Host Agent
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/analyze/entities:
     post:
       description: |-
@@ -13650,6 +14040,7 @@ paths:
       summary: Get infrastructure entities
       tags:
       - Infrastructure Analyze
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/analyze/entity-groups:
     post:
       description: |-
@@ -13712,6 +14103,7 @@ paths:
       summary: Get grouped infrastructure entities with aggregated metrics
       tags:
       - Infrastructure Analyze
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/analyze/entity-types:
     post:
       description: |-
@@ -13749,6 +14141,7 @@ paths:
       summary: Get available entity types
       tags:
       - Infrastructure Analyze
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/analyze/metrics:
     post:
       description: |-
@@ -13789,6 +14182,7 @@ paths:
       summary: Get available metrics
       tags:
       - Infrastructure Analyze
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/metrics/{plugin}:
     get:
       operationId: getInfrastructureCatalogMetrics
@@ -13827,6 +14221,7 @@ paths:
       tags:
       - Infrastructure Catalog
       x-description: getInfrastructureCatalogMetrics
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/payloads/{pluginId}:
     get:
       description: 'This endpoint retrieves the list of keys that can be used to retrieve
@@ -13861,6 +14256,7 @@ paths:
       tags:
       - Infrastructure Catalog
       x-description: getAvailablePayloadKeysByPluginId
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/plugins:
     get:
       operationId: getInfrastructureCatalogPlugins
@@ -13880,6 +14276,7 @@ paths:
       tags:
       - Infrastructure Catalog
       x-description: getInfrastructureCatalogPlugins
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/plugins-with-custom-metrics:
     get:
       description: This endpoint retrieves a list of all plugins that have custom
@@ -13901,6 +14298,7 @@ paths:
       tags:
       - Infrastructure Catalog
       x-description: getInfrastructureCatalogPluginsWithCustomMetrics
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/search:
     get:
       operationId: getInfrastructureCatalogSearchFields
@@ -13920,6 +14318,7 @@ paths:
       tags:
       - Infrastructure Catalog
       x-description: getInfrastructureCatalogSearchFields
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/tags:
     get:
       description: This endpoint retrieves the tag catalog.
@@ -13937,6 +14336,7 @@ paths:
       summary: Get available tags
       tags:
       - Infrastructure Catalog
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/catalog/tags/{plugin}:
     get:
       description: This endpoint retrieves the tag catalog filtered by plugin.
@@ -13962,6 +14362,7 @@ paths:
       summary: Get available tags for a particular plugin
       tags:
       - Infrastructure Catalog
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/graph/related-hosts/{snapshotId}:
     get:
       description: Gets the Related Hosts
@@ -14005,6 +14406,7 @@ paths:
       summary: Related hosts
       tags:
       - Infrastructure Topology
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/metrics:
     post:
       description: |2-
@@ -14075,6 +14477,7 @@ paths:
       tags:
       - Infrastructure Metrics
       x-description: getInfrastructureMetrics
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/monitoring-state:
     get:
       description: This API endpoint retrieves the current monitoring state of the
@@ -14098,6 +14501,7 @@ paths:
       summary: Monitored host count
       tags:
       - Infrastructure Resources
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/payloads/{snapshotId}/{payloadKey}:
     get:
       description: This endpoint retrieves the payload for a snapshot. Please note
@@ -14152,6 +14556,7 @@ paths:
       tags:
       - Infrastructure Resources
       x-description: getPluginPayload
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/snapshots:
     get:
       operationId: getSnapshots
@@ -14236,6 +14641,7 @@ paths:
       tags:
       - Infrastructure Resources
       x-description: getSnapshots
+      x-ibm-ahub-byok: true
     post:
       description: This endpoint retrieves detail information for one or more snapshots.
         timeFrame defaults to the last 10 minutes if not specified.
@@ -14270,6 +14676,7 @@ paths:
       summary: Get snapshot details for multiple snapshots
       tags:
       - Infrastructure Resources
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/snapshots/{id}:
     get:
       description: Get all snapshot information
@@ -14363,6 +14770,7 @@ paths:
       summary: Get snapshot details
       tags:
       - Infrastructure Resources
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/software/versions:
     get:
       description: |-
@@ -14486,6 +14894,7 @@ paths:
       summary: Get installed software
       tags:
       - Infrastructure Resources
+      x-ibm-ahub-byok: true
   /api/infrastructure-monitoring/topology:
     get:
       operationId: getTopology
@@ -14521,6 +14930,7 @@ paths:
       summary: Gets the infrastructure topology
       tags:
       - Infrastructure Topology
+      x-ibm-ahub-byok: true
   /api/instana/health:
     get:
       description: Get basic health of application.
@@ -14543,6 +14953,7 @@ paths:
       tags:
       - Health
       x-description: getHealthState
+      x-ibm-ahub-byok: true
   /api/instana/usage/api:
     get:
       operationId: getAllUsage
@@ -14561,6 +14972,7 @@ paths:
       summary: API usage by customer
       tags:
       - Usage
+      x-ibm-ahub-byok: true
   /api/instana/usage/api/{day}/{month}/{year}:
     get:
       operationId: getUsagePerDay
@@ -14598,6 +15010,7 @@ paths:
       summary: API usage day / month / year
       tags:
       - Usage
+      x-ibm-ahub-byok: true
   /api/instana/usage/api/{month}/{year}:
     get:
       operationId: getUsagePerMonth
@@ -14629,6 +15042,7 @@ paths:
       summary: API usage month / year
       tags:
       - Usage
+      x-ibm-ahub-byok: true
   /api/instana/usage/hosts/{day}/{month}/{year}:
     get:
       operationId: getHostsPerDay
@@ -14666,6 +15080,7 @@ paths:
       summary: Host count day / month / year
       tags:
       - Usage
+      x-ibm-ahub-byok: true
   /api/instana/usage/hosts/{month}/{year}:
     get:
       operationId: getHostsPerMonth
@@ -14697,6 +15112,7 @@ paths:
       summary: Host count month / year
       tags:
       - Usage
+      x-ibm-ahub-byok: true
   /api/instana/version:
     get:
       description: Get lastest API version information.
@@ -14719,6 +15135,7 @@ paths:
       tags:
       - Health
       x-description: getVersion
+      x-ibm-ahub-byok: true
   /api/internal/custom-dashboard:
     get:
       operationId: getInternalCustomDashboards
@@ -14758,6 +15175,7 @@ paths:
       security:
       - ApiKeyAuth:
         - Default
+      x-ibm-ahub-byok: true
   /api/internal/custom-dashboard/{dashboardId}:
     get:
       operationId: getInternalDashboard
@@ -14776,6 +15194,7 @@ paths:
       security:
       - ApiKeyAuth:
         - Default
+      x-ibm-ahub-byok: true
   /api/license:
     get:
       operationId: get_1
@@ -14785,6 +15204,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/llm/capabilities:
     get:
       description: Retrieve all available LLM capabilities.
@@ -14839,6 +15259,7 @@ paths:
       summary: Get all LLM capabilities
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/llm/gateways:
     get:
       deprecated: true
@@ -14902,6 +15323,7 @@ paths:
       summary: Get all AI connections
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
     post:
       deprecated: true
       description: Create a new AI connection
@@ -14972,6 +15394,7 @@ paths:
       summary: Create a new AI connection
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/llm/gateways/test:
     post:
       deprecated: true
@@ -15016,6 +15439,7 @@ paths:
       summary: Test AI connection connection parameters
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/llm/gateways/{id}:
     delete:
       deprecated: true
@@ -15045,6 +15469,7 @@ paths:
       summary: Delete an AI connection
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
     get:
       deprecated: true
       description: Retrieve an AI connection by ID.
@@ -15100,6 +15525,7 @@ paths:
       summary: Get an AI connection by ID
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
     put:
       deprecated: true
       description: Update an existing AI connection by ID.
@@ -15179,6 +15605,7 @@ paths:
       summary: Update an existing AI connection.
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/llm/gateways/{id}/disable:
     put:
       deprecated: true
@@ -15208,6 +15635,7 @@ paths:
       summary: Disable an AI connection
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/llm/gateways/{id}/enable:
     put:
       deprecated: true
@@ -15238,6 +15666,7 @@ paths:
       summary: Enable an AI connection
       tags:
       - AI Management
+      x-ibm-ahub-byok: true
   /api/logging/logs/getLogVolumeUsage:
     get:
       description: |
@@ -15334,6 +15763,7 @@ paths:
       summary: Get Log Volume Usage
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
   /api/logging/logs/getLogs/v1:
     post:
       description: |
@@ -15547,6 +15977,7 @@ paths:
       summary: Retrieve logs via REST API
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
   /api/logging/perspective/v1:
     get:
       description: |
@@ -15600,6 +16031,7 @@ paths:
       summary: Get All Log Perspectives
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
     post:
       description: |
         Creates a new log perspective for the caller's tenant unit.
@@ -15743,6 +16175,7 @@ paths:
       summary: Create Log Perspective
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
   /api/logging/perspective/v1/{perspectiveId}:
     delete:
       description: |
@@ -15773,6 +16206,7 @@ paths:
       summary: Delete Log Perspective
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
     get:
       description: |
         Retrieves a single log perspective by its ID.
@@ -15815,6 +16249,7 @@ paths:
       summary: Get Log Perspective
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
     put:
       description: |
         Replaces an existing log perspective with the provided values.
@@ -15949,6 +16384,7 @@ paths:
       summary: Update Log Perspective
       tags:
       - Logging Analyze
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/analyze/beacon-groups:
     post:
       description: API request to get grouped mobile app beacon metrics.
@@ -16027,6 +16463,7 @@ paths:
       summary: Get grouped beacon metrics
       tags:
       - Mobile App Analyze
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/analyze/beacons:
     post:
       description: API request to get all mobile app beacons with matching type.
@@ -16138,6 +16575,7 @@ paths:
       summary: Get all beacons
       tags:
       - Mobile App Analyze
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/catalog:
     get:
       operationId: getMobileAppTagCatalog
@@ -16194,6 +16632,7 @@ paths:
       tags:
       - Mobile App Catalog
       x-description: getMobileAppTagCatalog
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/catalog/metrics:
     get:
       description: API request to get mobile app metric catalog.
@@ -16238,6 +16677,7 @@ paths:
       tags:
       - Mobile App Catalog
       x-description: getMobileAppMetricCatalog
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/catalog/tags:
     get:
       description: API request to get all mobile app tags.
@@ -16269,6 +16709,7 @@ paths:
       tags:
       - Mobile App Catalog
       x-description: getAllMobileAppCatalogTags
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config:
     get:
       description: API request to get configured mobile apps.
@@ -16298,6 +16739,7 @@ paths:
       summary: Get configured mobile apps
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     post:
       description: API request to add new mobile app.
       operationId: postMobileAppConfig
@@ -16347,6 +16789,7 @@ paths:
       summary: Configure new mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}:
     delete:
       description: API request to remove mobile app.
@@ -16374,6 +16817,7 @@ paths:
       summary: Remove mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     get:
       description: API request to get a specific mobile app configuration by ID.
       operationId: getSingleMobileAppConfig
@@ -16410,6 +16854,7 @@ paths:
       summary: Get mobile app configuration by ID
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to rename mobile app.
       operationId: renameMobileAppConfig
@@ -16450,6 +16895,7 @@ paths:
       summary: Rename mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/geo-location:
     get:
       description: API request to get geo location configuration for mobile app.
@@ -16485,6 +16931,7 @@ paths:
       summary: Get geo location configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to update geo location configuration for mobile app.
       operationId: updateMobileAppGeoLocationConfiguration
@@ -16522,6 +16969,7 @@ paths:
       summary: Update geo location configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/geo-mapping-rules:
     get:
       description: API request to get custom geo mapping rules for mobile app.
@@ -16552,6 +17000,7 @@ paths:
       summary: Get custom geo mapping rules for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to set custom geo mapping rules for mobile app.
       operationId: setMobileAppGeoMappingRules
@@ -16588,6 +17037,7 @@ paths:
       summary: Set custom geo mapping rules for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/ip-masking:
     get:
       description: API request to get IP masking configuration for mobile app.
@@ -16621,6 +17071,7 @@ paths:
       summary: Get IP masking configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to update IP masking configuration for mobile app.
       operationId: updateMobileAppIpMaskingConfiguration
@@ -16658,6 +17109,7 @@ paths:
       summary: Update IP masking configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/session-replay-config:
     get:
       description: API request to get the session replay configuration for a mobile
@@ -16686,6 +17138,7 @@ paths:
       summary: Get session replay config for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to configure session replay for a mobile app.
       operationId: updateMobileAppSessionReplay
@@ -16714,6 +17167,7 @@ paths:
       summary: Configure session replay for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload:
     get:
       description: API request to get all sourcemap configurations for mobile app.
@@ -16760,6 +17214,7 @@ paths:
       summary: Get all sourcemap configurations for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     post:
       description: API request to add sourcemap configuration for mobile app.
       operationId: postMobileAppSourceMapConfig
@@ -16813,6 +17268,7 @@ paths:
       summary: Add new sourcemap configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}:
     delete:
       description: API request to delete sourcemap configuration for mobile app.
@@ -16848,6 +17304,7 @@ paths:
       summary: Delete sourcemap configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
     get:
       description: API request to get sourcemap configuration for mobile app.
       operationId: getMobileAppSourceMapFile
@@ -16899,6 +17356,7 @@ paths:
       summary: Get sourcemap configuration for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/clear:
     put:
       description: API request to clear sourcemap files of a configuration for mobile
@@ -16937,6 +17395,7 @@ paths:
       summary: Clear sourcemap files for sourcemap upload configuration
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/commit:
     put:
       description: API request to commit sourcemap file upload for mobile app.
@@ -17001,6 +17460,7 @@ paths:
       summary: Commit sourcemap file upload for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/sourcemap-upload/{sourceMapConfigId}/form:
     put:
       description: API request to upload sourcemap file for mobile app.
@@ -17089,6 +17549,7 @@ paths:
       summary: Upload sourcemap file for mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/config/{mobileAppId}/teams:
     put:
       description: API request to update teams of a mobile app.
@@ -17135,6 +17596,7 @@ paths:
       summary: Update teams assigned to the mobile app
       tags:
       - Mobile App Configuration
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/metrics:
     post:
       deprecated: true
@@ -17159,6 +17621,7 @@ paths:
       summary: Get mobile app beacon metrics
       tags:
       - Mobile App Metrics
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/action-beacons:
     get:
       description: Retrieves action beacons (user interactions and events) for a mobile
@@ -17241,6 +17704,7 @@ paths:
       summary: Get action beacons for a session
       tags:
       - Mobile App Session Replay
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-metadata:
     get:
       description: Retrieves detailed metadata for session replay captured during
@@ -17324,6 +17788,7 @@ paths:
       summary: Get session replay metadata
       tags:
       - Mobile App Session Replay
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/mobile-apps/{mobileAppId}/sessions/{sessionId}/replay-timestamps:
     get:
       description: Retrieves the first and last image timestamps for a mobile app
@@ -17377,6 +17842,7 @@ paths:
       summary: Get session replay timestamps
       tags:
       - Mobile App Session Replay
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/session;id={id};timestamp={timestamp}:
     get:
       description: API request to get a mobile app monitoring session.
@@ -17487,6 +17953,7 @@ paths:
       summary: Get mobile app session
       tags:
       - Mobile App Metrics
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/session-merged:
     get:
       description: Returns a merged JSON array of all legacy beacons and action beacons
@@ -17542,6 +18009,7 @@ paths:
       summary: Download merged session beacons
       tags:
       - Mobile App Metrics
+      x-ibm-ahub-byok: true
   /api/mobile-app-monitoring/v2/metrics:
     post:
       description: API request to get mobile app monitoring beacon metrics.
@@ -17602,6 +18070,7 @@ paths:
       summary: Get beacon metrics
       tags:
       - Mobile App Metrics
+      x-ibm-ahub-byok: true
   /api/permissions:
     get:
       operationId: getUserPermissions
@@ -17611,6 +18080,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/permissions/{userId}:
     get:
       operationId: getUserPermissionsById
@@ -17626,6 +18096,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/releases:
     get:
       operationId: getAllReleases
@@ -17669,6 +18140,7 @@ paths:
       tags:
       - Releases
       x-description: getAllReleases
+      x-ibm-ahub-byok: true
     post:
       operationId: postRelease
       requestBody:
@@ -17691,6 +18163,7 @@ paths:
       tags:
       - Releases
       x-description: postRelease
+      x-ibm-ahub-byok: true
   /api/releases/{releaseId}:
     delete:
       operationId: deleteRelease
@@ -17715,6 +18188,7 @@ paths:
       tags:
       - Releases
       x-description: deleteRelease
+      x-ibm-ahub-byok: true
     get:
       operationId: getRelease
       parameters:
@@ -17744,6 +18218,7 @@ paths:
       tags:
       - Releases
       x-description: getRelease
+      x-ibm-ahub-byok: true
     put:
       operationId: putRelease
       parameters:
@@ -17774,6 +18249,7 @@ paths:
       tags:
       - Releases
       x-description: putRelease
+      x-ibm-ahub-byok: true
   /api/settings/accesslog:
     get:
       description: Retrieve all access logs using defined query.
@@ -17821,6 +18297,7 @@ paths:
       summary: Access log
       tags:
       - Audit Log
+      x-ibm-ahub-byok: true
   /api/settings/apdex:
     get:
       description: API to Get All Apdex Configurations.
@@ -17869,6 +18346,7 @@ paths:
       summary: Get All Apdex Configurations
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
     post:
       operationId: createApdexConfiguration
       requestBody:
@@ -17903,6 +18381,7 @@ paths:
       tags:
       - Apdex Settings
       x-description: createApdexConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/apdex/v2:
     get:
       description: API to Get All Apdex Configurations.
@@ -18073,6 +18552,7 @@ paths:
       summary: Get All Apdex Configurations
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
     post:
       operationId: createApdexConfigurationV2
       requestBody:
@@ -18107,6 +18587,7 @@ paths:
       tags:
       - Apdex Settings
       x-description: createApdexConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/apdex/v2/apdex-levels:
     get:
       description: Returns the Apdex satisfaction level definitions with their thresholds
@@ -18126,6 +18607,7 @@ paths:
       summary: Get All Apdex Levels
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
   /api/settings/apdex/v2/tags:
     get:
       operationId: getAllApdexConfigTagsV2
@@ -18195,6 +18677,7 @@ paths:
       summary: Get All Apdex Config tags
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
   /api/settings/apdex/v2/{id}:
     delete:
       operationId: deleteApdexConfigurationV2
@@ -18215,6 +18698,7 @@ paths:
       summary: Delete Apdex Configuration
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
     get:
       description: API to Get Apdex Configuration for specified ID.
       operationId: getApdexConfigurationV2
@@ -18260,6 +18744,7 @@ paths:
       summary: Get Apdex Configuration
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
     put:
       operationId: updateApdexConfigV2
       parameters:
@@ -18325,6 +18810,7 @@ paths:
       tags:
       - Apdex Settings
       x-description: updateApdexConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/apdex/{entityType}/{entityId}:
     get:
       description: API to Get All Apdex Configurations for specified entity type and
@@ -18398,6 +18884,7 @@ paths:
       summary: Get all Apdex configurations for entity type and entity id
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
   /api/settings/apdex/{id}:
     delete:
       operationId: deleteApdexConfiguration
@@ -18418,6 +18905,7 @@ paths:
       summary: Delete Apdex Configuration
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
     get:
       description: API to Get Apdex Configuration for specified ID.
       operationId: getApdexConfiguration
@@ -18463,6 +18951,7 @@ paths:
       summary: Get Apdex Configuration
       tags:
       - Apdex Settings
+      x-ibm-ahub-byok: true
   /api/settings/api-tokens:
     get:
       description: |-
@@ -18649,6 +19138,7 @@ paths:
       summary: Get all API Tokens
       tags:
       - API Token
+      x-ibm-ahub-byok: true
     post:
       description: |-
         Create an API Token on the Tenant-Unit. Each API Token entry also contains a set of permissions
@@ -18764,6 +19254,7 @@ paths:
       summary: Create an API token
       tags:
       - API Token
+      x-ibm-ahub-byok: true
   /api/settings/api-tokens/{internalId}:
     delete:
       description: |-
@@ -18785,6 +19276,7 @@ paths:
       summary: Delete API token
       tags:
       - API Token
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Returns API Token details, including the set of permissions
@@ -18893,6 +19385,7 @@ paths:
       summary: Get API token
       tags:
       - API Token
+      x-ibm-ahub-byok: true
     put:
       description: |-
         Update API Token- Change Token name and associated permissions
@@ -19014,6 +19507,7 @@ paths:
       summary: Create or update an API token
       tags:
       - API Token
+      x-ibm-ahub-byok: true
   /api/settings/auditlog:
     get:
       description: Retrieve all audit logs using defined query.
@@ -19067,6 +19561,7 @@ paths:
       summary: Audit log
       tags:
       - Audit Log
+      x-ibm-ahub-byok: true
   /api/settings/authentication/2fa/credentials:
     get:
       operationId: getTwoFactorCredentials
@@ -19076,6 +19571,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/settings/authentication/2fa/toggle:
     post:
       operationId: toggle2Fa
@@ -19085,6 +19581,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/settings/authentication/2fa/verify/{token}:
     post:
       operationId: toggle2Fa_1
@@ -19101,6 +19598,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/settings/authentication/changePassword:
     post:
       operationId: postChangePassword
@@ -19110,6 +19608,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/settings/authentication/googleSSO:
     delete:
       description: Delete the corresponding tenants Google SSO configuration.
@@ -19123,6 +19622,7 @@ paths:
       summary: Delete Google SSO configuration
       tags:
       - Authentication
+      x-ibm-ahub-byok: true
   /api/settings/authentication/idp/status:
     patch:
       description: Enable or disable the identity provider (IdP) configuration for
@@ -19154,6 +19654,7 @@ paths:
       summary: Enable or disable IdP configuration
       tags:
       - Authentication
+      x-ibm-ahub-byok: true
   /api/settings/authentication/ldap:
     delete:
       description: Delete the corresponding tenants LDAP configuration.
@@ -19167,6 +19668,7 @@ paths:
       summary: Delete LDAP configuration
       tags:
       - Authentication
+      x-ibm-ahub-byok: true
   /api/settings/authentication/oidc:
     delete:
       description: Delete the corresponding tenants OIDC configuration.
@@ -19180,6 +19682,7 @@ paths:
       summary: Delete OIDC configuration
       tags:
       - Authentication
+      x-ibm-ahub-byok: true
   /api/settings/authentication/saml:
     delete:
       description: Delete the corresponding tenants SAML configuration.
@@ -19193,6 +19696,7 @@ paths:
       summary: Delete SAML configuration
       tags:
       - Authentication
+      x-ibm-ahub-byok: true
   /api/settings/correction:
     get:
       operationId: getAllSloCorrectionWindowConfigs
@@ -19344,6 +19848,7 @@ paths:
       summary: Get All SLO Correction Window Configs
       tags:
       - SLO Correction Configurations
+      x-ibm-ahub-byok: true
     post:
       operationId: createSloCorrectionWindowConfig
       requestBody:
@@ -19408,6 +19913,7 @@ paths:
       tags:
       - SLO Correction Configurations
       x-description: createSloCorrectionConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/correction/{id}:
     delete:
       operationId: deleteSloCorrectionWindowConfig
@@ -19428,6 +19934,7 @@ paths:
       summary: Delete an existing SLO Correction Window Configuration
       tags:
       - SLO Correction Configurations
+      x-ibm-ahub-byok: true
     get:
       operationId: getSloCorrectionWindowConfigById
       parameters:
@@ -19485,6 +19992,7 @@ paths:
       summary: Get an existing SLO Correction Window Config
       tags:
       - SLO Correction Configurations
+      x-ibm-ahub-byok: true
     put:
       operationId: updateSloCorrectionWindowConfig
       parameters:
@@ -19558,6 +20066,7 @@ paths:
       tags:
       - SLO Correction Configurations
       x-description: updateSloCorrectionConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/invitation/share:
     post:
       operationId: shareAndInviteUsers
@@ -19603,6 +20112,7 @@ paths:
       tags:
       - User
       x-description: inviteUsers
+      x-ibm-ahub-byok: true
   /api/settings/invitations:
     delete:
       operationId: revokePendingInvitation
@@ -19629,6 +20139,7 @@ paths:
       tags:
       - User
       x-description: revokePendingInvitation
+      x-ibm-ahub-byok: true
     get:
       operationId: getInvitations
       responses:
@@ -19647,6 +20158,7 @@ paths:
       tags:
       - User
       x-description: getInvitations
+      x-ibm-ahub-byok: true
     post:
       operationId: inviteUsers
       requestBody:
@@ -19689,6 +20201,7 @@ paths:
       tags:
       - User
       x-description: inviteUsers
+      x-ibm-ahub-byok: true
   /api/settings/ip-filtering:
     delete:
       description: Delete the currently configured ip-filtering for the current tenant
@@ -19721,6 +20234,7 @@ paths:
       summary: Delete current ip-filtering
       tags:
       - IP Filtering
+      x-ibm-ahub-byok: true
     get:
       description: Retrieve currently configured ip-filtering for the current tenant
         unit.
@@ -19768,6 +20282,7 @@ paths:
       summary: Get current ip-filtering
       tags:
       - IP Filtering
+      x-ibm-ahub-byok: true
     put:
       description: Update or create ip-filtering for the current tenant unit. Enabled
         configurations will become temporarily active (5 minutes) and need to be verified
@@ -19846,6 +20361,7 @@ paths:
       summary: Upsert ip-filtering
       tags:
       - IP Filtering
+      x-ibm-ahub-byok: true
   /api/settings/ip-filtering/disable:
     patch:
       description: Disable and retrieve the currently configured ip-filtering for
@@ -19902,6 +20418,7 @@ paths:
       summary: Disable the current ip-filtering
       tags:
       - IP Filtering
+      x-ibm-ahub-byok: true
   /api/settings/ip-filtering/verify:
     patch:
       description: Verify and retrieve the currently configured ip-filtering for the
@@ -19961,6 +20478,7 @@ paths:
       summary: Verify current ip-filtering
       tags:
       - IP Filtering
+      x-ibm-ahub-byok: true
   /api/settings/llm-pricing:
     delete:
       description: Delete a tenant-specific price configuration for a specific provider+model.
@@ -19997,6 +20515,7 @@ paths:
       summary: Delete LLM model price
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Fetch all LLM price configurations for the current tenant unit.
       operationId: getAllLlmModelPrices
@@ -20013,6 +20532,7 @@ paths:
       summary: Get all LLM model prices
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     put:
       description: Create or update price for a specific provider+model. Optionally
         specify a platform for platform-specific pricing.
@@ -20036,6 +20556,7 @@ paths:
       summary: Upsert LLM model price
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
   /api/settings/llm-pricing/currency:
     get:
       description: Fetch the currency code used for LLM model pricing.
@@ -20055,6 +20576,7 @@ paths:
       summary: Get currency for LLM model prices
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     put:
       description: Set the currency code used for LLM model pricing.
       operationId: setLLMModelCurrency
@@ -20078,6 +20600,7 @@ paths:
       summary: Set currency for LLM model prices
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
   /api/settings/llm-pricing/model/{modelName}:
     delete:
       description: Delete a tenant-specific price configuration for a model without
@@ -20110,6 +20633,7 @@ paths:
       summary: Delete LLM model price without provider
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Fetch the price for a model without specifying provider. Optionally
         specify a platform for platform-specific pricing.
@@ -20144,6 +20668,7 @@ paths:
       summary: Get LLM model price without provider
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     put:
       description: Create or update price for a model without specifying provider.
         Optionally specify a platform for platform-specific pricing.
@@ -20180,6 +20705,7 @@ paths:
       summary: Upsert LLM model price without provider
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
   /api/settings/llm-pricing/{provider}/{modelName}:
     delete:
       description: Delete a tenant-specific price configuration for a specific provider+model.
@@ -20218,6 +20744,7 @@ paths:
       summary: Delete LLM model price
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     get:
       description: Fetch the price for a specific provider+model. Optionally specify
         a platform for platform-specific pricing.
@@ -20259,6 +20786,7 @@ paths:
       summary: Get LLM model price
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
     put:
       description: Create or update price for a specific provider+model. Optionally
         specify a platform for platform-specific pricing.
@@ -20302,6 +20830,7 @@ paths:
       summary: Upsert LLM model price
       tags:
       - LLM Price Configuration
+      x-ibm-ahub-byok: true
   /api/settings/maintenance:
     get:
       deprecated: true
@@ -20324,6 +20853,7 @@ paths:
       summary: All maintenance configurations
       tags:
       - Maintenance Configuration
+      x-ibm-ahub-byok: true
   /api/settings/maintenance/{id}:
     delete:
       deprecated: true
@@ -20351,6 +20881,7 @@ paths:
       summary: Delete maintenance configuration
       tags:
       - Maintenance Configuration
+      x-ibm-ahub-byok: true
     get:
       deprecated: true
       description: |2-
@@ -20378,6 +20909,7 @@ paths:
       summary: Maintenance configuration
       tags:
       - Maintenance Configuration
+      x-ibm-ahub-byok: true
     put:
       deprecated: true
       description: |2-
@@ -20414,6 +20946,7 @@ paths:
       summary: Create or update maintenance configuration
       tags:
       - Maintenance Configuration
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups:
     get:
       description: |2-
@@ -20453,6 +20986,7 @@ paths:
       tags:
       - Groups
       x-description: getGroups
+      x-ibm-ahub-byok: true
     post:
       description: |2-
 
@@ -20560,6 +21094,7 @@ paths:
       tags:
       - Groups
       x-description: createGroup
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/delete:
     put:
       description: |-
@@ -20587,6 +21122,7 @@ paths:
       summary: Delete groups
       tags:
       - Groups
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/user/{email}:
     get:
       description: |2-
@@ -20664,6 +21200,7 @@ paths:
       tags:
       - Groups
       x-description: getGroupsByUser
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/{groupId}/permissions:
     put:
       description: |2-
@@ -20735,6 +21272,7 @@ paths:
       tags:
       - Groups
       x-description: updateGroup
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/{groupId}/users:
     put:
       description: |2-
@@ -20806,6 +21344,7 @@ paths:
       tags:
       - Groups
       x-description: addUsersToGroup
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/{id}:
     delete:
       description: |-
@@ -20838,6 +21377,7 @@ paths:
       summary: Delete group
       tags:
       - Groups
+      x-ibm-ahub-byok: true
     get:
       description: |2-
 
@@ -20931,6 +21471,7 @@ paths:
       tags:
       - Groups
       x-description: getGroup
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -21057,6 +21598,7 @@ paths:
       tags:
       - Groups
       x-description: updateGroup
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/{id}/migrateToTeams:
     put:
       description: |-
@@ -21100,6 +21642,7 @@ paths:
       tags:
       - Groups
       x-description: migrateGroup
+      x-ibm-ahub-byok: true
   /api/settings/rbac/groups/{id}/user/{userId}:
     delete:
       description: |-
@@ -21133,6 +21676,7 @@ paths:
       summary: Remove user from group
       tags:
       - Groups
+      x-ibm-ahub-byok: true
   /api/settings/rbac/mappings:
     get:
       description: |2-
@@ -21165,6 +21709,7 @@ paths:
       - Roles
       - Teams
       x-description: getMappings
+      x-ibm-ahub-byok: true
     post:
       description: |2-
 
@@ -21215,6 +21760,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/rbac/mappings/identityProvider/restrictEmptyIdpGroups:
     get:
       description: |2-
@@ -21240,6 +21786,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -21264,6 +21811,7 @@ paths:
       summary: Allow/Restrict users with empty Idp group mapping
       tags:
       - Groups
+      x-ibm-ahub-byok: true
   /api/settings/rbac/mappings/overview:
     get:
       description: |2-
@@ -21295,6 +21843,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/rbac/mappings/{id}:
     delete:
       description: |2-
@@ -21323,6 +21872,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
     get:
       description: |2-
 
@@ -21357,6 +21907,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -21415,6 +21966,7 @@ paths:
       - Groups
       - Roles
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/rbac/roles:
     get:
       description: Retrieve all roles for the current tenant unit.
@@ -21466,6 +22018,7 @@ paths:
       summary: Get all roles
       tags:
       - Roles
+      x-ibm-ahub-byok: true
     post:
       description: Create a new role.
       operationId: createRole
@@ -21512,6 +22065,7 @@ paths:
       summary: Create role
       tags:
       - Roles
+      x-ibm-ahub-byok: true
   /api/settings/rbac/roles/{id}:
     delete:
       description: Delete a role by ID.
@@ -21544,6 +22098,7 @@ paths:
       summary: Delete role
       tags:
       - Roles
+      x-ibm-ahub-byok: true
     get:
       description: Retrieve a specific role by its ID.
       operationId: getRole
@@ -21589,6 +22144,7 @@ paths:
       summary: Get role by ID
       tags:
       - Roles
+      x-ibm-ahub-byok: true
     put:
       description: Update an existing role by ID.
       operationId: updateRole
@@ -21669,6 +22225,7 @@ paths:
       summary: Update role
       tags:
       - Roles
+      x-ibm-ahub-byok: true
   /api/settings/rbac/roles/{roleId}/mappings:
     get:
       description: Retrieve IdP role mappings applicable to a specific role
@@ -21696,6 +22253,7 @@ paths:
       summary: Get role mappings
       tags:
       - Roles
+      x-ibm-ahub-byok: true
   /api/settings/rbac/teams:
     get:
       description: Retrieve all user teams for the current tenant unit.
@@ -21808,6 +22366,7 @@ paths:
       summary: Get all teams
       tags:
       - Teams
+      x-ibm-ahub-byok: true
     post:
       description: Create a new team.
       operationId: createTeam
@@ -21827,6 +22386,7 @@ paths:
       summary: Create team
       tags:
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/rbac/teams/{id}:
     delete:
       description: Delete the team data.
@@ -21851,6 +22411,7 @@ paths:
       summary: Delete team
       tags:
       - Teams
+      x-ibm-ahub-byok: true
     get:
       description: Retrieve a specific team by its ID.
       operationId: getTeam
@@ -21930,6 +22491,7 @@ paths:
       summary: Get team by ID
       tags:
       - Teams
+      x-ibm-ahub-byok: true
     put:
       description: Update an existing team by ID.
       operationId: updateTeam
@@ -21961,6 +22523,7 @@ paths:
       summary: Update team
       tags:
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/rbac/teams/{teamId}/mappings:
     get:
       description: Retrieve IdP role mappings applicable to a specific team
@@ -21988,6 +22551,7 @@ paths:
       summary: Get team role mappings
       tags:
       - Teams
+      x-ibm-ahub-byok: true
   /api/settings/session:
     delete:
       description: Delete tenant unit session settings.
@@ -22004,6 +22568,7 @@ paths:
       summary: Delete session settings
       tags:
       - Session Settings
+      x-ibm-ahub-byok: true
     get:
       description: Get the tenant unit session settings
       operationId: getSessionSettings
@@ -22025,6 +22590,7 @@ paths:
       summary: Get session settings
       tags:
       - Session Settings
+      x-ibm-ahub-byok: true
     put:
       description: Update individual tenant unit session settings.
       operationId: setSessionSettings
@@ -22056,6 +22622,7 @@ paths:
       summary: Configure session settings
       tags:
       - Session Settings
+      x-ibm-ahub-byok: true
   /api/settings/sli:
     get:
       deprecated: true
@@ -22090,6 +22657,7 @@ paths:
       summary: Get All SLI Configs
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
     post:
       deprecated: true
       operationId: createSliConfig
@@ -22140,6 +22708,7 @@ paths:
       tags:
       - SLI Settings
       x-description: createSliConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/sli/{id}:
     delete:
       deprecated: true
@@ -22164,6 +22733,7 @@ paths:
       summary: Delete SLI Config
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
     get:
       deprecated: true
       operationId: getSliConfig
@@ -22203,6 +22773,7 @@ paths:
       summary: Get SLI Config
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
     put:
       deprecated: true
       operationId: updateSliConfig
@@ -22263,6 +22834,7 @@ paths:
       summary: Update SLI Config
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
   /api/settings/slo:
     get:
       operationId: getAllSloConfigs
@@ -22521,6 +23093,7 @@ paths:
       summary: Get All SLO Configs
       tags:
       - SLO Configurations
+      x-ibm-ahub-byok: true
     post:
       operationId: createSloConfig
       requestBody:
@@ -22607,6 +23180,7 @@ paths:
       tags:
       - SLO Configurations
       x-description: createSloConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/slo/health-snapshot:
     get:
       operationId: getSloHealthSnapshot
@@ -22781,6 +23355,7 @@ paths:
       summary: Get SLO Health Snapshot
       tags:
       - SLO Configurations
+      x-ibm-ahub-byok: true
   /api/settings/slo/tags:
     get:
       operationId: getAllSloConfigTags
@@ -22848,6 +23423,7 @@ paths:
       summary: Get All SLO Config tags
       tags:
       - SLO Configurations
+      x-ibm-ahub-byok: true
   /api/settings/slo/{id}:
     delete:
       operationId: deleteSloConfig
@@ -22868,6 +23444,7 @@ paths:
       summary: Delete an existing SLO Config
       tags:
       - SLO Configurations
+      x-ibm-ahub-byok: true
     get:
       operationId: getSloConfigById
       parameters:
@@ -22936,6 +23513,7 @@ paths:
       summary: Get an existing SLO Config
       tags:
       - SLO Configurations
+      x-ibm-ahub-byok: true
     put:
       operationId: updateSloConfig
       parameters:
@@ -23032,6 +23610,7 @@ paths:
       tags:
       - SLO Configurations
       x-description: updateSloConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/synthetic-calls:
     delete:
       description: |-
@@ -23055,6 +23634,7 @@ paths:
       summary: Delete synthetic call configurations
       tags:
       - Synthetic Calls
+      x-ibm-ahub-byok: true
     get:
       description: |-
         Use this API endpoint if one wants to get all custom synthetic call configurations.
@@ -23078,6 +23658,7 @@ paths:
       summary: Synthetic call configurations
       tags:
       - Synthetic Calls
+      x-ibm-ahub-byok: true
     put:
       description: |-
         Use this API endpoint if one wants to get all custom synthetic call configurations.
@@ -23107,6 +23688,7 @@ paths:
       summary: Update synthetic call configurations
       tags:
       - Synthetic Calls
+      x-ibm-ahub-byok: true
   /api/settings/trace-sampling:
     delete:
       description: Deletes the trace sampling configuration for the current tenant
@@ -23124,6 +23706,7 @@ paths:
       - ApiKeyAuth:
         - ConfigureApplications
       summary: Delete trace sampling configuration
+      x-ibm-ahub-byok: true
     get:
       description: Retrieves the trace sampling configuration for the current tenant
       operationId: getTraceSamplingConfig
@@ -23144,6 +23727,7 @@ paths:
       - ApiKeyAuth:
         - ConfigureApplications
       summary: Get trace sampling configuration
+      x-ibm-ahub-byok: true
     put:
       description: Creates or updates the trace sampling configuration for the current
         tenant
@@ -23172,6 +23756,7 @@ paths:
       - ApiKeyAuth:
         - ConfigureApplications
       summary: Update trace sampling configuration
+      x-ibm-ahub-byok: true
   /api/settings/users:
     get:
       description: Retrieves all users with access to the tenant. The result will
@@ -23205,6 +23790,7 @@ paths:
       summary: All users (without invitations)
       tags:
       - User
+      x-ibm-ahub-byok: true
   /api/settings/users/overview:
     get:
       description: Retrieves all users with access to the tenant. The result will
@@ -23239,6 +23825,7 @@ paths:
       summary: All users (incl. invitations)
       tags:
       - User
+      x-ibm-ahub-byok: true
   /api/settings/users/{email}:
     put:
       description: Updates the full name of the user.
@@ -23271,6 +23858,7 @@ paths:
       summary: Change user name of single user
       tags:
       - User
+      x-ibm-ahub-byok: true
   /api/settings/users/{userId}:
     delete:
       description: Remove the users access to the tenant. Removing a user from a tenant
@@ -23297,6 +23885,7 @@ paths:
       summary: Remove user from tenant
       tags:
       - User
+      x-ibm-ahub-byok: true
     get:
       description: Retrieves the user with access to the tenant.
       operationId: getUserById
@@ -23351,6 +23940,7 @@ paths:
       summary: Get single user
       tags:
       - User
+      x-ibm-ahub-byok: true
   /api/settings/users/{userId}/mappings:
     get:
       description: Retrieves all IdP role mappings applicable to the specified user.
@@ -23382,6 +23972,7 @@ paths:
       summary: Get user role mappings
       tags:
       - User
+      x-ibm-ahub-byok: true
   /api/settings/users/{userId}/mergedPermissions:
     get:
       operationId: getMergedUserPermissions
@@ -23400,6 +23991,7 @@ paths:
       security:
       - ApiKeyAuth:
         - CanConfigureUsers
+      x-ibm-ahub-byok: true
   /api/settings/v2/maintenance:
     get:
       description: |2-
@@ -23507,6 +24099,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: getMaintenanceConfigs
+      x-ibm-ahub-byok: true
   /api/settings/v2/maintenance/{id}:
     delete:
       description: |2-
@@ -23534,6 +24127,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: deleteMaintenanceConfig
+      x-ibm-ahub-byok: true
     get:
       description: |2-
 
@@ -23578,6 +24172,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: getMaintenanceConfig
+      x-ibm-ahub-byok: true
     put:
       description: |2-
 
@@ -23661,6 +24256,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: putMaintenanceConfig
+      x-ibm-ahub-byok: true
   /api/settings/v2/maintenance/{id}/pause:
     put:
       description: |2-
@@ -23706,6 +24302,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: pauseMaintenanceConfig
+      x-ibm-ahub-byok: true
   /api/settings/v2/maintenance/{id}/resume:
     put:
       description: |2-
@@ -23751,6 +24348,7 @@ paths:
       tags:
       - Maintenance Configuration
       x-description: resumeMaintenanceConfig
+      x-ibm-ahub-byok: true
   /api/settings/v2/sli:
     get:
       operationId: getAllSliConfigsV2
@@ -23784,6 +24382,7 @@ paths:
       summary: Get All SLI Configs
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
     post:
       operationId: createSliConfigV2
       requestBody:
@@ -23847,6 +24446,7 @@ paths:
       tags:
       - SLI Settings
       x-description: createSliConfiguration
+      x-ibm-ahub-byok: true
   /api/settings/v2/sli/{entityType}/{entityId}:
     get:
       operationId: getSliConfigsForEntityTypeAndIdV2
@@ -23897,6 +24497,7 @@ paths:
       summary: Get all SLI configs for entity type and entity id
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
   /api/settings/v2/sli/{id}:
     delete:
       operationId: deleteSliConfigV2
@@ -23917,6 +24518,7 @@ paths:
       summary: Delete SLI Config
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
     get:
       operationId: getSliConfigV2
       parameters:
@@ -23964,6 +24566,7 @@ paths:
       summary: Get SLI Config
       tags:
       - SLI Settings
+      x-ibm-ahub-byok: true
   /api/sli/report/{sliId}:
     get:
       operationId: getSli
@@ -24037,6 +24640,7 @@ paths:
         are around one minute.)'
       tags:
       - SLI Report
+      x-ibm-ahub-byok: true
   /api/slo/catalog/metrics/mobile:
     get:
       description: API request to get mobile app SLI metric catalog filtered by golden
@@ -24162,6 +24766,7 @@ paths:
       summary: Mobile app SLI metric catalog
       tags:
       - SLO Catalog for Mobile App
+      x-ibm-ahub-byok: true
   /api/slo/catalog/tags/mobile:
     get:
       operationId: getMobileAppSloTagCatalog
@@ -24603,6 +25208,7 @@ paths:
       tags:
       - SLO Catalog for Mobile App
       x-description: getMobileAppSloTagCatalog
+      x-ibm-ahub-byok: true
   /api/slo/correction:
     get:
       operationId: getSloCorrection
@@ -24737,6 +25343,7 @@ paths:
       summary: Generate SLO Correction Windows
       tags:
       - SLO Correction Windows
+      x-ibm-ahub-byok: true
   /api/slo/entities/{sloId}:
     get:
       operationId: entitiesSlo
@@ -24821,6 +25428,7 @@ paths:
       summary: Get the entities monitored by a SLO (Service Level Objective) configuration
       tags:
       - Service Levels Objective(SLO) Report
+      x-ibm-ahub-byok: true
   /api/slo/explain/{sloId}:
     get:
       operationId: explainSlo
@@ -24903,6 +25511,7 @@ paths:
       summary: Explain Service Levels objective with more details.
       tags:
       - Service Levels Objective(SLO) Report
+      x-ibm-ahub-byok: true
   /api/slo/report/{sloId}:
     get:
       operationId: getSlo
@@ -25658,6 +26267,7 @@ paths:
       summary: Generate Service Levels report
       tags:
       - Service Levels Objective(SLO) Report
+      x-ibm-ahub-byok: true
   /api/slo/summarize/{sloId}:
     get:
       operationId: summarizeSlo
@@ -25713,6 +26323,7 @@ paths:
       summary: Summarize Service Levels objective results.
       tags:
       - Service Levels Objective(SLO) Report
+      x-ibm-ahub-byok: true
   /api/synthetics/catalog:
     get:
       operationId: getSyntheticTagCatalog
@@ -25902,6 +26513,7 @@ paths:
       tags:
       - Synthetic Catalog
       x-description: getSyntheticTagCatalog
+      x-ibm-ahub-byok: true
   /api/synthetics/catalog/metrics:
     get:
       description: API to get catalog of synthetic metrics.
@@ -25942,6 +26554,7 @@ paths:
       tags:
       - Synthetic Catalog
       x-description: getSyntheticCatalogMetrics
+      x-ibm-ahub-byok: true
   /api/synthetics/metrics:
     post:
       description: |-
@@ -26027,6 +26640,7 @@ paths:
       summary: Get Synthetic Metrics
       tags:
       - Synthetic Metrics
+      x-ibm-ahub-byok: true
   /api/synthetics/results:
     post:
       description: |-
@@ -26094,6 +26708,7 @@ paths:
       summary: Get Synthetic test playback results
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/analytic:
     post:
       description: |-
@@ -26226,6 +26841,7 @@ paths:
       summary: Get a list of Synthetic tests based on the specified analytic function
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/list:
     post:
       description: |-
@@ -26357,6 +26973,7 @@ paths:
       summary: Get a list of Synthetic test playback results
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/locationsummarylist:
     post:
       description: |-
@@ -26441,6 +27058,7 @@ paths:
         data
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/testsummarylist:
     post:
       description: |-
@@ -26615,6 +27233,7 @@ paths:
         time data
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/{testid}/{testresultid}:
     get:
       description: |-
@@ -26672,6 +27291,7 @@ paths:
       summary: Get Synthetic test playback detail result description(metadata)
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/{testid}/{testresultid}/detail:
     get:
       description: |-
@@ -26759,6 +27379,7 @@ paths:
       summary: Get Synthetic test playback result detail data
       tags:
       - Synthetic Test Playback Results
+      x-ibm-ahub-byok: true
   /api/synthetics/results/{testid}/{testresultid}/file:
     get:
       description: |-
@@ -26821,6 +27442,7 @@ paths:
       tags:
       - Synthetic Test Playback Results
       x-description: getSyntheticResultDetailDataFile
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/credentials:
     get:
       description: |-
@@ -26866,6 +27488,7 @@ paths:
       summary: All Synthetic credential names
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
     post:
       description: |-
         API request to create a Synthetic Credential.
@@ -26902,6 +27525,7 @@ paths:
       tags:
       - Synthetic Settings
       x-payload: createSyntheticCredential
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/credentials/associations:
     get:
       description: |-
@@ -26943,6 +27567,7 @@ paths:
       summary: All Synthetic credentials
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/credentials/associations/{name}:
     get:
       description: |-
@@ -26987,6 +27612,7 @@ paths:
       summary: A Synthetic credential
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/credentials/{name}:
     delete:
       description: |-
@@ -27016,6 +27642,7 @@ paths:
       summary: Delete a Synthetic credential
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
     patch:
       description: |-
         API request to patch attributes of a Synthetic Credential.
@@ -27062,6 +27689,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: patchSyntheticCredential
+      x-ibm-ahub-byok: true
     put:
       description: |-
         API request to update a Synthetic Credential.
@@ -27108,6 +27736,7 @@ paths:
       tags:
       - Synthetic Settings
       x-payload: updateSyntheticCredential
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/datacenters:
     get:
       description: |-
@@ -27164,6 +27793,7 @@ paths:
       summary: All Synthetic datacenters
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/datacenters/{datacenterId}:
     get:
       description: |-
@@ -27214,6 +27844,7 @@ paths:
       summary: A Synthetic datacenter
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/locations:
     get:
       description: |-
@@ -27334,6 +27965,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: getSyntheticLocations
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/locations/{id}:
     delete:
       description: |-
@@ -27362,6 +27994,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: deleteSyntheticLocation
+      x-ibm-ahub-byok: true
     get:
       description: |-
         API request to retrieve a Synthetic Location with matching id.
@@ -27424,6 +28057,7 @@ paths:
       summary: A Synthetic location
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests:
     get:
       description: |-
@@ -27600,6 +28234,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: getSyntheticTests
+      x-ibm-ahub-byok: true
     post:
       description: |-
         API request to create a Synthetic Test.
@@ -27679,6 +28314,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: createSyntheticTest
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests/bulk-delete:
     post:
       description: API request to delete a list of Synthetic Tests.
@@ -27727,6 +28363,7 @@ paths:
       summary: Delete Synthetic tests
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests/bulk-update:
     post:
       description: API request to update a list of Synthetic Tests.
@@ -27793,6 +28430,7 @@ paths:
       summary: Update Synthetic tests
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests/ci-cd:
     get:
       description: |-
@@ -27875,6 +28513,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: getSyntheticTestCICDs
+      x-ibm-ahub-byok: true
     post:
       description: |-
         API request to create a Synthetic Test CI/CD.
@@ -27930,6 +28569,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: createSyntheticTestCICD
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests/ci-cd/{testResultId}:
     get:
       description: |-
@@ -27979,6 +28619,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: getSyntheticTestCICD
+      x-ibm-ahub-byok: true
   /api/synthetics/settings/tests/{id}:
     delete:
       description: |-
@@ -28008,6 +28649,7 @@ paths:
       summary: Delete a Synthetic test
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
     get:
       description: |-
         API request to retrieve a Synthetic Test with matching id.
@@ -28099,6 +28741,7 @@ paths:
       summary: A Synthetic test
       tags:
       - Synthetic Settings
+      x-ibm-ahub-byok: true
     patch:
       description: |-
         API request to update a Synthetic Test.
@@ -28148,6 +28791,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: patchSyntheticTest
+      x-ibm-ahub-byok: true
     put:
       description: |-
         API request to update a Synthetic Test.
@@ -28213,6 +28857,7 @@ paths:
       tags:
       - Synthetic Settings
       x-description: updateSyntheticTest
+      x-ibm-ahub-byok: true
   /api/tos-privacy-agreement:
     post:
       operationId: tosPrivacyAgreement
@@ -28222,6 +28867,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/tos-privacy-agreement/checkUserAcceptance:
     get:
       operationId: get_2
@@ -28232,6 +28878,7 @@ paths:
               schema:
                 type: boolean
           description: default response
+      x-ibm-ahub-byok: true
   /api/tos-privacy-agreement/latest:
     get:
       operationId: getLatestTosPrivacyAgreement
@@ -28241,6 +28888,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/ui/settings:
     get:
       operationId: getUiSettings
@@ -28250,6 +28898,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
     put:
       operationId: putUiSettings
       responses:
@@ -28258,6 +28907,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/ui/settings/{setting}:
     put:
       operationId: putUiSetting
@@ -28273,6 +28923,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/user-settings:
     get:
       operationId: get_3
@@ -28282,6 +28933,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
     put:
       operationId: put_1
       responses:
@@ -28290,6 +28942,7 @@ paths:
             application/json: {
               }
           description: default response
+      x-ibm-ahub-byok: true
   /api/website-monitoring/analyze/beacon-groups:
     post:
       description: |-
@@ -28370,6 +29023,7 @@ paths:
       summary: Get grouped beacon metrics
       tags:
       - Website Analyze
+      x-ibm-ahub-byok: true
   /api/website-monitoring/analyze/beacons:
     post:
       description: |-
@@ -28515,6 +29169,7 @@ paths:
       summary: Get all beacons
       tags:
       - Website Analyze
+      x-ibm-ahub-byok: true
   /api/website-monitoring/catalog:
     get:
       description: API to get website tag catalog for specified beaconType and useCase.
@@ -28588,6 +29243,7 @@ paths:
       tags:
       - Website Catalog
       x-description: getWebsiteTagCatalog
+      x-ibm-ahub-byok: true
   /api/website-monitoring/catalog/metrics:
     get:
       description: API to get catalog of website metrics.
@@ -28651,6 +29307,7 @@ paths:
       tags:
       - Website Catalog
       x-description: getWebsiteCatalogMetrics
+      x-ibm-ahub-byok: true
   /api/website-monitoring/catalog/tags:
     get:
       description: API to get all existing website tags.
@@ -28682,6 +29339,7 @@ paths:
       tags:
       - Website Catalog
       x-description: getWebsiteCatalogTags
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config:
     get:
       description: API request to get all configured websites details.
@@ -28714,6 +29372,7 @@ paths:
       summary: Get configured websites
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     post:
       description: API request to add new website.
       operationId: createWebsite
@@ -28771,6 +29430,7 @@ paths:
       summary: Configure new website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}:
     delete:
       description: API request to delete website.
@@ -28798,6 +29458,7 @@ paths:
       summary: Remove website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     get:
       description: API request to get configured website details for specified websiteId
       operationId: getWebsite
@@ -28836,6 +29497,7 @@ paths:
       summary: Get configured website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to rename website.
       operationId: renameWebsite
@@ -28877,6 +29539,7 @@ paths:
       summary: Rename website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/geo-location:
     get:
       description: API request to get geo-location configuration of a website specified
@@ -28915,6 +29578,7 @@ paths:
       summary: Get geo location configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to update geo location configuration for website.
       operationId: updateWebsiteGeoLocationConfiguration
@@ -28952,6 +29616,7 @@ paths:
       summary: Update geo location configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/geo-mapping-rules:
     get:
       description: API request to get custom geo mapping rules for website.
@@ -28984,6 +29649,7 @@ paths:
       summary: Get custom geo mapping rules for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to set custom geo mapping rules for website.
       operationId: setWebsiteGeoMappingRules
@@ -29022,6 +29688,7 @@ paths:
       summary: Set custom geo mapping rules for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/ip-masking:
     get:
       description: API request to get IP masking configuration of a website specified
@@ -29058,6 +29725,7 @@ paths:
       summary: Get IP masking configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     put:
       description: API request to update IP masking configuration for website.
       operationId: updateWebsiteIpMaskingConfiguration
@@ -29095,6 +29763,7 @@ paths:
       summary: Update IP masking configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/sourcemap-upload:
     get:
       description: API request to get all sourcemap upload configurations for website.
@@ -29129,6 +29798,7 @@ paths:
       summary: Get all sourcemap upload configurations for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     post:
       description: API request to add sourcemap upload configuration for website.
       operationId: postWebsiteSourceMapUploadConfig
@@ -29179,6 +29849,7 @@ paths:
       summary: Add new sourcemap upload configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}:
     delete:
       description: API request to delete sourcemap upload configuration for website.
@@ -29211,6 +29882,7 @@ paths:
       summary: Delete sourcemap upload configuration for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
     get:
       description: API request to get sourcemap upload configuration for website.
       operationId: getWebsiteSourceMapUploadConfiguration
@@ -29248,6 +29920,7 @@ paths:
       summary: Get sourcemap upload configurations for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/clear:
     put:
       description: API request to clear source map files for sourcemap upload configuration.
@@ -29285,6 +29958,7 @@ paths:
       summary: Clear source map files for sourcemap upload configuration
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/sourcemap-upload/{sourceMapConfigId}/form:
     put:
       description: API request to upload sourcemap file for website.
@@ -29352,6 +30026,7 @@ paths:
       summary: Upload sourcemap file for website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/config/{websiteId}/teams:
     put:
       description: API request to update teams of a website.
@@ -29398,6 +30073,7 @@ paths:
       summary: Update teams assigned to the website
       tags:
       - Website Configuration
+      x-ibm-ahub-byok: true
   /api/website-monitoring/metrics:
     post:
       deprecated: true
@@ -29422,6 +30098,7 @@ paths:
       summary: Get beacon metrics
       tags:
       - Website Metrics
+      x-ibm-ahub-byok: true
   /api/website-monitoring/page-load;id={id};timestamp={timestamp}:
     get:
       description: API request to get website monitoring beacons for a page load.
@@ -29564,6 +30241,7 @@ paths:
       summary: Get page load
       tags:
       - Website Metrics
+      x-ibm-ahub-byok: true
   /api/website-monitoring/v2/metrics:
     post:
       description: API request to get website monitoring beacon metrics.
@@ -29625,6 +30303,7 @@ paths:
       summary: Get beacon metrics
       tags:
       - Website Metrics
+      x-ibm-ahub-byok: true
 components:
   schemas:
     AbstractIntegration:
@@ -30175,13 +30854,38 @@ components:
       - $ref: '#/components/schemas/Threshold'
       - type: object
         properties:
-          deviationFactor:
+          adaptability:
             type: number
             format: double
             exclusiveMaximum: false
             exclusiveMinimum: false
-            maximum: 16.0
-            minimum: 0.5
+            maximum: 1.0
+            minimum: 0
+          deviationFactor:
+            type: number
+            format: double
+          minimumAbsoluteDelta:
+            type: number
+            format: double
+            minimum: 0
+          seasonality:
+            type: string
+            enum:
+            - AUTO
+            - WEEKLY
+            - DAILY
+            - NONE
+          sensitivityMode:
+            type: string
+            enum:
+            - STANDARD_DEVIATIONS
+            - PERCENTAGE
+            - ABSOLUTE
+          sensitivityValue:
+            type: number
+            format: double
+            exclusiveMinimum: true
+            minimum: 0
       required:
       - operator
     AdaptiveThresholdRule:
@@ -30190,13 +30894,38 @@ components:
       - $ref: '#/components/schemas/ThresholdConfigRule'
       - type: object
         properties:
-          deviationFactor:
+          adaptability:
             type: number
             format: double
             exclusiveMaximum: false
             exclusiveMinimum: false
-            maximum: 16.0
-            minimum: 0.5
+            maximum: 1.0
+            minimum: 0.01
+          deviationFactor:
+            type: number
+            format: double
+          minimumAbsoluteDelta:
+            type: number
+            format: double
+            minimum: 0
+          seasonality:
+            type: string
+            enum:
+            - AUTO
+            - WEEKLY
+            - DAILY
+            - NONE
+          sensitivityMode:
+            type: string
+            enum:
+            - STANDARD_DEVIATIONS
+            - PERCENTAGE
+            - ABSOLUTE
+          sensitivityValue:
+            type: number
+            format: double
+            exclusiveMinimum: true
+            minimum: 0
     AdjustedTimeframe:
       type: object
       description: |
@@ -35729,6 +36458,9 @@ components:
               dashboard to determine the entity grouping tag name.
           maxItems: 5
           minItems: 0
+        includeMemberIds:
+          type: boolean
+          description: Includes the IDs of each group’s member entities in the response
         metrics:
           type: array
           items:
@@ -37905,6 +38637,13 @@ components:
           type: integer
           format: int64
           description: number of entities in this group
+        memberIds:
+          type: array
+          description: Snapshot IDs of entities in this group
+          items:
+            type: string
+            description: Snapshot IDs of entities in this group
+          nullable: true
         metrics:
           type: object
           additionalProperties:
@@ -41395,6 +42134,10 @@ components:
           description: Policy description.
           maxLength: 512
           minLength: 0
+        enabled:
+          type: boolean
+          default: true
+          description: Flag to enable or disable the policy. Enabled by default.
         id:
           type: string
           description: Policy identifier.
@@ -44731,7 +45474,7 @@ components:
           minLength: 0
         credentialName:
           type: string
-          maxLength: 128
+          maxLength: 64
           minLength: 1
         credentialValue:
           type: string
@@ -45013,6 +45756,7 @@ components:
             type: string
             enum:
             - CNP
+            - ESM
             - GitHub
             - PW
         syntheticType:
@@ -45585,6 +46329,7 @@ components:
             - BIZOPS
             - BUSINESS_METRICS
             - SUBTRACE
+            - EVAL_RESULTS
             - UNKNOWN
           uniqueItems: true
         canApplyToDestination:

@@ -5,7 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**adaptability** | **float** |  | [optional] 
 **deviation_factor** | **float** |  | [optional] 
+**minimum_absolute_delta** | **float** |  | [optional] 
+**seasonality** | **str** |  | [optional] 
+**sensitivity_mode** | **str** |  | [optional] 
+**sensitivity_value** | **float** |  | [optional] 
 
 ## Example
 

@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **description** | **str** | Policy description. | [optional] 
+**enabled** | **bool** | Flag to enable or disable the policy. Enabled by default. | [optional] [default to True]
 **id** | **str** | Policy identifier. | [readonly] 
 **name** | **str** | Policy name. | 
 **tags** | **List[str]** | A list of policy tags. | [optional] 
